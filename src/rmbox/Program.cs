@@ -8,6 +8,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Console;
 using Ruminoid.Toolbox.Shell;
+using Ruminoid.Toolbox.Utils;
 
 namespace Ruminoid.Toolbox
 {
@@ -48,12 +49,7 @@ namespace Ruminoid.Toolbox
                 })
                 .ConfigureLogging(builder => builder
                     .AddDebug()
-                    .AddSimpleConsole(options =>
-                    {
-                        options.ColorBehavior = LoggerColorBehavior.Enabled;
-                        options.SingleLine = true;
-                        options.IncludeScopes = true;
-                    })
-                    .AddSystemdConsole());
+                    .AddConsole(options => options.FormatterName = RmboxConsoleFormatter.RmboxConsoleFormatterName)
+                    .AddConsoleFormatter<RmboxConsoleFormatter, ConsoleFormatterOptions>());
     }
 }
