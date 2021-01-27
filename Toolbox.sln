@@ -1,17 +1,19 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.26124.0
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30907.101
 MinimumVisualStudioVersion = 15.0.26124.0
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{B06372FF-08E2-47B1-9931-48E009F5CB72}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "rmbox", "src\rmbox\rmbox.csproj", "{AEBC8A41-4696-4667-887E-207F784E9E0F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "rmbox", "src\rmbox\rmbox.csproj", "{AEBC8A41-4696-4667-887E-207F784E9E0F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "rmbox-shell", "src\rmbox-shell\rmbox-shell.csproj", "{FE6F2A9E-EAB3-4315-8EE7-97BE7588231B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "rmbox-shell", "src\rmbox-shell\rmbox-shell.csproj", "{FE6F2A9E-EAB3-4315-8EE7-97BE7588231B}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{EE081F88-5FA4-462C-9F81-7C16A674E723}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "rmbox-test", "test\rmbox-test\rmbox-test.csproj", "{88CDEF19-471B-4F9C-BEF5-1AA99F4825B4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "rmbox-test", "test\rmbox-test\rmbox-test.csproj", "{88CDEF19-471B-4F9C-BEF5-1AA99F4825B4}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "rmbox-build", "build\rmbox-build.csproj", "{CB1E6F1A-A3C9-4CF1-97FA-ECDB6E43ACAF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,9 +23,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 		Release|x64 = Release|x64
 		Release|x86 = Release|x86
-	EndGlobalSection
-	GlobalSection(SolutionProperties) = preSolution
-		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{AEBC8A41-4696-4667-887E-207F784E9E0F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -62,10 +61,26 @@ Global
 		{88CDEF19-471B-4F9C-BEF5-1AA99F4825B4}.Release|x64.Build.0 = Release|Any CPU
 		{88CDEF19-471B-4F9C-BEF5-1AA99F4825B4}.Release|x86.ActiveCfg = Release|Any CPU
 		{88CDEF19-471B-4F9C-BEF5-1AA99F4825B4}.Release|x86.Build.0 = Release|Any CPU
+		{CB1E6F1A-A3C9-4CF1-97FA-ECDB6E43ACAF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CB1E6F1A-A3C9-4CF1-97FA-ECDB6E43ACAF}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{CB1E6F1A-A3C9-4CF1-97FA-ECDB6E43ACAF}.Debug|x64.Build.0 = Debug|Any CPU
+		{CB1E6F1A-A3C9-4CF1-97FA-ECDB6E43ACAF}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{CB1E6F1A-A3C9-4CF1-97FA-ECDB6E43ACAF}.Debug|x86.Build.0 = Debug|Any CPU
+		{CB1E6F1A-A3C9-4CF1-97FA-ECDB6E43ACAF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CB1E6F1A-A3C9-4CF1-97FA-ECDB6E43ACAF}.Release|x64.ActiveCfg = Release|Any CPU
+		{CB1E6F1A-A3C9-4CF1-97FA-ECDB6E43ACAF}.Release|x64.Build.0 = Release|Any CPU
+		{CB1E6F1A-A3C9-4CF1-97FA-ECDB6E43ACAF}.Release|x86.ActiveCfg = Release|Any CPU
+		{CB1E6F1A-A3C9-4CF1-97FA-ECDB6E43ACAF}.Release|x86.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{AEBC8A41-4696-4667-887E-207F784E9E0F} = {B06372FF-08E2-47B1-9931-48E009F5CB72}
 		{FE6F2A9E-EAB3-4315-8EE7-97BE7588231B} = {B06372FF-08E2-47B1-9931-48E009F5CB72}
 		{88CDEF19-471B-4F9C-BEF5-1AA99F4825B4} = {EE081F88-5FA4-462C-9F81-7C16A674E723}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {5576A6E2-8C31-4AAA-A8C7-378AC3335E0B}
 	EndGlobalSection
 EndGlobal
