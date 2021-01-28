@@ -1,14 +1,14 @@
 ﻿using System;
 using System.Composition;
+using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Reflection;
-using Avalonia;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Console;
 using Ruminoid.Toolbox.Helpers.CommandLine;
-using Ruminoid.Toolbox.Shell;
 using Ruminoid.Toolbox.Utils;
 
 namespace Ruminoid.Toolbox
@@ -18,16 +18,11 @@ namespace Ruminoid.Toolbox
         static void Main(string[] args)
         {
             if (args.Length == 0)
-                BuildAvaloniaApp().StartWithClassicDesktopLifetime(args);
+                Process.Start(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "rmbox-shell.exe"));
             else
                 BuildConsoleApp(args);
         }
-
-        public static AppBuilder BuildAvaloniaApp()
-            => AppBuilder.Configure<App>()
-                .UsePlatformDetect()
-                .LogToTrace();
-
+        
         public static void BuildConsoleApp(string[] args)
         {
             IHost host = CreateHostBuilder(args).Build();
