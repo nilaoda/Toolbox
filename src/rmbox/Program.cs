@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Text;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
@@ -25,6 +26,8 @@ namespace Ruminoid.Toolbox
         
         public static void BuildConsoleApp(string[] args)
         {
+            Console.OutputEncoding = Encoding.UTF8;
+            
             IHost host = CreateHostBuilder(args).Build();
             _ = host.Services.GetService<CommandLineHelper>();
             // host.Run();
