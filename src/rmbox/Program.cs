@@ -7,6 +7,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Console;
+using Ruminoid.Toolbox.Helpers.CommandLine;
 using Ruminoid.Toolbox.Shell;
 using Ruminoid.Toolbox.Utils;
 
@@ -30,7 +31,8 @@ namespace Ruminoid.Toolbox
         public static void BuildConsoleApp(string[] args)
         {
             IHost host = CreateHostBuilder(args).Build();
-            host.Run();
+            _ = host.Services.GetService<CommandLineHelper>();
+            // host.Run();
         }
 
         private static IHostBuilder CreateHostBuilder(string[] args) =>
