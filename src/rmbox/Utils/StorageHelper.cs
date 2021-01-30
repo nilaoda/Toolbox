@@ -7,7 +7,10 @@ namespace Ruminoid.Toolbox.Utils
     /// 提供访问应用存储能力的帮助类型。
     /// </summary>
     public static class StorageHelper
-    {/// <summary>
+    {
+        #region Basic
+
+        /// <summary>
         /// 获取分类文件夹。
         /// </summary>
         /// <param name="sectionName">分类的名称。</param>
@@ -27,5 +30,29 @@ namespace Ruminoid.Toolbox.Utils
         /// <returns>文件的完整路径。</returns>
         public static string GetSectionFilePath(string sectionName, string filename) =>
             Path.Combine(GetSectionFolderPath(sectionName), filename);
+
+        #endregion
+
+        #region Temp Section
+
+        public static TempSection CreateTempSection()
+        {
+            string sectionPath = Path.Combine(GetSectionFolderPath("temp"), new Guid() + "/");
+            Directory.CreateDirectory(sectionPath);
+            return new TempSection(sectionPath);
+        }
+
+        #endregion
+    }
+
+    public class TempSection : IDisposable
+    {
+        internal TempSection(string sectionPath) => SectionPath = sectionPath;
+
+        public readonly string SectionPath;
+
+        ~TempSection() => Dispose();
+
+        public void Dispose() => Directory.Delete(SectionPath, true);
     }
 }
