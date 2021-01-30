@@ -9,7 +9,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Console;
-using Ruminoid.Toolbox.Helpers.CommandLine;
+using Ruminoid.Toolbox.Core;
 using Ruminoid.Toolbox.Utils;
 
 namespace Ruminoid.Toolbox
@@ -29,8 +29,7 @@ namespace Ruminoid.Toolbox
             Console.OutputEncoding = Encoding.UTF8;
             
             IHost host = CreateHostBuilder(args).Build();
-            _ = host.Services.GetService<CommandLineHelper>();
-            // host.Run();
+            _ = host.Services.GetService<Processor>();
         }
 
         private static IHostBuilder CreateHostBuilder(string[] args) =>
