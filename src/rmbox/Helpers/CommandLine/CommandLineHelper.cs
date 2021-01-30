@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Composition;
-using System.Reflection;
 using CommandLine;
 using CommandLine.Text;
 using Microsoft.Extensions.Logging;
@@ -16,10 +15,6 @@ namespace Ruminoid.Toolbox.Helpers.CommandLine
         {
             _logger = logger;
 
-            _logger.LogInformation("Ruminoid Toolbox");
-            _logger.LogInformation("版本 " + Assembly.GetExecutingAssembly().GetName().Version);
-            _logger.LogInformation("启动时使用：" + Environment.CommandLine);
-
             _result =
                 new Parser(settings =>
                     {
@@ -30,25 +25,22 @@ namespace Ruminoid.Toolbox.Helpers.CommandLine
                     })
                     .ParseArguments
                     <
-                        ProcessOptions
+                        ProcessOptions,
+                        object // TODO: Replace this
                     >(Environment.GetCommandLineArgs());
 
             _result
-                .MapResult(
-                    DoProcess,
-                    DoErrorHandle);
+                .WithParsed(options => Options = options)
+                .WithNotParsed(DoErrorHandle);
         }
+        
+        private readonly ParserResult<object> _result;
 
-        #region WithParsed
+        public object Options;
 
-        private readonly ParserResult<ProcessOptions> _result;
+        #region Error Handle
 
-        private int DoProcess(ProcessOptions options)
-        {
-            return 0;
-        }
-
-        private int DoErrorHandle(IEnumerable<Error> errors)
+        private void DoErrorHandle(IEnumerable<Error> errors)
         {
             HelpText helpText = HelpText.AutoBuild(
                 _result,
@@ -64,8 +56,6 @@ namespace Ruminoid.Toolbox.Helpers.CommandLine
                 });
 
             Console.WriteLine(helpText);
-
-            return 1;
         }
 
         #endregion
