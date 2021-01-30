@@ -33,7 +33,7 @@ namespace Ruminoid.Toolbox.Core
             }
             catch (Exception e)
             {
-                _logger.LogError(e, "处理命令时出现错误。");
+                _logger.LogCritical(e, "处理命令时出现错误。");
             }
         }
         
