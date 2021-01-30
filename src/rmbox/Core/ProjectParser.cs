@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Composition;
-using Newtonsoft.Json.Linq;
 
 namespace Ruminoid.Toolbox.Core
 {
@@ -10,8 +9,8 @@ namespace Ruminoid.Toolbox.Core
         /// <summary>
         /// 解析 JSON 项目文件，并执行操作。
         /// </summary>
-        /// <param name="project">JSON 项目文件。</param>
-        public void Parse(JObject project)
+        /// <param name="path">JSON 项目文件的路径。</param>
+        public void Parse(string path)
         {
             throw new NotImplementedException();
         }
