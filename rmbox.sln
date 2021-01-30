@@ -21,9 +21,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "rmbox-plugbase", "src\rmbox
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "plugins", "plugins", "{EABC8353-6E69-4C6B-899D-300C6B7E381C}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "plugin-common", "plugins\plugin-common\plugin-common.csproj", "{AFD7EB66-FBF2-4CAF-B036-CA681D9BD19E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "rmbox-plugin-common", "plugins\rmbox-plugin-common\rmbox-plugin-common.csproj", "{AFD7EB66-FBF2-4CAF-B036-CA681D9BD19E}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "plugin-ffmpeg", "plugins\plugin-ffmpeg\plugin-ffmpeg.csproj", "{A89E745C-5E16-4143-9794-C6D68F531A93}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "rmbox-plugin-ffmpeg", "plugins\rmbox-plugin-ffmpeg\rmbox-plugin-ffmpeg.csproj", "{A89E745C-5E16-4143-9794-C6D68F531A93}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
