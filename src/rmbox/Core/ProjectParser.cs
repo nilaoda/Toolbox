@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json.Linq;
+using Ruminoid.Toolbox.Composition;
 using Ruminoid.Toolbox.Helpers.CommandLine;
 
 namespace Ruminoid.Toolbox.Core
@@ -14,9 +15,13 @@ namespace Ruminoid.Toolbox.Core
     {
         public ProjectParser(
             CommandLineHelper commandLineHelper,
+            PluginHelper pluginHelper,
+            ProcessRunner processRunner,
             ILogger<ProjectParser> logger)
         {
             _commandLineHelper = commandLineHelper;
+            _pluginHelper = pluginHelper;
+            _processRunner = processRunner;
             _logger = logger;
         }
 
@@ -39,6 +44,8 @@ namespace Ruminoid.Toolbox.Core
         {
             _logger.LogDebug("Parsing projectPath:");
             _logger.LogDebug(path);
+
+            List<Tuple<string, string>> commands;
 
             try
             {
@@ -63,17 +70,24 @@ namespace Ruminoid.Toolbox.Core
 
                 _logger.LogDebug($"Collected {sections.Count()} section(s).");
 
-                IEnumerable<KeyValuePair<string, JToken>> sectionData;
+                Dictionary<string, JToken> sectionData = new Dictionary<string, JToken>();
 
                 try
                 {
-                    sectionData =
-                        sections.Select(
-                            section => new KeyValuePair<string, JToken>(section["type"].ToObject<string>(),
-                                section["data"]));
+                    foreach (Tuple<string, JToken> tuple in sections.Select(
+                        section => new Tuple<string, JToken>(
+                            section["type"].ToObject<string>(),
+                            section["data"])))
+                    {
+                        sectionData.Add(tuple.Item1, tuple.Item2);
+                    }
 
-                    if (sectionData is null)
-                        throw new ArgumentNullException(nameof(sectionData));
+                    if (sectionData.Count == 0)
+                    {
+                        const string err = "项目中没有有效的配置项。";
+                        _logger.LogError(err);
+                        throw new IndexOutOfRangeException(err);
+                    }
                 }
                 catch (Exception e)
                 {
@@ -82,15 +96,70 @@ namespace Ruminoid.Toolbox.Core
                     throw new ProjectParseException(err, e);
                 }
 
-                _logger.LogInformation($"解析了 {sectionData.Count()} 个配置项。");
+                _logger.LogInformation($"解析了 {sectionData.Count} 个配置项。");
                 _logger.LogInformation("开始生成运行。");
+                
+                string operationId;
 
-                // TODO: Get Operation
-                // TODO: Get List<KayValuePair<string, string>>
+                try
+                {
+                    // ReSharper disable once PossibleNullReferenceException
+                    operationId = project["operation"].ToObject<string>();
 
-                _logger.LogInformation("开始运行。");
+                    if (string.IsNullOrWhiteSpace(operationId))
+                        throw new ArgumentNullException(nameof(operationId));
+                }
+                catch (Exception e)
+                {
+                    const string err = "解析操作时发生了错误。";
+                    _logger.LogCritical(e, err);
+                    throw new ProjectParseException(err, e);
+                }
 
-                // TODO: Run Process
+                Tuple<OperationAttribute, IOperation> operation;
+
+                try
+                {
+                    operation = _pluginHelper.GetOperation(operationId);
+
+                    if (operation is null)
+                        throw new ArgumentNullException(nameof(operation));
+                }
+                catch (Exception e)
+                {
+                    string err = $"获取操作 {operationId} 时发生了错误。";
+                    _logger.LogCritical(e, err);
+                    throw new ProjectParseException(err, e);
+                }
+
+                _logger.LogInformation($"使用 {operation.Item1.Name} 进行操作。");
+                _logger.LogDebug($"Checking RequiredConfigSections for operation {operation.Item1.Name}");
+
+                try
+                {
+                    commands = operation.Item2.Generate(sectionData);
+
+                    if (commands is null)
+                        throw new ArgumentNullException(nameof(commands));
+
+                    if (commands.Count == 0)
+                    {
+                        _logger.LogWarning("操作没有生成任何有效的命令，因此程序不需要做什么。");
+
+                        // WARNING
+                        // Method returned without cleaning up.
+                        // Check if other resources needs dispose.
+                        return;
+                    }
+                }
+                catch (Exception e)
+                {
+                    string err = $"操作 {operationId} 获取指令时发生了错误。";
+                    _logger.LogCritical(e, err);
+                    throw new ProjectParseException(err, e);
+                }
+
+                _logger.LogInformation($"生成了 {commands.Count} 个指令。");
             }
             catch (Exception e)
             {
@@ -98,6 +167,10 @@ namespace Ruminoid.Toolbox.Core
                 _logger.LogCritical(e, err);
                 throw new ProjectParseException(err, e);
             }
+            
+            _logger.LogInformation("开始运行。");
+
+            _processRunner.Run(commands);
         }
 
         #region Parse Utils
@@ -132,6 +205,8 @@ namespace Ruminoid.Toolbox.Core
         #endregion
 
         private readonly CommandLineHelper _commandLineHelper;
+        private readonly PluginHelper _pluginHelper;
+        private readonly ProcessRunner _processRunner;
         private readonly ILogger<ProjectParser> _logger;
     }
 }
