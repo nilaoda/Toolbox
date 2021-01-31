@@ -4,7 +4,7 @@ namespace Ruminoid.Toolbox.Formatting
 {
     public interface IFormatter
     {
-        public FormattedEvent Format(string data);
+        public FormattedEvent Format(string target, string data);
     }
 
     [AttributeUsage(AttributeTargets.Class, Inherited = false)]
