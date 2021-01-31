@@ -29,6 +29,7 @@ namespace Ruminoid.Toolbox.Core
             catch (Exception e)
             {
                 _logger.LogCritical(e, "处理命令时出现错误。");
+                Environment.Exit(1);
             }
 
             _logger.LogInformation("完成了所有的操作。");
