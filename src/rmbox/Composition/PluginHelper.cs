@@ -28,10 +28,21 @@ namespace Ruminoid.Toolbox.Composition
         {
             _logger.LogDebug("Starting collecting plugins.");
 
+            string pluginsFolderPath = StorageHelper.GetSectionFolderPath("plugins");
+
             string[] files = Directory.GetFiles(
-                StorageHelper.GetSectionFolderPath("plugins"),
-                "*.plugin.dll",
-                SearchOption.AllDirectories);
+                pluginsFolderPath,
+                "*.dll",
+                SearchOption.AllDirectories)
+                .Where(x =>
+                    (Path.GetFileNameWithoutExtension(x).StartsWith("rmbox-plugin-") ||
+                     Path.GetFileNameWithoutExtension(x).StartsWith("Ruminoid.Toolbox.Plugin.")) &&
+                    x.EndsWith(".dll") ||
+                    x.EndsWith(".plugin.dll"))
+                .Where(x => !x.Replace(pluginsFolderPath, "")
+                    .Contains($"ref{Path.DirectorySeparatorChar}"))
+                .ToArray();
+
             _logger.LogDebug($"Collected {files.Length} plugin(s).");
 
             if (files.Length == 0)
