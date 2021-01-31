@@ -168,7 +168,8 @@ namespace Ruminoid.Toolbox.Composition
                 }
             }
 
-            _logger.LogInformation($"加载了 {MetaCollection.Count} 个插件共 {OperationCollection.Count} 个组件。");
+            _logger.LogInformation(
+                $"加载了 {MetaCollection.Count} 个插件共 {OperationCollection.Count + ConfigSectionCollection.Count + FormatterCollection.Count} 个组件。");
         }
 
         private static Assembly LoadPlugin(string path)
