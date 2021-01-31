@@ -341,3 +341,6 @@ healthchecksdb
 
 # Temp files
 temp/
+
+# Debug settings
+src/rmbox/Properties/launchSettings.json
