@@ -1,4 +1,5 @@
-﻿using Ruminoid.Toolbox.Formatting;
+﻿using System.Text.RegularExpressions;
+using Ruminoid.Toolbox.Formatting;
 
 namespace Ruminoid.Toolbox.Plugins.FFmpeg.Formatters
 {
@@ -7,7 +8,11 @@ namespace Ruminoid.Toolbox.Plugins.FFmpeg.Formatters
     {
         public FormattedEvent Format(string target, string data)
         {
-            return new(target, 0, "", "");
+            Regex progressRegex = new Regex(@"time=(.*) bitrate=");
+            Match match = progressRegex.Match(data);
+            if (string.IsNullOrWhiteSpace(match.Value)) return null;
+
+            return new(target, 0, match.Groups[1].Value, "");
         }
     }
 }
