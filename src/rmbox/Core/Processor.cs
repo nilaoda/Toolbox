@@ -35,6 +35,8 @@ namespace Ruminoid.Toolbox.Core
             {
                 _logger.LogCritical(e, "处理命令时出现错误。");
             }
+
+            _logger.LogInformation("完成了所有的操作。");
         }
         
         private ILogger<Processor> _logger;
