@@ -21,7 +21,7 @@ namespace Ruminoid.Toolbox.Core
             CommandLineHelper commandLineHelper,
             PluginHelper pluginHelper,
             FormattingHelper formattingHelper,
-            Logger<ProcessRunner> logger)
+            ILogger<ProcessRunner> logger)
         {
             _commandLineHelper = commandLineHelper;
             _pluginHelper = pluginHelper;
