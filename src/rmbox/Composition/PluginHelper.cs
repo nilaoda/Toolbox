@@ -94,7 +94,8 @@ namespace Ruminoid.Toolbox.Composition
                     List<Type> operationTypes = exportedTypes.Where(type =>
                         Attribute.GetCustomAttribute(type, typeof(OperationAttribute)) is not null).ToList();
 
-                    foreach (Type t in operationTypes.Where(type => !type.IsAssignableFrom(typeof(IOperation))))
+                    foreach (Type t in operationTypes.Where(type => !type.IsAssignableFrom(typeof(IOperation)))
+                        .ToArray())
                     {
                         _logger.LogWarning($"检测到错误导出的类型 {t.FullName}，将会忽略加载。");
                         operationTypes.Remove(t);
@@ -116,7 +117,8 @@ namespace Ruminoid.Toolbox.Composition
                     List<Type> configSectionTypes = exportedTypes.Where(type =>
                         Attribute.GetCustomAttribute(type, typeof(ConfigSectionAttribute)) is not null).ToList();
 
-                    foreach (Type t in configSectionTypes.Where(type => !type.IsSubclassOf(typeof(ConfigSectionBase))))
+                    foreach (Type t in configSectionTypes.Where(type => !type.IsSubclassOf(typeof(ConfigSectionBase)))
+                        .ToArray())
                     {
                         _logger.LogWarning($"检测到错误导出的类型 {t.FullName}，将会忽略加载。");
                         configSectionTypes.Remove(t);
@@ -138,7 +140,8 @@ namespace Ruminoid.Toolbox.Composition
                     List<Type> formatterTypes = exportedTypes.Where(type =>
                         Attribute.GetCustomAttribute(type, typeof(FormatterAttribute)) is not null).ToList();
 
-                    foreach (Type t in formatterTypes.Where(type => !type.IsAssignableFrom(typeof(IFormatter))))
+                    foreach (Type t in formatterTypes.Where(type => !type.IsAssignableFrom(typeof(IFormatter)))
+                        .ToArray())
                     {
                         _logger.LogWarning($"检测到错误导出的类型 {t.FullName}，将会忽略加载。");
                         formatterTypes.Remove(t);
