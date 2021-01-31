@@ -14,13 +14,16 @@ namespace Ruminoid.Toolbox.Core
     [AttributeUsage(AttributeTargets.Class, Inherited = false)]
     public sealed class OperationAttribute : Attribute
     {
-        public OperationAttribute(string id, string description)
+        public OperationAttribute(string id, string name, string description)
         {
             Id = id;
+            Name = name;
             Description = description;
         }
 
         public readonly string Id;
+
+        public readonly string Name;
 
         public readonly string Description;
     }
