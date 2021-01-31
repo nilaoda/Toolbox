@@ -56,6 +56,8 @@ namespace Ruminoid.Toolbox.Helpers.CommandLine
                 });
 
             Console.WriteLine(helpText);
+
+            Environment.Exit(1);
         }
 
         #endregion
