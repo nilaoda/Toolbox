@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Composition;
 using System.Diagnostics;
 using System.IO;
+using System.Reactive.Concurrency;
 using System.Reactive.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
@@ -75,16 +76,17 @@ namespace Ruminoid.Toolbox.Core
                 },
                 EnableRaisingEvents = true
             };
-
+            
             // ReSharper disable once InvokeAsExtensionMethod
-            IDisposable observable = Observable.Concat(
+            IDisposable observable = Observable.Merge(
                     Observable.FromEventPattern<DataReceivedEventArgs>(process, nameof(process.ErrorDataReceived)),
-                    Observable.FromEventPattern<DataReceivedEventArgs>(process, nameof(process.OutputDataReceived)))
+                    Observable.FromEventPattern<DataReceivedEventArgs>(process, nameof(process.OutputDataReceived)),
+                    Scheduler.Default)
                 .Subscribe(
                     next =>
                     {
                         var (_, e) = next;
-                        if (!string.IsNullOrEmpty(e.Data)) return;
+                        if (string.IsNullOrEmpty(e.Data)) return;
 
                         if (((ProcessOptions) _commandLineHelper.Options).LogProcessOut)
                             _logger.LogInformation($"[{target}]{e.Data}");
