@@ -8,7 +8,7 @@ namespace Ruminoid.Toolbox.Formatting
     }
 
     [AttributeUsage(AttributeTargets.Class, Inherited = false)]
-    sealed class FormatterAttribute : Attribute
+    public sealed class FormatterAttribute : Attribute
     {
         public FormatterAttribute(string targets) => Targets = targets;
 
