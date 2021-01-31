@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Composition;
 using System.Reactive.Linq;
 using System.Reactive.Subjects;
@@ -26,13 +25,13 @@ namespace Ruminoid.Toolbox.Formatting
 
         #region Subjects
 
-        public Subject<KeyValuePair<string, string>> ReceiveData = new();
+        public Subject<Tuple<string, string>> ReceiveData = new();
 
         public IObservable<FormattedEvent> FormatData;
 
         #endregion
 
-        private FormattedEvent Format(KeyValuePair<string, string> arg)
+        private FormattedEvent Format(Tuple<string, string> arg)
         {
             throw new NotImplementedException();
         }

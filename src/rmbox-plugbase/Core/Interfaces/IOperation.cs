@@ -6,7 +6,7 @@ namespace Ruminoid.Toolbox.Core
 {
     public interface IOperation
     {
-        public List<KeyValuePair<string, string>> Generate(JObject config);
+        public List<Tuple<string, string>> Generate(JObject config);
 
         public List<string> RequiredConfigSections { get; }
     }
