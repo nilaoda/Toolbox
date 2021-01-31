@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Composition;
-using System.Reflection;
 using Microsoft.Extensions.Logging;
 using Ruminoid.Toolbox.Helpers.CommandLine;
 
@@ -15,10 +14,6 @@ namespace Ruminoid.Toolbox.Core
             ILogger<Processor> logger)
         {
             _logger = logger;
-
-            _logger.LogInformation("Ruminoid Toolbox");
-            _logger.LogInformation("版本 " + Assembly.GetExecutingAssembly().GetName().Version);
-            _logger.LogInformation("启动时使用：" + Environment.CommandLine);
 
             try
             {
