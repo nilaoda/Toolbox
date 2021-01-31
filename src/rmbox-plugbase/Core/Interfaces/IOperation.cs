@@ -6,7 +6,7 @@ namespace Ruminoid.Toolbox.Core
 {
     public interface IOperation
     {
-        public List<Tuple<string, string>> Generate(Dictionary<string, JToken>);
+        public List<Tuple<string, string>> Generate(Dictionary<string, JToken> sectiondata);
 
         public List<string> RequiredConfigSections { get; }
     }
