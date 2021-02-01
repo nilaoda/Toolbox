@@ -20,7 +20,7 @@ namespace Ruminoid.Toolbox.Plugins.Common.ConfigSections
 
         #region Data
 
-        public new IOConfigSectionData Config { get; set; }
+        public new IOConfigSectionData Config { get; } = new();
 
         #endregion
     }

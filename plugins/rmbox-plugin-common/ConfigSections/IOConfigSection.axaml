@@ -1,8 +1,16 @@
-<UserControl xmlns="https://github.com/avaloniaui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
-             x:Class="Ruminoid.Toolbox.Plugins.Common.ConfigSections.IOConfigSection">
-  Welcome to Avalonia!
-</UserControl>
+<core:ConfigSectionBase xmlns="https://github.com/avaloniaui"
+                        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                        xmlns:core="clr-namespace:Ruminoid.Toolbox.Core;assembly=rmbox-plugbase"
+                        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+                        x:Class="Ruminoid.Toolbox.Plugins.Common.ConfigSections.IOConfigSection">
+    <StackPanel Margin="24">
+        <TextBlock Margin="12">输入</TextBlock>
+        <TextBox Margin="12" Text="{Binding #Config.Video}" />
+        <TextBlock Margin="12">字幕</TextBlock>
+        <TextBox Margin="12" Text="{Binding #Config.Subtitle}" />
+        <TextBlock Margin="12">输出</TextBlock>
+        <TextBox Margin="12" Text="{Binding #Config.Output}" />
+    </StackPanel>
+</core:ConfigSectionBase>
