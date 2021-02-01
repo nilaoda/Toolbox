@@ -1,19 +1,43 @@
 ﻿using Avalonia;
+using Microsoft.Extensions.Hosting;
+using ReactiveUI;
+using Splat;
+using Splat.Microsoft.Extensions.DependencyInjection;
 
 namespace Ruminoid.Toolbox.Shell
 {
     public class Program
     {
-        // Initialization code. Don't use any Avalonia, third-party APIs or any
-        // SynchronizationContext-reliant code before AppMain is called: things aren't initialized
-        // yet and stuff might break.
-        public static void Main(string[] args) => BuildAvaloniaApp()
-            .StartWithClassicDesktopLifetime(args);
+        public static void Main(string[] args)
+        {
+            // Build Host
+            IHost host =
+                Toolbox.Program
+                    .CreateHostBuilder(args, "shell")
+                    .ConfigureSplat()
+                    .Build();
 
-        // Avalonia configuration, don't remove; also used by visual designer.
+            // Build Avalonia app
+            BuildAvaloniaApp()
+                .StartWithClassicDesktopLifetime(args);
+        }
+        
         public static AppBuilder BuildAvaloniaApp()
             => AppBuilder.Configure<App>()
                 .UsePlatformDetect()
                 .LogToTrace();
+    }
+
+    public static class ProgramExtensions
+    {
+        public static IHostBuilder ConfigureSplat(this IHostBuilder hostBuilder) =>
+            hostBuilder
+                .ConfigureServices(services =>
+                {
+                    // Initialize Splat
+                    services.UseMicrosoftDependencyResolver();
+                    Locator.CurrentMutable.InitializeSplat();
+                    Locator.CurrentMutable.InitializeReactiveUI();
+                });
     }
 }
