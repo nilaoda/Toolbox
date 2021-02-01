@@ -1,9 +1,9 @@
 ﻿using System;
-using Avalonia.Controls.Primitives;
+using Avalonia.Controls;
 
 namespace Ruminoid.Toolbox.Core
 {
-    public abstract class ConfigSectionBase : TemplatedControl
+    public abstract class ConfigSectionBase : UserControl
     {
         public string Header { get; set; }
 
