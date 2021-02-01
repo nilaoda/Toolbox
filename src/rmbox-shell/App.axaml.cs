@@ -1,6 +1,7 @@
 using Avalonia;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Markup.Xaml;
+using Ruminoid.Toolbox.Shell.Views;
 
 namespace Ruminoid.Toolbox.Shell
 {
