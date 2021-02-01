@@ -1,8 +1,11 @@
 ﻿using Avalonia;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 using ReactiveUI;
 using Splat;
 using Splat.Microsoft.Extensions.DependencyInjection;
+using Splat.Microsoft.Extensions.Logging;
 
 namespace Ruminoid.Toolbox.Shell
 {
@@ -15,7 +18,8 @@ namespace Ruminoid.Toolbox.Shell
                 Toolbox.Program
                     .CreateHostBuilder(args, "shell")
                     .ConfigureSplat()
-                    .Build();
+                    .Build()
+                    .ConfigureContainerForSplat();
 
             // Build Avalonia app
             BuildAvaloniaApp()
@@ -36,8 +40,21 @@ namespace Ruminoid.Toolbox.Shell
                 {
                     // Initialize Splat
                     services.UseMicrosoftDependencyResolver();
+
                     Locator.CurrentMutable.InitializeSplat();
                     Locator.CurrentMutable.InitializeReactiveUI();
-                });
+                })
+                .ConfigureLogging(builder => builder.AddSplat());
+
+        public static IHost ConfigureContainerForSplat(this IHost host)
+        {
+            host.Services.UseMicrosoftDependencyResolver();
+            
+            Locator.CurrentMutable
+                .UseMicrosoftExtensionsLoggingWithWrappingFullLogger(
+                    host.Services.GetService<ILoggerFactory>());
+
+            return host;
+        }
     }
 }
