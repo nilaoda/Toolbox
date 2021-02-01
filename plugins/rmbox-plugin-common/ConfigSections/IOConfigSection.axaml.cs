@@ -16,6 +16,8 @@ namespace Ruminoid.Toolbox.Plugins.Common.ConfigSections
             AvaloniaXamlLoader.Load(this);
         }
 
+        public new string Header => "输入/输出";
+
         #region Data
 
         public new IOConfigSectionData Config { get; set; }
