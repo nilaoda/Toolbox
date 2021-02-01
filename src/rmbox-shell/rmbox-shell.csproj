@@ -13,4 +13,8 @@
     <PackageReference Include="System.Composition" Version="5.0.1" />
     <PackageReference Include="System.Reactive.Linq" Version="5.0.0" />
    </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\rmbox-plugbase\rmbox-plugbase.csproj" />
+    <ProjectReference Include="..\rmbox\rmbox.csproj" />
+  </ItemGroup>
 </Project>
