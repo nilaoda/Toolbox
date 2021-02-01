@@ -1,11 +1,7 @@
 ﻿using Avalonia;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
-using ReactiveUI;
+using Microsoft.Extensions.Logging.Abstractions;
+using Ruminoid.Toolbox.Composition;
 using Splat;
-using Splat.Microsoft.Extensions.DependencyInjection;
-using Splat.Microsoft.Extensions.Logging;
 
 namespace Ruminoid.Toolbox.Shell
 {
@@ -13,13 +9,8 @@ namespace Ruminoid.Toolbox.Shell
     {
         public static void Main(string[] args)
         {
-            // Build Host
-            IHost host =
-                Toolbox.Program
-                    .CreateHostBuilder(args, "shell")
-                    .ConfigureSplat()
-                    .Build()
-                    .ConfigureContainerForSplat();
+            // Initialize Splat
+            InitializeSplat();
 
             // Build Avalonia app
             BuildAvaloniaApp()
@@ -30,31 +21,14 @@ namespace Ruminoid.Toolbox.Shell
             => AppBuilder.Configure<App>()
                 .UsePlatformDetect()
                 .LogToTrace();
-    }
 
-    public static class ProgramExtensions
-    {
-        public static IHostBuilder ConfigureSplat(this IHostBuilder hostBuilder) =>
-            hostBuilder
-                .ConfigureServices(services =>
-                {
-                    // Initialize Splat
-                    services.UseMicrosoftDependencyResolver();
-
-                    Locator.CurrentMutable.InitializeSplat();
-                    Locator.CurrentMutable.InitializeReactiveUI();
-                })
-                .ConfigureLogging(builder => builder.AddSplat());
-
-        public static IHost ConfigureContainerForSplat(this IHost host)
+        public static void InitializeSplat()
         {
-            host.Services.UseMicrosoftDependencyResolver();
+            IMutableDependencyResolver resolver = Locator.CurrentMutable;
             
-            Locator.CurrentMutable
-                .UseMicrosoftExtensionsLoggingWithWrappingFullLogger(
-                    host.Services.GetService<ILoggerFactory>());
-
-            return host;
+            resolver.RegisterLazySingleton(
+                () => new PluginHelper(NullLogger<PluginHelper>.Instance),
+                typeof(PluginHelper));
         }
     }
 }

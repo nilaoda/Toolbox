@@ -28,11 +28,11 @@ namespace Ruminoid.Toolbox
         {
             Console.OutputEncoding = Encoding.UTF8;
             
-            IHost host = CreateHostBuilder(args, "core").Build();
+            IHost host = CreateHostBuilder(args).Build();
             _ = host.Services.GetService<Processor>();
         }
 
-        public static IHostBuilder CreateHostBuilder(string[] args, string name) =>
+        public static IHostBuilder CreateHostBuilder(string[] args) =>
             Host.CreateDefaultBuilder(args)
                 .ConfigureServices((context, services) =>
                 {
