@@ -39,6 +39,8 @@ partial class Build : NukeBuild
     [Parameter("Configuration to build - Default is 'Debug' (local) or 'Release' (server)")]
     readonly Configuration Configuration = IsLocalBuild ? Configuration.Debug : Configuration.Release;
 
+    bool PublishRelease => Equals(Configuration, Configuration.Release);
+
     [Solution("rmbox.sln")] readonly Solution Solution;
     [GitRepository] readonly GitRepository GitRepository;
     [GitVersion(Framework="netcoreapp3.1")] readonly GitVersion GitVersion;
@@ -75,6 +77,8 @@ partial class Build : NukeBuild
                 .SetAssemblyVersion(GitVersion.AssemblySemVer)
                 .SetFileVersion(GitVersion.AssemblySemFileVer)
                 .SetInformationalVersion(GitVersion.InformationalVersion)
+                .SetPublishReadyToRun(PublishRelease)
+                .SetPublishTrimmed(PublishRelease)
                 .EnableNoRestore());
         });
 
