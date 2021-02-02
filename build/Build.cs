@@ -41,6 +41,9 @@ partial class Build : NukeBuild
 
     bool PublishRelease => Equals(Configuration, Configuration.Release);
 
+    [Parameter(".NET Runtime ID")]
+    readonly string Runtime = "win-x64";
+
     [Solution("rmbox.sln")] readonly Solution Solution;
     [GitRepository] readonly GitRepository GitRepository;
     [GitVersion(Framework="netcoreapp3.1")] readonly GitVersion GitVersion;
@@ -77,6 +80,7 @@ partial class Build : NukeBuild
                 .SetAssemblyVersion(GitVersion.AssemblySemVer)
                 .SetFileVersion(GitVersion.AssemblySemFileVer)
                 .SetInformationalVersion(GitVersion.InformationalVersion)
+                .SetRuntime(Runtime)
                 .SetPublishReadyToRun(PublishRelease)
                 .SetPublishTrimmed(PublishRelease)
                 .EnableNoRestore());

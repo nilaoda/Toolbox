@@ -22,7 +22,7 @@ jobs:
         submodules: recursive
         fetch-depth: 0
     - name: Build and Pack
-      run: ./build.cmd Full --configuration Release
+      run: ./build.cmd Full --configuration Release --runtime ${{ fromJson(matrix.target).rid }}
     - name: Push Artifacts
       uses: actions/upload-artifact@v2
       with:
