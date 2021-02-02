@@ -59,9 +59,15 @@ partial class Build
             $"https://github.com/GyanD/codexffmpeg/releases/download/{ffmpegVersion}/ffmpeg-{ffmpegVersion}-full_build.zip",
             ToolsTempDirectory / "ffmpeg.zip");
 
+        AbsolutePath ffmpegExtractTempPath = ToolsTempDirectory / "ffmpeg";
+
         Logger.Info("Extracting FFmpeg.");
         CompressionTasks.UncompressZip(
             ToolsTempDirectory / "ffmpeg.zip",
+            ffmpegExtractTempPath);
+
+        ForceCopyDirectoryRecursively(
+            ffmpegExtractTempPath / $"ffmpeg-{ffmpegVersion}-full_build" / "bin",
             ToolsDirectory);
 
         Logger.Info("Downloading x264.");

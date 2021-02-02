@@ -19,22 +19,22 @@ using static Nuke.Common.Tools.DotNet.DotNetTasks;
 
 [CheckBuildProjectConfigurations]
 [ShutdownDotNetAfterServerBuild]
-[GitHubActions(
-    "Build",
-        GitHubActionsImage.MacOsLatest,
-        GitHubActionsImage.UbuntuLatest,
-        GitHubActionsImage.WindowsLatest,
-        On = new []
-        {
-            GitHubActionsTrigger.Push,
-            GitHubActionsTrigger.PullRequest
-        },
-        AutoGenerate = true,
-        PublishArtifacts = true,
-        InvokedTargets = new[] { nameof(Full) })]
+//[GitHubActions(
+//    "Build",
+//        GitHubActionsImage.MacOsLatest,
+//        GitHubActionsImage.UbuntuLatest,
+//        GitHubActionsImage.WindowsLatest,
+//        On = new []
+//        {
+//            GitHubActionsTrigger.Push,
+//            GitHubActionsTrigger.PullRequest
+//        },
+//        AutoGenerate = true,
+//        PublishArtifacts = true,
+//        InvokedTargets = new[] { nameof(Full) })]
 partial class Build : NukeBuild
 {
-    public static int Main () => Execute<Build>(x => x.Pack);
+    public static int Main () => Execute<Build>(x => x.PackCore);
 
     [Parameter("Configuration to build - Default is 'Debug' (local) or 'Release' (server)")]
     readonly Configuration Configuration = IsLocalBuild ? Configuration.Debug : Configuration.Release;
@@ -46,7 +46,8 @@ partial class Build : NukeBuild
     AbsolutePath SourceDirectory => RootDirectory / "src";
     AbsolutePath PluginsDirectory => RootDirectory / "plugins";
     AbsolutePath TestsDirectory => RootDirectory / "test";
-    AbsolutePath OutputDirectory => RootDirectory / "dist";
+    AbsolutePath DistDirectory => RootDirectory / "dist";
+    AbsolutePath OutputDirectory => DistDirectory / "rmbox";
     AbsolutePath ToolsDirectory => OutputDirectory / "tools";
 
     Target Clean => _ => _
@@ -77,7 +78,7 @@ partial class Build : NukeBuild
                 .EnableNoRestore());
         });
 
-    Target Pack => _ => _
+    Target PackCore => _ => _
         .DependsOn(Compile)
         .Executes(() =>
         {
@@ -109,9 +110,8 @@ partial class Build : NukeBuild
             }
         });
 
-    Target AddTools => _ => _
-        .DependsOn(Pack)
-        .Produces(OutputDirectory)
+    Target PackTools => _ => _
+        .DependsOn(PackCore)
         .Executes(() =>
         {
             EnsureCleanDirectory(ToolsDirectory);
@@ -131,7 +131,7 @@ partial class Build : NukeBuild
         });
 
     Target Full => _ => _
-        .DependsOn(AddTools, Test);
+        .DependsOn(PackTools, Test);
 
     AbsolutePath NavigateToProjectOutput(AbsolutePath absolutePath) =>
         absolutePath / "bin" / Configuration / "net5.0";
