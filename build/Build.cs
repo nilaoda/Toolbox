@@ -117,6 +117,7 @@ partial class Build : NukeBuild
                 .SetAssemblyVersion(GitVersion.AssemblySemVer)
                 .SetFileVersion(GitVersion.AssemblySemFileVer)
                 .SetInformationalVersion(GitVersion.InformationalVersion)
+                .SetSelfContained(PublishRelease)
                 .SetRuntime(Runtime)
                 .SetPublishReadyToRun(PublishRelease)
                 .SetPublishTrimmed(PublishRelease));
