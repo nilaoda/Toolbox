@@ -87,6 +87,30 @@ partial class Build : NukeBuild
         .DependsOn(Compile)
         .Executes(() =>
         {
+            // Single project version
+            //
+            //new[]
+            //    {
+            //        SourceDirectory,
+            //        PluginsDirectory
+            //    }
+            //    .SelectMany(x =>
+            //        Directory.EnumerateDirectories(x))
+            //    .SelectMany(x =>
+            //        GlobFiles(x, "*.csproj"))
+            //    .ForEach(x =>
+            //        DotNetPublish(s => s
+            //            .SetProject(x)
+            //            .SetConfiguration(Configuration)
+            //            .SetAssemblyVersion(GitVersion.AssemblySemVer)
+            //            .SetFileVersion(GitVersion.AssemblySemFileVer)
+            //            .SetInformationalVersion(GitVersion.InformationalVersion)
+            //            .SetRuntime(Runtime)
+            //            .SetPublishReadyToRun(PublishRelease)
+            //            .SetPublishTrimmed(PublishRelease)
+            //            .EnableNoRestore()
+            //            .EnableNoBuild()));
+
             DotNetPublish(s => s
                 .SetProject(Solution)
                 .SetConfiguration(Configuration)
@@ -95,9 +119,7 @@ partial class Build : NukeBuild
                 .SetInformationalVersion(GitVersion.InformationalVersion)
                 .SetRuntime(Runtime)
                 .SetPublishReadyToRun(PublishRelease)
-                .SetPublishTrimmed(PublishRelease)
-                .EnableNoRestore()
-                .EnableNoBuild());
+                .SetPublishTrimmed(PublishRelease));
         });
 
     Target Pack => _ => _
