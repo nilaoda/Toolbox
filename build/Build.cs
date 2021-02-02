@@ -24,6 +24,11 @@ using static Nuke.Common.Tools.DotNet.DotNetTasks;
         GitHubActionsImage.MacOsLatest,
         GitHubActionsImage.UbuntuLatest,
         GitHubActionsImage.WindowsLatest,
+        On = new []
+        {
+            GitHubActionsTrigger.Push,
+            GitHubActionsTrigger.PullRequest
+        },
         AutoGenerate = true,
         PublishArtifacts = true,
         InvokedTargets = new[] { nameof(Full) })]
