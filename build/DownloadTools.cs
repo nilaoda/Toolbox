@@ -57,17 +57,17 @@ partial class Build
         Logger.Info($"Downloading FFmpeg {ffmpegVersion}");
         HttpTasks.HttpDownloadFile(
             $"https://github.com/GyanD/codexffmpeg/releases/download/{ffmpegVersion}/ffmpeg-{ffmpegVersion}-full_build.zip",
-            ToolsTempDirectory);
+            ToolsTempDirectory / "ffmpeg.zip");
 
         Logger.Info("Extracting FFmpeg.");
         CompressionTasks.UncompressZip(
-            ToolsTempDirectory / $"ffmpeg-{ffmpegVersion}-full_build.zip",
+            ToolsTempDirectory / "ffmpeg.zip",
             ToolsDirectory);
 
         Logger.Info("Downloading x264.");
         HttpTasks.HttpDownloadFile(
             $"https://artifacts.videolan.org/x264/release-win64/x264-{X264Version}.exe",
-            ToolsDirectory);
+            ToolsDirectory / "x264.exe");
     }
 
     void DownloadToolsMacos()
@@ -85,18 +85,18 @@ partial class Build
             Logger.Info($"Downloading {x}.");
             HttpTasks.HttpDownloadFile(
                 $"https://evermeet.cx/ffmpeg/getrelease/{x}/zip",
-                ToolsTempDirectory);
+                ToolsTempDirectory / $"{x}.zip");
 
             Logger.Info($"Extracting {x}.");
             CompressionTasks.UncompressZip(
-                ToolsTempDirectory / GlobFiles(ToolsTempDirectory, $"{x}*").First(),
+                ToolsTempDirectory / $"{x}.zip",
                 ToolsDirectory);
         });
         
         Logger.Info("Downloading x264.");
         HttpTasks.HttpDownloadFile(
             $"https://artifacts.videolan.org/x264/release-macos/x264-{X264Version}",
-            ToolsDirectory);
+            ToolsDirectory / "x264.exe");
     }
 
     void DownloadToolsLinux()
@@ -104,16 +104,21 @@ partial class Build
         Logger.Info("Downloading FFmpeg.");
         HttpTasks.HttpDownloadFile(
             "https://johnvansickle.com/ffmpeg/releases/ffmpeg-release-amd64-static.tar.xz",
-            ToolsTempDirectory);
+            ToolsTempDirectory / "ffmpeg.tar.xz");
 
-        Logger.Info("Extracting FFmpeg.");
-        CompressionTasks.UncompressZip(
-            ToolsTempDirectory / "ffmpeg-release-amd64-static.tar.xz",
+        //Logger.Info("Extracting FFmpeg.");
+        //CompressionTasks.Uncompress(
+        //    ToolsTempDirectory / "ffmpeg.tar.xz",
+        //    ToolsDirectory);
+
+        CopyFileToDirectory(
+            ToolsTempDirectory / "ffmpeg.tar.xz",
             ToolsDirectory);
+        Logger.Warn("You need to extract \"ffmpeg.tar.xz\" yourself.");
 
         Logger.Info("Downloading x264.");
         HttpTasks.HttpDownloadFile(
             $"https://artifacts.videolan.org/x264/release-debian-amd64/x264-{X264Version}",
-            ToolsDirectory);
+            ToolsDirectory / "x264.exe");
     }
 }
