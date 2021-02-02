@@ -34,7 +34,7 @@ using static Nuke.Common.Tools.DotNet.DotNetTasks;
 //        InvokedTargets = new[] { nameof(Full) })]
 partial class Build : NukeBuild
 {
-    public static int Main () => Execute<Build>(x => x.PackCore);
+    public static int Main () => Execute<Build>(x => x.Pack);
 
     [Parameter("Configuration to build - Default is 'Debug' (local) or 'Release' (server)")]
     readonly Configuration Configuration = IsLocalBuild ? Configuration.Debug : Configuration.Release;
@@ -80,13 +80,27 @@ partial class Build : NukeBuild
                 .SetAssemblyVersion(GitVersion.AssemblySemVer)
                 .SetFileVersion(GitVersion.AssemblySemFileVer)
                 .SetInformationalVersion(GitVersion.InformationalVersion)
-                .SetRuntime(Runtime)
-                .SetPublishReadyToRun(PublishRelease)
-                .SetPublishTrimmed(PublishRelease)
                 .EnableNoRestore());
         });
 
-    Target PackCore => _ => _
+    Target Publish => _ => _
+        .DependsOn(Compile)
+        .Executes(() =>
+        {
+            DotNetPublish(s => s
+                .SetProject(Solution)
+                .SetConfiguration(Configuration)
+                .SetAssemblyVersion(GitVersion.AssemblySemVer)
+                .SetFileVersion(GitVersion.AssemblySemFileVer)
+                .SetInformationalVersion(GitVersion.InformationalVersion)
+                .SetRuntime(Runtime)
+                .SetPublishReadyToRun(PublishRelease)
+                .SetPublishTrimmed(PublishRelease)
+                .EnableNoRestore()
+                .EnableNoBuild());
+        });
+
+    Target Pack => _ => _
         .DependsOn(Compile)
         .Executes(() =>
         {
@@ -118,8 +132,30 @@ partial class Build : NukeBuild
             }
         });
 
+    Target PackPublish => _ => _
+        .DependsOn(Publish)
+        .Executes(() =>
+        {
+            Logger.Info("Cleaning output directory.");
+            EnsureCleanDirectory(OutputDirectory);
+
+            Logger.Info("Packing projects in src.");
+            Directory.EnumerateDirectories(SourceDirectory).ToArray()
+                .ForEach(x =>
+                    ForceCopyDirectoryRecursively(
+                        NavigateToProjectOutput((AbsolutePath)x, true),
+                        OutputDirectory));
+
+            Logger.Info("Packing projects in plugins.");
+            Directory.EnumerateDirectories(PluginsDirectory).ToArray()
+                .ForEach(x =>
+                    ForceCopyDirectoryRecursively(
+                        NavigateToProjectOutput((AbsolutePath)x, true),
+                        OutputDirectory / "plugins"));
+        });
+
     Target PackTools => _ => _
-        .DependsOn(PackCore)
+        .DependsOn(PackPublish)
         .Executes(() =>
         {
             EnsureCleanDirectory(ToolsDirectory);
@@ -141,8 +177,12 @@ partial class Build : NukeBuild
     Target Full => _ => _
         .DependsOn(PackTools, Test);
 
-    AbsolutePath NavigateToProjectOutput(AbsolutePath absolutePath) =>
-        absolutePath / "bin" / Configuration / "net5.0";
+    AbsolutePath NavigateToProjectOutput(
+        AbsolutePath absolutePath,
+        bool publish = false) =>
+        publish
+        ? absolutePath / "bin" / Configuration / "net5.0" / Runtime / "publish"
+        : absolutePath / "bin" / Configuration / "net5.0";
 
     void ForceCopyDirectoryRecursively(string source, string target) =>
         CopyDirectoryRecursively(
