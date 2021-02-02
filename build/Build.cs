@@ -1,7 +1,9 @@
 using System;
+using System.IO;
 using System.Linq;
 using Nuke.Common;
 using Nuke.Common.CI;
+using Nuke.Common.CI.GitHubActions;
 using Nuke.Common.Execution;
 using Nuke.Common.Git;
 using Nuke.Common.IO;
@@ -17,20 +19,30 @@ using static Nuke.Common.Tools.DotNet.DotNetTasks;
 
 [CheckBuildProjectConfigurations]
 [ShutdownDotNetAfterServerBuild]
-class Build : NukeBuild
+[GitHubActions(
+    "Build",
+        GitHubActionsImage.MacOsLatest,
+        GitHubActionsImage.UbuntuLatest,
+        GitHubActionsImage.WindowsLatest,
+        AutoGenerate = true,
+        PublishArtifacts = true,
+        InvokedTargets = new[] { nameof(Full) })]
+partial class Build : NukeBuild
 {
-    public static int Main () => Execute<Build>(x => x.Compile);
+    public static int Main () => Execute<Build>(x => x.Pack);
 
     [Parameter("Configuration to build - Default is 'Debug' (local) or 'Release' (server)")]
     readonly Configuration Configuration = IsLocalBuild ? Configuration.Debug : Configuration.Release;
 
-    [Solution] readonly Solution Solution;
+    [Solution("rmbox.sln")] readonly Solution Solution;
     [GitRepository] readonly GitRepository GitRepository;
     [GitVersion(Framework="netcoreapp3.1")] readonly GitVersion GitVersion;
 
     AbsolutePath SourceDirectory => RootDirectory / "src";
+    AbsolutePath PluginsDirectory => RootDirectory / "plugins";
     AbsolutePath TestsDirectory => RootDirectory / "test";
-    AbsolutePath OutputDirectory => RootDirectory / "output";
+    AbsolutePath OutputDirectory => RootDirectory / "dist";
+    AbsolutePath ToolsDirectory => OutputDirectory / "tools";
 
     Target Clean => _ => _
         .Before(Restore)
@@ -38,7 +50,6 @@ class Build : NukeBuild
         {
             SourceDirectory.GlobDirectories("**/bin", "**/obj").ForEach(DeleteDirectory);
             TestsDirectory.GlobDirectories("**/bin", "**/obj").ForEach(DeleteDirectory);
-            EnsureCleanDirectory(OutputDirectory);
         });
 
     Target Restore => _ => _
@@ -60,5 +71,71 @@ class Build : NukeBuild
                 .SetInformationalVersion(GitVersion.InformationalVersion)
                 .EnableNoRestore());
         });
+
+    Target Pack => _ => _
+        .DependsOn(Compile)
+        .Executes(() =>
+        {
+            Logger.Info("Cleaning output directory.");
+            EnsureCleanDirectory(OutputDirectory);
+
+            Logger.Info("Packing projects in src.");
+            Directory.EnumerateDirectories(SourceDirectory).ToArray()
+                .ForEach(x =>
+                    ForceCopyDirectoryRecursively(
+                        NavigateToProjectOutput((AbsolutePath) x),
+                        OutputDirectory));
+
+            Logger.Info("Packing projects in plugins.");
+            Directory.EnumerateDirectories(PluginsDirectory).ToArray()
+                .ForEach(x =>
+                    ForceCopyDirectoryRecursively(
+                        NavigateToProjectOutput((AbsolutePath) x),
+                        OutputDirectory / "plugins"));
+
+            AbsolutePath localToolsTempDirectory = RootDirectory / "temp" / "tools";
+
+            // ReSharper disable once InvertIf
+            if (DirectoryExists(localToolsTempDirectory))
+            {
+                Logger.Info("Tools folder founded. Packing tools.");
+                EnsureCleanDirectory(ToolsDirectory);
+                ForceCopyDirectoryRecursively(localToolsTempDirectory, ToolsDirectory);
+            }
+        });
+
+    Target AddTools => _ => _
+        .DependsOn(Pack)
+        .Produces(OutputDirectory)
+        .Executes(() =>
+        {
+            EnsureCleanDirectory(ToolsDirectory);
+
+            DownloadTools();
+        });
+
+    Target Test => _ => _
+        .DependsOn(Compile)
+        .Executes(() =>
+        {
+            DotNetTest(s => s
+                .SetProjectFile(Solution)
+                .SetConfiguration(Configuration)
+                .EnableNoBuild()
+                .EnableNoRestore());
+        });
+
+    Target Full => _ => _
+        .DependsOn(AddTools, Test);
+
+    AbsolutePath NavigateToProjectOutput(AbsolutePath absolutePath) =>
+        absolutePath / "bin" / Configuration / "net5.0";
+
+    void ForceCopyDirectoryRecursively(string source, string target) =>
+        CopyDirectoryRecursively(
+            source,
+            target,
+            DirectoryExistsPolicy.Merge,
+            FileExistsPolicy.OverwriteIfNewer);
 
 }
