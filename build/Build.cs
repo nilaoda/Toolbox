@@ -89,38 +89,40 @@ partial class Build : NukeBuild
         {
             // Single project version
             //
-            //new[]
-            //    {
-            //        SourceDirectory,
-            //        PluginsDirectory
-            //    }
-            //    .SelectMany(x =>
-            //        Directory.EnumerateDirectories(x))
-            //    .SelectMany(x =>
-            //        GlobFiles(x, "*.csproj"))
-            //    .ForEach(x =>
-            //        DotNetPublish(s => s
-            //            .SetProject(x)
-            //            .SetConfiguration(Configuration)
-            //            .SetAssemblyVersion(GitVersion.AssemblySemVer)
-            //            .SetFileVersion(GitVersion.AssemblySemFileVer)
-            //            .SetInformationalVersion(GitVersion.InformationalVersion)
-            //            .SetRuntime(Runtime)
-            //            .SetPublishReadyToRun(PublishRelease)
-            //            .SetPublishTrimmed(PublishRelease)
-            //            .EnableNoRestore()
-            //            .EnableNoBuild()));
 
-            DotNetPublish(s => s
-                .SetProject(Solution)
-                .SetConfiguration(Configuration)
-                .SetAssemblyVersion(GitVersion.AssemblySemVer)
-                .SetFileVersion(GitVersion.AssemblySemFileVer)
-                .SetInformationalVersion(GitVersion.InformationalVersion)
-                .SetRuntime(Runtime)
-                //.SetSelfContained(PublishRelease) // dotnet/sdk/issues/10902
-                .SetPublishReadyToRun(PublishRelease)
-                .SetPublishTrimmed(PublishRelease));
+            new[]
+                {
+                    SourceDirectory,
+                    PluginsDirectory
+                }
+                .SelectMany(x =>
+                    Directory.EnumerateDirectories(x))
+                .SelectMany(x =>
+                    GlobFiles(x, "*.csproj"))
+                .ForEach(x =>
+                    DotNetPublish(s => s
+                        .SetProject(x)
+                        .SetConfiguration(Configuration)
+                        .SetAssemblyVersion(GitVersion.AssemblySemVer)
+                        .SetFileVersion(GitVersion.AssemblySemFileVer)
+                        .SetInformationalVersion(GitVersion.InformationalVersion)
+                        .SetRuntime(Runtime)
+                        .SetSelfContained(PublishRelease)
+                        .SetPublishReadyToRun(PublishRelease)
+                        .SetPublishTrimmed(PublishRelease)));
+
+            // Solution-wide Version
+            //
+            //DotNetPublish(s => s
+            //    .SetProject(Solution)
+            //    .SetConfiguration(Configuration)
+            //    .SetAssemblyVersion(GitVersion.AssemblySemVer)
+            //    .SetFileVersion(GitVersion.AssemblySemFileVer)
+            //    .SetInformationalVersion(GitVersion.InformationalVersion)
+            //    .SetRuntime(Runtime)
+            //    //.SetSelfContained(PublishRelease) // dotnet/sdk/issues/10902
+            //    .SetPublishReadyToRun(PublishRelease)
+            //    .SetPublishTrimmed(PublishRelease));
         });
 
     Target Pack => _ => _
