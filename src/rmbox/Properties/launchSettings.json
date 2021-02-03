@@ -1,0 +1,11 @@
+{
+  "profiles": {
+    "rmbox-single": {
+      "commandName": "Project"
+    },
+    "rmbox-pack": {
+      "commandName": "Executable",
+      "executablePath": "..\\..\\..\\..\\..\\dist\\rmbox\\rmbox.exe"
+    }
+  }
+}
