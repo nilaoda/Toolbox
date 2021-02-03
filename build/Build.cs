@@ -87,8 +87,7 @@ partial class Build : NukeBuild
         .DependsOn(Compile)
         .Executes(() =>
         {
-            // Single project version
-            //
+            // ReSharper disable ReturnValueOfPureMethodIsNotUsed
 
             new[]
                 {
@@ -100,29 +99,26 @@ partial class Build : NukeBuild
                 .SelectMany(x =>
                     GlobFiles(x, "*.csproj"))
                 .ForEach(x =>
-                    DotNetPublish(s => s
-                        .SetProject(x)
-                        .SetConfiguration(Configuration)
-                        .SetAssemblyVersion(GitVersion.AssemblySemVer)
-                        .SetFileVersion(GitVersion.AssemblySemFileVer)
-                        .SetInformationalVersion(GitVersion.InformationalVersion)
-                        .SetRuntime(Runtime)
-                        //.SetSelfContained(PublishRelease) // dotnet/sdk/issues/10902
-                        .SetPublishReadyToRun(PublishRelease)
-                        .SetPublishTrimmed(PublishRelease)));
+                    DotNetPublish(s =>
+                    {
+                        s
+                            .SetProject(x)
+                            .SetConfiguration(Configuration)
+                            .SetAssemblyVersion(GitVersion.AssemblySemVer)
+                            .SetFileVersion(GitVersion.AssemblySemFileVer)
+                            .SetInformationalVersion(GitVersion.InformationalVersion);
 
-            // Solution-wide Version
-            //
-            //DotNetPublish(s => s
-            //    .SetProject(Solution)
-            //    .SetConfiguration(Configuration)
-            //    .SetAssemblyVersion(GitVersion.AssemblySemVer)
-            //    .SetFileVersion(GitVersion.AssemblySemFileVer)
-            //    .SetInformationalVersion(GitVersion.InformationalVersion)
-            //    .SetRuntime(Runtime)
-            //    //.SetSelfContained(PublishRelease) // dotnet/sdk/issues/10902
-            //    .SetPublishReadyToRun(PublishRelease)
-            //    .SetPublishTrimmed(PublishRelease));
+                        if (x.EndsWith("rmbox.csproj") || x.EndsWith("rmbox-shell.csproj"))
+                            s
+                                .SetRuntime(Runtime)
+                                .SetSelfContained(PublishRelease) // dotnet/sdk/issues/10902
+                                .SetPublishReadyToRun(PublishRelease)
+                                .SetPublishTrimmed(PublishRelease);
+
+                        return s;
+                    }));
+
+            // ReSharper restore ReturnValueOfPureMethodIsNotUsed
         });
 
     Target Pack => _ => _
