@@ -1,7 +1,5 @@
 using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
-using Ruminoid.Toolbox.Composition;
-using Splat;
 
 namespace Ruminoid.Toolbox.Shell.Views
 {
@@ -9,8 +7,6 @@ namespace Ruminoid.Toolbox.Shell.Views
     {
         public OperationsView()
         {
-            PluginHelper = Locator.Current.GetService<PluginHelper>();
-
             InitializeComponent();
         }
 
@@ -18,7 +14,5 @@ namespace Ruminoid.Toolbox.Shell.Views
         {
             AvaloniaXamlLoader.Load(this);
         }
-
-        public PluginHelper PluginHelper { get; }
     }
 }
