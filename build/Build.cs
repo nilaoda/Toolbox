@@ -118,7 +118,7 @@ partial class Build : NukeBuild
                 .SetFileVersion(GitVersion.AssemblySemFileVer)
                 .SetInformationalVersion(GitVersion.InformationalVersion)
                 .SetRuntime(Runtime)
-                .SetSelfContained(PublishRelease)
+                //.SetSelfContained(PublishRelease) // dotnet/sdk/issues/10902
                 .SetPublishReadyToRun(PublishRelease)
                 .SetPublishTrimmed(PublishRelease));
         });
