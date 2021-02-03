@@ -108,12 +108,14 @@ partial class Build : NukeBuild
                             .SetFileVersion(GitVersion.AssemblySemFileVer)
                             .SetInformationalVersion(GitVersion.InformationalVersion);
 
-                        if (x.EndsWith("rmbox.csproj") || x.EndsWith("rmbox-shell.csproj"))
+                        if (PublishRelease &&
+                            (x.EndsWith("rmbox.csproj") ||
+                             x.EndsWith("rmbox-shell.csproj")))
                             s
                                 .SetRuntime(Runtime)
-                                .SetSelfContained(PublishRelease) // dotnet/sdk/issues/10902
-                                .SetPublishReadyToRun(PublishRelease)
-                                .SetPublishTrimmed(PublishRelease);
+                                //.SetSelfContained(PublishRelease) // dotnet/sdk/issues/10902
+                                .EnablePublishReadyToRun()
+                                .EnablePublishTrimmed();
 
                         return s;
                     }));
