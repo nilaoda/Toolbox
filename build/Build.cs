@@ -98,10 +98,11 @@ partial class Build : NukeBuild
                     Directory.EnumerateDirectories(x))
                 .SelectMany(x =>
                     GlobFiles(x, "*.csproj"))
+                .Where(x => !x.EndsWith("test.csproj"))
                 .ForEach(x =>
                     DotNetPublish(s =>
                     {
-                        s
+                        s = s
                             .SetProject(x)
                             .SetConfiguration(Configuration)
                             .SetAssemblyVersion(GitVersion.AssemblySemVer)
@@ -111,7 +112,7 @@ partial class Build : NukeBuild
                         if (PublishRelease &&
                             (x.EndsWith("rmbox.csproj") ||
                              x.EndsWith("rmbox-shell.csproj")))
-                            s
+                            s = s
                                 .SetRuntime(Runtime)
                                 //.SetSelfContained(PublishRelease) // dotnet/sdk/issues/10902
                                 .EnablePublishReadyToRun()
