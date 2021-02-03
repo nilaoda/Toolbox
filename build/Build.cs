@@ -60,7 +60,10 @@ partial class Build : NukeBuild
         .Executes(() =>
         {
             SourceDirectory.GlobDirectories("**/bin", "**/obj").ForEach(DeleteDirectory);
+            PluginsDirectory.GlobDirectories("**/bin", "**/obj").ForEach(DeleteDirectory);
             TestsDirectory.GlobDirectories("**/bin", "**/obj").ForEach(DeleteDirectory);
+
+            DeleteDirectory(DistDirectory);
         });
 
     Target Restore => _ => _
