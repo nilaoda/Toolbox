@@ -115,7 +115,7 @@ partial class Build : NukeBuild
                             s = s
                                 .SetRuntime(Runtime)
                                 //.SetSelfContained(PublishRelease) // dotnet/sdk/issues/10902
-                                .EnablePublishReadyToRun()
+                                //.EnablePublishReadyToRun() // PublishReadyToRunShowWarnings
                                 .EnablePublishTrimmed();
 
                         return s;
@@ -167,14 +167,17 @@ partial class Build : NukeBuild
             Directory.EnumerateDirectories(SourceDirectory).ToArray()
                 .ForEach(x =>
                     ForceCopyDirectoryRecursively(
-                        NavigateToProjectOutput((AbsolutePath)x, true),
+                        NavigateToProjectOutput(
+                            (AbsolutePath)x,
+                            x.EndsWith("rmbox") ||
+                            x.EndsWith("rmbox-shell")),
                         OutputDirectory));
 
             Logger.Info("Packing projects in plugins.");
             Directory.EnumerateDirectories(PluginsDirectory).ToArray()
                 .ForEach(x =>
                     ForceCopyDirectoryRecursively(
-                        NavigateToProjectOutput((AbsolutePath)x, true),
+                        NavigateToProjectOutput((AbsolutePath)x),
                         OutputDirectory / "plugins"));
         });
 
