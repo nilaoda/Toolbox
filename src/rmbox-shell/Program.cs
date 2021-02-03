@@ -27,7 +27,8 @@ namespace Ruminoid.Toolbox.Shell
             IMutableDependencyResolver resolver = Locator.CurrentMutable;
             
             resolver.RegisterLazySingleton(
-                () => new PluginHelper(NullLogger<PluginHelper>.Instance),
+                () => new PluginHelper(
+                    NullLogger<PluginHelper>.Instance),
                 typeof(PluginHelper));
         }
     }
