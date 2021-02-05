@@ -38,7 +38,8 @@
             </ListBox>
 
             <Button Grid.Row="1"
-                    Command="{Binding CreateOperationWindow}">创建</Button>
+                    Command="{Binding CreateOperationWindow}"
+                    IsEnabled="{Binding IsOperationSelected}">创建</Button>
         </Grid>
     </Grid>
 </UserControl>

@@ -1,8 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Reactive.Linq;
 using ReactiveUI;
 using Ruminoid.Toolbox.Composition;
 using Ruminoid.Toolbox.Shell.Models;
+using Ruminoid.Toolbox.Shell.Views;
 using Splat;
 
 namespace Ruminoid.Toolbox.Shell.ViewModels
@@ -22,6 +24,13 @@ namespace Ruminoid.Toolbox.Shell.ViewModels
                             Id = x.Item1.Id,
                             Type = x.Item2
                         }));
+
+            // Initialize IsOperationSelected
+            _isOperationSelected = this
+                .WhenAnyValue(x => x.SelectedOperation)
+                .Select(x => x is not null)
+                .ObserveOn(RxApp.MainThreadScheduler)
+                .ToProperty(this, x => x.IsOperationSelected);
         }
 
         #region Data
@@ -36,6 +45,10 @@ namespace Ruminoid.Toolbox.Shell.ViewModels
             set => this.RaiseAndSetIfChanged(ref _selectedOperation, value);
         }
 
+        private readonly ObservableAsPropertyHelper<bool> _isOperationSelected;
+
+        public bool IsOperationSelected => _isOperationSelected.Value;
+
         #endregion
 
         #region Commands
@@ -43,7 +56,7 @@ namespace Ruminoid.Toolbox.Shell.ViewModels
         public void CreateOperationWindow()
         {
             if (SelectedOperation is null) return;
-            System.Diagnostics.Debug.WriteLine($"Creating {SelectedOperation.Type}");
+            new OperationWindow(_selectedOperation).Show();
         }
 
         #endregion
