@@ -5,8 +5,6 @@ namespace Ruminoid.Toolbox.Core
 {
     public abstract class ConfigSectionBase : UserControl
     {
-        public string Header { get; }
-
         public object Config { get; }
 
         public string CurrentHelpText { get; }
@@ -15,8 +13,16 @@ namespace Ruminoid.Toolbox.Core
     [AttributeUsage(AttributeTargets.Class, Inherited = false)]
     public sealed class ConfigSectionAttribute : Attribute
     {
-        public ConfigSectionAttribute(string id) => Id = id;
+        public ConfigSectionAttribute(
+            string id,
+            string name)
+        {
+            Id = id;
+            Name = name;
+        }
 
         public readonly string Id;
+
+        public readonly string Name;
     }
 }

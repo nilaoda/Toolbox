@@ -63,7 +63,7 @@ namespace Ruminoid.Toolbox.Shell.ViewModels
                 Items.Add(
                     new TabItem
                     {
-                        Header = section.Header,
+                        Header = sectionData.Item1.Name,
                         Content = section
                     });
             }

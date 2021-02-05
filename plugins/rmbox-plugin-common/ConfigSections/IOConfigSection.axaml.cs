@@ -3,7 +3,9 @@ using Ruminoid.Toolbox.Core;
 
 namespace Ruminoid.Toolbox.Plugins.Common.ConfigSections
 {
-    [ConfigSection("Ruminoid.Toolbox.Plugins.Common.ConfigSections.IOConfigSection")]
+    [ConfigSection(
+        "Ruminoid.Toolbox.Plugins.Common.ConfigSections.IOConfigSection",
+        "输入/输出")]
     public class IOConfigSection : ConfigSectionBase
     {
         public IOConfigSection()
@@ -15,9 +17,7 @@ namespace Ruminoid.Toolbox.Plugins.Common.ConfigSections
         {
             AvaloniaXamlLoader.Load(this);
         }
-
-        public new string Header => "输入/输出";
-
+        
         #region Data
 
         public new IOConfigSectionData Config { get; } = new();
