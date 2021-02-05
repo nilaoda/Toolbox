@@ -29,7 +29,7 @@ namespace Ruminoid.Toolbox.Shell.ViewModels
         private readonly PluginHelper _pluginHelper;
 
         private IOperation _operation;
-        private Collection<Tuple<ConfigSectionAttribute, ConfigSectionBase>> _configSections;
+        private Collection<Tuple<ConfigSectionAttribute, ConfigSectionBase>> _configSections = new();
 
         #region Tabs
 
