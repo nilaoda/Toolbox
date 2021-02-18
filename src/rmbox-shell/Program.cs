@@ -1,6 +1,7 @@
 ﻿using Avalonia;
 using Microsoft.Extensions.Logging.Abstractions;
 using Ruminoid.Toolbox.Composition;
+using Ruminoid.Toolbox.Shell.ViewModels;
 using Splat;
 
 namespace Ruminoid.Toolbox.Shell
@@ -30,6 +31,10 @@ namespace Ruminoid.Toolbox.Shell
                 () => new PluginHelper(
                     NullLogger<PluginHelper>.Instance),
                 typeof(PluginHelper));
+
+            resolver.RegisterLazySingleton(
+                () => new QueueViewModel(),
+                typeof(QueueViewModel));
         }
     }
 }
