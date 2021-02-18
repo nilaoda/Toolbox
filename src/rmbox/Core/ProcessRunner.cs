@@ -140,8 +140,7 @@ namespace Ruminoid.Toolbox.Core
         private void OnError(Exception error) => _logger.LogError(error, "进程发生了错误。");
 
         private void OnNext(FormattedEvent formatted) =>
-            _logger.LogInformation(
-                $"[{formatted.Target}]{formatted.Progress}%|已用：{formatted.UsedTime}|剩余：{formatted.RemainingTime}|");
+            _logger.LogInformation(formatted.ToString());
 
         #endregion
 

@@ -12,7 +12,7 @@ namespace Ruminoid.Toolbox.Plugins.FFmpeg.Formatters
             Match match = progressRegex.Match(data);
             if (string.IsNullOrWhiteSpace(match.Value)) return null;
 
-            return new(target, 0, match.Groups[1].Value, "");
+            return new(target, 0, true, match.Groups[1].Value, "");
         }
     }
 }
