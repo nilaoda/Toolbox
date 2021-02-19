@@ -17,7 +17,9 @@ namespace Ruminoid.Toolbox.Shell.Views
         public OperationWindow(
             OperationModel operationModel)
         {
-            DataContext = new OperationWindowViewModel(operationModel);
+            DataContext = new OperationWindowViewModel(
+                operationModel,
+                this);
 
             InitializeComponent();
 #if DEBUG
