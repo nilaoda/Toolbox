@@ -19,8 +19,8 @@
                         <Setter Property="Margin" Value="6"/>
                     </Style>
                 </StackPanel.Styles>
-                <Button Command="DoAddToQueue">添加到队列</Button>
-                <Button Command="DoExport">导出</Button>
+                <Button Command="{Binding DoAddToQueue}">添加到队列</Button>
+                <Button Command="{Binding DoExport}">导出</Button>
             </StackPanel>
         </Grid>
     </Grid>
