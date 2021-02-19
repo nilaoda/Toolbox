@@ -6,6 +6,7 @@ using ReactiveUI;
 using Ruminoid.Toolbox.Composition;
 using Ruminoid.Toolbox.Core;
 using Ruminoid.Toolbox.Shell.Models;
+using Ruminoid.Toolbox.Shell.Services;
 using Splat;
 
 namespace Ruminoid.Toolbox.Shell.ViewModels
@@ -18,6 +19,7 @@ namespace Ruminoid.Toolbox.Shell.ViewModels
             OperationModel = operationModel;
 
             _pluginHelper = Locator.Current.GetService<PluginHelper>();
+            _queueService = Locator.Current.GetService<QueueService>();
 
             InitializeTabs();
         }
@@ -26,7 +28,12 @@ namespace Ruminoid.Toolbox.Shell.ViewModels
 
         public Collection<TabItem> Items { get; } = new();
 
+        #region Services
+
         private readonly PluginHelper _pluginHelper;
+        private readonly QueueService _queueService;
+
+        #endregion
 
         private IOperation _operation;
         private Collection<Tuple<ConfigSectionAttribute, ConfigSectionBase>> _configSections = new();
@@ -68,6 +75,30 @@ namespace Ruminoid.Toolbox.Shell.ViewModels
                     });
             }
         }
+
+        #endregion
+
+        #region Commands
+
+        public void DoAddToQueue() => _queueService.AddProject(GenerateProjectModel());
+
+        public void DoExport()
+        {
+            throw new NotImplementedException();
+        }
+
+        #endregion
+
+        #region Utils
+
+        private ProjectViewModel GenerateProjectModel() =>
+            new(
+                OperationModel,
+                new Collection<Tuple<ConfigSectionAttribute, object>>(
+                    _configSections.Select(
+                            x =>
+                                new Tuple<ConfigSectionAttribute, object>(x.Item1, x.Item2.Config))
+                        .ToList()));
 
         #endregion
     }

@@ -1,7 +1,5 @@
 using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
-using Ruminoid.Toolbox.Shell.ViewModels;
-using Splat;
 
 namespace Ruminoid.Toolbox.Shell.Views.Views
 {
@@ -9,8 +7,6 @@ namespace Ruminoid.Toolbox.Shell.Views.Views
     {
         public QueueView()
         {
-            DataContext = Locator.Current.GetService<QueueViewModel>();
-
             InitializeComponent();
         }
 
