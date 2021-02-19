@@ -5,7 +5,7 @@ namespace Ruminoid.Toolbox.Core
 {
     public abstract class ConfigSectionBase : UserControl
     {
-        public object Config { get; }
+        public abstract object Config { get; }
 
         public string CurrentHelpText { get; }
     }
