@@ -20,7 +20,9 @@
                     </Style>
                 </StackPanel.Styles>
                 <Button Command="{Binding DoAddToQueue}">添加到队列</Button>
-                <Button Command="{Binding DoExport}">导出</Button>
+                <Button Command="{Binding DoAddToQueueAndContinue}">添加到队列并继续</Button>
+                <Button Command="{Binding DoExport}"
+                        IsEnabled="False">导出</Button>
             </StackPanel>
         </Grid>
     </Grid>

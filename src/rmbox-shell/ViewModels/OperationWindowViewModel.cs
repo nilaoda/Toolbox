@@ -7,6 +7,7 @@ using Ruminoid.Toolbox.Composition;
 using Ruminoid.Toolbox.Core;
 using Ruminoid.Toolbox.Shell.Models;
 using Ruminoid.Toolbox.Shell.Services;
+using Ruminoid.Toolbox.Shell.Views;
 using Splat;
 
 namespace Ruminoid.Toolbox.Shell.ViewModels
@@ -14,9 +15,11 @@ namespace Ruminoid.Toolbox.Shell.ViewModels
     public class OperationWindowViewModel : ReactiveObject
     {
         public OperationWindowViewModel(
-            OperationModel operationModel)
+            OperationModel operationModel,
+            OperationWindow window)
         {
             OperationModel = operationModel;
+            _window = window;
 
             _pluginHelper = Locator.Current.GetService<PluginHelper>();
             _queueService = Locator.Current.GetService<QueueService>();
@@ -24,9 +27,11 @@ namespace Ruminoid.Toolbox.Shell.ViewModels
             InitializeTabs();
         }
 
-        public OperationModel OperationModel { get; }
+        private readonly OperationWindow _window;
 
-        public Collection<TabItem> Items { get; } = new();
+        private OperationModel OperationModel { get; }
+
+        private Collection<TabItem> Items { get; } = new();
 
         #region Services
 
@@ -80,7 +85,13 @@ namespace Ruminoid.Toolbox.Shell.ViewModels
 
         #region Commands
 
-        public void DoAddToQueue() => _queueService.AddProject(GenerateProjectModel());
+        public void DoAddToQueue()
+        {
+            DoAddToQueueAndContinue();
+            _window.Close();
+        }
+
+        public void DoAddToQueueAndContinue() => _queueService.AddProject(GenerateProjectModel());
 
         public void DoExport()
         {
