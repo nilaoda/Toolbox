@@ -36,7 +36,7 @@ namespace Ruminoid.Toolbox.Shell.ViewModels
         #endregion
 
         private IOperation _operation;
-        private Collection<Tuple<ConfigSectionAttribute, ConfigSectionBase>> _configSections = new();
+        private readonly Collection<Tuple<ConfigSectionAttribute, ConfigSectionBase>> _configSections = new();
 
         #region Tabs
 
