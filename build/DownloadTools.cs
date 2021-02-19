@@ -22,7 +22,6 @@ partial class Build
 
     void DownloadTools()
     {
-        
         EnsureCleanDirectory(ToolsTempDirectory);
 
         Logger.Info($"Downloading tools for {Platform}");
@@ -46,6 +45,7 @@ partial class Build
     }
 
     const string X264Version = "r3043-59c0609";
+    const string PowerShellVersion = "7.0.5";
 
     void DownloadToolsWindows()
     {
@@ -54,7 +54,7 @@ partial class Build
             HttpTasks.HttpDownloadString(
                 "https://www.gyan.dev/ffmpeg/builds/release-version");
 
-        Logger.Info($"Downloading FFmpeg {ffmpegVersion}");
+        Logger.Info($"Downloading FFmpeg {ffmpegVersion}.");
         HttpTasks.HttpDownloadFile(
             $"https://github.com/GyanD/codexffmpeg/releases/download/{ffmpegVersion}/ffmpeg-{ffmpegVersion}-full_build.zip",
             ToolsTempDirectory / "ffmpeg.zip");
@@ -74,6 +74,16 @@ partial class Build
         HttpTasks.HttpDownloadFile(
             $"https://artifacts.videolan.org/x264/release-win64/x264-{X264Version}.exe",
             ToolsDirectory / "x264.exe");
+
+        Logger.Info($"Downloading PowerShell v{PowerShellVersion}.");
+        HttpTasks.HttpDownloadFile(
+            $"https://github.com/PowerShell/PowerShell/releases/download/v{PowerShellVersion}/PowerShell-{PowerShellVersion}-win-x64.zip",
+            ToolsTempDirectory / "pwsh.zip");
+
+        Logger.Info("Extracting PowerShell.");
+        CompressionTasks.UncompressZip(
+            ToolsTempDirectory / "pwsh.zip",
+            ToolsDirectory);
     }
 
     void DownloadToolsMacos()
@@ -103,6 +113,16 @@ partial class Build
         HttpTasks.HttpDownloadFile(
             $"https://artifacts.videolan.org/x264/release-macos/x264-{X264Version}",
             ToolsDirectory / "x264.exe");
+
+        Logger.Info($"Downloading PowerShell v{PowerShellVersion}.");
+        HttpTasks.HttpDownloadFile(
+            $"https://github.com/PowerShell/PowerShell/releases/download/v{PowerShellVersion}/PowerShell-{PowerShellVersion}-osx-x64.tar.gz",
+            ToolsTempDirectory / "pwsh.tar.gz");
+
+        Logger.Info("Extracting PowerShell.");
+        CompressionTasks.UncompressTarGZip(
+            ToolsTempDirectory / "pwsh.tar.gz",
+            ToolsDirectory);
     }
 
     void DownloadToolsLinux()
@@ -117,14 +137,25 @@ partial class Build
         //    ToolsTempDirectory / "ffmpeg.tar.xz",
         //    ToolsDirectory);
 
+        // You need to extract "ffmpeg.tar.xz" yourself.
         CopyFileToDirectory(
             ToolsTempDirectory / "ffmpeg.tar.xz",
             ToolsDirectory);
-        Logger.Warn("You need to extract \"ffmpeg.tar.xz\" yourself.");
+        // Logger.Warn("You need to extract \"ffmpeg.tar.xz\" yourself.");
 
         Logger.Info("Downloading x264.");
         HttpTasks.HttpDownloadFile(
             $"https://artifacts.videolan.org/x264/release-debian-amd64/x264-{X264Version}",
             ToolsDirectory / "x264.exe");
+
+        Logger.Info($"Downloading PowerShell v{PowerShellVersion}.");
+        HttpTasks.HttpDownloadFile(
+            $"https://github.com/PowerShell/PowerShell/releases/download/v{PowerShellVersion}/PowerShell-{PowerShellVersion}-linux-x64.tar.gz",
+            ToolsTempDirectory / "pwsh.tar.gz");
+
+        Logger.Info("Extracting PowerShell.");
+        CompressionTasks.UncompressTarGZip(
+            ToolsTempDirectory / "pwsh.tar.gz",
+            ToolsDirectory);
     }
 }
