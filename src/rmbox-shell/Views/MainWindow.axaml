@@ -10,7 +10,9 @@
         <TabItem Header="开始">
             <views:OperationsView/>
         </TabItem>
-        <TabItem Header="队列"></TabItem>
+        <TabItem Header="队列">
+            <views:QueueView/>
+        </TabItem>
         <TabItem Header="关于">
             <Grid ColumnDefinitions="*,*">
                 <Grid Grid.Column="0"></Grid>
