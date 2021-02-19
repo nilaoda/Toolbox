@@ -6,10 +6,12 @@ namespace Ruminoid.Toolbox.Plugins.Common.ConfigSections
     [ConfigSection(
         "Ruminoid.Toolbox.Plugins.Common.ConfigSections.IOConfigSection",
         "输入/输出")]
-    public class IOConfigSection : ConfigSectionBase
+    public sealed class IOConfigSection : ConfigSectionBase
     {
         public IOConfigSection()
         {
+            DataContext = Config;
+
             InitializeComponent();
         }
 

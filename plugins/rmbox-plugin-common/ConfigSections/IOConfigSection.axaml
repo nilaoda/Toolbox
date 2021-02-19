@@ -7,10 +7,10 @@
                         x:Class="Ruminoid.Toolbox.Plugins.Common.ConfigSections.IOConfigSection">
     <StackPanel Margin="24">
         <TextBlock Margin="12">输入</TextBlock>
-        <TextBox Margin="12" Text="{Binding #Config.Video}" />
+        <TextBox Margin="12" Text="{Binding Video}" />
         <TextBlock Margin="12">字幕</TextBlock>
-        <TextBox Margin="12" Text="{Binding #Config.Subtitle}" />
+        <TextBox Margin="12" Text="{Binding Subtitle}" />
         <TextBlock Margin="12">输出</TextBlock>
-        <TextBox Margin="12" Text="{Binding #Config.Output}" />
+        <TextBox Margin="12" Text="{Binding Output}" />
     </StackPanel>
 </core:ConfigSectionBase>
