@@ -13,6 +13,7 @@
     <Grid Margin="24">
         <Grid RowDefinitions="*,Auto">
             <ListBox
+                Grid.Row="0"
                 Items="{Binding OperationsList}"
                 SelectedItem="{Binding SelectedOperation}">
                 <ListBox.Styles>
