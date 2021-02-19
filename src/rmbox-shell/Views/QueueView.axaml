@@ -10,5 +10,31 @@
       <viewModels:QueueViewModel />
     </UserControl.DataContext>
 
-  <Grid></Grid>
+  <Grid Margin="24"
+        RowDefinitions="Auto,*">
+      <Grid
+          Grid.Row="0"></Grid>
+      <ListBox
+          Grid.Row="1"
+          Items="{Binding Items}"
+          SelectedItem="{Binding SelectedItem}">
+          <ListBox.Styles>
+              <Style Selector="ListBoxItem">
+              </Style>
+          </ListBox.Styles>
+          <ListBox.ItemTemplate>
+              <DataTemplate>
+                  <Grid RowDefinitions="Auto,*">
+                      <TextBlock Grid.Row="0" Text="{Binding OperationName}"
+                                 Margin="0,0,0,12"
+                                 FontSize="24" />
+                      <TextBlock Grid.Row="1"
+                                 Text="{Binding Source}"
+                                 Margin="0,0,0,6"
+                                 TextWrapping="Wrap" />
+                  </Grid>
+              </DataTemplate>
+          </ListBox.ItemTemplate>
+      </ListBox>
+  </Grid>
 </UserControl>

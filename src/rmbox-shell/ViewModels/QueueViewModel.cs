@@ -32,11 +32,39 @@ namespace Ruminoid.Toolbox.Shell.ViewModels
 
         public ReadOnlyObservableCollection<ProjectViewModel> Items => _items;
 
+        private ProjectViewModel _selectedItem;
+
+        public ProjectViewModel SelectedItem
+        {
+            get => _selectedItem;
+            set => this.RaiseAndSetIfChanged(ref _selectedItem, value);
+        }
+
+        private bool _queueRunning = true;
+
+        public bool QueueRunning
+        {
+            get => _queueRunning;
+            set
+            {
+                if (value) _queueService.Start();
+                else _queueService.Stop();
+
+                this.RaiseAndSetIfChanged(ref _queueRunning, value);
+            }
+        }
+
         #endregion
 
         #region Services
 
         private readonly QueueService _queueService;
+
+        #endregion
+
+        #region Commands
+
+        
 
         #endregion
     }

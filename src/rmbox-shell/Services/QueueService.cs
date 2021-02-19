@@ -14,6 +14,31 @@ namespace Ruminoid.Toolbox.Shell.Services
 
         #endregion
 
+        #region Status
+
+        private bool _queueRunning = true;
+
+        #endregion
+
+        #region Queue Operations
+
+        public void Start()
+        {
+            if (_queueRunning) return;
+        }
+
+        public void Stop()
+        {
+            if (!_queueRunning) return;
+        }
+
+        public void Kill()
+        {
+
+        }
+
+        #endregion
+
         #region Operations
 
         public void AddProject(
