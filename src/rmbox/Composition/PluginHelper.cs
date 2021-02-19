@@ -199,7 +199,7 @@ namespace Ruminoid.Toolbox.Composition
             bool success = OperationCache.TryGetValue(id, out Tuple<OperationAttribute, IOperation> cached);
             if (success) return cached;
 
-            Tuple<OperationAttribute, Type>? tuple = OperationCollection.FirstOrDefault(x => x.Item1.Id == id);
+            Tuple<OperationAttribute, Type> tuple = OperationCollection.FirstOrDefault(x => x.Item1.Id == id);
 
             // ReSharper disable once InvertIf
             if (tuple is null)
@@ -219,7 +219,7 @@ namespace Ruminoid.Toolbox.Composition
 
         public Tuple<ConfigSectionAttribute, ConfigSectionBase> CreateConfigSection(string id)
         {
-            Tuple<ConfigSectionAttribute, Type>? tuple = ConfigSectionCollection.FirstOrDefault(x => x.Item1.Id == id);
+            Tuple<ConfigSectionAttribute, Type> tuple = ConfigSectionCollection.FirstOrDefault(x => x.Item1.Id == id);
 
             // ReSharper disable once InvertIf
             if (tuple is null)
@@ -238,7 +238,7 @@ namespace Ruminoid.Toolbox.Composition
             bool success = FormatterCache.TryGetValue(target, out Tuple<FormatterAttribute, IFormatter> cached);
             if (success) return cached;
 
-            Tuple<FormatterAttribute, Type>? tuple =
+            Tuple<FormatterAttribute, Type> tuple =
                 FormatterCollection.FirstOrDefault(x => x.Item1.Targets.Split('|').Contains(target));
 
             // ReSharper disable once InvertIf
