@@ -13,7 +13,38 @@
   <Grid Margin="24"
         RowDefinitions="Auto,*">
       <Grid
-          Grid.Row="0"></Grid>
+          Grid.Row="0"
+          ColumnDefinitions="Auto,*">
+          <Grid
+              Grid.Column="0"
+              Width="48"
+              Height="48">
+              <StackPanel
+                  HorizontalAlignment="Center"
+                  VerticalAlignment="Center">
+                  <TextBlock
+                      Margin="12"
+                      FontSize="24"
+                      FontWeight="Bold">
+                      队列
+                  </TextBlock>
+                  <ToggleSwitch
+                      Margin="12"
+                      IsChecked="{Binding QueueRunning}"/>
+              </StackPanel>
+          </Grid>
+          <Grid
+              Grid.Column="1"
+              RowDefinitions="Auto,*">
+              <TextBlock Grid.Row="0" Text="{Binding CurrentProject.OperationName}"
+                         Margin="0,0,0,12"
+                         FontSize="24" />
+              <TextBlock Grid.Row="1"
+                         Text="{Binding CurrentProject.Source}"
+                         Margin="0,0,0,6"
+                         TextWrapping="Wrap" />
+          </Grid>
+      </Grid>
       <ListBox
           Grid.Row="1"
           Items="{Binding Items}"

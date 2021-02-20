@@ -22,6 +22,11 @@ namespace Ruminoid.Toolbox.Shell.ViewModels
                 .ObserveOn(RxApp.MainThreadScheduler)
                 .Bind(out _items)
                 .Subscribe();
+
+            this
+                .WhenAnyValue(x => x._queueService.CurrentProject)
+                .ObserveOn(RxApp.MainThreadScheduler)
+                .ToProperty(this, x => x.CurrentProject, out _currentProject);
         }
 
         #endregion
@@ -39,6 +44,10 @@ namespace Ruminoid.Toolbox.Shell.ViewModels
             get => _selectedItem;
             set => this.RaiseAndSetIfChanged(ref _selectedItem, value);
         }
+
+        private readonly ObservableAsPropertyHelper<ProjectViewModel> _currentProject;
+
+        public ProjectViewModel CurrentProject => _currentProject.Value;
 
         private bool _queueRunning = true;
 
