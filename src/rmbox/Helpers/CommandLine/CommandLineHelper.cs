@@ -67,6 +67,6 @@ namespace Ruminoid.Toolbox.Helpers.CommandLine
 
         #endregion
 
-        private ILogger<CommandLineHelper> _logger;
+        private readonly ILogger<CommandLineHelper> _logger;
     }
 }

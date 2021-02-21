@@ -35,6 +35,6 @@ namespace Ruminoid.Toolbox.Core
             _logger.LogInformation("完成了所有的操作。");
         }
         
-        private ILogger<Processor> _logger;
+        private readonly ILogger<Processor> _logger;
     }
 }
