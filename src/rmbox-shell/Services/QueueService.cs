@@ -20,7 +20,7 @@ namespace Ruminoid.Toolbox.Shell.Services
             this
                 .WhenAnyValue(x => x.CurrentProject)
                 .ObserveOn(Scheduler.Default)
-                .Subscribe(CurrentProjectChanged)
+                .Subscribe(CurrentProjectChanged);
         }
 
         #endregion
