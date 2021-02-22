@@ -16,5 +16,8 @@ namespace Ruminoid.Toolbox.Helpers.CommandLine
 
         [Option('o', "log-process-out", Default = false, HelpText = "显示进程输出。", Required = false)]
         public bool LogProcessOut { get; set; }
+
+        [Option('d', "dynamic-link", Default = 0, HelpText = "动态连接到Rmbox Shell。", Required = false)]
+        public int DynamicLinkPid { get; set; }
     }
 }

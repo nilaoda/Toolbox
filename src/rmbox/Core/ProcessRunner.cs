@@ -3,11 +3,13 @@ using System.Collections.Generic;
 using System.Composition;
 using System.Diagnostics;
 using System.IO;
+using System.IO.Pipes;
 using System.Reactive.Concurrency;
 using System.Reactive.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
 using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
 using Ruminoid.Toolbox.Composition;
 using Ruminoid.Toolbox.Formatting;
 using Ruminoid.Toolbox.Helpers.CommandLine;
@@ -29,10 +31,30 @@ namespace Ruminoid.Toolbox.Core
             _formattingHelper = formattingHelper;
             _logger = logger;
 
+            int dynamicLinkPid = ((ProcessOptions) _commandLineHelper.Options).DynamicLinkPid;
+
+            if (dynamicLinkPid != 0)
+            {
+                var pipe = new NamedPipeClientStream(
+                    ".",
+                    DynamicLinkPrefix + dynamicLinkPid,
+                    PipeDirection.Out,
+                    PipeOptions.Asynchronous);
+                _pipeWriter = new StreamWriter(pipe);
+            }
+
             _unsubscribe = _formattingHelper.FormatData.Subscribe(
                 OnNext,
                 OnError);
         }
+
+        #region Dynamic Link
+
+        public const string DynamicLinkPrefix = "RMBOXRNDYN";
+
+        private readonly StreamWriter _pipeWriter;
+
+        #endregion
 
         #region Runner
 
@@ -139,8 +161,11 @@ namespace Ruminoid.Toolbox.Core
 
         private void OnError(Exception error) => _logger.LogError(error, "进程发生了错误。");
 
-        private void OnNext(FormattedEvent formatted) =>
+        private void OnNext(FormattedEvent formatted)
+        {
             _logger.LogInformation(formatted.ToString());
+            _pipeWriter?.WriteLineAsync(JsonConvert.SerializeObject(formatted));
+        }
 
         #endregion
 
