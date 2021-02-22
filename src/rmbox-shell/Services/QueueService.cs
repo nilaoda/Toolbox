@@ -71,7 +71,9 @@ namespace Ruminoid.Toolbox.Shell.Services
 
         #region Dispatcher
 
-        private void TriggerProjectPush(IChangeSet<ProjectViewModel, Guid> obj)
+        private void TriggerProjectPush(IChangeSet<ProjectViewModel, Guid> obj) => PushProject();
+
+        private void PushProject()
         {
             if (!_queueRunning || CurrentProject is not null)
                 return;
@@ -100,7 +102,11 @@ namespace Ruminoid.Toolbox.Shell.Services
 
         #region Queue Operations
 
-        public void Start() => _queueRunning = true;
+        public void Start()
+        {
+            _queueRunning = true;
+            PushProject();
+        }
 
         public void Stop() => _queueRunning = false;
 
