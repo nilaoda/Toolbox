@@ -59,7 +59,7 @@ namespace Ruminoid.Toolbox.Shell.ViewModels
 
         #region Status Data
 
-        private ProjectStatus _status = ProjectStatus.Waiting;
+        private ProjectStatus _status = ProjectStatus.Queued;
 
         public ProjectStatus Status
         {
@@ -112,8 +112,10 @@ namespace Ruminoid.Toolbox.Shell.ViewModels
 
     public enum ProjectStatus
     {
-        Waiting = 0,
-        Running = 1,
-        Completed = 2
+        Unqueued = 0,
+        Queued = 1,
+        Running = 2,
+        Completed = 3,
+        Error = 4
     }
 }

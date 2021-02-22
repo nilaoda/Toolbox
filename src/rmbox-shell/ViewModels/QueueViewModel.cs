@@ -73,7 +73,7 @@ namespace Ruminoid.Toolbox.Shell.ViewModels
 
         #region Commands
 
-        
+        public void DoKill() => _queueService.Kill();
 
         #endregion
     }

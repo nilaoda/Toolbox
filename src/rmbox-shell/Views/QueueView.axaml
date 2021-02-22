@@ -31,6 +31,11 @@
                   <ToggleSwitch
                       Margin="12"
                       IsChecked="{Binding QueueRunning}"/>
+                  <Button
+                      Margin="12"
+                      Command="{Binding DoKill}">
+                      强制停止
+                  </Button>
               </StackPanel>
           </Grid>
           <Grid

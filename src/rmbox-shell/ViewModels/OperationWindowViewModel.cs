@@ -2,6 +2,7 @@
 using System.Collections.ObjectModel;
 using System.Linq;
 using Avalonia.Controls;
+using DynamicData;
 using ReactiveUI;
 using Ruminoid.Toolbox.Composition;
 using Ruminoid.Toolbox.Core;
@@ -84,19 +85,22 @@ namespace Ruminoid.Toolbox.Shell.ViewModels
         #endregion
 
         #region Commands
+        
+        // ReSharper disable MemberCanBePrivate.Global
 
         public void DoAddToQueue()
         {
             DoAddToQueueAndContinue();
             _window.Close();
         }
-
-        public void DoAddToQueueAndContinue() => _queueService.AddProject(GenerateProjectModel());
+        public void DoAddToQueueAndContinue() => _queueService.AddOrUpdate(GenerateProjectModel());
 
         public void DoExport()
         {
             throw new NotImplementedException();
         }
+
+        // ReSharper restore MemberCanBePrivate.Global
 
         #endregion
 
