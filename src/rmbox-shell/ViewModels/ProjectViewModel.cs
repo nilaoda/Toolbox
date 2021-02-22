@@ -53,7 +53,7 @@ namespace Ruminoid.Toolbox.Shell.ViewModels
 
         public string Source { get; } = "";
 
-        public Guid Id { get; } = new();
+        public Guid Id { get; } = Guid.NewGuid();
 
         #endregion
 

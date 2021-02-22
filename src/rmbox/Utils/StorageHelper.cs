@@ -37,7 +37,7 @@ namespace Ruminoid.Toolbox.Utils
 
         public static TempSection CreateTempSection()
         {
-            string sectionPath = Path.Combine(GetSectionFolderPath("temp"), new Guid() + "/");
+            string sectionPath = Path.Combine(GetSectionFolderPath("temp"), Guid.NewGuid() + "/");
             Directory.CreateDirectory(sectionPath);
             return new TempSection(sectionPath);
         }
