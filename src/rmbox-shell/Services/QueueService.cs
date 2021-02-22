@@ -43,7 +43,7 @@ namespace Ruminoid.Toolbox.Shell.Services
         public ProjectViewModel CurrentProject
         {
             get => _currentProject;
-            private set
+            internal set
             {
                 if (value is null)
                 {
@@ -105,6 +105,14 @@ namespace Ruminoid.Toolbox.Shell.Services
         public void Stop() => _queueRunning = false;
 
         public void Kill() => _runner.Kill();
+
+        public void Skip()
+        {
+            if (CurrentProject.Status != ProjectStatus.Running)
+                CurrentProject = null;
+        }
+
+        public void Clear() => _items.Clear();
 
         #endregion
 

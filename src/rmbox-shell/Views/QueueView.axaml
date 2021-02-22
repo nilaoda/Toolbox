@@ -14,11 +14,12 @@
         RowDefinitions="Auto,*">
       <Grid
           Grid.Row="0"
-          ColumnDefinitions="Auto,*">
+          ColumnDefinitions="Auto,Auto,*">
           <Grid
               Grid.Column="0"
               Width="48"
-              Height="48">
+              Height="48"
+              VerticalAlignment="Center">
               <StackPanel
                   HorizontalAlignment="Center"
                   VerticalAlignment="Center">
@@ -31,13 +32,28 @@
                   <ToggleSwitch
                       Margin="12"
                       IsChecked="{Binding QueueRunning}"/>
-                  <Button
-                      Margin="12"
-                      Command="{Binding DoKill}">
-                      强制停止
-                  </Button>
               </StackPanel>
           </Grid>
+          <StackPanel
+              Grid.Column="1"
+              HorizontalAlignment="Center"
+              VerticalAlignment="Center">
+              <Button
+                    Margin="12"
+                    Command="{Binding DoKill}">
+                    强制停止
+              </Button>
+              <Button
+                    Margin="12"
+                    Command="{Binding DoSkip}">
+                    跳过
+              </Button>
+              <Button
+                    Margin="12"
+                    Command="{Binding DoClear}">
+                    清空
+              </Button>
+          </StackPanel>
           <Grid
               Grid.Column="1"
               RowDefinitions="Auto,*">

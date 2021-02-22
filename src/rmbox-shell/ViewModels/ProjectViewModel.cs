@@ -16,12 +16,12 @@ namespace Ruminoid.Toolbox.Shell.ViewModels
             OperationModel operationModel,
             Collection<Tuple<ConfigSectionAttribute, object>> configSections)
         {
-            _operationModel = operationModel;
-            _configSections = configSections;
+            OperationModel = operationModel;
+            ConfigSections = configSections;
 
             Tuple<ConfigSectionAttribute, object>
                 ioConfigSection =
-                    _configSections
+                    ConfigSections
                         .FirstOrDefault(
                             x => x.Item1.Id ==
                                  "Ruminoid.Toolbox.Plugins.Common.ConfigSections.IOConfigSection");
@@ -41,15 +41,15 @@ namespace Ruminoid.Toolbox.Shell.ViewModels
 
         #region Fields
 
-        private readonly OperationModel _operationModel;
+        public readonly OperationModel OperationModel;
 
-        private readonly Collection<Tuple<ConfigSectionAttribute, object>> _configSections;
+        public readonly Collection<Tuple<ConfigSectionAttribute, object>> ConfigSections;
 
         #endregion
 
         #region Properties
 
-        public string OperationName => _operationModel.Name;
+        public string OperationName => OperationModel.Name;
 
         public string Source { get; } = "";
 

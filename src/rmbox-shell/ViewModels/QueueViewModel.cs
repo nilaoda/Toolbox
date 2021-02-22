@@ -75,6 +75,10 @@ namespace Ruminoid.Toolbox.Shell.ViewModels
 
         public void DoKill() => _queueService.Kill();
 
+        public void DoClear() => _queueService.Clear();
+
+        public void DoSkip() => _queueService.Skip();
+
         #endregion
     }
 }
