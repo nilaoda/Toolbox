@@ -112,10 +112,9 @@ namespace Ruminoid.Toolbox.Shell.ViewModels
 
     public enum ProjectStatus
     {
-        Unqueued = 0,
-        Queued = 1,
-        Running = 2,
-        Completed = 3,
-        Error = 4
+        Queued = 0,
+        Running = 1,
+        Completed = 2,
+        Error = 3
     }
 }
