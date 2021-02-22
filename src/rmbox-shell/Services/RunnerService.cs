@@ -30,14 +30,18 @@ namespace Ruminoid.Toolbox.Shell.Services
                     ProcessRunner.DynamicLinkPrefix + Process.GetCurrentProcess().Id,
                     PipeDirection.Out);
 
-            Observable.Using(
-                    () => new StreamReader(pipe),
-                    reader =>
-                        Observable.FromAsync(reader.ReadLineAsync)
-                            .Repeat()
-                            .Where(x => !string.IsNullOrWhiteSpace(x)))
-                .ObserveOn(RxApp.MainThreadScheduler)
-                .Subscribe(ReadFromPipe);
+            Observable.FromAsync(token => pipe.WaitForConnectionAsync(token))
+                .Subscribe(_ =>
+                {
+                    Observable.Using(
+                            () => new StreamReader(pipe),
+                            reader =>
+                                Observable.FromAsync(() => pipe.CanRead ? reader.ReadLineAsync() : null)
+                                    .Repeat()
+                                    .Where(x => !string.IsNullOrWhiteSpace(x)))
+                        .ObserveOn(RxApp.MainThreadScheduler)
+                        .Subscribe(ReadFromPipe);
+                });
 
             SubscribeRun();
         }
