@@ -114,7 +114,8 @@ namespace Ruminoid.Toolbox.Shell.Services
 
         public void Skip()
         {
-            if (CurrentProject.Status != ProjectStatus.Running)
+            if (CurrentProject is not null &&
+                CurrentProject.Status != ProjectStatus.Running)
                 CurrentProject = null;
         }
 
