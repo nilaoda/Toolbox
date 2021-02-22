@@ -1,9 +1,21 @@
-﻿using System.Text;
+﻿using System;
+using System.Runtime.Serialization;
+using System.Text;
+using Newtonsoft.Json;
+
+// ReSharper disable ClassWithVirtualMembersNeverInherited.Global
 
 namespace Ruminoid.Toolbox.Formatting
 {
+    [Serializable]
+    [DataContract]
+    [JsonObject(MemberSerialization.OptIn)]
     public record FormattedEvent
     {
+        public FormattedEvent()
+        {
+        }
+
         public FormattedEvent(
             string target,
             double progress,
@@ -25,11 +37,25 @@ namespace Ruminoid.Toolbox.Formatting
                 detail
             );
 
-        public string Target { get; }
-        public double Progress { get; }
-        public bool IsIndeterminate { get; }
-        public string Summary { get; }
-        public string Detail { get; }
+        [DataMember]
+        [JsonProperty("target")]
+        public string Target;
+
+        [DataMember]
+        [JsonProperty("progress")]
+        public double Progress;
+
+        [DataMember]
+        [JsonProperty("isIndeterminate")]
+        public bool IsIndeterminate;
+
+        [DataMember]
+        [JsonProperty("summary")]
+        public string Summary;
+
+        [DataMember]
+        [JsonProperty("detail")]
+        public string Detail;
 
         protected virtual bool PrintMembers(StringBuilder builder)
         {
