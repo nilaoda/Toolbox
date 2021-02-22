@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reactive.Concurrency;
 using System.Reactive.Linq;
 using DynamicData;
 using DynamicData.Kernel;
@@ -16,14 +15,11 @@ namespace Ruminoid.Toolbox.Shell.Services
 
         public QueueService()
         {
+            _runner = new RunnerService(this);
+
             Connect()
                 .ObserveOn(RxApp.MainThreadScheduler)
                 .Subscribe(TriggerProjectPush);
-            
-            this
-                .WhenAnyValue(x => x.CurrentProject)
-                .ObserveOn(Scheduler.Default)
-                .Subscribe(TriggerProjectRun);
         }
 
         #endregion
@@ -31,7 +27,13 @@ namespace Ruminoid.Toolbox.Shell.Services
         #region Data
 
         private readonly SourceCache<ProjectViewModel, Guid> _items = new(x => x.Id);
-        
+
+        #endregion
+
+        #region Services
+
+        private readonly RunnerService _runner;
+
         #endregion
 
         #region Current
@@ -87,12 +89,7 @@ namespace Ruminoid.Toolbox.Shell.Services
 
             CurrentProject = Items.FirstOrDefault(x => x.Status == ProjectStatus.Queued);
         }
-
-        private void TriggerProjectRun(ProjectViewModel obj)
-        {
-            if (CurrentProject is null) return;
-        }
-
+        
         #endregion
 
         #region Status
@@ -107,10 +104,7 @@ namespace Ruminoid.Toolbox.Shell.Services
 
         public void Stop() => _queueRunning = false;
 
-        public void Kill()
-        {
-            throw new NotImplementedException();
-        }
+        public void Kill() => _runner.Kill();
 
         #endregion
 
