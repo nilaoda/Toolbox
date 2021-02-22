@@ -11,7 +11,7 @@
     </UserControl.DataContext>
 
   <Grid Margin="24"
-        RowDefinitions="Auto,*">
+        RowDefinitions="Auto,*,Auto">
       <Grid
           Grid.Row="0"
           ColumnDefinitions="Auto,*,Auto">
@@ -130,5 +130,10 @@
               </DataTemplate>
           </ListBox.ItemTemplate>
       </ListBox>
+      <ListBox
+          Grid.Row="2"
+          Margin="12"
+          Items="{Binding RunnerOutputList}"
+          Height="150"/>
   </Grid>
 </UserControl>

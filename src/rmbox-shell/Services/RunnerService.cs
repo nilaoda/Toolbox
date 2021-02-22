@@ -58,8 +58,6 @@ namespace Ruminoid.Toolbox.Shell.Services
 
         #region Dynamic Link
         
-        public readonly Subject<string> ProcessOutput = new();
-
         private void ReadFromPipe(string json)
         {
             if (CurrentProject is null) return;
@@ -147,7 +145,7 @@ namespace Ruminoid.Toolbox.Shell.Services
                             {
                                 var (_, e) = next;
                                 if (string.IsNullOrEmpty(e.Data)) return;
-                                ProcessOutput.OnNext(e.Data);
+                                _queueService.RunnerOutput.OnNext(e.Data);
                             });
 
                     process.Start();

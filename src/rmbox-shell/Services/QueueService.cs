@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reactive.Linq;
+using System.Reactive.Subjects;
 using DynamicData;
 using DynamicData.Kernel;
 using ReactiveUI;
@@ -28,6 +29,12 @@ namespace Ruminoid.Toolbox.Shell.Services
 
         private readonly SourceCache<ProjectViewModel, Guid> _items = new(x => x.Id);
 
+        #endregion
+
+        #region Dynamic Link
+        
+        public readonly Subject<string> RunnerOutput = new();
+        
         #endregion
 
         #region Services

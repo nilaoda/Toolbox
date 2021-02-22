@@ -23,6 +23,10 @@ namespace Ruminoid.Toolbox.Shell.ViewModels
                 .Bind(out _items)
                 .Subscribe();
 
+            _queueService.RunnerOutput
+                .ObserveOn(RxApp.MainThreadScheduler)
+                .Subscribe(NewRunnerOutput);
+
             this
                 .WhenAnyValue(x => x._queueService.CurrentProject)
                 .ObserveOn(RxApp.MainThreadScheduler)
@@ -61,6 +65,18 @@ namespace Ruminoid.Toolbox.Shell.ViewModels
 
                 this.RaiseAndSetIfChanged(ref _queueRunning, value);
             }
+        }
+
+        #endregion
+
+        #region Runner Output
+
+        public ObservableCollection<string> RunnerOutputList { get; } = new();
+
+        private void NewRunnerOutput(string line)
+        {
+            RunnerOutputList.Add(line);
+            if (RunnerOutputList.Count > 100) RunnerOutputList.RemoveAt(0);
         }
 
         #endregion
