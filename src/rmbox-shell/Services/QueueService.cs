@@ -120,7 +120,7 @@ namespace Ruminoid.Toolbox.Shell.Services
         {
             if (CurrentProject is not null &&
                 CurrentProject.Status != ProjectStatus.Running)
-                CurrentProject = null;
+                PushProject();
         }
 
         public void Clear() => _items.Clear();
