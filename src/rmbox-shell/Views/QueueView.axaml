@@ -45,7 +45,8 @@
                       FontSize="24" />
                   <ProgressBar
                       Grid.Column="1"
-                      Value="{Binding CurrentProject.Progress}"/>
+                      Value="{Binding CurrentProject.Progress}"
+                      IsIndeterminate="{Binding CurrentProject.IsIndeterminate}"/>
               </Grid>
               <TextBlock Grid.Row="1"
                          Text="{Binding CurrentProject.Source}"
@@ -107,7 +108,8 @@
                               FontSize="24" />
                           <ProgressBar
                               Grid.Column="1"
-                              Value="{Binding Progress}"/>
+                              Value="{Binding Progress}"
+                              IsIndeterminate="{Binding IsIndeterminate}"/>
                       </Grid>
                       <TextBlock Grid.Row="1"
                                  Text="{Binding Source}"
