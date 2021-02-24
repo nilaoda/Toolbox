@@ -77,9 +77,12 @@ namespace Ruminoid.Toolbox.Shell.Services
 
         private void TriggerProjectPush(IChangeSet<ProjectViewModel, Guid> obj) => PushProject();
 
-        private void PushProject()
+        private void PushProject(bool ignoreNotNull = false)
         {
-            if (!_queueRunning || CurrentProject is not null)
+            if (!QueueRunning)
+                return;
+
+            if (!ignoreNotNull && CurrentProject is not null)
                 return;
 
             ProjectViewModel queuedItem =
@@ -100,7 +103,7 @@ namespace Ruminoid.Toolbox.Shell.Services
 
         #region Status
 
-        private bool _queueRunning = true;
+        public bool QueueRunning = true;
 
         #endregion
 
@@ -108,19 +111,19 @@ namespace Ruminoid.Toolbox.Shell.Services
 
         public void Start()
         {
-            _queueRunning = true;
+            QueueRunning = true;
             PushProject();
         }
 
-        public void Stop() => _queueRunning = false;
+        public void Stop() => QueueRunning = false;
 
         public void Kill() => _runner.Kill();
 
         public void Skip()
         {
-            if (CurrentProject is not null &&
+            if (CurrentProject is null ||
                 CurrentProject.Status != ProjectStatus.Running)
-                PushProject();
+                PushProject(true);
         }
 
         public void Clear() => _items.Clear();

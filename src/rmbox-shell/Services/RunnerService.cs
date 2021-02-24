@@ -93,6 +93,7 @@ namespace Ruminoid.Toolbox.Shell.Services
             _queueService
                 .WhenAnyValue(x => x.CurrentProject)
                 .Where(x => x is not null)
+                .Where(x => _queueService.QueueRunning)
                 .ObserveOn(RxApp.TaskpoolScheduler)
                 .Subscribe(project =>
                 {
