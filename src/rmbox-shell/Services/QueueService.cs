@@ -48,7 +48,7 @@ namespace Ruminoid.Toolbox.Shell.Services
         public ProjectViewModel CurrentProject
         {
             get => _currentProject;
-            internal set
+            private set
             {
                 if (value is null)
                 {

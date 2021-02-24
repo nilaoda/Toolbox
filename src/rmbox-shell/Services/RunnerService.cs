@@ -179,9 +179,6 @@ namespace Ruminoid.Toolbox.Shell.Services
                     CurrentProject.Progress = 100;
                     CurrentProject.Summary = succeed ? "完成" : "错误";
                     CurrentProject.Status = succeed ? ProjectStatus.Completed : ProjectStatus.Error;
-
-                    //if (succeed)
-                    //    _queueService.CurrentProject = null;
                 });
         }
         
