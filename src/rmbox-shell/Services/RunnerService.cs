@@ -45,7 +45,12 @@ namespace Ruminoid.Toolbox.Shell.Services
                         .Subscribe(ReadFromPipe);
                 });
 
-            SubscribeRun();
+            _queueService
+                .WhenAnyValue(x => x.CurrentProject)
+                .Where(x => x is not null)
+                .Where(_ => _queueService.QueueRunning)
+                .ObserveOn(RxApp.TaskpoolScheduler)
+                .Subscribe(Run);
         }
 
         #endregion
@@ -88,101 +93,87 @@ namespace Ruminoid.Toolbox.Shell.Services
 
         #region Operations
         
-        private void SubscribeRun()
+        private void Run(ProjectViewModel project)
         {
-            _queueService
-                .WhenAnyValue(x => x.CurrentProject)
-                .Where(x => x is not null)
-                .Where(x => _queueService.QueueRunning)
-                .ObserveOn(RxApp.TaskpoolScheduler)
-                .Subscribe(project =>
+            CurrentProject.IsIndeterminate = true;
+            CurrentProject.Summary = "生成项目文件";
+            
+            string path = StorageHelper.GetSectionFilePath("temp", $"proj-{CurrentProject.Id}.json");
+            Exporter.ExportProjectToFile(project, path);
+
+            CurrentProject.Summary = "准备启动运行";
+
+            Process process = new Process
+            {
+                StartInfo = new ProcessStartInfo
                 {
-                    CurrentProject.IsIndeterminate = true;
-                    CurrentProject.Summary = "生成项目文件";
-                    
-                    // Temporarily create project file
-                    string path =
-                        StorageHelper.GetSectionFilePath("temp", $"proj-{CurrentProject.Id}.json");
+                    CreateNoWindow = true,
+                    StandardErrorEncoding = Encoding.UTF8,
+                    StandardInputEncoding = Encoding.UTF8,
+                    StandardOutputEncoding = Encoding.UTF8,
+                    WorkingDirectory = StorageHelper.GetSectionFolderPath("tools"),
+                    RedirectStandardError = true,
+                    RedirectStandardInput = true,
+                    RedirectStandardOutput = true,
+                    UseShellExecute = false,
+                    Arguments = $" \"{path}\" -o -d {Environment.ProcessId}",
+                    FileName = Path.Combine(AppDomain.CurrentDomain.BaseDirectory,
+                        "rmbox" + (RuntimeInformation.IsOSPlatform(OSPlatform.Windows) ? ".exe" : ""))
+                },
+                EnableRaisingEvents = true
+            };
 
-                    Exporter.ExportProjectToFile(project, path);
-                    
-                    CurrentProject.Summary = "准备启动运行";
-
-                    Process process = new Process
-                    {
-                        StartInfo = new ProcessStartInfo
-                        {
-                            CreateNoWindow = true,
-                            StandardErrorEncoding = Encoding.UTF8,
-                            StandardInputEncoding = Encoding.UTF8,
-                            StandardOutputEncoding = Encoding.UTF8,
-                            WorkingDirectory = StorageHelper.GetSectionFolderPath("tools"),
-                            RedirectStandardError = true,
-                            RedirectStandardInput = true,
-                            RedirectStandardOutput = true,
-                            UseShellExecute = false,
-                            Arguments = $" \"{path}\" -o -d {Environment.ProcessId}",
-                            FileName = Path.Combine(AppDomain.CurrentDomain.BaseDirectory,
-                                "rmbox" + (RuntimeInformation.IsOSPlatform(OSPlatform.Windows) ? ".exe" : ""))
-                        },
-                        EnableRaisingEvents = true
-                    };
-
-                    // ReSharper disable once InvokeAsExtensionMethod
-                    IDisposable observable = Observable.Merge(
-                            Observable.FromEventPattern<DataReceivedEventArgs>(process,
-                                nameof(process.ErrorDataReceived)),
-                            Observable.FromEventPattern<DataReceivedEventArgs>(process,
-                                nameof(process.OutputDataReceived)))
-                        .Subscribe(
-                            next =>
-                            {
-                                var (_, e) = next;
-                                if (string.IsNullOrEmpty(e.Data)) return;
-                                _queueService.RunnerOutput.OnNext(e.Data);
-                            });
-
-                    process.Start();
-                    process.BeginErrorReadLine();
-                    process.BeginOutputReadLine();
-
-                    bool killFlag = false;
-
-                    IDisposable killObservable =
-                        _killSubject.Subscribe(
-                            _ =>
-                            {
-                                killFlag = true;
-                                process.Kill();
-                                process.Dispose();
-                            });
-
-                    process.WaitForExit();
-
-                    killObservable.Dispose();
-                    observable.Dispose();
-
-                    bool succeed;
-
-                    // ReSharper disable once InvertIf
-                    if (killFlag)
-                    {
-                        CurrentProject.Detail = "运行被取消。";
-                        succeed = false;
-                    }
-                    else succeed = process.ExitCode == 0;
-
-                    CurrentProject.Summary = "清理";
-
-                    if (File.Exists(path)) File.Delete(path);
-
-                    CurrentProject.IsIndeterminate = false;
-                    CurrentProject.Progress = 100;
-                    CurrentProject.Summary = succeed ? "完成" : "错误";
-                    CurrentProject.Status = succeed ? ProjectStatus.Completed : ProjectStatus.Error;
+            // ReSharper disable once InvokeAsExtensionMethod
+            IDisposable observable = Observable
+                .Merge(
+                    Observable.FromEventPattern<DataReceivedEventArgs>(process, nameof(process.ErrorDataReceived)),
+                    Observable.FromEventPattern<DataReceivedEventArgs>(process, nameof(process.OutputDataReceived)))
+                .Subscribe(next =>
+                {
+                    var (_, e) = next;
+                    if (string.IsNullOrEmpty(e.Data)) return;
+                    _queueService.RunnerOutput.OnNext(e.Data);
                 });
+
+            process.Start();
+            process.BeginErrorReadLine();
+            process.BeginOutputReadLine();
+
+            bool killFlag = false;
+
+            IDisposable killObservable = _killSubject.Subscribe(_ =>
+            {
+                killFlag = true;
+                process.Kill();
+                process.Dispose();
+            });
+
+            process.WaitForExit();
+
+            killObservable.Dispose();
+            observable.Dispose();
+
+            bool succeed;
+
+            // ReSharper disable once InvertIf
+            if (killFlag)
+            {
+                CurrentProject.Detail = "运行被取消。";
+                succeed = false;
+            }
+            else
+                succeed = process.ExitCode == 0;
+
+            CurrentProject.Summary = "清理";
+
+            if (File.Exists(path)) File.Delete(path);
+
+            CurrentProject.IsIndeterminate = false;
+            CurrentProject.Progress = 100;
+            CurrentProject.Summary = succeed ? "完成" : "错误";
+            CurrentProject.Status = succeed ? ProjectStatus.Completed : ProjectStatus.Error;
         }
-        
+
         internal void Kill() => _killSubject.OnNext(null);
 
         #endregion
