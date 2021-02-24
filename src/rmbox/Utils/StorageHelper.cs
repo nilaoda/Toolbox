@@ -17,7 +17,7 @@ namespace Ruminoid.Toolbox.Utils
         /// <returns>文件夹的完整路径。</returns>
         public static string GetSectionFolderPath(string sectionName)
         {
-            string folderPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, $"{sectionName}/");
+            string folderPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, sectionName + Path.DirectorySeparatorChar);
             Directory.CreateDirectory(folderPath);
             return folderPath;
         }
@@ -37,7 +37,7 @@ namespace Ruminoid.Toolbox.Utils
 
         public static TempSection CreateTempSection()
         {
-            string sectionPath = Path.Combine(GetSectionFolderPath("temp"), Guid.NewGuid() + "/");
+            string sectionPath = Path.Combine(GetSectionFolderPath("temp"), Guid.NewGuid().ToString() + Path.DirectorySeparatorChar);
             Directory.CreateDirectory(sectionPath);
             return new TempSection(sectionPath);
         }
