@@ -28,7 +28,7 @@ namespace Ruminoid.Toolbox.Shell.Services
             NamedPipeServerStream pipe =
                 new NamedPipeServerStream(
                     ProcessRunner.DynamicLinkPrefix + Process.GetCurrentProcess().Id,
-                    PipeDirection.Out);
+                    PipeDirection.In);
 
             Observable.FromAsync(token => pipe.WaitForConnectionAsync(token))
                 .Subscribe(_ =>
