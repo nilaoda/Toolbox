@@ -41,6 +41,9 @@ namespace Ruminoid.Toolbox.Formatting
         [JsonProperty("target")]
         public string Target;
 
+        /// <summary>
+        /// 在0-100之间用来表示进度的浮点数。
+        /// </summary>
         [DataMember]
         [JsonProperty("progress")]
         public double Progress;

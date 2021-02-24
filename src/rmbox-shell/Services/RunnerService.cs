@@ -203,7 +203,7 @@ namespace Ruminoid.Toolbox.Shell.Services
                 .Subscribe(succeed =>
                 {
                     CurrentProject.IsIndeterminate = false;
-                    CurrentProject.Progress = 1;
+                    CurrentProject.Progress = 100;
                     CurrentProject.Status = succeed ? ProjectStatus.Completed : ProjectStatus.Error;
                     CurrentProject.Summary = succeed ? "完成" : "错误";
 
