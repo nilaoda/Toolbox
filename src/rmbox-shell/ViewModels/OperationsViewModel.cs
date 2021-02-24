@@ -29,7 +29,6 @@ namespace Ruminoid.Toolbox.Shell.ViewModels
             _isOperationSelected = this
                 .WhenAnyValue(x => x.SelectedOperation)
                 .Select(x => x is not null)
-                .ObserveOn(RxApp.MainThreadScheduler)
                 .ToProperty(this, x => x.IsOperationSelected);
         }
 

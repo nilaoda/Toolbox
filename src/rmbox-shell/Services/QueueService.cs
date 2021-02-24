@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reactive.Linq;
 using System.Reactive.Subjects;
 using DynamicData;
 using DynamicData.Kernel;
@@ -19,7 +18,6 @@ namespace Ruminoid.Toolbox.Shell.Services
             _runner = new RunnerService(this);
 
             Connect()
-                .ObserveOn(RxApp.MainThreadScheduler)
                 .Subscribe(TriggerProjectPush);
         }
 
@@ -67,7 +65,6 @@ namespace Ruminoid.Toolbox.Shell.Services
 
                 value
                     .WhenAnyValue(x => x.Status)
-                    .ObserveOn(RxApp.MainThreadScheduler)
                     .Subscribe(TriggerProjectUpdate);
 
                 this.RaiseAndSetIfChanged(ref _currentProject, value);
