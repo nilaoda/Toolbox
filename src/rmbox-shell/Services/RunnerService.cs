@@ -27,7 +27,7 @@ namespace Ruminoid.Toolbox.Shell.Services
 
             NamedPipeServerStream pipe =
                 new NamedPipeServerStream(
-                    ProcessRunner.DynamicLinkPrefix + Process.GetCurrentProcess().Id,
+                    ProcessRunner.DynamicLinkPrefix + Environment.ProcessId,
                     PipeDirection.In);
 
             Observable.FromAsync(token => pipe.WaitForConnectionAsync(token))
@@ -126,7 +126,7 @@ namespace Ruminoid.Toolbox.Shell.Services
                             RedirectStandardInput = true,
                             RedirectStandardOutput = true,
                             UseShellExecute = false,
-                            Arguments = $" \"{path}\" -o -d {Process.GetCurrentProcess().Id}",
+                            Arguments = $" \"{path}\" -o -d {Environment.ProcessId}",
                             FileName = Path.Combine(AppDomain.CurrentDomain.BaseDirectory,
                                 "rmbox" + (RuntimeInformation.IsOSPlatform(OSPlatform.Windows) ? ".exe" : ""))
                         },
