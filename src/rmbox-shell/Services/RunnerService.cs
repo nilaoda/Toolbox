@@ -72,7 +72,7 @@ namespace Ruminoid.Toolbox.Shell.Services
                 CurrentProject.Summary = formattedEvent.Summary;
                 CurrentProject.Detail = formattedEvent.Detail;
             }
-            catch (JsonSerializationException)
+            catch (JsonException)
             {
                 // Ignore
             }
