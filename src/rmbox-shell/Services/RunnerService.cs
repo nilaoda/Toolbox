@@ -64,13 +64,19 @@ namespace Ruminoid.Toolbox.Shell.Services
         private void ReadFromPipe(string json)
         {
             if (CurrentProject is null) return;
+            try
+            {
+                FormattedEvent formattedEvent = JsonConvert.DeserializeObject<FormattedEvent>(json);
 
-            FormattedEvent formattedEvent = JsonConvert.DeserializeObject<FormattedEvent>(json);
-
-            CurrentProject.Progress = formattedEvent.Progress;
-            CurrentProject.IsIndeterminate = formattedEvent.IsIndeterminate;
-            CurrentProject.Summary = formattedEvent.Summary;
-            CurrentProject.Detail = formattedEvent.Detail;
+                CurrentProject.Progress = formattedEvent.Progress;
+                CurrentProject.IsIndeterminate = formattedEvent.IsIndeterminate;
+                CurrentProject.Summary = formattedEvent.Summary;
+                CurrentProject.Detail = formattedEvent.Detail;
+            }
+            catch (JsonSerializationException)
+            {
+                // Ignore
+            }
         }
 
         #endregion
