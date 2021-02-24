@@ -181,10 +181,23 @@ namespace Ruminoid.Toolbox.Shell.Services
                     if (killFlag)
                     {
                         CurrentProject.Detail = "运行被取消。";
-                        return false;
+                        return (path, false);
                     }
 
-                    return process.ExitCode == 0;
+                    return (path, process.ExitCode == 0);
+                })
+                .ObserveOn(RxApp.MainThreadScheduler)
+                .Select(x =>
+                {
+                    CurrentProject.Summary = "清理";
+                    return x;
+                })
+                .ObserveOn(RxApp.TaskpoolScheduler)
+                .Select(x =>
+                {
+                    var (path, succeed) = x;
+                    if (File.Exists(path)) File.Delete(path);
+                    return succeed;
                 })
                 .ObserveOn(RxApp.MainThreadScheduler)
                 .Subscribe(succeed =>
