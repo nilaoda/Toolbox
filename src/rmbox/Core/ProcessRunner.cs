@@ -39,7 +39,10 @@ namespace Ruminoid.Toolbox.Core
                     ".",
                     DynamicLinkPrefix + dynamicLinkPid,
                     PipeDirection.Out,
-                    PipeOptions.Asynchronous);
+                    PipeOptions.Asynchronous | PipeOptions.WriteThrough);
+
+                pipe.Connect();
+
                 _pipeWriter = new StreamWriter(pipe);
             }
 

@@ -28,7 +28,10 @@ namespace Ruminoid.Toolbox.Shell.Services
             NamedPipeServerStream pipe =
                 new NamedPipeServerStream(
                     ProcessRunner.DynamicLinkPrefix + Environment.ProcessId,
-                    PipeDirection.In);
+                    PipeDirection.In,
+                    NamedPipeServerStream.MaxAllowedServerInstances,
+                    PipeTransmissionMode.Byte,
+                    PipeOptions.Asynchronous | PipeOptions.WriteThrough);
 
             Observable.FromAsync(token => pipe.WaitForConnectionAsync(token))
                 .Subscribe(_ =>
@@ -36,7 +39,7 @@ namespace Ruminoid.Toolbox.Shell.Services
                     Observable.Using(
                             () => new StreamReader(pipe),
                             reader =>
-                                Observable.FromAsync(() => pipe.CanRead ? reader.ReadLineAsync() : null)
+                                Observable.FromAsync(reader.ReadLineAsync)
                                     .Repeat()
                                     .Where(x => !string.IsNullOrWhiteSpace(x)))
                         .ObserveOn(RxApp.MainThreadScheduler)
