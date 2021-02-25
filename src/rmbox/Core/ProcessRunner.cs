@@ -5,6 +5,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Net;
 using System.Net.Http;
+using System.Reactive;
 using System.Reactive.Concurrency;
 using System.Reactive.Linq;
 using System.Reactive.Subjects;
@@ -33,8 +34,15 @@ namespace Ruminoid.Toolbox.Core
             _formattingHelper = formattingHelper;
             _logger = logger;
 
-            AppDomain.CurrentDomain.ProcessExit += OnProcessExit;
-            Console.CancelKeyPress += OnCancelKeyPress;
+            Observable
+                .FromEventPattern<EventArgs>(AppDomain.CurrentDomain, nameof(AppDomain.CurrentDomain.ProcessExit))
+                .ObserveOn(TaskPoolScheduler.Default)
+                .Subscribe(OnProcessExit);
+
+            Observable
+                .FromEventPattern<ConsoleCancelEventArgs>(typeof(Console), nameof(Console.CancelKeyPress))
+                .ObserveOn(TaskPoolScheduler.Default)
+                .Subscribe(OnCancelKeyPress);
 
             _dynamicLinkPort = ((ProcessOptions) _commandLineHelper.Options).DynamicLinkPort;
 
@@ -174,7 +182,7 @@ namespace Ruminoid.Toolbox.Core
 
         private Process _currentProcess;
 
-        private void OnProcessExit(object? sender, EventArgs e)
+        private void OnProcessExit(EventPattern<EventArgs> e)
         {
             if (!IsProcessRunning()) return;
             _logger.LogWarning("正在尝试终止运行。应用可能在运行终止前被终止。");
@@ -185,10 +193,10 @@ namespace Ruminoid.Toolbox.Core
             throw exception;
         }
 
-        private void OnCancelKeyPress(object? sender, ConsoleCancelEventArgs e)
+        private void OnCancelKeyPress(EventPattern<ConsoleCancelEventArgs> e)
         {
             if (!IsProcessRunning()) return;
-            e.Cancel = true;
+            e.EventArgs.Cancel = true;
             _logger.LogWarning("正在尝试终止运行。应用可能在运行终止前被终止。");
             _currentProcess.Kill(true);
             _currentProcess.Dispose();
