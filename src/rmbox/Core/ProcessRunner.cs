@@ -108,7 +108,8 @@ namespace Ruminoid.Toolbox.Core
                     RedirectStandardOutput = true,
                     UseShellExecute = false,
                     Arguments = ' ' + args,
-                    FileName = targetPath
+                    FileName = targetPath,
+                    WindowStyle = ProcessWindowStyle.Hidden
                 },
                 EnableRaisingEvents = true
             };
@@ -178,6 +179,7 @@ namespace Ruminoid.Toolbox.Core
             if (!IsProcessRunning()) return;
             _logger.LogWarning("正在尝试终止运行。应用可能在运行终止前被终止。");
             _currentProcess.Kill(true);
+            _currentProcess.Dispose();
             var exception = new ProcessRunnerException("运行被用户终止。");
             _logger.LogCritical(exception, "运行被用户终止。");
             throw exception;
@@ -189,6 +191,7 @@ namespace Ruminoid.Toolbox.Core
             e.Cancel = true;
             _logger.LogWarning("正在尝试终止运行。应用可能在运行终止前被终止。");
             _currentProcess.Kill(true);
+            _currentProcess.Dispose();
             var exception = new ProcessRunnerException("运行被用户终止。");
             _logger.LogCritical(exception, "运行被用户终止。");
             throw exception;

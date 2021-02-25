@@ -126,9 +126,10 @@ namespace Ruminoid.Toolbox.Shell.Services
                     RedirectStandardInput = true,
                     RedirectStandardOutput = true,
                     UseShellExecute = false,
-                    Arguments = $" \"{path}\" -h -d {_pipePort}",
+                    Arguments = $" \"{path}\" -o -h -d {_pipePort}",
                     FileName = Path.Combine(AppDomain.CurrentDomain.BaseDirectory,
-                        "rmbox" + (RuntimeInformation.IsOSPlatform(OSPlatform.Windows) ? ".exe" : ""))
+                        "rmbox" + (RuntimeInformation.IsOSPlatform(OSPlatform.Windows) ? ".exe" : "")),
+                    WindowStyle = ProcessWindowStyle.Hidden
                 },
                 EnableRaisingEvents = true
             };
@@ -154,7 +155,7 @@ namespace Ruminoid.Toolbox.Shell.Services
             IDisposable killObservable = _killSubject.Subscribe(_ =>
             {
                 killFlag = true;
-                process.Kill();
+                process.Close();
                 process.Dispose();
             });
 
