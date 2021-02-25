@@ -126,7 +126,7 @@ namespace Ruminoid.Toolbox.Shell.Services
                     RedirectStandardInput = true,
                     RedirectStandardOutput = true,
                     UseShellExecute = false,
-                    Arguments = $" \"{path}\" -d {_pipePort}",
+                    Arguments = $" \"{path}\" -h -d {_pipePort}",
                     FileName = Path.Combine(AppDomain.CurrentDomain.BaseDirectory,
                         "rmbox" + (RuntimeInformation.IsOSPlatform(OSPlatform.Windows) ? ".exe" : ""))
                 },

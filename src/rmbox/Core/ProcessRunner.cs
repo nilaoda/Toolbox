@@ -33,6 +33,9 @@ namespace Ruminoid.Toolbox.Core
             _formattingHelper = formattingHelper;
             _logger = logger;
 
+            AppDomain.CurrentDomain.ProcessExit += OnProcessExit;
+            Console.CancelKeyPress += OnCancelKeyPress;
+
             _dynamicLinkPort = ((ProcessOptions) _commandLineHelper.Options).DynamicLinkPort;
 
             if (_dynamicLinkPort != 0)
@@ -91,7 +94,7 @@ namespace Ruminoid.Toolbox.Core
                 throw new ProcessRunnerException(err);
             }
 
-            Process process = new Process
+            _currentProcess = new Process
             {
                 StartInfo = new ProcessStartInfo
                 {
@@ -112,8 +115,8 @@ namespace Ruminoid.Toolbox.Core
             
             // ReSharper disable once InvokeAsExtensionMethod
             IDisposable observable = Observable.Merge(
-                    Observable.FromEventPattern<DataReceivedEventArgs>(process, nameof(process.ErrorDataReceived)),
-                    Observable.FromEventPattern<DataReceivedEventArgs>(process, nameof(process.OutputDataReceived)),
+                    Observable.FromEventPattern<DataReceivedEventArgs>(_currentProcess, nameof(_currentProcess.ErrorDataReceived)),
+                    Observable.FromEventPattern<DataReceivedEventArgs>(_currentProcess, nameof(_currentProcess.OutputDataReceived)),
                     Scheduler.Default)
                 .Subscribe(
                     next =>
@@ -128,17 +131,17 @@ namespace Ruminoid.Toolbox.Core
                     error => _logger.LogError(error, "进程发生了错误。"));
 
             _logger.LogInformation($"开始运行：{targetPath} {args}");
-            
-            process.Start();
-            process.BeginErrorReadLine();
-            process.BeginOutputReadLine();
-            process.WaitForExit();
+
+            _currentProcess.Start();
+            _currentProcess.BeginErrorReadLine();
+            _currentProcess.BeginOutputReadLine();
+            _currentProcess.WaitForExit();
 
             observable.Dispose();
 
-            if (process.ExitCode != 0)
+            if (_currentProcess.ExitCode != 0)
             {
-                string err = $"{target} 程序出现错误，退出码为 {process.ExitCode}。";
+                string err = $"{target} 程序出现错误，退出码为 {_currentProcess.ExitCode}。";
                 _logger.LogCritical(err);
                 throw new ProcessRunnerException(err);
             }
@@ -166,6 +169,37 @@ namespace Ruminoid.Toolbox.Core
 
         #endregion
 
+        #region Daemon
+
+        private Process _currentProcess;
+
+        private void OnProcessExit(object? sender, EventArgs e)
+        {
+            if (!IsProcessRunning()) return;
+            _logger.LogWarning("正在尝试终止运行。应用可能在运行终止前被终止。");
+            _currentProcess.Kill(true);
+            var exception = new ProcessRunnerException("运行被用户终止。");
+            _logger.LogCritical(exception, "运行被用户终止。");
+            throw exception;
+        }
+
+        private void OnCancelKeyPress(object? sender, ConsoleCancelEventArgs e)
+        {
+            if (!IsProcessRunning()) return;
+            e.Cancel = true;
+            _logger.LogWarning("正在尝试终止运行。应用可能在运行终止前被终止。");
+            _currentProcess.Kill(true);
+            var exception = new ProcessRunnerException("运行被用户终止。");
+            _logger.LogCritical(exception, "运行被用户终止。");
+            throw exception;
+        }
+
+        private bool IsProcessRunning() =>
+            _currentProcess is not null &&
+            _currentProcess.HasExited == false;
+        
+        #endregion
+
         #region Subscribe
 
         private readonly IDisposable _unsubscribe;
@@ -174,7 +208,8 @@ namespace Ruminoid.Toolbox.Core
 
         private void OnNext(FormattedEvent formatted)
         {
-            _logger.LogInformation(formatted.ToString());
+            if (!((ProcessOptions)_commandLineHelper.Options).HideFormattedOutput)
+                _logger.LogInformation(formatted.ToString());
             _pipeSubject.OnNext(JsonConvert.SerializeObject(formatted));
         }
 
