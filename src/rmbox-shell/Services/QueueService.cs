@@ -59,10 +59,6 @@ namespace Ruminoid.Toolbox.Shell.Services
                 if (value.Status != ProjectStatus.Queued)
                     throw new InvalidOperationException();
 
-                value.Status = ProjectStatus.Running;
-                value.IsIndeterminate = true;
-                value.Summary = "准备启动运行";
-
                 value
                     .WhenAnyValue(x => x.Status)
                     .Subscribe(TriggerProjectUpdate);
@@ -77,26 +73,21 @@ namespace Ruminoid.Toolbox.Shell.Services
 
         private void TriggerProjectPush(IChangeSet<ProjectViewModel, Guid> obj) => PushProject();
 
-        private void PushProject(bool ignoreNotNull = false)
+        private void PushProject(bool ignore = false)
         {
-            if (!QueueRunning)
+            if (!ignore && !QueueRunning)
+                return;
+            if (!ignore && CurrentProject is not null)
                 return;
 
-            if (!ignoreNotNull && CurrentProject is not null)
-                return;
-
-            ProjectViewModel queuedItem =
-                Items.FirstOrDefault(x => x.Status == ProjectStatus.Queued);
-
-            if (queuedItem is not null)
-                CurrentProject = queuedItem;
+            CurrentProject = Items.FirstOrDefault(x => x.Status == ProjectStatus.Queued);
         }
 
         private void TriggerProjectUpdate(ProjectStatus status)
         {
             if (status != ProjectStatus.Completed) return;
 
-            CurrentProject = Items.FirstOrDefault(x => x.Status == ProjectStatus.Queued);
+            PushProject(true);
         }
         
         #endregion

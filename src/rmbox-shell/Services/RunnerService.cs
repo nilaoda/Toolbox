@@ -59,6 +59,14 @@ namespace Ruminoid.Toolbox.Shell.Services
                 .Where(_ => _queueService.QueueRunning)
                 .ObserveOn(RxApp.TaskpoolScheduler)
                 .Subscribe(Run);
+
+            _queueService
+                .WhenAnyValue(x => x.QueueRunning)
+                .Where(x => x)
+                .Where(_ => CurrentProject is not null)
+                .Where(_ => CurrentProject.Status == ProjectStatus.Queued)
+                .Select(_ => CurrentProject)
+                .Subscribe(Run);
         }
 
         #endregion
@@ -105,6 +113,10 @@ namespace Ruminoid.Toolbox.Shell.Services
         
         private void Run(ProjectViewModel project)
         {
+            project.Status = ProjectStatus.Running;
+            project.IsIndeterminate = true;
+            project.Summary = "准备生成项目";
+
             CurrentProject.IsIndeterminate = true;
             CurrentProject.Summary = "生成项目文件";
             
