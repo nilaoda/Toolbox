@@ -132,10 +132,16 @@
               </DataTemplate>
           </ListBox.ItemTemplate>
       </ListBox>
-      <ListBox
+      <!--<ListBox
           Grid.Row="2"
           Margin="12"
           Items="{Binding RunnerOutputList}"
-          Height="150"/>
+          Height="150"/>-->
+      <Grid
+          Grid.Row="2">
+          <TextBlock
+              Margin="6"
+              Text="{Binding CurrentRunnerOutputLine}"/>
+      </Grid>
   </Grid>
 </UserControl>

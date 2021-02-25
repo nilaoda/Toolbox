@@ -67,12 +67,21 @@ namespace Ruminoid.Toolbox.Shell.ViewModels
 
         #region Runner Output
 
-        public ObservableCollection<string> RunnerOutputList { get; } = new();
+        //public ObservableCollection<string> RunnerOutputList { get; } = new();
+
+        private string _currentRunnerOutputLine = "";
+
+        public string CurrentRunnerOutputLine
+        {
+            get => _currentRunnerOutputLine;
+            set => this.RaiseAndSetIfChanged(ref _currentRunnerOutputLine, value);
+        }
 
         private void NewRunnerOutput(string line)
         {
-            RunnerOutputList.Add(line);
-            if (RunnerOutputList.Count > 100) RunnerOutputList.RemoveAt(0);
+            //RunnerOutputList.Add(line);
+            //if (RunnerOutputList.Count > 100) RunnerOutputList.RemoveAt(0);
+            CurrentRunnerOutputLine = line;
         }
 
         #endregion
