@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Runtime.InteropServices;
 using System.Text;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -19,7 +20,8 @@ namespace Ruminoid.Toolbox
         static void Main(string[] args)
         {
             if (args.Length == 0)
-                Process.Start(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "rmbox-shell.exe"));
+                Process.Start(Path.Combine(AppDomain.CurrentDomain.BaseDirectory,
+                    "rmbox-shell" + (RuntimeInformation.IsOSPlatform(OSPlatform.Windows) ? ".exe" : "")));
             else
                 BuildConsoleApp(args);
         }
