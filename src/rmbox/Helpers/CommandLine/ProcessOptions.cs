@@ -18,6 +18,6 @@ namespace Ruminoid.Toolbox.Helpers.CommandLine
         public bool LogProcessOut { get; set; }
 
         [Option('d', "dynamic-link", Default = 0, HelpText = "动态连接到Rmbox Shell。", Required = false)]
-        public int DynamicLinkPid { get; set; }
+        public int DynamicLinkPort { get; set; }
     }
 }

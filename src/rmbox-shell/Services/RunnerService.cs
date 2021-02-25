@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 using System.IO;
-using System.IO.Pipes;
+using System.Net;
 using System.Reactive.Linq;
 using System.Reactive.Subjects;
 using System.Runtime.InteropServices;
@@ -25,25 +25,33 @@ namespace Ruminoid.Toolbox.Shell.Services
         {
             _queueService = queueService;
 
-            NamedPipeServerStream pipe =
-                new NamedPipeServerStream(
-                    ProcessRunner.DynamicLinkPrefix + Environment.ProcessId,
-                    PipeDirection.In,
-                    NamedPipeServerStream.MaxAllowedServerInstances,
-                    PipeTransmissionMode.Byte,
-                    PipeOptions.Asynchronous | PipeOptions.WriteThrough);
+            Observable.Using(
+                    () =>
+                        new HttpListener
+                        {
+                            Prefixes =
+                            {
+                                $"http://127.0.0.1:{_pipePort}/"
+                            }
+                        },
+                    server =>
+                    {
+                        server.Start();
 
-            Observable.FromAsync(token => pipe.WaitForConnectionAsync(token))
-                .Subscribe(_ =>
+                        return Observable
+                            .FromAsync(server.GetContextAsync)
+                            .Repeat()
+                            .Where(x => x.Request.Url is not null)
+                            .Where(x => x.Request.Url.LocalPath == ProcessRunner.DynamicLinkEndpoint)
+                            .Where(x => x.Request.HasEntityBody);
+                    })
+                .Select(x =>
                 {
-                    Observable.Using(
-                            () => new StreamReader(pipe),
-                            reader =>
-                                Observable.FromAsync(reader.ReadLineAsync)
-                                    .Repeat()
-                                    .Where(x => !string.IsNullOrWhiteSpace(x)))
-                        .Subscribe(ReadFromPipe);
-                });
+                    using StreamReader reader = new(x.Request.InputStream);
+                    return reader.ReadToEnd();
+                })
+                .ObserveOn(RxApp.TaskpoolScheduler)
+                .Subscribe(ReadFromPipe);
 
             _queueService
                 .WhenAnyValue(x => x.CurrentProject)
@@ -64,6 +72,8 @@ namespace Ruminoid.Toolbox.Shell.Services
         #endregion
 
         #region Dynamic Link
+
+        private readonly int _pipePort = new Random().Next(30010, 31000);
         
         private void ReadFromPipe(string json)
         {
@@ -116,7 +126,7 @@ namespace Ruminoid.Toolbox.Shell.Services
                     RedirectStandardInput = true,
                     RedirectStandardOutput = true,
                     UseShellExecute = false,
-                    Arguments = $" \"{path}\" -o -d {Environment.ProcessId}",
+                    Arguments = $" \"{path}\" -d {_pipePort}",
                     FileName = Path.Combine(AppDomain.CurrentDomain.BaseDirectory,
                         "rmbox" + (RuntimeInformation.IsOSPlatform(OSPlatform.Windows) ? ".exe" : ""))
                 },

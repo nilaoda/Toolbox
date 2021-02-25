@@ -3,9 +3,11 @@ using System.Collections.Generic;
 using System.Composition;
 using System.Diagnostics;
 using System.IO;
-using System.IO.Pipes;
+using System.Net;
+using System.Net.Http;
 using System.Reactive.Concurrency;
 using System.Reactive.Linq;
+using System.Reactive.Subjects;
 using System.Runtime.InteropServices;
 using System.Text;
 using Microsoft.Extensions.Logging;
@@ -31,21 +33,15 @@ namespace Ruminoid.Toolbox.Core
             _formattingHelper = formattingHelper;
             _logger = logger;
 
-            int dynamicLinkPid = ((ProcessOptions) _commandLineHelper.Options).DynamicLinkPid;
+            _dynamicLinkPort = ((ProcessOptions) _commandLineHelper.Options).DynamicLinkPort;
 
-            if (dynamicLinkPid != 0)
+            if (_dynamicLinkPort != 0)
             {
-                var pipe = new NamedPipeClientStream(
-                    ".",
-                    DynamicLinkPrefix + dynamicLinkPid,
-                    PipeDirection.Out,
-                    PipeOptions.Asynchronous | PipeOptions.WriteThrough);
-
-                pipe.Connect();
-
-                _pipeWriter = new StreamWriter(pipe);
+                _pipeSubject
+                    .ObserveOn(TaskPoolScheduler.Default)
+                    .Subscribe(PipeSend);
             }
-
+            
             _unsubscribe = _formattingHelper.FormatData.Subscribe(
                 OnNext,
                 OnError);
@@ -53,9 +49,21 @@ namespace Ruminoid.Toolbox.Core
 
         #region Dynamic Link
 
-        public const string DynamicLinkPrefix = "RMBOXRNDYN";
+        private readonly int _dynamicLinkPort;
 
-        private readonly StreamWriter _pipeWriter;
+        public const string DynamicLinkEndpoint = "/dynlnk";
+
+        private readonly Subject<string> _pipeSubject = new();
+
+        private async void PipeSend(string json)
+        {
+            HttpWebRequest request =
+                WebRequest.CreateHttp($"http://127.0.0.1:{_dynamicLinkPort}{DynamicLinkEndpoint}");
+            request.Method = "POST";
+            await new StringContent(json)
+                .CopyToAsync(request.GetRequestStream());
+            await request.GetResponseAsync();
+        }
 
         #endregion
 
@@ -167,7 +175,7 @@ namespace Ruminoid.Toolbox.Core
         private void OnNext(FormattedEvent formatted)
         {
             _logger.LogInformation(formatted.ToString());
-            _pipeWriter?.WriteLineAsync(JsonConvert.SerializeObject(formatted));
+            _pipeSubject.OnNext(JsonConvert.SerializeObject(formatted));
         }
 
         #endregion
