@@ -7,10 +7,6 @@
                         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
                         x:Class="Ruminoid.Toolbox.Plugins.Common.ConfigSections.Views.IOConfigSection">
 
-    <core:ConfigSectionBase.DataContext>
-        <viewModels:IOConfigSectionViewModel/>
-    </core:ConfigSectionBase.DataContext>
-
     <core:ConfigSectionBase.Styles>
         <Style Selector="TextBlock.title">
             <Setter Property="Margin" Value="0,12"/>
@@ -22,22 +18,59 @@
             <Setter Property="Margin" Value="0,6"/>
             <Setter Property="TextWrapping" Value="Wrap"/>
         </Style>
+
+        <Style Selector="Grid.file-grid">
+            <Setter Property="Margin" Value="0,6"/>
+        </Style>
+
+        <Style Selector="Button">
+            <Setter Property="Margin" Value="3,0"/>
+        </Style>
     </core:ConfigSectionBase.Styles>
     <StackPanel Margin="24">
         <TextBlock Classes="title">输入</TextBlock>
         <TextBlock Classes="description">
             指定输入的文件。输入的文件可以是操作所支持的任何文件格式。
         </TextBlock>
-        <TextBox Margin="12" Text="{Binding Video}" />
+        <Grid Classes="file-grid"
+              ColumnDefinitions="*,Auto">
+            <TextBox
+                Grid.Column="0"
+                Text="{Binding Video}" />
+            <Button
+                Grid.Column="1"
+                Content="浏览"
+                Command="{Binding PickFile}"
+                CommandParameter="Video"/>
+        </Grid>
         <TextBlock Classes="title">字幕</TextBlock>
         <TextBlock Classes="description">
             指定字幕文件。可以留空。
         </TextBlock>
-        <TextBox Margin="12" Text="{Binding Subtitle}" />
+        <Grid Classes="file-grid"
+              ColumnDefinitions="*,Auto">
+            <TextBox
+                Grid.Column="0"
+                Text="{Binding Subtitle}" />
+            <Button
+                Grid.Column="1"
+                Content="浏览"
+                Command="{Binding PickFile}"
+                CommandParameter="Subtitle"/>
+        </Grid>
         <TextBlock Classes="title">输出</TextBlock>
         <TextBlock Classes="description">
             指定输出文件。输出文件可以是操作所支持的任何文件格式。
         </TextBlock>
-        <TextBox Margin="12" Text="{Binding Output}" />
+        <Grid Classes="file-grid"
+              ColumnDefinitions="*,Auto">
+            <TextBox
+                Grid.Column="0"
+                Text="{Binding Output}" />
+            <Button
+                Grid.Column="1"
+                Content="浏览"
+                Command="{Binding SaveFile}"/>
+        </Grid>
     </StackPanel>
 </core:ConfigSectionBase>

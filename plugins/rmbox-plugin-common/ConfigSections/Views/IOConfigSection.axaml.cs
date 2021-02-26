@@ -11,6 +11,8 @@ namespace Ruminoid.Toolbox.Plugins.Common.ConfigSections.Views
     {
         public IOConfigSection()
         {
+            DataContext = new IOConfigSectionViewModel(this);
+
             InitializeComponent();
         }
 
