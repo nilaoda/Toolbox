@@ -7,7 +7,7 @@ using Ruminoid.Toolbox.Core;
 namespace Ruminoid.Toolbox.Plugins.FFmpeg.Operations
 {
     [Operation(
-        "Ruminoid.Toolbox.Plugins.FFmpeg.Operations.FFmpegEncodeOperation",
+        "Ruminoid.Toolbox.Plugins.FFmpeg.Operations.FFmpegCopyOperation",
         "格式转换（不压制）",
         "使用 FFmpeg 进行视频格式的转换（封装）。")]
     public class FFmpegCopyOperation : IOperation
