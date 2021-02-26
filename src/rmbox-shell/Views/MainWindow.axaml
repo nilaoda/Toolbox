@@ -5,7 +5,9 @@
         xmlns:views="clr-namespace:Ruminoid.Toolbox.Shell.Views"
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
         x:Class="Ruminoid.Toolbox.Shell.Views.MainWindow"
-        Title="Toolbox">
+        Title="Toolbox"
+        Width="1050" Height="600"
+        MinWidth="1050" MinHeight="600">
     <TabControl>
         <TabItem Header="开始">
             <views:OperationsView/>
