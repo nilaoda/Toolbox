@@ -173,8 +173,7 @@ partial class Build : NukeBuild
                     ForceCopyDirectoryRecursively(
                         NavigateToProjectOutput(
                             (AbsolutePath)x,
-                            x.EndsWith("rmbox") ||
-                            x.EndsWith("rmbox-shell")),
+                            true),
                         OutputDirectory));
 
             Logger.Info("Packing projects in plugins.");
