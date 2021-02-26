@@ -5,12 +5,33 @@
                         xmlns:core="clr-namespace:Ruminoid.Toolbox.Core;assembly=rmbox-plugbase"
                         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
                         x:Class="Ruminoid.Toolbox.Plugins.Common.ConfigSections.Views.IOConfigSection">
+    <core:ConfigSectionBase.Styles>
+        <Style Selector="TextBlock.title">
+            <Setter Property="Margin" Value="0,12"/>
+            <Setter Property="FontSize" Value="18"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+        </Style>
+
+        <Style Selector="TextBlock.description">
+            <Setter Property="Margin" Value="0,6"/>
+            <Setter Property="TextWrapping" Value="Wrap"/>
+        </Style>
+    </core:ConfigSectionBase.Styles>
     <StackPanel Margin="24">
-        <TextBlock Margin="12">输入</TextBlock>
+        <TextBlock Classes="title">输入</TextBlock>
+        <TextBlock Classes="description">
+            指定输入的文件。输入的文件可以是操作所支持的任何文件格式。
+        </TextBlock>
         <TextBox Margin="12" Text="{Binding Video}" />
-        <TextBlock Margin="12">字幕</TextBlock>
+        <TextBlock Classes="title">字幕</TextBlock>
+        <TextBlock Classes="description">
+            指定字幕文件。可以留空。
+        </TextBlock>
         <TextBox Margin="12" Text="{Binding Subtitle}" />
-        <TextBlock Margin="12">输出</TextBlock>
+        <TextBlock Classes="title">输出</TextBlock>
+        <TextBlock Classes="description">
+            指定输出文件。输出文件可以是操作所支持的任何文件格式。
+        </TextBlock>
         <TextBox Margin="12" Text="{Binding Output}" />
     </StackPanel>
 </core:ConfigSectionBase>
