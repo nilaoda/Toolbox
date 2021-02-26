@@ -172,8 +172,10 @@ partial class Build : NukeBuild
                 .ForEach(x =>
                     ForceCopyDirectoryRecursively(
                         NavigateToProjectOutput(
-                            (AbsolutePath)x,
-                            true),
+                            (AbsolutePath) x,
+                            x.EndsWith("rmbox") || x.EndsWith("rmbox-shell")
+                                ? ProjectOutputMode.PublishSelfContained
+                                : ProjectOutputMode.Publish),
                         OutputDirectory));
 
             Logger.Info("Packing projects in plugins.");
@@ -209,10 +211,17 @@ partial class Build : NukeBuild
 
     AbsolutePath NavigateToProjectOutput(
         AbsolutePath absolutePath,
-        bool publish = false) =>
-        publish
-        ? absolutePath / "bin" / Configuration / "net5.0" / Runtime / "publish"
-        : absolutePath / "bin" / Configuration / "net5.0";
+        ProjectOutputMode mode = ProjectOutputMode.Build) =>
+        mode switch
+        {
+            ProjectOutputMode.Build =>
+                absolutePath / "bin" / Configuration / "net5.0",
+            ProjectOutputMode.Publish =>
+                absolutePath / "bin" / Configuration / "net5.0" / "publish",
+            ProjectOutputMode.PublishSelfContained =>
+                absolutePath / "bin" / Configuration / "net5.0" / Runtime / "publish",
+            _ => throw new ArgumentOutOfRangeException(nameof(mode), mode, null)
+        };
 
     void ForceCopyDirectoryRecursively(string source, string target) =>
         CopyDirectoryRecursively(
@@ -221,4 +230,11 @@ partial class Build : NukeBuild
             DirectoryExistsPolicy.Merge,
             FileExistsPolicy.OverwriteIfNewer);
 
+}
+
+enum ProjectOutputMode
+{
+    Build = 0,
+    Publish = 1,
+    PublishSelfContained = 2
 }
