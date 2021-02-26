@@ -1,10 +1,10 @@
 ﻿using Newtonsoft.Json;
 using ReactiveUI;
 
-namespace Ruminoid.Toolbox.Plugins.Common.ConfigSections
+namespace Ruminoid.Toolbox.Plugins.Common.ConfigSections.ViewModels
 {
     [JsonObject(MemberSerialization.OptIn)]
-    public class IOConfigSectionData : ReactiveObject
+    public class IOConfigSectionViewModel : ReactiveObject
     {
         [JsonProperty("video")]
         private string _video = "";

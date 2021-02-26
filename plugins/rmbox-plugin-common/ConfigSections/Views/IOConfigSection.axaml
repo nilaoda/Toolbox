@@ -4,7 +4,7 @@
                         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
                         xmlns:core="clr-namespace:Ruminoid.Toolbox.Core;assembly=rmbox-plugbase"
                         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
-                        x:Class="Ruminoid.Toolbox.Plugins.Common.ConfigSections.IOConfigSection">
+                        x:Class="Ruminoid.Toolbox.Plugins.Common.ConfigSections.Views.IOConfigSection">
     <StackPanel Margin="24">
         <TextBlock Margin="12">输入</TextBlock>
         <TextBox Margin="12" Text="{Binding Video}" />

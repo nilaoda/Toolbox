@@ -1,7 +1,8 @@
 using Avalonia.Markup.Xaml;
 using Ruminoid.Toolbox.Core;
+using Ruminoid.Toolbox.Plugins.Common.ConfigSections.ViewModels;
 
-namespace Ruminoid.Toolbox.Plugins.Common.ConfigSections
+namespace Ruminoid.Toolbox.Plugins.Common.ConfigSections.Views
 {
     [ConfigSection(
         "Ruminoid.Toolbox.Plugins.Common.ConfigSections.IOConfigSection",
@@ -22,7 +23,7 @@ namespace Ruminoid.Toolbox.Plugins.Common.ConfigSections
         
         #region Data
 
-        public override IOConfigSectionData Config { get; } = new();
+        public override IOConfigSectionViewModel Config { get; } = new();
 
         #endregion
     }
