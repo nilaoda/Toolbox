@@ -11,8 +11,6 @@ namespace Ruminoid.Toolbox.Plugins.Common.ConfigSections.Views
     {
         public IOConfigSection()
         {
-            DataContext = Config;
-
             InitializeComponent();
         }
 
@@ -23,7 +21,7 @@ namespace Ruminoid.Toolbox.Plugins.Common.ConfigSections.Views
         
         #region Data
 
-        public override IOConfigSectionViewModel Config { get; } = new();
+        public override IOConfigSectionViewModel Config => DataContext as IOConfigSectionViewModel;
 
         #endregion
     }
