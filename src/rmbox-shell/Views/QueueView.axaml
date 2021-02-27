@@ -55,13 +55,13 @@
               <Grid
                   Grid.Row="2"
                   Margin="0,0,0,6"
-                  ColumnDefinitions="*,*">
+                  RowDefinitions="*,*">
                   <TextBlock
-                      Grid.Column="0"
+                      Grid.Row="0"
                       Margin="6"
                       Text="{Binding CurrentProject.Summary}"/>
                   <TextBlock
-                      Grid.Column="0"
+                      Grid.Row="1"
                       Margin="6"
                       Text="{Binding CurrentProject.Detail}"/>
               </Grid>
@@ -118,13 +118,13 @@
                       <Grid
                           Grid.Row="2"
                           Margin="0,0,0,6"
-                          ColumnDefinitions="*,*">
+                          RowDefinitions="*,*">
                           <TextBlock
-                              Grid.Column="0"
+                              Grid.Row="0"
                               Margin="6"
                               Text="{Binding Summary}"/>
                           <TextBlock
-                              Grid.Column="0"
+                              Grid.Row="1"
                               Margin="6"
                               Text="{Binding Detail}"/>
                       </Grid>
