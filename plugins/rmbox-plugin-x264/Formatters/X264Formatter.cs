@@ -8,7 +8,7 @@ namespace Ruminoid.Toolbox.Plugins.X264.Formatters
     {
         public FormattedEvent Format(string target, string data)
         {
-            bool parseProgress = int.TryParse(data.GetMidString("[", "%] "), out int progress);
+            bool parseProgress = double.TryParse(data.GetMidString("[", "%] "), out double progress);
             string frames = data.GetMidString("%] ", " frames, ");
             string fps = data.GetMidString(" frames, ", " fps, ");
             string speed = data.GetMidString(" fps, ", " kb/s, ");
