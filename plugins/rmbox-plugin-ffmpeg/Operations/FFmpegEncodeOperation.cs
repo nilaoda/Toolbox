@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using Newtonsoft.Json.Linq;
 using Ruminoid.Toolbox.Core;
+using Ruminoid.Toolbox.Utils.Extensions;
 
 namespace Ruminoid.Toolbox.Plugins.FFmpeg.Operations
 {
@@ -14,13 +15,17 @@ namespace Ruminoid.Toolbox.Plugins.FFmpeg.Operations
     {
         public List<Tuple<string, string>> Generate(Dictionary<string, JToken> sectionData)
         {
-            JToken ioSection = sectionData["Ruminoid.Toolbox.Plugins.Common.ConfigSections.IOConfigSection"];
+            JToken ioSection =
+                sectionData["Ruminoid.Toolbox.Plugins.Common.ConfigSections.IOConfigSection"];
+
+            string videoPath = Path.GetFullPath(ioSection["video"]?.ToObject<string>() ?? string.Empty).EscapePathStringForArg();
+            string outputPath = Path.GetFullPath(ioSection["output"]?.ToObject<string>() ?? string.Empty).EscapePathStringForArg();
 
             return new List<Tuple<string, string>>
             {
                 new(
                     "ffmpeg",
-                    $"-i {Path.GetFullPath(ioSection["video"]?.ToObject<string>() ?? string.Empty)} {Path.GetFullPath(ioSection["output"]?.ToObject<string>() ?? string.Empty)}")
+                    $"-i {videoPath} {outputPath}")
             };
         }
 

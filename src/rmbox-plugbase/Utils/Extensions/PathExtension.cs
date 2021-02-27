@@ -33,5 +33,9 @@ namespace Ruminoid.Toolbox.Utils.Extensions
 
             return result;
         }
+
+        public static string EscapePathStringForArg(
+            this string path) =>
+            $"\"{path}\"";
     }
 }
