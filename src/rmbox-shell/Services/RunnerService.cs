@@ -47,8 +47,15 @@ namespace Ruminoid.Toolbox.Shell.Services
                     })
                 .Select(x =>
                 {
-                    using StreamReader reader = new(x.Request.InputStream);
-                    return reader.ReadToEnd();
+                    try
+                    {
+                        using StreamReader reader = new(x.Request.InputStream);
+                        return reader.ReadToEnd();
+                    }
+                    catch (Exception)
+                    {
+                        return string.Empty;
+                    }
                 })
                 .ObserveOn(RxApp.TaskpoolScheduler)
                 .Subscribe(ReadFromPipe);
