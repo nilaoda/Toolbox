@@ -125,8 +125,8 @@ namespace Ruminoid.Toolbox.Core
             // ReSharper disable once InvokeAsExtensionMethod
             IDisposable observable = Observable.Merge(
                     Observable.FromEventPattern<DataReceivedEventArgs>(_currentProcess, nameof(_currentProcess.ErrorDataReceived)),
-                    Observable.FromEventPattern<DataReceivedEventArgs>(_currentProcess, nameof(_currentProcess.OutputDataReceived)),
-                    Scheduler.Default)
+                    Observable.FromEventPattern<DataReceivedEventArgs>(_currentProcess, nameof(_currentProcess.OutputDataReceived)))
+                .ObserveOn(TaskPoolScheduler.Default)
                 .Subscribe(
                     next =>
                     {
