@@ -56,6 +56,11 @@ namespace Ruminoid.Toolbox.Shell.Services
                     {
                         return string.Empty;
                     }
+                    finally
+                    {
+                        x.Response.StatusCode = 200;
+                        x.Response.Close();
+                    }
                 })
                 .ObserveOn(RxApp.TaskpoolScheduler)
                 .Subscribe(ReadFromPipe);
