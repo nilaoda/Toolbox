@@ -26,6 +26,7 @@ namespace Ruminoid.Toolbox.Plugins.Mp4Box.Operations
             string atempPath = Path.ChangeExtension(videoPathIntl, "atemp.aac").EscapePathStringForArg();
             string vtempPath = Path.ChangeExtension(videoPathIntl, "vtemp.mp4").EscapePathStringForArg();
             string vtempStatsPath = Path.ChangeExtension(videoPathIntl, "vtemp.stats").EscapePathStringForArg();
+            string vtempStatsMbtreePath = Path.ChangeExtension(videoPathIntl, "vtemp.stats.mbtree").EscapePathStringForArg();
 
             List<Tuple<string, string>> result = new()
             {
@@ -65,7 +66,7 @@ namespace Ruminoid.Toolbox.Plugins.Mp4Box.Operations
                             $"-i {vtempPath} -i {atempPath} -vcodec copy -acodec copy {outputPath}"),
                         new(
                             "pwsh",
-                            $"-Command Remove-Item {atempPath},{vtempPath}")
+                            $"-Command Remove-Item {atempPath},{vtempPath},{vtempStatsPath},{vtempStatsMbtreePath}")
                     });
                     break;
                 default:
