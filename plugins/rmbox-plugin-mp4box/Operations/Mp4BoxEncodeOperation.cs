@@ -41,7 +41,7 @@ namespace Ruminoid.Toolbox.Plugins.Mp4Box.Operations
                     {
                         new(
                             "x264",
-                            $"--crf {x264QualitySection["crf_value"]?.ToObject<double>():N1} --preset 8  -I 300 -r 4 -b 3 --me umh -i 1 --scenecut 60 -f 1:1 --qcomp 0.5 --psy-rd 0.3:0 --aq-mode 2 --aq-strength 0.8 -o {vtempPath} {videoPath}"),
+                            $"--crf {x264QualitySection["crf_value"]?.ToObject<double>():N1} --preset 8 -I 300 -r 4 -b 3 --me umh -i 1 --scenecut 60 -f 1:1 --qcomp 0.5 --psy-rd 0.3:0 --aq-mode 2 --aq-strength 0.8 -o {vtempPath} {videoPath}"),
                         new(
                             "ffmpeg",
                             $"-i {vtempPath} -i {atempPath} -vcodec copy -acodec copy {outputPath}"),
