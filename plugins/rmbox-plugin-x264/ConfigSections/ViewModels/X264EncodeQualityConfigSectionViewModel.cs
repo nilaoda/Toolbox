@@ -41,7 +41,7 @@ namespace Ruminoid.Toolbox.Plugins.X264.ConfigSections.ViewModels
 
         public void ApplyCrfPreset(double value) => CrfValue = value;
 
-        public void ApplyTwoPassPreset(double value) => TwoPassValue = value;
+        public void ApplyTwoPassPreset(int value) => TwoPassValue = value;
 
         #endregion
     }
