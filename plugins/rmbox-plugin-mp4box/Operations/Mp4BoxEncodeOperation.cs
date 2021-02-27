@@ -20,11 +20,12 @@ namespace Ruminoid.Toolbox.Plugins.Mp4Box.Operations
             JToken x264QualitySection =
                 sectionData["Ruminoid.Toolbox.Plugins.X264.ConfigSections.X264EncodeQualityConfigSection"];
 
-            string videoPath = Path.GetFullPath(ioSection["video"]?.ToObject<string>() ?? string.Empty).EscapePathStringForArg();
+            string videoPathIntl = Path.GetFullPath(ioSection["video"]?.ToObject<string>() ?? string.Empty);
+            string videoPath = videoPathIntl.EscapePathStringForArg();
             string outputPath = Path.GetFullPath(ioSection["output"]?.ToObject<string>() ?? string.Empty).EscapePathStringForArg();
-            string atempPath = Path.ChangeExtension(videoPath, "atemp.aac").EscapePathStringForArg();
-            string vtempPath = Path.ChangeExtension(videoPath, "vtemp.mp4").EscapePathStringForArg();
-            string vtempStatsPath = Path.ChangeExtension(videoPath, "vtemp.stats").EscapePathStringForArg();
+            string atempPath = Path.ChangeExtension(videoPathIntl, "atemp.aac").EscapePathStringForArg();
+            string vtempPath = Path.ChangeExtension(videoPathIntl, "vtemp.mp4").EscapePathStringForArg();
+            string vtempStatsPath = Path.ChangeExtension(videoPathIntl, "vtemp.stats").EscapePathStringForArg();
 
             List<Tuple<string, string>> result = new()
             {
