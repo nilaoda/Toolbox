@@ -117,10 +117,10 @@ partial class Build : NukeBuild
                             (x.EndsWith("rmbox.csproj") ||
                              x.EndsWith("rmbox-shell.csproj")))
                             s = s
-                                .SetRuntime(Runtime)
+                                .SetRuntime(Runtime);
                                 //.SetSelfContained(PublishRelease) // dotnet/sdk/issues/10902
                                 //.EnablePublishReadyToRun() // PublishReadyToRunShowWarnings
-                                .EnablePublishTrimmed();
+                                //.EnablePublishTrimmed() // Plugin Load Error
 
                         return s;
                     }));
@@ -182,7 +182,9 @@ partial class Build : NukeBuild
             Directory.EnumerateDirectories(PluginsDirectory).ToArray()
                 .ForEach(x =>
                     ForceCopyDirectoryRecursively(
-                        NavigateToProjectOutput((AbsolutePath)x),
+                        NavigateToProjectOutput(
+                            (AbsolutePath)x,
+                            ProjectOutputMode.Publish),
                         OutputDirectory / "plugins"));
         });
 
