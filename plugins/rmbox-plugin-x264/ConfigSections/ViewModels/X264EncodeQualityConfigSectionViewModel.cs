@@ -27,9 +27,9 @@ namespace Ruminoid.Toolbox.Plugins.X264.ConfigSections.ViewModels
         }
 
         [JsonProperty("2pass_value")]
-        private double _twoPassValue = 5000;
+        private int _twoPassValue = 5000;
 
-        public double TwoPassValue
+        public int TwoPassValue
         {
             get => _twoPassValue;
             set => this.RaiseAndSetIfChanged(ref _twoPassValue, value);
