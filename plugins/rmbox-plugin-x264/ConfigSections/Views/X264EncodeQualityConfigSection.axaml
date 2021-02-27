@@ -74,11 +74,7 @@
 
             <Grid Classes="section">
                 <TextBlock Classes="description">
-                    选择建议：&#x000A;
-                    如果你需要控制视频画质，请选择 CRF。如果你需要控制视频的码率或文件的大小，请选择 2Pass。&#x000A;
-                    请注意：&#x000A;
-                    2Pass 力求在控制目标码率的情况下使画质与 CRF 相当，但多数情况下 2Pass 压制并不能达到该理想情况。&#x000A;
-                    同时，2Pass 的压制时间约为 CRF 的两倍。
+                    选择建议：&#x000A;如果你需要控制视频画质，请选择 CRF。如果你需要控制视频的码率或文件的大小，请选择 2Pass。&#x000A;请注意：&#x000A;2Pass 力求在控制目标码率的情况下使画质与 CRF 相当，但多数情况下 2Pass 压制并不能达到该理想情况。&#x000A;同时，2Pass 的压制时间约为 CRF 的两倍。
                 </TextBlock>
             </Grid>
 
@@ -115,9 +111,7 @@
 
                   <Grid Classes="section">
                         <TextBlock Classes="description">
-                            CRF 根据上面指定的固定值来控制视频画质。&#x000A;
-                            一般情况下，CRF 值越小，画质越好，同时视频文件大小也会越大。&#x000A;
-                            使用上面的「预设」按钮选择推荐场景的 CRF 值。
+                            CRF 根据上面指定的固定值来控制视频画质。&#x000A;一般情况下，CRF 值越小，画质越好，同时视频文件大小也会越大。&#x000A;使用上面的「预设」按钮选择推荐场景的 CRF 值。
                         </TextBlock>
                     </Grid>
                 </StackPanel>
@@ -136,8 +130,7 @@
 
                   <Grid Classes="section">
                         <TextBlock Classes="description">
-                            2Pass 根据上面提供的码率参考值来控制视频码率。&#x000A;
-                            一般情况下，码率越高，画质越好，同时视频文件大小也会越大。
+                            2Pass 根据上面提供的码率参考值来控制视频码率。&#x000A;一般情况下，码率越高，画质越好，同时视频文件大小也会越大。
                         </TextBlock>
                     </Grid>
                 </StackPanel>
