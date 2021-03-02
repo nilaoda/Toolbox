@@ -9,15 +9,35 @@
         Icon="resm:rmbox-shell.Assets.rmbox.ico"
         Width="1050" Height="600"
         MinWidth="1050" MinHeight="600">
-    <TabControl>
-        <TabItem Header="开始">
-            <views:OperationsView/>
-        </TabItem>
-        <TabItem Header="队列">
+    <Grid
+        RowDefinitions="Auto,*">
+        <Grid
+            Grid.Row="0">
+            <StackPanel
+                Margin="12"
+                Orientation="Horizontal">
+                <StackPanel.Styles>
+                    <Style Selector="Button">
+                        <Setter Property="Margin" Value="6"/>
+                    </Style>
+                </StackPanel.Styles>
+                <Button
+                    Command="{Binding DoCreateNewOperation}"
+                    Content="创建操作"/>
+                <Button
+                    Command="{Binding DoCreateNewChain}"
+                    Content="创建链式操作"
+                    IsEnabled="False"/>
+                <Button
+                    Command="{Binding DoShowAboutWindow}"
+                    Content="关于"
+                    IsEnabled="False"/>
+            </StackPanel>
+        </Grid>
+
+        <Grid
+            Grid.Row="1">
             <views:QueueView/>
-        </TabItem>
-        <TabItem Header="关于">
-            <views:AboutView/>
-        </TabItem>
-    </TabControl>
+        </Grid>
+    </Grid>
 </Window>

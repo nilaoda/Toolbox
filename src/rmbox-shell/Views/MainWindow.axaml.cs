@@ -1,6 +1,7 @@
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
+using Ruminoid.Toolbox.Shell.ViewModels;
 
 namespace Ruminoid.Toolbox.Shell.Views
 {
@@ -8,6 +9,8 @@ namespace Ruminoid.Toolbox.Shell.Views
     {
         public MainWindow()
         {
+            DataContext = new MainWindowViewModel(this);
+
             InitializeComponent();
 #if DEBUG
             this.AttachDevTools();
