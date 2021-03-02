@@ -5,6 +5,7 @@
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
         x:Class="Ruminoid.Toolbox.Shell.Views.OperationWindow"
         Title="{Binding OperationModel.Name}"
+        Icon="resm:rmbox-shell.Assets.rmbox.ico"
         Width="1050" Height="600"
         MinWidth="1050" MinHeight="600">
     <Grid RowDefinitions="*,Auto">
