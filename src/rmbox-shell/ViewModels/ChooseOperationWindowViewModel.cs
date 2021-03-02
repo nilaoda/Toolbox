@@ -9,10 +9,13 @@ using Splat;
 
 namespace Ruminoid.Toolbox.Shell.ViewModels
 {
-    public class OperationsViewModel : ReactiveObject
+    public class ChooseOperationWindowViewModel : ReactiveObject
     {
-        public OperationsViewModel()
+        public ChooseOperationWindowViewModel(
+            ChooseOperationWindow window)
         {
+            _window = window;
+
             PluginHelper pluginHelper = Locator.Current.GetService<PluginHelper>();
             OperationsList = new List<OperationModel>(
                 pluginHelper.OperationCollection
@@ -50,12 +53,19 @@ namespace Ruminoid.Toolbox.Shell.ViewModels
 
         #endregion
 
+        private readonly ChooseOperationWindow _window;
+
         #region Commands
 
-        public void CreateOperationWindow()
+        public void DoConfirm()
         {
             if (SelectedOperation is null) return;
-            new OperationWindow(_selectedOperation).Show();
+            _window.Close(SelectedOperation);
+        }
+
+        public void DoCancel()
+        {
+            _window.Close();
         }
 
         #endregion

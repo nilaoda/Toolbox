@@ -1,14 +1,13 @@
-<UserControl xmlns="https://github.com/avaloniaui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             xmlns:viewModels="clr-namespace:Ruminoid.Toolbox.Shell.ViewModels"
-             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
-             x:Class="Ruminoid.Toolbox.Shell.Views.OperationsView">
-
-    <UserControl.DataContext>
-        <viewModels:OperationsViewModel />
-    </UserControl.DataContext>
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+        x:Class="Ruminoid.Toolbox.Shell.Views.ChooseOperationWindow"
+        Title="选择任务"
+        Icon="resm:rmbox-shell.Assets.rmbox.ico"
+        Width="1050" Height="600"
+        MinWidth="1050" MinHeight="600">
 
     <Grid Margin="24">
         <Grid RowDefinitions="*,Auto">
@@ -38,9 +37,18 @@
                 </ListBox.ItemTemplate>
             </ListBox>
 
-            <Button Grid.Row="1"
-                    Command="{Binding CreateOperationWindow}"
-                    IsEnabled="{Binding IsOperationSelected}">创建</Button>
+            <StackPanel
+                Grid.Row="1"
+                Orientation="Horizontal"
+                Margin="12">
+                <Button
+                    Command="{Binding DoConfirm}"
+                    IsEnabled="{Binding IsOperationSelected}"
+                    Content="确定"/>
+                <Button
+                    Command="{Binding DoCancel}"
+                    Content="取消"/>
+              </StackPanel>
         </Grid>
     </Grid>
-</UserControl>
+</Window>
