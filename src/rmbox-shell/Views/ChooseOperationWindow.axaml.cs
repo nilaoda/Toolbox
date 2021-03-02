@@ -9,7 +9,8 @@ namespace Ruminoid.Toolbox.Shell.Views
 {
     public class ChooseOperationWindow : Window
     {
-        private ChooseOperationWindow()
+        // ReSharper disable once MemberCanBePrivate.Global
+        public ChooseOperationWindow()
         {
             DataContext = new ChooseOperationWindowViewModel(this);
 

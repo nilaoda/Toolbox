@@ -6,7 +6,8 @@ namespace Ruminoid.Toolbox.Shell.Views
 {
     public class AboutWindow : Window
     {
-        private AboutWindow()
+        // ReSharper disable once MemberCanBePrivate.Global
+        public AboutWindow()
         {
             InitializeComponent();
 #if DEBUG
