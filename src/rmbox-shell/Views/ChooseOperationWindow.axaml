@@ -40,7 +40,14 @@
             <StackPanel
                 Grid.Row="1"
                 Orientation="Horizontal"
-                Margin="12">
+                Margin="12"
+                HorizontalAlignment="Right">
+                <StackPanel.Styles>
+                    <Style Selector="Button">
+                        <Setter Property="Margin" Value="6"/>
+                    </Style>
+                </StackPanel.Styles>
+
                 <Button
                     Command="{Binding DoConfirm}"
                     IsEnabled="{Binding IsOperationSelected}"

@@ -30,8 +30,7 @@
                     IsEnabled="False"/>
                 <Button
                     Command="{Binding DoShowAboutWindow}"
-                    Content="关于"
-                    IsEnabled="False"/>
+                    Content="关于"/>
             </StackPanel>
         </Grid>
 
