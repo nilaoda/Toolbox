@@ -31,7 +31,7 @@ namespace Ruminoid.Toolbox.Shell.ViewModels
 
         public void DoShowAboutWindow()
         {
-            throw new NotImplementedException();
+            AboutWindow.ShowAbout(_window);
         }
 
         #endregion

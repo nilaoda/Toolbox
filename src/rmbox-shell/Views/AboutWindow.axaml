@@ -1,0 +1,28 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:viewModels="clr-namespace:Ruminoid.Toolbox.Shell.ViewModels"
+        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+        x:Class="Ruminoid.Toolbox.Shell.Views.AboutWindow"
+        Title="关于"
+        Icon="resm:rmbox-shell.Assets.rmbox.ico"
+        Width="1050" Height="600"
+        CanResize="False">
+    <Window.DataContext>
+        <viewModels:AboutWindowViewModel/>
+    </Window.DataContext>
+
+    <StackPanel>
+        <StackPanel.Styles>
+            <Style Selector="TextBlock">
+                <Setter Property="Margin" Value="12"/>
+            </Style>
+        </StackPanel.Styles>
+        <TextBlock Text="Ruminoid Toolbox"
+                   FontSize="18"
+                   FontWeight="Bold"/>
+        <TextBlock Text="{Binding VersionSummary}"/>
+        <TextBlock Text="{Binding VersionDetail}"/>
+    </StackPanel>
+</Window>

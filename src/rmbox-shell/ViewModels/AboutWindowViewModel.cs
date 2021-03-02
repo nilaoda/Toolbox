@@ -3,7 +3,7 @@ using ReactiveUI;
 
 namespace Ruminoid.Toolbox.Shell.ViewModels
 {
-    public class AboutViewModel : ReactiveObject
+    internal class AboutWindowViewModel : ReactiveObject
     {
         public string VersionSummary { get; } = $"版本 v{Assembly.GetExecutingAssembly().GetName().Version}";
 
