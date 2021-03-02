@@ -7,22 +7,39 @@
         x:Class="Ruminoid.Toolbox.Shell.Views.AboutWindow"
         Title="关于"
         Icon="resm:rmbox-shell.Assets.rmbox.ico"
-        Width="1050" Height="600"
+        Width="1000" Height="600"
         CanResize="False">
-    <Window.DataContext>
-        <viewModels:AboutWindowViewModel/>
-    </Window.DataContext>
-
-    <StackPanel>
+    <StackPanel
+        HorizontalAlignment="Center"
+        VerticalAlignment="Center">
         <StackPanel.Styles>
             <Style Selector="TextBlock">
                 <Setter Property="Margin" Value="12"/>
+                <Setter Property="TextAlignment" Value="Center"/>
             </Style>
         </StackPanel.Styles>
+        <Image
+            Source="resm:rmbox-shell.Assets.rmbox.png"
+            Width="200"
+            Height="200"
+            Margin="24"/>
+
         <TextBlock Text="Ruminoid Toolbox"
                    FontSize="18"
                    FontWeight="Bold"/>
         <TextBlock Text="{Binding VersionSummary}"/>
         <TextBlock Text="{Binding VersionDetail}"/>
+
+      <Button
+          HorizontalAlignment="Center"
+          Content="确定"
+          Margin="24"
+          Command="{Binding DoCloseWindow}">
+          <Button.Styles>
+              <Style Selector="TextBlock">
+                  <Setter Property="Margin" Value="24,3"/>
+              </Style>
+          </Button.Styles>
+      </Button>
     </StackPanel>
 </Window>

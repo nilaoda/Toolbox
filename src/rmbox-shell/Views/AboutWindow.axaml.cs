@@ -1,6 +1,7 @@
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
+using Ruminoid.Toolbox.Shell.ViewModels;
 
 namespace Ruminoid.Toolbox.Shell.Views
 {
@@ -9,6 +10,8 @@ namespace Ruminoid.Toolbox.Shell.Views
         // ReSharper disable once MemberCanBePrivate.Global
         public AboutWindow()
         {
+            DataContext = new AboutWindowViewModel(this);
+
             InitializeComponent();
 #if DEBUG
             this.AttachDevTools();
