@@ -1,0 +1,30 @@
+json = require 'json'
+
+local meta = {
+    id = 'Ruminoid.Toolbox.Plugins.Examples.RmboxPluginLuaExample',
+    class_name = 'RmboxPluginLuaExample',
+    name = 'Lua 插件示例',
+    description = 'Lua 编写的 Ruminoid Toolbox 插件示例。',
+    config_sections = {
+        'Ruminoid.Toolbox.Plugins.Common.ConfigSections.IOConfigSection'
+    }
+}
+
+if (type(arg[1]) == "nil") then
+    print(json.encode(meta))
+    os.exit(0)
+end
+
+io.input(arg[1])
+local config_section_data = io.read("a")
+
+local config_sections = json.decode(config_section_data)
+local io_section =
+    config_sections["Ruminoid.Toolbox.Plugins.Common.ConfigSections.IOConfigSection"]
+
+local commands = {
+    target = "ffmpeg",
+    args = "-i " + io_section["video"] + " " + io_section["output"]
+}
+
+print(json.encode(commands))
