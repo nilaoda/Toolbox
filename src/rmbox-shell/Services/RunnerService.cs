@@ -13,6 +13,7 @@ using Ruminoid.Toolbox.Formatting;
 using Ruminoid.Toolbox.Shell.Core;
 using Ruminoid.Toolbox.Shell.ViewModels;
 using Ruminoid.Toolbox.Utils;
+using Ruminoid.Toolbox.Utils.Extensions;
 
 namespace Ruminoid.Toolbox.Shell.Services
 {
@@ -150,7 +151,7 @@ namespace Ruminoid.Toolbox.Shell.Services
                     RedirectStandardInput = true,
                     RedirectStandardOutput = true,
                     UseShellExecute = false,
-                    Arguments = $" \"{path}\" -o -h -d {_pipePort}",
+                    Arguments = $" {path.EscapePathStringForArg()} -o -h -d {_pipePort}",
                     FileName = Path.Combine(AppDomain.CurrentDomain.BaseDirectory,
                         "rmbox" + (RuntimeInformation.IsOSPlatform(OSPlatform.Windows) ? ".exe" : "")),
                     WindowStyle = ProcessWindowStyle.Hidden
