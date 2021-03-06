@@ -6,6 +6,7 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using Microsoft.Extensions.Logging;
+using Ruminoid.Toolbox.Composition.Roslim;
 using Ruminoid.Toolbox.Core;
 using Ruminoid.Toolbox.Formatting;
 using Ruminoid.Toolbox.Utils;
@@ -15,14 +16,17 @@ namespace Ruminoid.Toolbox.Composition
     [Export]
     public class PluginHelper
     {
-        public PluginHelper(ILogger<PluginHelper> logger)
+        public PluginHelper(
+            RoslimGenerator roslimGenerator,
+            ILogger<PluginHelper> logger)
         {
+            _roslimGenerator = roslimGenerator;
             _logger = logger;
 
             Initialize();
         }
 
-        #region Plugin Loader
+        #region Core
 
         private void Initialize()
         {
@@ -31,21 +35,27 @@ namespace Ruminoid.Toolbox.Composition
             string pluginsFolderPath = StorageHelper.GetSectionFolderPath("plugins");
 
             string[] files = Directory.GetFiles(
-                pluginsFolderPath,
-                "*.dll",
-                SearchOption.AllDirectories)
+                    pluginsFolderPath,
+                    "*",
+                    SearchOption.AllDirectories)
                 .Where(x =>
-                    (Path.GetFileNameWithoutExtension(x).StartsWith("rmbox-plugin-") ||
-                     Path.GetFileNameWithoutExtension(x).StartsWith("Ruminoid.Toolbox.Plugin.")) &&
-                    x.EndsWith(".dll") ||
-                    x.EndsWith(".plugin.dll"))
+                    Path.GetFileNameWithoutExtension(x).StartsWith("rmbox-plugin-") ||
+                    Path.GetFileNameWithoutExtension(x).StartsWith("Ruminoid.Toolbox.Plugin."))
                 .Where(x => !x.Replace(pluginsFolderPath, "")
                     .Contains($"ref{Path.DirectorySeparatorChar}"))
                 .ToArray();
 
-            _logger.LogDebug($"Collected {files.Length} plugin(s).");
+            string[] dllFiles = files
+                .Where(x => x.EndsWith(".dll"))
+                .ToArray();
 
-            if (files.Length == 0)
+            string[] scriptFiles = files
+                .Where(x => !x.EndsWith("dll"))
+                .ToArray();
+
+            _logger.LogDebug($"Collected {dllFiles.Length} plugin(s).");
+
+            if (dllFiles.Length == 0)
             {
                 _logger.LogInformation("没有发现插件。");
                 return;
@@ -53,7 +63,29 @@ namespace Ruminoid.Toolbox.Composition
 
             _logger.LogDebug("Loading plugins.");
             
-            foreach (string file in files)
+            _logger.LogDebug("Loading DLL plugins.");
+            LoadDllPlugins(dllFiles);
+
+            _logger.LogDebug("Loading script plugins.");
+            int scriptCount = LoadScriptPlugins(scriptFiles);
+
+            _logger.LogInformation(
+                $"加载了 {MetaCollection.Count + scriptCount} 个插件共 {OperationCollection.Count + ConfigSectionCollection.Count + FormatterCollection.Count} 个组件。");
+        }
+
+        private static Assembly LoadPlugin(string path)
+        {
+            PluginLoadContext loadContext = new PluginLoadContext(path);
+            return loadContext.LoadFromAssemblyName(new AssemblyName(Path.GetFileNameWithoutExtension(path)));
+        }
+
+        #endregion
+
+        #region Plugin Loader
+
+        private void LoadDllPlugins(string[] dllFiles)
+        {
+            foreach (string file in dllFiles)
             {
                 try
                 {
@@ -167,15 +199,45 @@ namespace Ruminoid.Toolbox.Composition
                     _logger.LogWarning(e, $"在加载插件 {file} 时发生错误。将跳过该插件的加载。");
                 }
             }
-
-            _logger.LogInformation(
-                $"加载了 {MetaCollection.Count} 个插件共 {OperationCollection.Count + ConfigSectionCollection.Count + FormatterCollection.Count} 个组件。");
         }
 
-        private static Assembly LoadPlugin(string path)
+        private int LoadScriptPlugins(string[] scriptFiles)
         {
-            PluginLoadContext loadContext = new PluginLoadContext(path);
-            return loadContext.LoadFromAssemblyName(new AssemblyName(Path.GetFileNameWithoutExtension(path)));
+            int count = 0;
+
+            foreach (string file in scriptFiles)
+            {
+                try
+                {
+                    _logger.LogDebug($"Loading plugin: {file}");
+
+                    Assembly pluginAssembly = _roslimGenerator.Generate(file);
+                    Type exportedType = pluginAssembly.GetExportedTypes().First();
+
+                    string pluginName = pluginAssembly.FullName;
+
+                    _logger.LogDebug($"Parsing components in plugin: {pluginName}");
+
+                    OperationAttribute operationAttribute =
+                        Attribute.GetCustomAttribute(exportedType, typeof(OperationAttribute))
+                            as OperationAttribute;
+
+                    OperationCollection.Add(new Tuple<OperationAttribute, Type>(
+                        operationAttribute,
+                        exportedType));
+
+                    _logger.LogDebug($"Operation {operationAttribute.Name} loaded.");
+                    _logger.LogDebug($"Plugin {pluginName} loaded.");
+
+                    count++;
+                }
+                catch (Exception e)
+                {
+                    _logger.LogWarning(e, $"在加载插件 {file} 时发生错误。将跳过该插件的加载。");
+                }
+            }
+
+            return count;
         }
 
         #endregion
@@ -260,6 +322,7 @@ namespace Ruminoid.Toolbox.Composition
 
         #endregion
 
+        private readonly RoslimGenerator _roslimGenerator;
         private readonly ILogger<PluginHelper> _logger;
     }
 }
