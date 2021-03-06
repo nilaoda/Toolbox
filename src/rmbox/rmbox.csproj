@@ -18,6 +18,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\lib\dotnet-templating\src\Microsoft.TemplateEngine.Core\Microsoft.TemplateEngine.Core.csproj" />
     <ProjectReference Include="..\rmbox-plugbase\rmbox-plugbase.csproj" />
   </ItemGroup>
 
