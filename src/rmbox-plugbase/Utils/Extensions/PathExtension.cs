@@ -37,5 +37,9 @@ namespace Ruminoid.Toolbox.Utils.Extensions
         public static string EscapePathStringForArg(
             this string path) =>
             $"\"{path}\"";
+
+        public static string EscapeForCode(
+            this string str) =>
+            System.Text.RegularExpressions.Regex.Escape(str);
     }
 }
