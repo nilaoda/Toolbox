@@ -1,20 +1,8 @@
-﻿using System;
-using System.IO;
-using System.Linq;
-using Nuke.Common;
-using Nuke.Common.CI;
-using Nuke.Common.CI.GitHubActions;
-using Nuke.Common.Execution;
-using Nuke.Common.Git;
+﻿using Nuke.Common;
 using Nuke.Common.IO;
-using Nuke.Common.ProjectModel;
-using Nuke.Common.Tooling;
-using Nuke.Common.Tools.DotNet;
-using Nuke.Common.Tools.GitVersion;
 using Nuke.Common.Utilities.Collections;
 using static Nuke.Common.EnvironmentInfo;
 using static Nuke.Common.IO.FileSystemTasks;
-using static Nuke.Common.IO.PathConstruction;
 
 partial class Build
 {
@@ -46,6 +34,9 @@ partial class Build
 
     const string X264Version = "r3043-59c0609";
     const string PowerShellVersion = "7.0.5";
+    const string NodejsVersion = "14.16.0";
+    const string PythonVersion = "3.9.2";
+    const string LuaVersion = "5.3.5";
 
     void DownloadToolsWindows()
     {
@@ -83,6 +74,42 @@ partial class Build
         Logger.Info("Extracting PowerShell.");
         CompressionTasks.UncompressZip(
             ToolsTempDirectory / "pwsh.zip",
+            ToolsDirectory);
+
+        Logger.Info("Downloading Node.js.");
+        HttpTasks.HttpDownloadFile(
+            $"https://nodejs.org/dist/v{NodejsVersion}/node-v{NodejsVersion}-win-x64.zip",
+            ToolsTempDirectory / "node.zip");
+
+        AbsolutePath nodeExtractTempPath = ToolsTempDirectory / "node";
+
+        Logger.Info("Extracting Node.js.");
+        CompressionTasks.UncompressZip(
+            ToolsTempDirectory / "node.zip",
+            nodeExtractTempPath);
+
+        ForceCopyDirectoryRecursively(
+            nodeExtractTempPath / $"node-v{NodejsVersion}-win-x64",
+            ToolsDirectory);
+
+        Logger.Info("Downloading Python.");
+        HttpTasks.HttpDownloadFile(
+            $"https://www.python.org/ftp/python/{PythonVersion}/python-{PythonVersion}-embed-amd64.zip",
+            ToolsTempDirectory / "python.zip");
+
+        Logger.Info("Extracting Python.");
+        CompressionTasks.UncompressZip(
+            ToolsTempDirectory / "python.zip",
+            ToolsDirectory);
+
+        Logger.Info("Downloading Lua.");
+        HttpTasks.HttpDownloadFile(
+            $"https://raw.githubusercontent.com/Afanyiyu/Delivr/master/lua/lua-{LuaVersion}-win.zip",
+            ToolsTempDirectory / "lua.zip");
+
+        Logger.Info("Extracting Lua.");
+        CompressionTasks.UncompressZip(
+            ToolsTempDirectory / "lua.zip",
             ToolsDirectory);
     }
 
@@ -123,6 +150,35 @@ partial class Build
         CompressionTasks.UncompressTarGZip(
             ToolsTempDirectory / "pwsh.tar.gz",
             ToolsDirectory);
+
+        Logger.Info("Downloading Node.js.");
+        HttpTasks.HttpDownloadFile(
+            $"https://nodejs.org/dist/v{NodejsVersion}/node-v{NodejsVersion}-darwin-x64.tar.gz",
+            ToolsTempDirectory / "node.tar.gz");
+
+        AbsolutePath nodeExtractTempPath = ToolsTempDirectory / "node";
+
+        Logger.Info("Extracting Node.js.");
+        CompressionTasks.UncompressTarGZip(
+            ToolsTempDirectory / "node.tar.gz",
+            nodeExtractTempPath);
+
+        // You need to manually install npm.
+        ForceCopyDirectoryRecursively(
+            nodeExtractTempPath / $"node-v{NodejsVersion}-darwin-x64" / "bin",
+            ToolsDirectory);
+
+        // You need to compile Python yourself.
+
+        Logger.Info("Downloading Lua.");
+        HttpTasks.HttpDownloadFile(
+            $"https://raw.githubusercontent.com/Afanyiyu/Delivr/master/lua/lua-{LuaVersion}-osx.zip",
+            ToolsTempDirectory / "lua.zip");
+
+        Logger.Info("Extracting Lua.");
+        CompressionTasks.UncompressZip(
+            ToolsTempDirectory / "lua.zip",
+            ToolsDirectory);
     }
 
     void DownloadToolsLinux()
@@ -132,16 +188,10 @@ partial class Build
             "https://johnvansickle.com/ffmpeg/releases/ffmpeg-release-amd64-static.tar.xz",
             ToolsTempDirectory / "ffmpeg.tar.xz");
 
-        //Logger.Info("Extracting FFmpeg.");
-        //CompressionTasks.Uncompress(
-        //    ToolsTempDirectory / "ffmpeg.tar.xz",
-        //    ToolsDirectory);
-
         // You need to extract "ffmpeg.tar.xz" yourself.
         CopyFileToDirectory(
             ToolsTempDirectory / "ffmpeg.tar.xz",
             ToolsDirectory);
-        // Logger.Warn("You need to extract \"ffmpeg.tar.xz\" yourself.");
 
         Logger.Info("Downloading x264.");
         HttpTasks.HttpDownloadFile(
@@ -156,6 +206,28 @@ partial class Build
         Logger.Info("Extracting PowerShell.");
         CompressionTasks.UncompressTarGZip(
             ToolsTempDirectory / "pwsh.tar.gz",
+            ToolsDirectory);
+
+        Logger.Info("Downloading Node.js.");
+        HttpTasks.HttpDownloadFile(
+            $"https://nodejs.org/dist/v{NodejsVersion}/node-v{NodejsVersion}-linux-x64.tar.xz",
+            ToolsTempDirectory / "node.tar.xz");
+
+        // You need to extract "node.tar.xz" yourself.
+        CopyFileToDirectory(
+            ToolsTempDirectory / "node.tar.xz",
+            ToolsDirectory);
+
+        // You need to compile Python yourself.
+
+        Logger.Info("Downloading Lua.");
+        HttpTasks.HttpDownloadFile(
+            $"https://raw.githubusercontent.com/Afanyiyu/Delivr/master/lua/lua-{LuaVersion}-linux.zip",
+            ToolsTempDirectory / "lua.zip");
+
+        Logger.Info("Extracting Lua.");
+        CompressionTasks.UncompressZip(
+            ToolsTempDirectory / "lua.zip",
             ToolsDirectory);
     }
 }
