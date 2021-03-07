@@ -24,7 +24,7 @@ namespace Ruminoid.Toolbox.Composition.Roslim
             try
             {
                 string result = ExternalProcessRunner.Run("target", $"\"script\" \"{sectionDataPath}\"");
-                List<JToken> commands = JObject.Parse(result).ToObject<List<JToken>>();
+                List<JToken> commands = JArray.Parse(result).ToObject<List<JToken>>();
                 return (List<Tuple<string, string>>) commands!.Select(x =>
                     new Tuple<string, string>(x["target"].ToObject<string>(), x["args"].ToObject<string>()));
             }
