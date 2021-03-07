@@ -61,9 +61,18 @@ namespace Ruminoid.Toolbox.Composition.Roslim
                     _ => throw new RoslimException("不支持的插件格式。")
                 };
 
+                _logger.LogDebug("Parsed target: {target}", target);
+
+                string args = path.EscapePathStringForArg();
+
+                _logger.LogDebug("Collecting meta for script plugin: {target}", target);
+                _logger.LogDebug("Using: {target} {args}", target, args);
+
                 // Parse Meta
-                string metaResult = ExternalProcessRunner.Run(target, path.EscapePathStringForArg());
+                string metaResult = ExternalProcessRunner.Run(target, args);
                 JObject meta = JObject.Parse(metaResult);
+
+                _logger.LogDebug("Parsed meta: {metaResult}", metaResult);
                 
                 string assemblyName = meta["id"]!.ToObject<string>();
 
@@ -120,6 +129,8 @@ namespace Ruminoid.Toolbox.Composition.Roslim
                 if (string.IsNullOrEmpty(resultCode))
                     throw new RoslimException("生成代码时出现错误。");
 
+                _logger.LogDebug("Successfully generated code for {assemblyName}.", assemblyName);
+
                 SyntaxTree syntaxTree =
                     CSharpSyntaxTree.ParseText(resultCode, new CSharpParseOptions(LanguageVersion.Latest));
 
@@ -133,6 +144,8 @@ namespace Ruminoid.Toolbox.Composition.Roslim
 
                 if (!compilation.Emit(assemblyStream).Success)
                     throw new RoslimException("编译插件时出现问题。");
+
+                _logger.LogDebug("Successfully generated assembly for {assemblyName}.", assemblyName);
 
                 return Assembly.Load(assemblyStream.GetBuffer());
             }
