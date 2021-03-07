@@ -17,7 +17,6 @@ using Microsoft.TemplateEngine.Core.Util;
 using Microsoft.TemplateEngine.Utils;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using Ruminoid.Toolbox.Core;
 using Ruminoid.Toolbox.Utils;
 using Ruminoid.Toolbox.Utils.Extensions;
 
@@ -32,6 +31,35 @@ namespace Ruminoid.Toolbox.Composition.Roslim
             ILogger<RoslimGenerator> logger)
         {
             _logger = logger;
+
+            #region References
+
+            List<string> locations = new List<string>();
+
+            IEnumerable<Assembly> assemblies = AppDomain.CurrentDomain.GetAssemblies()
+                .Concat(
+                    Assembly.GetExecutingAssembly().GetReferencedAssemblies()
+                        .Select(Assembly.Load));
+
+            foreach (Assembly assembly in assemblies)
+            {
+                try
+                {
+                    locations.Add(assembly.Location);
+                }
+                catch (Exception)
+                {
+                    // Ignore
+                }
+            }
+
+            _references =
+                locations
+                    .Where(x => !string.IsNullOrWhiteSpace(x))
+                    .Select(x =>MetadataReference.CreateFromFile(x))
+                    .ToArray();
+
+            #endregion
         }
 
         #endregion
@@ -46,6 +74,12 @@ namespace Ruminoid.Toolbox.Composition.Roslim
                     "en"),
                 settings => settings.SettingsLoader),
             new VariableCollection());
+
+        #endregion
+
+        #region References
+
+        private readonly MetadataReference[] _references;
 
         #endregion
 
@@ -141,7 +175,7 @@ namespace Ruminoid.Toolbox.Composition.Roslim
                 CSharpCompilation compilation = CSharpCompilation.Create(assemblyName)
                     .WithOptions(
                         new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary))
-                    .AddReferences(MetadataReference.CreateFromFile(typeof(IMeta).Assembly.Location))
+                    .AddReferences(_references)
                     .AddSyntaxTrees(syntaxTree);
 
                 EmitOptions emitOptions =
