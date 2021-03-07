@@ -215,7 +215,8 @@ namespace Ruminoid.Toolbox.Composition
                     _logger.LogDebug($"Loading plugin: {file}");
 
                     Assembly pluginAssembly = _roslimGenerator.Generate(file);
-                    Type exportedType = pluginAssembly.GetExportedTypes().First();
+                    Type exportedType = pluginAssembly.GetExportedTypes()
+                        .First(type => Attribute.GetCustomAttribute((MemberInfo) type, typeof(OperationAttribute)) is not null);
 
                     string pluginName = pluginAssembly.FullName;
 
