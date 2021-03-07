@@ -124,6 +124,7 @@ namespace Ruminoid.Toolbox.Composition.Roslim
                     typeof(RoslimGenerator).Assembly.GetManifestResourceStream("rmbox.Composition.Roslim.RoslimOperation.cs"),
                     resultStream);
 
+                resultStream.Position = 0; // Rewind
                 var resultCode = resultReader.ReadToEnd();
 
                 if (string.IsNullOrEmpty(resultCode))
