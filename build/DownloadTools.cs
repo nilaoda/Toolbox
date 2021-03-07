@@ -111,6 +111,11 @@ partial class Build
         CompressionTasks.UncompressZip(
             ToolsTempDirectory / "lua.zip",
             ToolsDirectory);
+
+        Logger.Info("Downloading json.lua.");
+        HttpTasks.HttpDownloadFile(
+            "https://raw.githubusercontent.com/rxi/json.lua/master/json.lua",
+            ToolsDirectory);
     }
 
     void DownloadToolsMacos()
@@ -179,6 +184,11 @@ partial class Build
         CompressionTasks.UncompressZip(
             ToolsTempDirectory / "lua.zip",
             ToolsDirectory);
+
+        Logger.Info("Downloading json.lua.");
+        HttpTasks.HttpDownloadFile(
+            "https://raw.githubusercontent.com/rxi/json.lua/master/json.lua",
+            ToolsDirectory);
     }
 
     void DownloadToolsLinux()
@@ -228,6 +238,11 @@ partial class Build
         Logger.Info("Extracting Lua.");
         CompressionTasks.UncompressZip(
             ToolsTempDirectory / "lua.zip",
+            ToolsDirectory);
+
+        Logger.Info("Downloading json.lua.");
+        HttpTasks.HttpDownloadFile(
+            "https://raw.githubusercontent.com/rxi/json.lua/master/json.lua",
             ToolsDirectory);
     }
 }
