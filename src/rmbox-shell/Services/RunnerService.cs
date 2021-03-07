@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Diagnostics;
 using System.IO;
-using System.Net;
 using System.Reactive.Linq;
 using System.Reactive.Subjects;
 using System.Runtime.InteropServices;
 using System.Text;
+using System.Threading.Tasks;
+using Fleck;
 using Newtonsoft.Json;
 using ReactiveUI;
 using Ruminoid.Toolbox.Core;
@@ -26,43 +27,36 @@ namespace Ruminoid.Toolbox.Shell.Services
         {
             _queueService = queueService;
 
-            Observable.Using(
-                    () =>
-                        new HttpListener
-                        {
-                            Prefixes =
-                            {
-                                $"http://127.0.0.1:{_pipePort}/"
-                            }
-                        },
-                    server =>
-                    {
-                        server.Start();
-
-                        return Observable
-                            .FromAsync(server.GetContextAsync)
-                            .Repeat()
-                            .Where(x => x.Request.Url is not null)
-                            .Where(x => x.Request.Url.LocalPath == ProcessRunner.DynamicLinkEndpoint)
-                            .Where(x => x.Request.HasEntityBody);
-                    })
-                .Select(x =>
+            Observable.Create<string>(observer =>
                 {
-                    try
+                    WebSocketServer webSocketServer = new($"ws://127.0.0.1:{_pipePort}")
                     {
-                        using StreamReader reader = new(x.Request.InputStream);
-                        return reader.ReadToEnd();
-                    }
-                    catch (Exception)
+                        SupportedSubProtocols = new[] {ProcessRunner.DynamicLinkEndpointStr},
+                        RestartAfterListenError = true
+                    };
+
+                    webSocketServer.Start(socket =>
                     {
-                        return string.Empty;
-                    }
-                    finally
-                    {
-                        x.Response.StatusCode = 200;
-                        x.Response.Close();
-                    }
+                        if (socket.ConnectionInfo.NegotiatedSubProtocol != ProcessRunner.DynamicLinkEndpointStr)
+                            socket.Close();
+
+                        IDisposable killDisposable = _killSubject.Subscribe(_ =>
+                        {
+                            socket.Send(ProcessRunner.DynamicLinkKillCommand);
+                        });
+
+                        socket.OnMessage = observer.OnNext;
+                        socket.OnError = observer.OnError;
+                        socket.OnClose = () =>
+                        {
+                            killDisposable.Dispose();
+                            observer.OnCompleted();
+                        };
+                    });
+
+                    return Task.CompletedTask;
                 })
+                .Where(x => !string.IsNullOrWhiteSpace(x))
                 .ObserveOn(RxApp.TaskpoolScheduler)
                 .Subscribe(ReadFromPipe);
 
@@ -174,31 +168,11 @@ namespace Ruminoid.Toolbox.Shell.Services
             process.Start();
             process.BeginErrorReadLine();
             process.BeginOutputReadLine();
-
-            bool killFlag = false;
-
-            IDisposable killObservable = _killSubject.Subscribe(_ =>
-            {
-                killFlag = true;
-                process.Close();
-                process.Dispose();
-            });
-
             process.WaitForExit();
-
-            killObservable.Dispose();
+            
             observable.Dispose();
-
-            bool succeed;
-
-            // ReSharper disable once InvertIf
-            if (killFlag)
-            {
-                CurrentProject.Detail = "运行被取消。";
-                succeed = false;
-            }
-            else
-                succeed = process.ExitCode == 0;
+            
+            var succeed = process.ExitCode == 0;
 
             CurrentProject.Summary = "清理";
 

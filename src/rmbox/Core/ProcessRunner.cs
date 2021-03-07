@@ -3,8 +3,7 @@ using System.Collections.Generic;
 using System.Composition;
 using System.Diagnostics;
 using System.IO;
-using System.Net;
-using System.Net.Http;
+using System.Net.WebSockets;
 using System.Reactive;
 using System.Reactive.Concurrency;
 using System.Reactive.Linq;
@@ -17,6 +16,7 @@ using Ruminoid.Toolbox.Composition;
 using Ruminoid.Toolbox.Formatting;
 using Ruminoid.Toolbox.Helpers.CommandLine;
 using Ruminoid.Toolbox.Utils;
+using Websocket.Client;
 
 namespace Ruminoid.Toolbox.Core
 {
@@ -44,10 +44,26 @@ namespace Ruminoid.Toolbox.Core
                 .ObserveOn(TaskPoolScheduler.Default)
                 .Subscribe(OnCancelKeyPress);
 
-            _dynamicLinkPort = ((ProcessOptions) _commandLineHelper.Options).DynamicLinkPort;
+            int dynamicLinkPort = ((ProcessOptions) _commandLineHelper.Options).DynamicLinkPort;
 
-            if (_dynamicLinkPort != 0)
+            if (dynamicLinkPort != 0)
             {
+                _websocketClient = new(new Uri($"ws://127.0.0.1:{dynamicLinkPort}/{DynamicLinkEndpointStr}"))
+                {
+                    ReconnectTimeout = TimeSpan.FromSeconds(30)
+                };
+
+                _websocketClient.ReconnectionHappened
+                    .Subscribe(info =>
+                    {
+                        _logger.LogDebug($"Dynamic link reconnected because of {info.Type}");
+                    });
+
+                _websocketClient.MessageReceived
+                    .Where(x => x.MessageType == WebSocketMessageType.Text)
+                    .Where(x => x.Text == DynamicLinkKillCommand)
+                    .Subscribe(_ => TryKillProcess());
+
                 _pipeSubject
                     .ObserveOn(TaskPoolScheduler.Default)
                     .Subscribe(PipeSend);
@@ -60,20 +76,16 @@ namespace Ruminoid.Toolbox.Core
 
         #region Dynamic Link
 
-        private readonly int _dynamicLinkPort;
-
-        public const string DynamicLinkEndpoint = "/dynlnk";
+        public const string DynamicLinkEndpointStr = "dynlnk";
+        public const string DynamicLinkKillCommand = "RMDYNLNKKILL";
 
         private readonly Subject<string> _pipeSubject = new();
 
-        private async void PipeSend(string json)
+        private readonly WebsocketClient _websocketClient;
+
+        private void PipeSend(string json)
         {
-            HttpWebRequest request =
-                WebRequest.CreateHttp($"http://127.0.0.1:{_dynamicLinkPort}{DynamicLinkEndpoint}");
-            request.Method = "POST";
-            await new StringContent(json)
-                .CopyToAsync(request.GetRequestStream());
-            await request.GetResponseAsync();
+            _websocketClient.Send(json);
         }
 
         #endregion
@@ -184,19 +196,18 @@ namespace Ruminoid.Toolbox.Core
 
         private void OnProcessExit(EventPattern<EventArgs> e)
         {
-            if (!IsProcessRunning()) return;
-            _logger.LogWarning("正在尝试终止运行。应用可能在运行终止前被终止。");
-            _currentProcess.Kill(true);
-            _currentProcess.Dispose();
-            var exception = new ProcessRunnerException("运行被用户终止。");
-            _logger.LogCritical(exception, "运行被用户终止。");
-            throw exception;
+            TryKillProcess();
         }
 
         private void OnCancelKeyPress(EventPattern<ConsoleCancelEventArgs> e)
         {
-            if (!IsProcessRunning()) return;
             e.EventArgs.Cancel = true;
+            TryKillProcess();
+        }
+
+        private void TryKillProcess()
+        {
+            if (!IsProcessRunning()) return;
             _logger.LogWarning("正在尝试终止运行。应用可能在运行终止前被终止。");
             _currentProcess.Kill(true);
             _currentProcess.Dispose();
