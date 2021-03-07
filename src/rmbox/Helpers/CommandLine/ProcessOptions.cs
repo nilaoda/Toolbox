@@ -5,9 +5,6 @@ namespace Ruminoid.Toolbox.Helpers.CommandLine
     [Verb("process", true, HelpText = "执行任务或任务队列。")]
     public class ProcessOptions
     {
-        [Value(0)]
-        public string ProgramPath { get; set; }
-
         [Value(1, HelpText = "JSON 项目文件的路径。", Required = true)]
         public string ProjectPath { get; set; }
 

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Composition;
+using System.Linq;
 using System.Reflection;
 using CommandLine;
 using CommandLine.Text;
@@ -20,6 +21,12 @@ namespace Ruminoid.Toolbox.Helpers.CommandLine
             _logger.LogInformation("版本 " + Assembly.GetExecutingAssembly().GetName().Version);
             _logger.LogInformation("启动时使用：" + Environment.CommandLine);
 
+            string[] args =
+                Environment.GetCommandLineArgs()
+                    .Where((x, i) => i != 0)
+                    .Where(x => x != DebugAttachString)
+                    .ToArray();
+
             _result =
                 new Parser(settings =>
                     {
@@ -32,12 +39,14 @@ namespace Ruminoid.Toolbox.Helpers.CommandLine
                     <
                         ProcessOptions,
                         object // TODO: Replace this
-                    >(Environment.GetCommandLineArgs());
+                    >(args);
 
             _result
                 .WithParsed(options => Options = options)
                 .WithNotParsed(DoErrorHandle);
         }
+
+        public const string DebugAttachString = "--debug:attach";
         
         private readonly ParserResult<object> _result;
 

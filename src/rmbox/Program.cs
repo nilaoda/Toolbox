@@ -11,6 +11,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Console;
 using Ruminoid.Toolbox.Core;
+using Ruminoid.Toolbox.Helpers.CommandLine;
 using Ruminoid.Toolbox.Utils;
 
 namespace Ruminoid.Toolbox
@@ -29,6 +30,12 @@ namespace Ruminoid.Toolbox
         public static void BuildConsoleApp(string[] args)
         {
             Console.OutputEncoding = Encoding.UTF8;
+
+            if (args.Contains(CommandLineHelper.DebugAttachString))
+            {
+                Console.WriteLine("Attach debugger and press ENTER to continue...");
+                Console.ReadLine();
+            }
             
             IHost host = CreateHostBuilder(args).Build();
             _ = host.Services.GetService<Processor>();
