@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 
 namespace Ruminoid.Toolbox.Utils.Extensions
 {
@@ -40,6 +41,10 @@ namespace Ruminoid.Toolbox.Utils.Extensions
 
         public static string EscapeForCode(
             this string str) =>
-            System.Text.RegularExpressions.Regex.Escape(str);
+            str.Aggregate(string.Empty, (s, c) => s + c.EscapeForCode());
+
+        public static string EscapeForCode(
+            this char c) =>
+            "\\" + "u" + ((int)c).ToString("x4");
     }
 }
