@@ -1,6 +1,7 @@
 ﻿using Avalonia;
 using Microsoft.Extensions.Logging.Abstractions;
 using Ruminoid.Toolbox.Composition;
+using Ruminoid.Toolbox.Composition.Roslim;
 using Ruminoid.Toolbox.Shell.Services;
 using Splat;
 
@@ -29,6 +30,7 @@ namespace Ruminoid.Toolbox.Shell
             
             resolver.RegisterLazySingleton(
                 () => new PluginHelper(
+                    new RoslimGenerator(NullLogger<RoslimGenerator>.Instance),
                     NullLogger<PluginHelper>.Instance),
                 typeof(PluginHelper));
 
