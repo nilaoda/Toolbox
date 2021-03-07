@@ -28,6 +28,8 @@ namespace Ruminoid.Toolbox.Composition
 
         #region Core
 
+        public readonly string[] IgnoreFormats = { ".json", ".pdb" };
+
         private void Initialize()
         {
             _logger.LogDebug("Starting collecting plugins.");
@@ -43,6 +45,7 @@ namespace Ruminoid.Toolbox.Composition
                     Path.GetFileNameWithoutExtension(x).StartsWith("Ruminoid.Toolbox.Plugin."))
                 .Where(x => !x.Replace(pluginsFolderPath, "")
                     .Contains($"ref{Path.DirectorySeparatorChar}"))
+                .Where(x => !IgnoreFormats.Any(x.EndsWith))
                 .ToArray();
 
             string[] dllFiles = files
