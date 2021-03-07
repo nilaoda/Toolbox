@@ -2,10 +2,13 @@
 using System.Collections.Generic;
 using System.Composition;
 using System.IO;
+using System.Linq;
 using System.Reflection;
+using System.Runtime.InteropServices;
 using System.Text;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
+using Microsoft.CodeAnalysis.Emit;
 using Microsoft.Extensions.Logging;
 using Microsoft.TemplateEngine.Core;
 using Microsoft.TemplateEngine.Core.Contracts;
@@ -141,9 +144,15 @@ namespace Ruminoid.Toolbox.Composition.Roslim
                     .AddReferences(MetadataReference.CreateFromFile(typeof(IMeta).Assembly.Location))
                     .AddSyntaxTrees(syntaxTree);
 
+                EmitOptions emitOptions =
+                    new EmitOptions()
+                        .WithIncludePrivateMembers(true)
+                        .WithRuntimeMetadataVersion(
+                            $"v{RuntimeInformation.FrameworkDescription.Split(' ').Last()}");
+
                 using MemoryStream assemblyStream = new MemoryStream();
 
-                if (!compilation.Emit(assemblyStream).Success)
+                if (!compilation.Emit(assemblyStream, options: emitOptions).Success)
                     throw new RoslimException("编译插件时出现问题。");
 
                 _logger.LogDebug("Successfully generated assembly for {assemblyName}.", assemblyName);
