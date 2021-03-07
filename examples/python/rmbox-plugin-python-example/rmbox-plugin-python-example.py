@@ -16,7 +16,7 @@ meta = {
 
 if len(argv) == 1:
     print(json.dumps(meta))
-    exit(0)
+    sys.exit(0)
 
 config_sections: Any
 
