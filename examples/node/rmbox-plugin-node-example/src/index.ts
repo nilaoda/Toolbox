@@ -11,12 +11,12 @@ const meta: Meta = {
   ],
 }
 
-if (process.argv.length == 1) {
+if (process.argv.length <= 2) {
   console.log(JSON.stringify(meta))
   process.exit(0)
 }
 
-const configSectionData: string = fs.readFileSync(process.argv[1], {
+const configSectionData: string = fs.readFileSync(process.argv[2], {
   encoding: 'utf-8',
 })
 const configSections = JSON.parse(configSectionData)
