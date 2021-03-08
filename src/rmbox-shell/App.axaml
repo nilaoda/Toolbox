@@ -4,5 +4,8 @@
     <Application.Styles>
         <FluentTheme Mode="Light"/>
         <StyleInclude Source="/Icons/Icons.xaml"/>
+        <StyleInclude Source="/Controls/Styles/DrawingIcon.xaml"/>
+        <StyleInclude Source="/Controls/Styles/DrawingIconButton.xaml"/>
+        <StyleInclude Source="/Styles/Generic.xaml"/>
     </Application.Styles>
 </Application>

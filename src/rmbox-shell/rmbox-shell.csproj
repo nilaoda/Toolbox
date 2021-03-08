@@ -10,10 +10,22 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
+    <None Remove="Controls\Styles\DrawingIcon.xaml" />
+    <None Remove="Controls\Styles\DrawingIconButton.xaml" />
     <None Remove="Icons\Icons.xaml" />
+    <None Remove="Styles\Generic.xaml" />
   </ItemGroup>
   <ItemGroup>
+    <AvaloniaResource Include="Controls\Styles\DrawingIcon.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </AvaloniaResource>
+    <AvaloniaResource Include="Controls\Styles\DrawingIconButton.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </AvaloniaResource>
     <AvaloniaResource Include="Icons\Icons.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </AvaloniaResource>
+    <AvaloniaResource Include="Styles\Generic.xaml">
       <Generator>MSBuild:Compile</Generator>
     </AvaloniaResource>
   </ItemGroup>
