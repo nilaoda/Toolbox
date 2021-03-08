@@ -25,14 +25,17 @@ namespace Ruminoid.Toolbox.Shell.ViewModels
             _queueService.RunnerOutput
                 .Subscribe(NewRunnerOutput);
 
-            this
+            _currentProject = this
                 .WhenAnyValue(x => x._queueService.CurrentProject)
-                .ToProperty(this, x => x.CurrentProject, out _currentProject);
+                .ToProperty(this, x => x.CurrentProject);
 
-            _isAnyItem = this
-                .WhenAnyValue(x => x.Items)
-                .Any()
-                .ToProperty(this, x => x.IsAnyItem);
+            _isAnyItem =
+                Observable.Return(false)
+                    .Delay(TimeSpan.FromSeconds(1))
+                    .Merge(this
+                        .WhenAnyValue(x => x.Items)
+                        .Any())
+                    .ToProperty(this, x => x.IsAnyItem);
         }
 
         #endregion

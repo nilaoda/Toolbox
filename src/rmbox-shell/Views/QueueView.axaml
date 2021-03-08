@@ -128,7 +128,7 @@
           <Grid
               HorizontalAlignment="Center"
               VerticalAlignment="Center"
-              IsVisible="{Binding IsAnyItem}"
+              IsVisible="{Binding !IsAnyItem}"
               RowDefinitions="Auto,18,Auto">
               <Image
                   Grid.Row="0"
