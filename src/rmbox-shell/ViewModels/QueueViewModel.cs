@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.ObjectModel;
+using System.Reactive.Linq;
 using DynamicData;
 using ReactiveUI;
 using Ruminoid.Toolbox.Shell.Services;
@@ -27,6 +28,11 @@ namespace Ruminoid.Toolbox.Shell.ViewModels
             this
                 .WhenAnyValue(x => x._queueService.CurrentProject)
                 .ToProperty(this, x => x.CurrentProject, out _currentProject);
+
+            _isAnyItem = this
+                .WhenAnyValue(x => x.Items)
+                .Any()
+                .ToProperty(this, x => x.IsAnyItem);
         }
 
         #endregion
@@ -62,6 +68,14 @@ namespace Ruminoid.Toolbox.Shell.ViewModels
                 this.RaiseAndSetIfChanged(ref _queueRunning, value);
             }
         }
+
+        #endregion
+
+        #region Bindings
+
+        private readonly ObservableAsPropertyHelper<bool> _isAnyItem;
+
+        public bool IsAnyItem => _isAnyItem.Value;
 
         #endregion
 

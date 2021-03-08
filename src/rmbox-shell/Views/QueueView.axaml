@@ -11,8 +11,14 @@
       <viewModels:QueueViewModel />
     </UserControl.DataContext>
 
+    <UserControl.Styles>
+        <Style Selector="ProgressBar">
+            <Setter Property="Height" Value="32"/>
+        </Style>
+    </UserControl.Styles>
+
   <Grid Margin="24"
-        RowDefinitions="Auto,*,Auto">
+        RowDefinitions="Auto,1,*,Auto">
       <Grid
           Grid.Row="0"
           ColumnDefinitions="Auto,*">
@@ -76,13 +82,19 @@
               <Grid
                   Grid.Row="0"
                   Margin="0,0,0,12"
-                  ColumnDefinitions="Auto,*">
+                  ColumnDefinitions="Auto,16,*">
+                  <Grid.Styles>
+                      <Style Selector="ProgressBar[Value=0]">
+                          <Setter Property="IsVisible" Value="False"/>
+                      </Style>
+                  </Grid.Styles>
+
                   <TextBlock
                       Grid.Column="0"
                       Text="{Binding CurrentProject.OperationName}"
                       FontSize="24" />
                   <ProgressBar
-                      Grid.Column="1"
+                      Grid.Column="2"
                       Value="{Binding CurrentProject.Progress}"
                       IsIndeterminate="{Binding CurrentProject.IsIndeterminate}"/>
               </Grid>
@@ -105,58 +117,77 @@
               </Grid>
           </Grid>
       </Grid>
-      <ListBox
-          Grid.Row="1"
-          Items="{Binding Items}"
-          SelectedItem="{Binding SelectedItem}">
-          <ListBox.Styles>
-              <Style Selector="ListBoxItem">
-              </Style>
-          </ListBox.Styles>
-          <ListBox.ItemTemplate>
-              <DataTemplate>
-                  <Grid RowDefinitions="Auto,Auto,*">
-                      <Grid
-                          Grid.Row="0"
-                          Margin="0,0,0,12"
-                          ColumnDefinitions="Auto,*">
-                          <TextBlock
-                              Grid.Column="0"
-                              Text="{Binding OperationName}"
-                              FontSize="24" />
-                          <ProgressBar
-                              Grid.Column="1"
-                              Value="{Binding Progress}"
-                              IsIndeterminate="{Binding IsIndeterminate}"/>
-                      </Grid>
-                      <TextBlock Grid.Row="1"
-                                 Text="{Binding Source}"
-                                 Margin="0,0,0,6"
-                                 TextWrapping="Wrap" />
-                      <Grid
-                          Grid.Row="2"
-                          Margin="0,0,0,6"
-                          RowDefinitions="*,*">
-                          <TextBlock
-                              Grid.Row="0"
-                              Margin="6"
-                              Text="{Binding Summary}"/>
-                          <TextBlock
-                              Grid.Row="1"
-                              Margin="6"
-                              Text="{Binding Detail}"/>
-                      </Grid>
-                  </Grid>
-              </DataTemplate>
-          </ListBox.ItemTemplate>
-      </ListBox>
-      <!--<ListBox
-          Grid.Row="2"
-          Margin="12"
-          Items="{Binding RunnerOutputList}"
-          Height="150"/>-->
+
       <Grid
-          Grid.Row="2">
+          Grid.Row="1"
+          Background="#424242"/>
+
+      <Grid
+          Grid.Row="2"
+          Margin="0,12">
+          <Grid
+              HorizontalAlignment="Center"
+              VerticalAlignment="Center"
+              IsVisible="{Binding IsAnyItem}"
+              RowDefinitions="Auto,18,Auto">
+              <Image
+                  Grid.Row="0"
+                  Opacity="0.1"
+                  Source="resm:rmbox-shell.Assets.rmbox-transparent.png"
+                  Width="100" Height="100"
+                  HorizontalAlignment="Center"/>
+
+              <TextBlock
+                  Grid.Row="2"
+                  HorizontalAlignment="Center"
+                  TextWrapping="NoWrap"
+                  Opacity="0.7"
+                  Text="轻敲「创建操作」来创建新的操作，或轻敲「帮助」快速上手。"/>
+          </Grid>
+          <ListBox
+              Items="{Binding Items}"
+              SelectedItem="{Binding SelectedItem}"
+              Background="{x:Null}">
+              <ListBox.ItemTemplate>
+                  <DataTemplate>
+                      <Grid RowDefinitions="Auto,Auto,*">
+                          <Grid
+                              Grid.Row="0"
+                              Margin="0,0,0,12"
+                              ColumnDefinitions="Auto,*">
+                              <TextBlock
+                                  Grid.Column="0"
+                                  Text="{Binding OperationName}"
+                                  FontSize="24" />
+                              <ProgressBar
+                                  Grid.Column="1"
+                                  Value="{Binding Progress}"
+                                  IsIndeterminate="{Binding IsIndeterminate}"/>
+                          </Grid>
+                          <TextBlock Grid.Row="1"
+                                     Text="{Binding Source}"
+                                     Margin="0,0,0,6"
+                                     TextWrapping="Wrap" />
+                          <Grid
+                              Grid.Row="2"
+                              Margin="0,0,0,6"
+                              RowDefinitions="*,*">
+                              <TextBlock
+                                  Grid.Row="0"
+                                  Margin="6"
+                                  Text="{Binding Summary}"/>
+                              <TextBlock
+                                  Grid.Row="1"
+                                  Margin="6"
+                                  Text="{Binding Detail}"/>
+                          </Grid>
+                      </Grid>
+                  </DataTemplate>
+              </ListBox.ItemTemplate>
+          </ListBox>
+      </Grid>
+      <Grid
+          Grid.Row="3">
           <TextBlock
               Margin="6"
               Text="{Binding CurrentRunnerOutputLine}"/>
