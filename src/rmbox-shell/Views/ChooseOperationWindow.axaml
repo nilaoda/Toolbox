@@ -2,6 +2,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:controls="clr-namespace:Ruminoid.Toolbox.Shell.Controls"
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
         x:Class="Ruminoid.Toolbox.Shell.Views.ChooseOperationWindow"
         Title="选择任务"
@@ -14,17 +15,11 @@
             <ListBox
                 Grid.Row="0"
                 Items="{Binding OperationsList}"
-                SelectedItem="{Binding SelectedOperation}">
-                <ListBox.Styles>
-                    <Style Selector="ListBoxItem">
-                        <Setter Property="Width" Value="350" />
-                        <Setter Property="Height" Value="120" />
-                        <Setter Property="HorizontalAlignment" Value="Left" />
-                    </Style>
-                </ListBox.Styles>
+                SelectedItem="{Binding SelectedOperation}"
+                Background="{x:Null}">
                 <ListBox.ItemTemplate>
                     <DataTemplate>
-                        <Grid RowDefinitions="Auto,*">
+                        <Grid RowDefinitions="Auto,Auto">
                             <TextBlock Grid.Row="0" Text="{Binding Name}"
                                        Margin="0,0,0,12"
                                        FontSize="24" />
@@ -48,11 +43,14 @@
                     </Style>
                 </StackPanel.Styles>
 
-                <Button
+                <controls:DrawingIconButton
+                    Icon="{DynamicResource VSCodeDark.check}"
+                    Classes="accent"
                     Command="{Binding DoConfirm}"
                     IsEnabled="{Binding IsOperationSelected}"
                     Content="确定"/>
-                <Button
+                <controls:DrawingIconButton
+                    Icon="{DynamicResource VSCodeLight.close}"
                     Command="{Binding DoCancel}"
                     Content="取消"/>
               </StackPanel>
