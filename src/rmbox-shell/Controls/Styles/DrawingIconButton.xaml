@@ -26,66 +26,62 @@
         <Setter Property="FontSize" Value="{DynamicResource ControlContentThemeFontSize}" />
         <Setter Property="Template">
             <ControlTemplate>
-                <ContentPresenter x:Name="ContentStylePresenter"
-                                  Background="{TemplateBinding Background}"
-                                  BorderBrush="{TemplateBinding BorderBrush}"
-                                  BorderThickness="{TemplateBinding BorderThickness}"
-                                  ContentTemplate="{TemplateBinding ContentTemplate}"
-                                  Padding="{TemplateBinding Padding}"
-                                  HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
-                                  VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}">
-                    <ContentPresenter.Content>
-                        <Grid
-                            ColumnDefinitions="Auto,*">
-                            <controls:DrawingIcon
-                                Grid.Column="0"
-                                Icon="{TemplateBinding Icon}"/>
-                            <ContentPresenter
-                                Name="PART_ContentPresenter"
-                                Grid.Column="1"
-                                Content="{TemplateBinding Content}"
-                                ContentTemplate="{TemplateBinding ContentTemplate}"
-                                HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
-                                VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}" />
-                        </Grid>
-                    </ContentPresenter.Content>
-                </ContentPresenter>
+                <Border
+                    Name="ContentStylePresenter"
+                    BorderBrush="{TemplateBinding BorderBrush}"
+                    BorderThickness="{TemplateBinding BorderThickness}"
+                    Padding="{TemplateBinding Padding}"
+                    Background="{TemplateBinding Background}">
+                    <Grid
+                        ColumnDefinitions="Auto,3,*">
+                        <controls:DrawingIcon
+                            Grid.Column="0"
+                            Icon="{TemplateBinding Icon}"/>
+                        <ContentPresenter
+                            Name="PART_ContentPresenter"
+                            Grid.Column="2"
+                            Content="{TemplateBinding Content}"
+                            ContentTemplate="{TemplateBinding ContentTemplate}"
+                            HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                            VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                    </Grid>
+                </Border>
             </ControlTemplate>
         </Setter>
     </Style>
 
     <!-- PointerOverState -->
-    <Style Selector="controls|DrawingIconButton:pointerover /template/ ContentPresenter#ContentStylePresenter">
+    <Style Selector="controls|DrawingIconButton:pointerover /template/ Border#ContentStylePresenter">
         <Setter Property="Background" Value="{DynamicResource ButtonBackgroundPointerOver}" />
         <Setter Property="BorderBrush" Value="{DynamicResource ButtonBorderBrushPointerOver}" />
         <Setter Property="TextBlock.Foreground" Value="{DynamicResource ButtonForegroundPointerOver}" />
     </Style>
 
-    <Style Selector="controls|DrawingIconButton:pressed  /template/ ContentPresenter#ContentStylePresenter">
+    <Style Selector="controls|DrawingIconButton:pressed  /template/ Border#ContentStylePresenter">
         <Setter Property="Background" Value="{DynamicResource ButtonBackgroundPressed}" />
         <Setter Property="BorderBrush" Value="{DynamicResource ButtonBorderBrushPressed}" />
         <Setter Property="TextBlock.Foreground" Value="{DynamicResource ButtonForegroundPressed}" />
     </Style>
 
-    <Style Selector="controls|DrawingIconButton:disabled /template/ ContentPresenter#ContentStylePresenter">
+    <Style Selector="controls|DrawingIconButton:disabled /template/ Border#ContentStylePresenter">
         <Setter Property="Background" Value="{DynamicResource ButtonBackgroundDisabled}" />
         <Setter Property="BorderBrush" Value="{DynamicResource ButtonBorderBrushDisabled}" />
         <Setter Property="TextBlock.Foreground" Value="{DynamicResource ButtonForegroundDisabled}" />
     </Style>
 
-    <Style Selector="controls|DrawingIconButton.accent /template/ ContentPresenter#ContentStylePresenter">
+    <Style Selector="controls|DrawingIconButton.accent /template/ Border#ContentStylePresenter">
         <Setter Property="Background" Value="{DynamicResource AccentButtonBackground}" />
         <Setter Property="BorderBrush" Value="{DynamicResource AccentButtonBorderBrush}" />
         <Setter Property="TextBlock.Foreground" Value="{DynamicResource AccentButtonForeground}" />
     </Style>
 
-    <Style Selector="controls|DrawingIconButton.accent:pointerover /template/ ContentPresenter#ContentStylePresenter">
+    <Style Selector="controls|DrawingIconButton.accent:pointerover /template/ Border#ContentStylePresenter">
         <Setter Property="Background" Value="{DynamicResource AccentButtonBackgroundPointerOver}" />
         <Setter Property="BorderBrush" Value="{DynamicResource AccentButtonBorderBrushPointerOver}" />
         <Setter Property="TextBlock.Foreground" Value="{DynamicResource AccentButtonForegroundPointerOver}" />
     </Style>
 
-    <Style Selector="controls|DrawingIconButton.accent:pressed  /template/ ContentPresenter#ContentStylePresenter">
+    <Style Selector="controls|DrawingIconButton.accent:pressed  /template/ Border#ContentStylePresenter">
         <Setter Property="Background" Value="{DynamicResource AccentButtonBackgroundPressed}" />
         <Setter Property="BorderBrush" Value="{DynamicResource AccentButtonBorderBrushPressed}" />
         <Setter Property="TextBlock.Foreground" Value="{DynamicResource AccentButtonForegroundPressed}" />
@@ -104,13 +100,13 @@
         <Setter Property="RenderTransform" Value="scale(0.98)" />
     </Style>
 
-    <Style Selector="controls|DrawingIconButton.accent:disabled /template/ ContentPresenter#ContentStylePresenter">
+    <Style Selector="controls|DrawingIconButton.accent:disabled /template/ Border#ContentStylePresenter">
         <Setter Property="Background" Value="{DynamicResource AccentButtonBackgroundDisabled}" />
         <Setter Property="BorderBrush" Value="{DynamicResource AccentButtonBorderBrushDisabled}" />
         <Setter Property="TextBlock.Foreground" Value="{DynamicResource AccentButtonForegroundDisabled}" />
     </Style>
 
-    <Style Selector="controls|DrawingIconButton /template/ ContentPresenter#ContentStylePresenter">
+    <Style Selector="controls|DrawingIconButton /template/ Border#ContentStylePresenter">
         <Setter Property="CornerRadius" Value="{DynamicResource ControlCornerRadius}" />
     </Style>
 </Styles>
