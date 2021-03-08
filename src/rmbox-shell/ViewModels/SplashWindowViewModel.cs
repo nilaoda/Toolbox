@@ -22,7 +22,7 @@ namespace Ruminoid.Toolbox.Shell.ViewModels
             Initialize =
                 Observable.Create<object>(async observer =>
                 {
-                    await Task.Delay(TimeSpan.FromSeconds(2));
+                    await Task.Delay(TimeSpan.FromSeconds(1));
 
                     // Initialize MainWindow
                     if (Application.Current.ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
