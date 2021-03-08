@@ -8,7 +8,7 @@ namespace Ruminoid.Toolbox.Shell.Controls
     {
         #region Constructor
 
-        public DrawingIcon()
+        static DrawingIcon()
         {
             WidthProperty.OverrideDefaultValue<DrawingIcon>(16);
             HeightProperty.OverrideDefaultValue<DrawingIcon>(16);
