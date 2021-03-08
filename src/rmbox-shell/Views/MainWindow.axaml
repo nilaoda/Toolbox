@@ -3,6 +3,8 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:views="clr-namespace:Ruminoid.Toolbox.Shell.Views"
+        xmlns:controls="clr-namespace:Ruminoid.Toolbox.Shell.Controls"
+        xmlns:helpers="clr-namespace:Ruminoid.Toolbox.Shell.Helpers"
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
         x:Class="Ruminoid.Toolbox.Shell.Views.MainWindow"
         Title="Toolbox"
@@ -15,20 +17,31 @@
             Grid.Row="0">
             <StackPanel
                 Margin="12"
-                Orientation="Horizontal">
-                <StackPanel.Styles>
-                    <Style Selector="Button">
-                        <Setter Property="Margin" Value="6"/>
-                    </Style>
-                </StackPanel.Styles>
-                <Button
-                    Command="{Binding DoCreateNewOperation}"
-                    Content="创建操作"/>
-                <Button
-                    Command="{Binding DoCreateNewChain}"
-                    Content="创建链式操作"
-                    IsEnabled="False"/>
-                <Button
+                Orientation="Horizontal"
+                Spacing="12">
+                <controls:DrawingIconButton
+                    Icon="{DynamicResource VSCodeDark.add}"
+                    Command="{x:Static helpers:CommandHelper.OpenContextMenuCommand}"
+                    CommandParameter="{Binding RelativeSource={RelativeSource Self}}"
+                    Classes="accent"
+                    Content="创建操作">
+                    <controls:DrawingIconButton.ContextMenu>
+                        <ContextMenu>
+                            <controls:DrawingIconMenuItem
+                                Icon="{DynamicResource VSCodeLight.add}"
+                                Command="{Binding DoCreateNewOperation}"
+                                Header="创建操作"
+                                Classes="accent"/>
+                            <controls:DrawingIconMenuItem
+                                Icon="{DynamicResource VSCodeLight.list-ordered}"
+                                Command="{Binding DoCreateNewChain}"
+                                Header="创建链式操作"
+                                IsEnabled="False"/>
+                        </ContextMenu>
+                    </controls:DrawingIconButton.ContextMenu>
+                </controls:DrawingIconButton>
+                <controls:DrawingIconButton
+                    Icon="{DynamicResource VSCodeLight.help}"
                     Command="{Binding DoShowAboutWindow}"
                     Content="关于"/>
             </StackPanel>
