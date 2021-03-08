@@ -1,5 +1,7 @@
 ﻿using Avalonia;
+using Avalonia.Threading;
 using Microsoft.Extensions.Logging.Abstractions;
+using ReactiveUI;
 using Ruminoid.Toolbox.Composition;
 using Ruminoid.Toolbox.Composition.Roslim;
 using Ruminoid.Toolbox.Shell.Services;
@@ -11,6 +13,9 @@ namespace Ruminoid.Toolbox.Shell
     {
         public static void Main(string[] args)
         {
+            // Magic - github.com/AvaloniaUI/Avalonia/issues/1934
+            RxApp.MainThreadScheduler = AvaloniaScheduler.Instance;
+
             // Initialize Splat
             InitializeSplat();
 
