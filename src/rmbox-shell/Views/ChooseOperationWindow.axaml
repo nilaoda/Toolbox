@@ -36,13 +36,8 @@
                 Grid.Row="1"
                 Orientation="Horizontal"
                 Margin="12"
-                HorizontalAlignment="Right">
-                <StackPanel.Styles>
-                    <Style Selector="Button">
-                        <Setter Property="Margin" Value="6"/>
-                    </Style>
-                </StackPanel.Styles>
-
+                HorizontalAlignment="Right"
+                Spacing="12">
                 <controls:DrawingIconButton
                     Icon="{DynamicResource VSCodeDark.check}"
                     Classes="accent"
