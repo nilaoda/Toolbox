@@ -43,7 +43,7 @@
                 <controls:DrawingIconButton
                     Icon="{DynamicResource VSCodeLight.help}"
                     Command="{Binding DoShowAboutWindow}"
-                    Content="关于"/>
+                    Content="帮助"/>
             </StackPanel>
         </Grid>
 
