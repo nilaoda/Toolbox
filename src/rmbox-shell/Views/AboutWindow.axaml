@@ -2,44 +2,51 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:viewModels="clr-namespace:Ruminoid.Toolbox.Shell.ViewModels"
+        xmlns:controls="clr-namespace:Ruminoid.Toolbox.Shell.Controls"
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
         x:Class="Ruminoid.Toolbox.Shell.Views.AboutWindow"
-        Title="关于"
+        Title="帮助"
         Icon="resm:rmbox-shell.Assets.rmbox.ico"
         Width="1000" Height="600"
         CanResize="False">
-    <StackPanel
-        HorizontalAlignment="Center"
-        VerticalAlignment="Center">
-        <StackPanel.Styles>
-            <Style Selector="TextBlock">
-                <Setter Property="Margin" Value="12"/>
-                <Setter Property="TextAlignment" Value="Center"/>
-            </Style>
-        </StackPanel.Styles>
-        <Image
-            Source="resm:rmbox-shell.Assets.rmbox.png"
-            Width="200"
-            Height="200"
-            Margin="24"/>
+    <TabControl>
+        <TabItem Header="快速上手">
+            <TextBlock Text="这里是「快速上手」教程。"
+                       Margin="36"/>
+        </TabItem>
 
-        <TextBlock Text="Ruminoid Toolbox"
-                   FontSize="18"
-                   FontWeight="Bold"/>
-        <TextBlock Text="{Binding VersionSummary}"/>
-        <TextBlock Text="{Binding VersionDetail}"/>
+        <TabItem Header="关于">
+            <StackPanel
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center">
+                <StackPanel.Styles>
+                    <Style Selector="TextBlock.info">
+                        <Setter Property="Margin" Value="12"/>
+                        <Setter Property="TextAlignment" Value="Center"/>
+                    </Style>
+                </StackPanel.Styles>
+                <Image
+                    Source="resm:rmbox-shell.Assets.rmbox.png"
+                    Width="200"
+                    Height="200"
+                    Margin="24"/>
 
-      <Button
-          HorizontalAlignment="Center"
-          Content="确定"
-          Margin="24"
-          Command="{Binding DoCloseWindow}">
-          <Button.Styles>
-              <Style Selector="TextBlock">
-                  <Setter Property="Margin" Value="24,3"/>
-              </Style>
-          </Button.Styles>
-      </Button>
-    </StackPanel>
+                <TextBlock Text="Ruminoid Toolbox"
+                           FontSize="18"
+                           FontWeight="Bold"
+                           Classes="info"/>
+                <TextBlock Text="{Binding VersionSummary}"
+                           Classes="info"/>
+                <TextBlock Text="{Binding VersionDetail}"
+                           Classes="info"/>
+
+                <controls:DrawingIconButton
+                    Icon="{DynamicResource VSCodeLight.check}"
+                    HorizontalAlignment="Center"
+                    Content="确定"
+                    Margin="24"
+                    Command="{Binding DoCloseWindow}"/>
+            </StackPanel>
+        </TabItem>
+    </TabControl>
 </Window>
