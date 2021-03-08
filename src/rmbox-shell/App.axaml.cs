@@ -1,3 +1,4 @@
+using System;
 using Avalonia;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Markup.Xaml;
@@ -16,7 +17,18 @@ namespace Ruminoid.Toolbox.Shell
         {
             if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
             {
-                desktop.MainWindow = new MainWindow();
+                SplashWindow splash = new SplashWindow();
+                splash.Show();
+
+                splash.ViewModel.Initialize
+                    .Subscribe(
+                        _ => { },
+                        _ => { },
+                        () =>
+                        {
+                            desktop.MainWindow.Show();
+                            splash.Close();
+                        });
             }
 
             base.OnFrameworkInitializationCompleted();

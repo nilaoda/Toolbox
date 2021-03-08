@@ -1,0 +1,56 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:viewModels="clr-namespace:Ruminoid.Toolbox.Shell.ViewModels"
+        mc:Ignorable="d" d:DesignWidth="500" d:DesignHeight="600"
+        x:Class="Ruminoid.Toolbox.Shell.Views.SplashWindow"
+        Title="Toolbox"
+        Icon="resm:rmbox-shell.Assets.rmbox.ico"
+        ExtendClientAreaChromeHints="NoChrome"
+        ExtendClientAreaTitleBarHeightHint="-1"
+        ExtendClientAreaToDecorationsHint="True"
+        Width="500" Height="600"
+        CanResize="False"
+        WindowStartupLocation="CenterScreen"
+        ShowActivated="True"
+        ShowInTaskbar="True"
+        Background="#220020">
+    <Window.DataContext>
+        <viewModels:SplashWindowViewModel/>
+    </Window.DataContext>
+
+    <Grid
+        RowDefinitions="*,Auto">
+        <Grid.Styles>
+            <Style Selector="TextBlock">
+                <Setter Property="Foreground" Value="#FF61F6"/>
+                <Setter Property="Margin" Value="0,6"/>
+            </Style>
+
+            <Style Selector="TextBlock.header">
+                <Setter Property="FontWeight" Value="Light"/>
+                <Setter Property="FontSize" Value="28"/>
+            </Style>
+        </Grid.Styles>
+
+        <Image
+            Grid.Row="0"
+            Source="resm:rmbox-shell.Assets.rmbox.png"
+            Width="200"
+            Height="200"/>
+        <Grid
+            Grid.Row="1">
+            <StackPanel
+                Margin="48,24">
+                <TextBlock
+                    Text="Ruminoid Toolbox"
+                    Classes="header"/>
+                <TextBlock
+                    Text="{Binding VersionSummary}"/>
+                <TextBlock
+                    Text="{Binding InitializeStatus}"/>
+            </StackPanel>
+        </Grid>
+    </Grid>
+</Window>
