@@ -12,6 +12,7 @@
   <ItemGroup>
     <None Remove="Controls\Styles\DrawingIcon.xaml" />
     <None Remove="Controls\Styles\DrawingIconButton.xaml" />
+    <None Remove="Controls\Styles\DrawingIconMenuItem.xaml" />
     <None Remove="Icons\Icons.xaml" />
     <None Remove="Styles\Generic.xaml" />
   </ItemGroup>
@@ -20,6 +21,9 @@
       <Generator>MSBuild:Compile</Generator>
     </AvaloniaResource>
     <AvaloniaResource Include="Controls\Styles\DrawingIconButton.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </AvaloniaResource>
+    <AvaloniaResource Include="Controls\Styles\DrawingIconMenuItem.xaml">
       <Generator>MSBuild:Compile</Generator>
     </AvaloniaResource>
     <AvaloniaResource Include="Icons\Icons.xaml">
