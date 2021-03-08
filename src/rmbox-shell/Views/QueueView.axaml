@@ -3,6 +3,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:viewModels="clr-namespace:Ruminoid.Toolbox.Shell.ViewModels"
+             xmlns:controls="clr-namespace:Ruminoid.Toolbox.Shell.Controls"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="Ruminoid.Toolbox.Shell.Views.QueueView">
 
@@ -14,22 +15,59 @@
         RowDefinitions="Auto,*,Auto">
       <Grid
           Grid.Row="0"
-          ColumnDefinitions="Auto,*,Auto">
+          ColumnDefinitions="Auto,*">
           <Grid
               Grid.Column="0"
-              VerticalAlignment="Center">
+              VerticalAlignment="Center"
+              ColumnDefinitions="Auto,Auto">
+              <Grid.Styles>
+                  <Style Selector="ToggleButton[IsChecked=True] controls|DrawingIcon">
+                      <Setter Property="Icon" Value="{DynamicResource VSCodeDark.server}"/>
+                  </Style>
+                  <Style Selector="ToggleButton[IsChecked=False] controls|DrawingIcon">
+                      <Setter Property="Icon" Value="{DynamicResource VSCodeLight.server}"/>
+                  </Style>
+              </Grid.Styles>
+
+              <ToggleButton
+                  Grid.Column="0"
+                  Margin="6"
+                  IsChecked="{Binding QueueRunning}"
+                  Width="70"
+                  Height="70">
+                  <StackPanel
+                      Spacing="6"
+                      HorizontalAlignment="Center"
+                      VerticalAlignment="Center">
+                      <controls:DrawingIcon
+                          Width="32"
+                          Height="32"/>
+                      <TextBlock
+                          Text="队列"/>
+                  </StackPanel>
+              </ToggleButton>
+
               <StackPanel
-                  HorizontalAlignment="Center"
-                  VerticalAlignment="Center">
-                  <TextBlock
-                      Margin="6"
-                      FontSize="24"
-                      FontWeight="Bold">
-                      队列
-                  </TextBlock>
-                  <ToggleSwitch
-                      Margin="12"
-                      IsChecked="{Binding QueueRunning}"/>
+                  Grid.Column="1"
+                  Spacing="12"
+                  Margin="12">
+                  <StackPanel.Styles>
+                      <Style Selector="controls|DrawingIconButton">
+                          <Setter Property="HorizontalAlignment" Value="Stretch"/>
+                      </Style>
+                  </StackPanel.Styles>
+                  <controls:DrawingIconButton
+                      Icon="{DynamicResource VSCodeLight.debug-stop}"
+                      Command="{Binding DoKill}"
+                      Content="强制停止"/>
+                  <controls:DrawingIconButton
+                      Icon="{DynamicResource VSCodeLight.debug-step-over}"
+                      Command="{Binding DoSkip}"
+                      Content="跳过"/>
+                  <controls:DrawingIconButton
+                      Icon="{DynamicResource VSCodeLight.close}"
+                      Command="{Binding DoClear}"
+                      Content="清空"/>
               </StackPanel>
           </Grid>
           <Grid
@@ -66,26 +104,6 @@
                       Text="{Binding CurrentProject.Detail}"/>
               </Grid>
           </Grid>
-          <StackPanel
-              Grid.Column="2"
-              HorizontalAlignment="Center"
-              VerticalAlignment="Center">
-              <Button
-                    Margin="12"
-                    Command="{Binding DoKill}">
-                    强制停止
-              </Button>
-              <Button
-                    Margin="12"
-                    Command="{Binding DoSkip}">
-                    跳过
-              </Button>
-              <Button
-                    Margin="12"
-                    Command="{Binding DoClear}">
-                    清空
-              </Button>
-          </StackPanel>
       </Grid>
       <ListBox
           Grid.Row="1"
