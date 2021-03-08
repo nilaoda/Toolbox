@@ -87,6 +87,10 @@
                       <Style Selector="ProgressBar[Value=0]">
                           <Setter Property="IsVisible" Value="False"/>
                       </Style>
+
+                      <Style Selector="ProgressBar[IsIndeterminate=True]">
+                          <Setter Property="IsVisible" Value="True"/>
+                      </Style>
                   </Grid.Styles>
 
                   <TextBlock
