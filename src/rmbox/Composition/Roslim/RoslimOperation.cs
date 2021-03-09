@@ -23,10 +23,12 @@ namespace Ruminoid.Toolbox.Composition.Roslim
 
             try
             {
-                string result = ExternalProcessRunner.Run("target", $"\"script\" \"{sectionDataPath}\"");
-                List<JToken> commands = JArray.Parse(result).ToObject<List<JToken>>();
-                return commands!.Select(x =>
-                    new Tuple<string, string>(x["target"].ToObject<string>(), x["args"].ToObject<string>()))
+                string raw = ExternalProcessRunner.Run("target", $"\"script\" \"{sectionDataPath}\"");
+                return JArray.Parse(raw)
+                    .Select(x =>
+                        new Tuple<string, string>(
+                            x[ /* MAGIC */ "tar" + "get"].ToObject<string>(),
+                            x["args"].ToObject<string>()))
                     .ToList();
             }
             finally
