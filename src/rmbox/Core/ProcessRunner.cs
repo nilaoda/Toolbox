@@ -48,7 +48,7 @@ namespace Ruminoid.Toolbox.Core
 
             if (dynamicLinkPort != 0)
             {
-                _websocketClient = new(new Uri($"ws://127.0.0.1:{dynamicLinkPort}/{DynamicLinkEndpointStr}"))
+                _websocketClient = new(new Uri($"ws://127.0.0.1:{dynamicLinkPort}"))
                 {
                     ReconnectTimeout = TimeSpan.FromSeconds(30)
                 };
@@ -78,7 +78,7 @@ namespace Ruminoid.Toolbox.Core
 
         #region Dynamic Link
 
-        public const string DynamicLinkEndpointStr = "dynlnk";
+        // public const string DynamicLinkEndpointStr = "dynlnk";
         public const string DynamicLinkKillCommand = "RMDYNLNKKILL";
 
         private readonly Subject<string> _pipeSubject = new();

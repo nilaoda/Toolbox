@@ -31,15 +31,11 @@ namespace Ruminoid.Toolbox.Shell.Services
                 {
                     WebSocketServer webSocketServer = new($"ws://127.0.0.1:{_pipePort}")
                     {
-                        SupportedSubProtocols = new[] {ProcessRunner.DynamicLinkEndpointStr},
                         RestartAfterListenError = true
                     };
 
                     webSocketServer.Start(socket =>
                     {
-                        if (socket.ConnectionInfo.NegotiatedSubProtocol != ProcessRunner.DynamicLinkEndpointStr)
-                            socket.Close();
-
                         IDisposable killDisposable = _killSubject.Subscribe(_ =>
                         {
                             socket.Send(ProcessRunner.DynamicLinkKillCommand);
