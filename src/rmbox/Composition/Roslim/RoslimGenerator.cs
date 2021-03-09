@@ -152,7 +152,7 @@ namespace Ruminoid.Toolbox.Composition.Roslim
                         true));
 
                 IProcessor processor =
-                    Microsoft.TemplateEngine.Core.Util.Processor.Create(_engineConfig, providers);
+                    Processor.Create(_engineConfig, providers);
 
                 using MemoryStream resultStream = new MemoryStream();
                 using StreamReader resultReader = new(resultStream);
@@ -180,6 +180,7 @@ namespace Ruminoid.Toolbox.Composition.Roslim
 
                 EmitOptions emitOptions =
                     new EmitOptions()
+                        .WithDebugInformationFormat(DebugInformationFormat.Embedded)
                         .WithIncludePrivateMembers(true)
                         .WithRuntimeMetadataVersion(
                             $"v{RuntimeInformation.FrameworkDescription.Split(' ').Last()}");
