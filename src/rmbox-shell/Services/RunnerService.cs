@@ -5,7 +5,6 @@ using System.Reactive.Linq;
 using System.Reactive.Subjects;
 using System.Runtime.InteropServices;
 using System.Text;
-using System.Threading.Tasks;
 using Fleck;
 using Newtonsoft.Json;
 using ReactiveUI;
