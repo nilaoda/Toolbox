@@ -27,34 +27,29 @@ namespace Ruminoid.Toolbox.Shell.Services
         {
             _queueService = queueService;
 
-            Observable.Create<string>(observer =>
+            _dynamicLink.Subscribe(ReadFromPipe);
+
+            WebSocketServer webSocketServer = new($"ws://127.0.0.1:{_pipePort}")
+            {
+                RestartAfterListenError = true
+            };
+
+            webSocketServer.Start(socket =>
+            {
+                IDisposable killDisposable = _killSubject.Subscribe(_ =>
                 {
-                    WebSocketServer webSocketServer = new($"ws://127.0.0.1:{_pipePort}")
-                    {
-                        RestartAfterListenError = true
-                    };
+                    socket.Send(ProcessRunner.DynamicLinkKillCommand);
+                });
 
-                    webSocketServer.Start(socket =>
-                    {
-                        IDisposable killDisposable = _killSubject.Subscribe(_ =>
-                        {
-                            socket.Send(ProcessRunner.DynamicLinkKillCommand);
-                        });
+                socket.OnMessage = message => _dynamicLink.OnNext(message);
+                socket.OnError = ex => _dynamicLink.OnError(ex);
 
-                        socket.OnMessage = observer.OnNext;
-                        socket.OnError = observer.OnError;
-                        socket.OnClose = () =>
-                        {
-                            killDisposable.Dispose();
-                            observer.OnCompleted();
-                        };
-                    });
-
-                    return Task.CompletedTask;
-                })
-                .Where(x => !string.IsNullOrWhiteSpace(x))
-                .ObserveOn(RxApp.TaskpoolScheduler)
-                .Subscribe(ReadFromPipe);
+                socket.OnClose = () =>
+                {
+                    killDisposable.Dispose();
+                    _dynamicLink.OnCompleted();
+                };
+            });
 
             _queueService
                 .WhenAnyValue(x => x.CurrentProject)
@@ -85,7 +80,9 @@ namespace Ruminoid.Toolbox.Shell.Services
         #region Dynamic Link
 
         private readonly int _pipePort = new Random().Next(30010, 31000);
-        
+
+        private readonly Subject<string> _dynamicLink = new();
+
         private void ReadFromPipe(string json)
         {
             if (CurrentProject is null) return;
