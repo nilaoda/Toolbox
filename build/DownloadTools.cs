@@ -114,7 +114,12 @@ partial class Build
 
         Logger.Info("Downloading json.lua.");
         HttpTasks.HttpDownloadFile(
-            "https://raw.githubusercontent.com/rxi/json.lua/master/json.lua",
+            $"https://raw.githubusercontent.com/Afanyiyu/Delivr/master/lua/json.lua.zip",
+            ToolsTempDirectory / "json.lua.zip");
+
+        Logger.Info("Extracting json.lua.");
+        CompressionTasks.UncompressZip(
+            ToolsTempDirectory / "json.lua.zip",
             ToolsDirectory);
     }
 
@@ -187,7 +192,12 @@ partial class Build
 
         Logger.Info("Downloading json.lua.");
         HttpTasks.HttpDownloadFile(
-            "https://raw.githubusercontent.com/rxi/json.lua/master/json.lua",
+            $"https://raw.githubusercontent.com/Afanyiyu/Delivr/master/lua/json.lua.zip",
+            ToolsTempDirectory / "json.lua.zip");
+
+        Logger.Info("Extracting json.lua.");
+        CompressionTasks.UncompressZip(
+            ToolsTempDirectory / "json.lua.zip",
             ToolsDirectory);
     }
 
@@ -242,7 +252,12 @@ partial class Build
 
         Logger.Info("Downloading json.lua.");
         HttpTasks.HttpDownloadFile(
-            "https://raw.githubusercontent.com/rxi/json.lua/master/json.lua",
+            $"https://raw.githubusercontent.com/Afanyiyu/Delivr/master/lua/json.lua.zip",
+            ToolsTempDirectory / "json.lua.zip");
+
+        Logger.Info("Extracting json.lua.");
+        CompressionTasks.UncompressZip(
+            ToolsTempDirectory / "json.lua.zip",
             ToolsDirectory);
     }
 }
