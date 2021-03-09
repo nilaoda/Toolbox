@@ -29,13 +29,10 @@ namespace Ruminoid.Toolbox.Shell.ViewModels
                 .WhenAnyValue(x => x._queueService.CurrentProject)
                 .ToProperty(this, x => x.CurrentProject);
 
-            _isAnyItem =
-                Observable.Return(false)
-                    .Delay(TimeSpan.FromSeconds(1))
-                    .Merge(this
-                        .WhenAnyValue(x => x.Items)
-                        .Any())
-                    .ToProperty(this, x => x.IsAnyItem);
+            _isAnyItem = this
+                .WhenAnyValue(x => x.Items)
+                .Any()
+                .ToProperty(this, x => x.IsAnyItem);
         }
 
         #endregion
