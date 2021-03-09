@@ -63,7 +63,8 @@ namespace Ruminoid.Toolbox.Shell.Services
                     .WhenAnyValue(x => x.Status)
                     .Subscribe(TriggerProjectUpdate);
 
-                this.RaiseAndSetIfChanged(ref _currentProject, value);
+                _currentProject = value;
+                this.RaisePropertyChanged(nameof(CurrentProject));
             }
         }
 
