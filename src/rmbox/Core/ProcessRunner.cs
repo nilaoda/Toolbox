@@ -56,7 +56,7 @@ namespace Ruminoid.Toolbox.Core
                 _websocketClient.ReconnectionHappened
                     .Subscribe(info =>
                     {
-                        _logger.LogDebug($"Dynamic link reconnected because of {info.Type}");
+                        _logger.LogWarning($"Dynamic link reconnected because of {info.Type}");
                     });
 
                 _websocketClient.MessageReceived
