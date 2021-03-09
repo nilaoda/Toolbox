@@ -64,6 +64,8 @@ namespace Ruminoid.Toolbox.Core
                     .Where(x => x.Text == DynamicLinkKillCommand)
                     .Subscribe(_ => TryKillProcess());
 
+                _websocketClient.Start();
+
                 _pipeSubject
                     .ObserveOn(TaskPoolScheduler.Default)
                     .Subscribe(PipeSend);
