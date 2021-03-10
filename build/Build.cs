@@ -198,7 +198,7 @@ partial class Build : NukeBuild
 
             Logger.Info("Making soft link.");
             ProcessTasks.StartShell(
-                    Platform == PlatformFamily.Windows ? "mklink \"启动Toolbox\" rmbox\\rmbox.exe" : "ln -s ./rmbox/rmbox \"启动Toolbox\"",
+                    Platform == PlatformFamily.Windows ? "mklink 启动Toolbox rmbox\\rmbox.exe" : "ln -s ./rmbox/rmbox 启动Toolbox",
                     PackDirectory)
                 .AssertZeroExitCode();
 
