@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.IO;
 using System.Linq;
 using Nuke.Common;
@@ -198,7 +198,7 @@ partial class Build : NukeBuild
 
             Logger.Info("Making soft link.");
             ProcessTasks.StartShell(
-                    Platform == PlatformFamily.Windows ? "mklink \"Start Toolbox\" rmbox\\rmbox.exe" : "ln -s ./rmbox/rmbox \"Start Toolbox\"",
+                    Platform == PlatformFamily.Windows ? "mklink \"启动Toolbox\" rmbox\\rmbox.exe" : "ln -s ./rmbox/rmbox \"启动Toolbox\"",
                     PackDirectory)
                 .AssertZeroExitCode();
 
