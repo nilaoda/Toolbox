@@ -7,9 +7,11 @@ using Nuke.Common.Execution;
 using Nuke.Common.Git;
 using Nuke.Common.IO;
 using Nuke.Common.ProjectModel;
+using Nuke.Common.Tooling;
 using Nuke.Common.Tools.DotNet;
 using Nuke.Common.Tools.GitVersion;
 using Nuke.Common.Utilities.Collections;
+using static Nuke.Common.EnvironmentInfo;
 using static Nuke.Common.IO.FileSystemTasks;
 using static Nuke.Common.IO.PathConstruction;
 using static Nuke.Common.Tools.DotNet.DotNetTasks;
@@ -49,7 +51,8 @@ partial class Build : NukeBuild
     AbsolutePath PluginsDirectory => RootDirectory / "plugins";
     AbsolutePath TestsDirectory => RootDirectory / "test";
     AbsolutePath DistDirectory => RootDirectory / "dist";
-    AbsolutePath OutputDirectory => DistDirectory / "rmbox";
+    AbsolutePath PackDirectory => DistDirectory / "RuminoidToolbox";
+    AbsolutePath OutputDirectory => PackDirectory / "rmbox";
     AbsolutePath ToolsDirectory => OutputDirectory / "tools";
 
     Target Clean => _ => _
@@ -192,6 +195,17 @@ partial class Build : NukeBuild
             EnsureCleanDirectory(ToolsDirectory);
 
             DownloadTools();
+
+            Logger.Info("Making soft link.");
+            ProcessTasks.StartShell(
+                    Platform == PlatformFamily.Windows ? "mklink \"Start Toolbox\" rmbox\\rmbox.exe" : "ln -s ./rmbox/rmbox \"Start Toolbox\"",
+                    PackDirectory)
+                .AssertZeroExitCode();
+
+            Logger.Info("Compressing dist.");
+            ProcessTasks.StartShell(
+                    $"{ToolsTempDirectory / "7za"} a {DistDirectory / "rmbox.7z"} {PackDirectory}/ -mx9")
+                .AssertZeroExitCode();
         });
 
     Target Test => _ => _

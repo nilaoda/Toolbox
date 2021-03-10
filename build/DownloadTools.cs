@@ -114,12 +114,22 @@ partial class Build
 
         Logger.Info("Downloading json.lua.");
         HttpTasks.HttpDownloadFile(
-            $"https://raw.githubusercontent.com/Afanyiyu/Delivr/master/lua/json.lua.zip",
+            "https://raw.githubusercontent.com/Afanyiyu/Delivr/master/lua/json.lua.zip",
             ToolsTempDirectory / "json.lua.zip");
 
         Logger.Info("Extracting json.lua.");
         CompressionTasks.UncompressZip(
             ToolsTempDirectory / "json.lua.zip",
+            ToolsDirectory);
+
+        Logger.Info("Downloading 7za.");
+        HttpTasks.HttpDownloadFile(
+            "https://raw.githubusercontent.com/develar/7zip-bin/master/win/x64/7za.exe",
+            ToolsTempDirectory / "7za.exe");
+
+        Logger.Info("Moving 7za.");
+        CopyFileToDirectory(
+            ToolsTempDirectory / "7za.exe",
             ToolsDirectory);
     }
 
@@ -192,12 +202,22 @@ partial class Build
 
         Logger.Info("Downloading json.lua.");
         HttpTasks.HttpDownloadFile(
-            $"https://raw.githubusercontent.com/Afanyiyu/Delivr/master/lua/json.lua.zip",
+            "https://raw.githubusercontent.com/Afanyiyu/Delivr/master/lua/json.lua.zip",
             ToolsTempDirectory / "json.lua.zip");
 
         Logger.Info("Extracting json.lua.");
         CompressionTasks.UncompressZip(
             ToolsTempDirectory / "json.lua.zip",
+            ToolsDirectory);
+
+        Logger.Info("Downloading 7za.");
+        HttpTasks.HttpDownloadFile(
+            "https://raw.githubusercontent.com/develar/7zip-bin/master/mac/x64/7za",
+            ToolsTempDirectory / "7za");
+
+        Logger.Info("Moving 7za.");
+        CopyFileToDirectory(
+            ToolsTempDirectory / "7za",
             ToolsDirectory);
     }
 
@@ -252,12 +272,22 @@ partial class Build
 
         Logger.Info("Downloading json.lua.");
         HttpTasks.HttpDownloadFile(
-            $"https://raw.githubusercontent.com/Afanyiyu/Delivr/master/lua/json.lua.zip",
+            "https://raw.githubusercontent.com/Afanyiyu/Delivr/master/lua/json.lua.zip",
             ToolsTempDirectory / "json.lua.zip");
 
         Logger.Info("Extracting json.lua.");
         CompressionTasks.UncompressZip(
             ToolsTempDirectory / "json.lua.zip",
+            ToolsDirectory);
+
+        Logger.Info("Downloading 7za.");
+        HttpTasks.HttpDownloadFile(
+            "https://raw.githubusercontent.com/develar/7zip-bin/master/linux/x64/7za",
+            ToolsTempDirectory / "7za");
+
+        Logger.Info("Moving 7za.");
+        CopyFileToDirectory(
+            ToolsTempDirectory / "7za",
             ToolsDirectory);
     }
 }
