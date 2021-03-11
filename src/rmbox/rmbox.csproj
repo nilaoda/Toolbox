@@ -22,6 +22,7 @@
     <PackageReference Include="Microsoft.CodeAnalysis" Version="3.9.0" />
     <PackageReference Include="Microsoft.CodeAnalysis.CSharp.Scripting" Version="3.9.0" />
     <PackageReference Include="Microsoft.Extensions.Hosting" Version="5.0.0" />
+    <PackageReference Include="Microsoft.TemplateEngine.Core" Version="5.0.3" />
     <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
     <PackageReference Include="System.Composition" Version="5.0.1" />
     <PackageReference Include="System.Reactive.Linq" Version="5.0.0" />
@@ -29,7 +30,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\lib\dotnet-templating\src\Microsoft.TemplateEngine.Core\Microsoft.TemplateEngine.Core.csproj" />
     <ProjectReference Include="..\rmbox-plugbase\rmbox-plugbase.csproj" />
   </ItemGroup>
 
