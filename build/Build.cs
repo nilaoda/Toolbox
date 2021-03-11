@@ -202,6 +202,21 @@ partial class Build : NukeBuild
                     PackDirectory)
                 .AssertZeroExitCode();
 
+            if (Platform == PlatformFamily.Linux ||
+                Platform == PlatformFamily.OSX)
+            {
+                Logger.Info("Configuring privileges.");
+                ProcessTasks.StartShell(
+                        "chmod 775 -R tools",
+                        TemporaryDirectory)
+                    .AssertZeroExitCode();
+
+                ProcessTasks.StartShell(
+                        "chmod 775 -R RuminoidToolbox",
+                        DistDirectory)
+                    .AssertZeroExitCode();
+            }
+
             Logger.Info("Compressing dist.");
             ProcessTasks.StartShell(
                     $"{ToolsTempDirectory / "7za"} a {DistDirectory / "rmbox.7z"} {PackDirectory}/ -mx9")
