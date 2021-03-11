@@ -13,39 +13,42 @@
         MinWidth="1050" MinHeight="600">
     <Grid
         RowDefinitions="Auto,*">
-        <Grid
+        <Menu
             Grid.Row="0">
-            <StackPanel
-                Margin="12"
-                Orientation="Horizontal"
-                Spacing="12">
-                <controls:DrawingIconButton
-                    Icon="{DynamicResource VSCodeDark.add}"
-                    Command="{x:Static helpers:CommandHelper.OpenContextMenuCommand}"
-                    CommandParameter="{Binding RelativeSource={RelativeSource Self}}"
-                    Classes="accent"
-                    Content="创建操作">
-                    <controls:DrawingIconButton.ContextMenu>
-                        <ContextMenu>
-                            <controls:DrawingIconMenuItem
-                                Icon="{DynamicResource VSCodeLight.add}"
-                                Command="{Binding DoCreateNewOperation}"
-                                Header="创建操作"
-                                Classes="accent"/>
-                            <controls:DrawingIconMenuItem
-                                Icon="{DynamicResource VSCodeLight.list-ordered}"
-                                Command="{Binding DoCreateNewChain}"
-                                Header="创建链式操作"
-                                IsEnabled="False"/>
-                        </ContextMenu>
-                    </controls:DrawingIconButton.ContextMenu>
-                </controls:DrawingIconButton>
-                <controls:DrawingIconButton
+            <MenuItem
+                Header="Toolbox">
+                <controls:DrawingIconMenuItem
+                    Icon="{DynamicResource VSCodeLight.add}"
+                    Command="{Binding DoCreateNewOperation}"
+                    Header="创建操作"
+                    InputGesture="Ctrl+N"
+                    Classes="accent"/>
+                <controls:DrawingIconMenuItem
+                    Icon="{DynamicResource VSCodeLight.radio-tower}"
+                    Command="{Binding DoCreateService}"
+                    Header="创建服务"
+                    InputGesture="Ctrl+Shift+N"
+                    IsEnabled="False"/>
+                <controls:DrawingIconMenuItem
+                    Icon="{DynamicResource VSCodeLight.list-ordered}"
+                    Command="{Binding DoCreateNewChain}"
+                    Header="创建链式操作"
+                    IsEnabled="False"/>
+                <Separator/>
+                <MenuItem
+                    Command="{Binding DoClose}"
+                    Header="退出"
+                    InputGesture="Alt+F4"/>
+            </MenuItem>
+            <MenuItem
+                Header="帮助">
+                <controls:DrawingIconMenuItem
                     Icon="{DynamicResource VSCodeLight.help}"
                     Command="{Binding DoShowAboutWindow}"
-                    Content="帮助"/>
-            </StackPanel>
-        </Grid>
+                    Header="帮助"
+                    InputGesture="F1"/>
+            </MenuItem>
+        </Menu>
 
         <Grid
             Grid.Row="1">

@@ -29,10 +29,17 @@ namespace Ruminoid.Toolbox.Shell.ViewModels
             throw new NotImplementedException();
         }
 
+        public void DoCreateService()
+        {
+            throw new NotImplementedException();
+        }
+
         public void DoShowAboutWindow()
         {
             AboutWindow.ShowAbout(_window);
         }
+
+        public void DoClose() => _window.Close();
 
         #endregion
     }
