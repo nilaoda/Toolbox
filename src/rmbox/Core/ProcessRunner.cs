@@ -67,6 +67,7 @@ namespace Ruminoid.Toolbox.Core
                 _websocketClient.Start();
 
                 _pipeSubject
+                    .Sample(TimeSpan.FromSeconds(0.5))
                     .ObserveOn(TaskPoolScheduler.Default)
                     .Subscribe(PipeSend);
             }
