@@ -150,7 +150,7 @@ namespace Ruminoid.Toolbox.Core
 
                         if (((ProcessOptions) _commandLineHelper.Options).LogProcessOut)
                             _logger.LogInformation($"[{target}]{e.Data}");
-                        _formattingHelper.ReceiveData.OnNext(new Tuple<string, string>(target, e.Data));
+                        _formattingHelper.ReceiveData.OnNext((target, e.Data));
                     },
                     error => _logger.LogError(error, "进程发生了错误。"));
 
@@ -177,14 +177,14 @@ namespace Ruminoid.Toolbox.Core
         /// 执行进程。
         /// </summary>
         /// <param name="command">指令。</param>
-        public void Run(Tuple<string, string> command) =>
-            Run(command.Item1, command.Item2);
+        public void Run((string Target, string Args) command) =>
+            Run(command.Target, command.Args);
 
         /// <summary>
         /// 执行进程。
         /// </summary>
         /// <param name="commands">指令列表。</param>
-        public void Run(List<Tuple<string, string>> commands)
+        public void Run(List<(string Target, string Args)> commands)
         {
             _logger.LogInformation($"开始运行 {commands.Count} 条指令。");
 

@@ -27,13 +27,13 @@ namespace Ruminoid.Toolbox.Formatting
         
         #region Subjects
 
-        public readonly Subject<Tuple<string, string>> ReceiveData = new();
+        public readonly Subject<(string Target, string Data)> ReceiveData = new();
 
         public readonly IObservable<FormattedEvent> FormatData;
 
         #endregion
 
-        private FormattedEvent Format(Tuple<string, string> arg)
+        private FormattedEvent Format((string Target, string Data) arg)
         {
             var (target, data) = arg;
             var (_, formatter) = _pluginHelper.GetFormatter(target);

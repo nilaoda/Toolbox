@@ -14,22 +14,22 @@ namespace Ruminoid.Toolbox.Shell.ViewModels
 
         public ProjectViewModel(
             OperationModel operationModel,
-            Collection<Tuple<ConfigSectionAttribute, object>> configSections)
+            Collection<(ConfigSectionAttribute ConfigSectionAttribute, object ConfigSection)> configSections)
         {
             OperationModel = operationModel;
             ConfigSections = configSections;
 
-            Tuple<ConfigSectionAttribute, object>
+            (ConfigSectionAttribute ConfigSectionAttribute, object ConfigSection)
                 ioConfigSection =
                     ConfigSections
                         .FirstOrDefault(
-                            x => x.Item1.Id ==
+                            x => x.ConfigSectionAttribute.Id ==
                                  "Ruminoid.Toolbox.Plugins.Common.ConfigSections.IOConfigSection");
 
             // ReSharper disable once InvertIf
-            if (ioConfigSection is not null)
+            if (ioConfigSection != default)
             {
-                JObject jObject = JObject.FromObject(ioConfigSection.Item2);
+                JObject jObject = JObject.FromObject(ioConfigSection.ConfigSection);
 
                 var source = jObject["video"]?.ToString();
                 if (string.IsNullOrWhiteSpace(source)) source = jObject["subtitle"]?.ToString();
@@ -43,7 +43,7 @@ namespace Ruminoid.Toolbox.Shell.ViewModels
 
         public readonly OperationModel OperationModel;
 
-        public readonly Collection<Tuple<ConfigSectionAttribute, object>> ConfigSections;
+        public readonly Collection<(ConfigSectionAttribute ConfigSectionAttribute, object ConfigSection)> ConfigSections;
 
         #endregion
 

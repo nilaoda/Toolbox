@@ -21,8 +21,8 @@ namespace Ruminoid.Toolbox.Shell.Core
                         .Select(x =>
                             new
                             {
-                                type = x.Item1.Id,
-                                data = x.Item2
+                                type = x.ConfigSectionAttribute.Id,
+                                data = x.ConfigSection
                             })
                         .ToArray()
             };

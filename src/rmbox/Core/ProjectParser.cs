@@ -45,7 +45,7 @@ namespace Ruminoid.Toolbox.Core
             _logger.LogDebug("Parsing projectPath:");
             _logger.LogDebug(path);
 
-            List<Tuple<string, string>> commands;
+            List<(string Target, string Args)> commands;
 
             try
             {
@@ -74,12 +74,10 @@ namespace Ruminoid.Toolbox.Core
 
                 try
                 {
-                    foreach (Tuple<string, JToken> tuple in sections.Select(
-                        section => new Tuple<string, JToken>(
-                            section["type"].ToObject<string>(),
-                            section["data"])))
+                    foreach ((string ConfigSectionId, JToken ConfigSection) tuple in sections.Select(
+                        section => (section["type"].ToObject<string>(), section["data"])))
                     {
-                        sectionData.Add(tuple.Item1, tuple.Item2);
+                        sectionData.Add(tuple.ConfigSectionId, tuple.ConfigSection);
                     }
 
                     if (sectionData.Count == 0)
@@ -116,13 +114,13 @@ namespace Ruminoid.Toolbox.Core
                     throw new ProjectParseException(err, e);
                 }
 
-                Tuple<OperationAttribute, IOperation> operation;
+                (OperationAttribute OperationAttribute, IOperation Operation) operation;
 
                 try
                 {
                     operation = _pluginHelper.GetOperation(operationId);
 
-                    if (operation is null)
+                    if (operation == default)
                         throw new ArgumentNullException(nameof(operation));
                 }
                 catch (Exception e)
@@ -132,12 +130,12 @@ namespace Ruminoid.Toolbox.Core
                     throw new ProjectParseException(err, e);
                 }
 
-                _logger.LogInformation($"使用 {operation.Item1.Name} 进行操作。");
-                _logger.LogDebug($"Checking RequiredConfigSections for operation {operation.Item1.Name}");
+                _logger.LogInformation($"使用 {operation.OperationAttribute.Name} 进行操作。");
+                _logger.LogDebug($"Checking RequiredConfigSections for operation {operation.OperationAttribute.Name}");
 
                 try
                 {
-                    commands = operation.Item2.Generate(sectionData);
+                    commands = operation.Operation.Generate(sectionData);
 
                     if (commands is null)
                         throw new ArgumentNullException(nameof(commands));

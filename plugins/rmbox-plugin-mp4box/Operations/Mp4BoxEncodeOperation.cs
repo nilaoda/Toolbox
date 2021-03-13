@@ -13,7 +13,7 @@ namespace Ruminoid.Toolbox.Plugins.Mp4Box.Operations
         "使用小丸压制法进行视频压制。")]
     public class Mp4BoxEncodeOperation : IOperation
     {
-        public List<Tuple<string, string>> Generate(Dictionary<string, JToken> sectionData)
+        public List<(string Target, string Args)> Generate(Dictionary<string, JToken> sectionData)
         {
             JToken ioSection =
                 sectionData["Ruminoid.Toolbox.Plugins.Common.ConfigSections.IOConfigSection"];
@@ -28,7 +28,7 @@ namespace Ruminoid.Toolbox.Plugins.Mp4Box.Operations
             string vtempStatsPath = Path.ChangeExtension(videoPathIntl, "vtemp.stats").EscapePathStringForArg();
             string vtempStatsMbtreePath = Path.ChangeExtension(videoPathIntl, "vtemp.stats.mbtree").EscapePathStringForArg();
 
-            List<Tuple<string, string>> result = new()
+            List<(string, string)> result = new()
             {
                 // Extract Audio
                 new(
@@ -39,7 +39,7 @@ namespace Ruminoid.Toolbox.Plugins.Mp4Box.Operations
             switch (x264QualitySection["encode_mode"]?.ToObject<string>())
             {
                 case "crf":
-                    result.AddRange(new Tuple<string, string>[]
+                    result.AddRange(new (string, string)[]
                     {
                         new(
                             "x264",
@@ -53,7 +53,7 @@ namespace Ruminoid.Toolbox.Plugins.Mp4Box.Operations
                     });
                     break;
                 case "2pass":
-                    result.AddRange(new Tuple<string, string>[]
+                    result.AddRange(new (string, string)[]
                     {
                         new(
                             "x264",

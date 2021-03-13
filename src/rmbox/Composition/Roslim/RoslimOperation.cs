@@ -15,7 +15,7 @@ namespace Ruminoid.Toolbox.Composition.Roslim
         "(Roslim Operation)")]
     public class RoslimOperation : IOperation
     {
-        public List<Tuple<string, string>> Generate(Dictionary<string, JToken> sectionData)
+        public List<(string Target, string Args)> Generate(Dictionary<string, JToken> sectionData)
         {
             string sectionDataPath = StorageHelper.GetSectionFilePath("temp", $"secdat-{Guid.NewGuid()}.json");
 
@@ -25,10 +25,7 @@ namespace Ruminoid.Toolbox.Composition.Roslim
             {
                 string raw = ExternalProcessRunner.Run("target", $"\"script\" \"{sectionDataPath}\"");
                 return JArray.Parse(raw)
-                    .Select(x =>
-                        new Tuple<string, string>(
-                            x[ /* MAGIC */ "tar" + "get"].ToObject<string>(),
-                            x["args"].ToObject<string>()))
+                    .Select(x => (x[ /* MAGIC */ "tar" + "get"].ToObject<string>(), x["args"].ToObject<string>()))
                     .ToList();
             }
             finally

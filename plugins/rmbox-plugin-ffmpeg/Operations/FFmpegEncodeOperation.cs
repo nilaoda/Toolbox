@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
 using Newtonsoft.Json.Linq;
 using Ruminoid.Toolbox.Core;
@@ -13,7 +12,7 @@ namespace Ruminoid.Toolbox.Plugins.FFmpeg.Operations
         "使用 FFmpeg 进行视频压制（重编码）。")]
     public class FFmpegEncodeOperation : IOperation
     {
-        public List<Tuple<string, string>> Generate(Dictionary<string, JToken> sectionData)
+        public List<(string Target, string Args)> Generate(Dictionary<string, JToken> sectionData)
         {
             JToken ioSection =
                 sectionData["Ruminoid.Toolbox.Plugins.Common.ConfigSections.IOConfigSection"];
@@ -21,7 +20,7 @@ namespace Ruminoid.Toolbox.Plugins.FFmpeg.Operations
             string videoPath = Path.GetFullPath(ioSection["video"]?.ToObject<string>() ?? string.Empty).EscapePathStringForArg();
             string outputPath = Path.GetFullPath(ioSection["output"]?.ToObject<string>() ?? string.Empty).EscapePathStringForArg();
 
-            return new List<Tuple<string, string>>
+            return new List<(string, string)>
             {
                 new(
                     "ffmpeg",

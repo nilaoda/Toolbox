@@ -42,7 +42,9 @@ namespace Ruminoid.Toolbox.Shell.ViewModels
         #endregion
 
         private IOperation _operation;
-        private readonly Collection<Tuple<ConfigSectionAttribute, ConfigSectionBase>> _configSections = new();
+
+        private readonly Collection<(ConfigSectionAttribute ConfigSectionAttribute, ConfigSectionBase ConfigSection)>
+            _configSections = new();
 
         #region Tabs
 
@@ -55,28 +57,25 @@ namespace Ruminoid.Toolbox.Shell.ViewModels
 
             foreach (string sectionId in _operation.RequiredConfigSections)
             {
-                Tuple<ConfigSectionAttribute, Type> sectionData = _pluginHelper.ConfigSectionCollection
-                    .Where(x => x.Item1.Id == sectionId)
+                (ConfigSectionAttribute ConfigSectionAttribute, Type ConfigSectionType) sectionData = _pluginHelper.ConfigSectionCollection
+                    .Where(x => x.ConfigSectionAttribute.Id == sectionId)
                     .ToArray()
                     .FirstOrDefault();
 
-                if (sectionData is null)
+                if (sectionData == default)
                     throw new ArgumentException("Cannot Find ConfigSection.");
 
-                ConfigSectionBase section = Activator.CreateInstance(sectionData.Item2) as ConfigSectionBase;
+                ConfigSectionBase section = Activator.CreateInstance(sectionData.ConfigSectionType) as ConfigSectionBase;
 
                 if (section is null)
                     throw new ArgumentException("Cannot Construct ConfigSection.");
 
-                _configSections.Add(
-                    new Tuple<ConfigSectionAttribute, ConfigSectionBase>(
-                        sectionData.Item1,
-                        section));
+                _configSections.Add((sectionData.ConfigSectionAttribute, section));
 
                 Items.Add(
                     new TabItem
                     {
-                        Header = sectionData.Item1.Name,
+                        Header = sectionData.ConfigSectionAttribute.Name,
                         Content = section
                     });
             }
@@ -109,10 +108,9 @@ namespace Ruminoid.Toolbox.Shell.ViewModels
         private ProjectViewModel GenerateProjectModel() =>
             new(
                 OperationModel,
-                new Collection<Tuple<ConfigSectionAttribute, object>>(
+                new Collection<(ConfigSectionAttribute ConfigSectionAttribute, object ConfigSection)>(
                     _configSections.Select(
-                            x =>
-                                new Tuple<ConfigSectionAttribute, object>(x.Item1, x.Item2.Config))
+                            x => (x.ConfigSectionAttribute, x.ConfigSection.Config))
                         .ToList()));
 
         #endregion

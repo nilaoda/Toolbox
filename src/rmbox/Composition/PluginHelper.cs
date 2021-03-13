@@ -122,7 +122,7 @@ namespace Ruminoid.Toolbox.Composition
 
                     _logger.LogDebug($"Meta parsed in: {pluginMeta.Name}");
 
-                    MetaCollection.Add(new Tuple<IMeta, Assembly>(pluginMeta, pluginAssembly));
+                    MetaCollection.Add((pluginMeta, pluginAssembly));
 
                     _logger.LogDebug($"Parsing components in plugin: {pluginMeta.Name}");
 
@@ -142,9 +142,7 @@ namespace Ruminoid.Toolbox.Composition
                             Attribute.GetCustomAttribute(operationType, typeof(OperationAttribute))
                             as OperationAttribute;
 
-                        OperationCollection.Add(new Tuple<OperationAttribute, Type>(
-                            operationAttribute,
-                            operationType));
+                        OperationCollection.Add((operationAttribute, operationType));
 
                         _logger.LogDebug($"Operation {operationAttribute.Name} loaded.");
                     }
@@ -165,9 +163,7 @@ namespace Ruminoid.Toolbox.Composition
                             Attribute.GetCustomAttribute(configSectionType, typeof(ConfigSectionAttribute))
                             as ConfigSectionAttribute;
 
-                        ConfigSectionCollection.Add(new Tuple<ConfigSectionAttribute, Type>(
-                            configSectionAttribute,
-                            configSectionType));
+                        ConfigSectionCollection.Add((configSectionAttribute, configSectionType));
 
                         _logger.LogDebug($"Config section {configSectionAttribute.Id} loaded.");
                     }
@@ -188,9 +184,7 @@ namespace Ruminoid.Toolbox.Composition
                             Attribute.GetCustomAttribute(formatterType, typeof(FormatterAttribute))
                             as FormatterAttribute;
 
-                        FormatterCollection.Add(new Tuple<FormatterAttribute, Type>(
-                            formatterAttribute,
-                            formatterType));
+                        FormatterCollection.Add((formatterAttribute, formatterType));
 
                         _logger.LogDebug($"Formatter {formatterType.FullName} loaded.");
                     }
@@ -216,7 +210,7 @@ namespace Ruminoid.Toolbox.Composition
 
                     Assembly pluginAssembly = _roslimGenerator.Generate(file);
                     Type exportedType = pluginAssembly.GetExportedTypes()
-                        .First(type => Attribute.GetCustomAttribute((MemberInfo) type, typeof(OperationAttribute)) is not null);
+                        .First(type => Attribute.GetCustomAttribute(type, typeof(OperationAttribute)) is not null);
 
                     string pluginName = pluginAssembly.FullName;
 
@@ -226,9 +220,7 @@ namespace Ruminoid.Toolbox.Composition
                         Attribute.GetCustomAttribute(exportedType, typeof(OperationAttribute))
                             as OperationAttribute;
 
-                    OperationCollection.Add(new Tuple<OperationAttribute, Type>(
-                        operationAttribute,
-                        exportedType));
+                    OperationCollection.Add(new(operationAttribute, exportedType));
 
                     _logger.LogDebug($"Operation {operationAttribute.Name} loaded.");
                     _logger.LogDebug($"Plugin {pluginName} loaded.");
@@ -248,77 +240,76 @@ namespace Ruminoid.Toolbox.Composition
 
         #region Utils
 
-        public Collection<Tuple<IMeta, Assembly>> MetaCollection { get; } = new();
+        public Collection<(IMeta Meta, Assembly Assembly)> MetaCollection { get; } = new();
 
-        public Collection<Tuple<OperationAttribute, Type>> OperationCollection { get; } = new();
+        public Collection<(OperationAttribute OperationAttribute, Type OperationType)> OperationCollection { get; } = new();
 
-        private Dictionary<string, Tuple<OperationAttribute, IOperation>> OperationCache { get; } = new();
+        private Dictionary<string, (OperationAttribute OperationAttribute, IOperation Operation)> OperationCache { get; } = new();
 
-        public Collection<Tuple<ConfigSectionAttribute, Type>> ConfigSectionCollection { get; } = new();
+        public Collection<(ConfigSectionAttribute ConfigSectionAttribute, Type ConfigSectionType)> ConfigSectionCollection { get; } = new();
 
-        public Collection<Tuple<FormatterAttribute, Type>> FormatterCollection { get; } = new();
+        public Collection<(FormatterAttribute FormatterAttribute, Type FormatterType)> FormatterCollection { get; } = new();
 
-        private Dictionary<string, Tuple<FormatterAttribute, IFormatter>> FormatterCache { get; } = new();
+        private Dictionary<string, (FormatterAttribute FormatterAttribute, IFormatter Formatter)> FormatterCache { get; } = new();
 
-        public Tuple<OperationAttribute, IOperation> GetOperation(string id)
+        public (OperationAttribute OperationAttribute, IOperation Operation) GetOperation(string id)
         {
-            bool success = OperationCache.TryGetValue(id, out Tuple<OperationAttribute, IOperation> cached);
+            bool success = OperationCache.TryGetValue(id, out (OperationAttribute, IOperation) cached);
             if (success) return cached;
 
-            Tuple<OperationAttribute, Type> tuple = OperationCollection.FirstOrDefault(x => x.Item1.Id == id);
+            (OperationAttribute OperationAttribute, Type OperationType) tuple = OperationCollection.FirstOrDefault(x => x.OperationAttribute.Id == id);
 
             // ReSharper disable once InvertIf
-            if (tuple is null)
+            if (tuple == default)
             {
                 string err = $"找不到 ID 为 {id} 的操作。可能需要安装相关的插件以解决此问题。";
                 _logger.LogError(err);
                 throw new PluginCompositionException(err);
             }
 
-            Tuple<OperationAttribute, IOperation> created =
-                new(tuple.Item1, Activator.CreateInstance(tuple.Item2) as IOperation);
+            (OperationAttribute OperationAttribute, IOperation Operation) created =
+                new(tuple.OperationAttribute, Activator.CreateInstance(tuple.OperationType) as IOperation);
 
-            OperationCache.TryAdd(tuple.Item1.Id, created);
+            OperationCache.TryAdd(tuple.OperationAttribute.Id, created);
 
             return created;
         }
 
-        public Tuple<ConfigSectionAttribute, ConfigSectionBase> CreateConfigSection(string id)
+        public (ConfigSectionAttribute ConfigSectionAttribute, ConfigSectionBase ConfigSection) CreateConfigSection(string id)
         {
-            Tuple<ConfigSectionAttribute, Type> tuple = ConfigSectionCollection.FirstOrDefault(x => x.Item1.Id == id);
+            (ConfigSectionAttribute ConfigSectionAttribute, Type ConfigSectionType) tuple = ConfigSectionCollection.FirstOrDefault(x => x.ConfigSectionAttribute.Id == id);
 
             // ReSharper disable once InvertIf
-            if (tuple is null)
+            if (tuple == default)
             {
                 string err = $"找不到 ID 为 {id} 的配置项。可能需要安装相关的插件以解决此问题。";
                 _logger.LogError(err);
                 throw new PluginCompositionException(err);
             }
 
-            return new Tuple<ConfigSectionAttribute, ConfigSectionBase>(tuple.Item1,
-                Activator.CreateInstance(tuple.Item2) as ConfigSectionBase);
+            return (tuple.ConfigSectionAttribute, Activator.CreateInstance(tuple.ConfigSectionType) as ConfigSectionBase);
         }
 
-        public Tuple<FormatterAttribute, IFormatter> GetFormatter(string target)
+        public (FormatterAttribute FormatterAttribute, IFormatter Formatter) GetFormatter(string target)
         {
-            bool success = FormatterCache.TryGetValue(target, out Tuple<FormatterAttribute, IFormatter> cached);
+            bool success = FormatterCache.TryGetValue(target, out (FormatterAttribute, IFormatter) cached);
             if (success) return cached;
 
-            Tuple<FormatterAttribute, Type> tuple =
-                FormatterCollection.FirstOrDefault(x => x.Item1.Targets.Split('|').Contains(target));
+            (FormatterAttribute FormatterAttribute, Type FormatterType) tuple =
+                FormatterCollection.FirstOrDefault(x => x.FormatterAttribute.Targets.Split('|').Contains(target));
 
             // ReSharper disable once InvertIf
-            if (tuple is null)
+            if (tuple == default)
             {
                 string err = $"找不到目标为 {target} 的格式器。可能需要安装相关的插件以解决此问题。";
                 _logger.LogError(err);
                 throw new PluginCompositionException(err);
             }
 
-            Tuple<FormatterAttribute, IFormatter> created =
-                new(tuple.Item1, Activator.CreateInstance(tuple.Item2) as IFormatter);
+            (FormatterAttribute FormatterAttribute, IFormatter Formatter) created =
+                new(tuple.FormatterAttribute, Activator.CreateInstance(tuple.FormatterType) as IFormatter);
 
-            foreach (string s in tuple.Item1.Targets.Split('|'))
+            foreach (string s in tuple.FormatterAttribute.Targets.Split('|'))
                 FormatterCache.TryAdd(s, created);
 
             return created;

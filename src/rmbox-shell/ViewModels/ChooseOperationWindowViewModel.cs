@@ -22,10 +22,10 @@ namespace Ruminoid.Toolbox.Shell.ViewModels
                     .Select(x =>
                         new OperationModel
                         {
-                            Name = x.Item1.Name,
-                            Description = x.Item1.Description,
-                            Id = x.Item1.Id,
-                            Type = x.Item2
+                            Name = x.OperationAttribute.Name,
+                            Description = x.OperationAttribute.Description,
+                            Id = x.OperationAttribute.Id,
+                            Type = x.OperationType
                         }));
 
             // Initialize IsOperationSelected
