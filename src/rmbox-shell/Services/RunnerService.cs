@@ -17,7 +17,7 @@ using Ruminoid.Toolbox.Utils.Extensions;
 
 namespace Ruminoid.Toolbox.Shell.Services
 {
-    internal class RunnerService
+    public class RunnerService
     {
         #region Constructor
 
@@ -26,7 +26,9 @@ namespace Ruminoid.Toolbox.Shell.Services
         {
             _queueService = queueService;
 
-            _dynamicLink.Subscribe(ReadFromPipe);
+            _dynamicLink
+                .Where(x => !string.IsNullOrWhiteSpace(x))
+                .Subscribe(ReadFromPipe);
 
             WebSocketServer webSocketServer = new($"ws://127.0.0.1:{_pipePort}")
             {
