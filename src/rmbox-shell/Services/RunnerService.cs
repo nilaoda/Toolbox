@@ -48,7 +48,6 @@ namespace Ruminoid.Toolbox.Shell.Services
                 socket.OnClose = () =>
                 {
                     killDisposable.Dispose();
-                    _dynamicLink.OnCompleted();
                 };
             });
 
