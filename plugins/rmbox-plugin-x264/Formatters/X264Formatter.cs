@@ -24,7 +24,7 @@ namespace Ruminoid.Toolbox.Plugins.X264.Formatters
 
             if (parseProgress)
             {
-                summaryBuilder.Append(progress);
+                summaryBuilder.Append(progress.ToString("F1"));
                 summaryBuilder.Append("% - ");
             }
 
