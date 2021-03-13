@@ -1,0 +1,50 @@
+<core:ConfigSectionBase xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:core="clr-namespace:Ruminoid.Toolbox.Core;assembly=rmbox-plugbase"
+             xmlns:viewModels="clr-namespace:Ruminoid.Toolbox.Plugins.X264.ConfigSections.ViewModels"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="Ruminoid.Toolbox.Plugins.X264.ConfigSections.Views.X264CoreConfigSection">
+    <core:ConfigSectionBase.DataContext>
+        <viewModels:X264CoreConfigSectionViewModel/>
+    </core:ConfigSectionBase.DataContext>
+
+    <core:ConfigSectionBase.Styles>
+        <Style Selector="TextBlock.title">
+            <Setter Property="Margin" Value="0,12"/>
+            <Setter Property="FontSize" Value="18"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+        </Style>
+
+        <Style Selector="TextBlock.description">
+            <Setter Property="TextWrapping" Value="Wrap"/>
+        </Style>
+
+        <Style Selector="Grid.section">
+            <Setter Property="Margin" Value="0,6"/>
+        </Style>
+    </core:ConfigSectionBase.Styles>
+
+    <ScrollViewer
+        HorizontalScrollBarVisibility="Hidden"
+        VerticalScrollBarVisibility="Auto">
+        <StackPanel Margin="24">
+            <Grid Classes="section">
+                <TextBlock Classes="title">核心</TextBlock>
+            </Grid>
+
+            <Grid Classes="section">
+                <ComboBox
+                    Items="{Binding CoreList}"
+                    SelectedItem="{Binding Core}"/>
+            </Grid>
+
+            <Grid Classes="section">
+                <TextBlock Classes="description">
+                    如果你有 MOD 版的 X264/X265 核心，你可以将其放在 Toolbox 安装位置的「tools」文件夹下，程序会在启动时自动扫描。
+                </TextBlock>
+            </Grid>
+        </StackPanel>
+    </ScrollViewer>
+</core:ConfigSectionBase>

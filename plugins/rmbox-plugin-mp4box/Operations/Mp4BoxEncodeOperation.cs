@@ -19,6 +19,10 @@ namespace Ruminoid.Toolbox.Plugins.Mp4Box.Operations
                 sectionData["Ruminoid.Toolbox.Plugins.Common.ConfigSections.IOConfigSection"];
             JToken x264QualitySection =
                 sectionData["Ruminoid.Toolbox.Plugins.X264.ConfigSections.X264EncodeQualityConfigSection"];
+            JToken x264CoreSection =
+                sectionData["Ruminoid.Toolbox.Plugins.X264.ConfigSections.X264CoreConfigSection"];
+
+            string x264Core = x264CoreSection["core"]?.ToObject<string>();
 
             string videoPathIntl = Path.GetFullPath(ioSection["video"]?.ToObject<string>() ?? string.Empty);
             string videoPath = videoPathIntl.EscapePathStringForArg();
@@ -42,7 +46,7 @@ namespace Ruminoid.Toolbox.Plugins.Mp4Box.Operations
                     result.AddRange(new (string, string)[]
                     {
                         new(
-                            "x264",
+                            x264Core,
                             $"--crf {x264QualitySection["crf_value"]?.ToObject<double>():N1} --preset 8 -I 300 -r 4 -b 3 --me umh -i 1 --scenecut 60 -f 1:1 --qcomp 0.5 --psy-rd 0.3:0 --aq-mode 2 --aq-strength 0.8 -o {vtempPath} {videoPath}"),
                         new(
                             "ffmpeg",
@@ -56,10 +60,10 @@ namespace Ruminoid.Toolbox.Plugins.Mp4Box.Operations
                     result.AddRange(new (string, string)[]
                     {
                         new(
-                            "x264",
+                            x264Core,
                             $"--pass 1 --bitrate {x264QualitySection["2pass_value"]?.ToObject<int>()} --stats {vtempStatsPath} --preset 8  -I 300 -r 4 -b 3 --me umh -i 1 --scenecut 60 -f 1:1 --qcomp 0.5 --psy-rd 0.3:0 --aq-mode 2 --aq-strength 0.8 -o NUL {videoPath}"),
                         new(
-                            "x264",
+                            x264Core,
                             $"--pass 2 --bitrate {x264QualitySection["2pass_value"]?.ToObject<int>()} --stats {vtempStatsPath} --preset 8  -I 300 -r 4 -b 3 --me umh -i 1 --scenecut 60 -f 1:1 --qcomp 0.5 --psy-rd 0.3:0 --aq-mode 2 --aq-strength 0.8 -o {vtempPath} {videoPath}"),
                         new(
                             "ffmpeg",
@@ -80,6 +84,7 @@ namespace Ruminoid.Toolbox.Plugins.Mp4Box.Operations
         public List<string> RequiredConfigSections => new()
         {
             "Ruminoid.Toolbox.Plugins.Common.ConfigSections.IOConfigSection",
+            "Ruminoid.Toolbox.Plugins.X264.ConfigSections.X264CoreConfigSection",
             "Ruminoid.Toolbox.Plugins.X264.ConfigSections.X264EncodeQualityConfigSection"
         };
     }
