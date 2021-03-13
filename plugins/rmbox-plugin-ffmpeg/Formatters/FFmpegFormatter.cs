@@ -3,7 +3,7 @@ using Ruminoid.Toolbox.Formatting;
 
 namespace Ruminoid.Toolbox.Plugins.FFmpeg.Formatters
 {
-    [Formatter("ffmpeg")]
+    [Formatter("ffmpeg*")]
     public class FFmpegFormatter : IFormatter
     {
         public FormattedEvent Format(string target, string data)

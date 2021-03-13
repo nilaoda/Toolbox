@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Composition;
 using System.IO;
+using System.IO.Enumeration;
 using System.Linq;
 using System.Reflection;
 using Microsoft.Extensions.Logging;
@@ -296,7 +297,9 @@ namespace Ruminoid.Toolbox.Composition
             if (success) return cached;
 
             (FormatterAttribute FormatterAttribute, Type FormatterType) tuple =
-                FormatterCollection.FirstOrDefault(x => x.FormatterAttribute.Targets.Split('|').Contains(target));
+                FormatterCollection
+                    .FirstOrDefault(x => x.FormatterAttribute.Targets.Split('|')
+                        .Any(y => FileSystemName.MatchesSimpleExpression(y, target)));
 
             // ReSharper disable once InvertIf
             if (tuple == default)

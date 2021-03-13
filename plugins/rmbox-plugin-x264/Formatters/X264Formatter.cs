@@ -6,7 +6,7 @@ using Ruminoid.Toolbox.Utils.Extensions;
 
 namespace Ruminoid.Toolbox.Plugins.X264.Formatters
 {
-    [Formatter("x264")]
+    [Formatter("x264*")]
     public class X264Formatter : IFormatter
     {
         public FormattedEvent Format(string target, string data)
