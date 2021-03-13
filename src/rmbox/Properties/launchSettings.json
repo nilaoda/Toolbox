@@ -5,7 +5,7 @@
     },
     "rmbox-pack": {
       "commandName": "Executable",
-      "executablePath": "..\\..\\..\\..\\..\\dist\\rmbox\\rmbox.exe"
+      "executablePath": "..\\..\\..\\..\\..\\dist\\RuminoidToolbox\\rmbox\\rmbox.exe"
     }
   }
 }
