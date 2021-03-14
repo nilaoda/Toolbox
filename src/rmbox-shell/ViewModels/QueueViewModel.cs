@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.Reactive.Linq;
+using Avalonia.Controls;
 using DynamicData;
 using ReactiveUI;
 using Ruminoid.Toolbox.Shell.Services;
+using Ruminoid.Toolbox.Shell.Views;
 using Splat;
 
 namespace Ruminoid.Toolbox.Shell.ViewModels
@@ -12,8 +14,11 @@ namespace Ruminoid.Toolbox.Shell.ViewModels
     {
         #region Constructor
 
-        public QueueViewModel()
+        public QueueViewModel(
+            QueueView queueView)
         {
+            _queueView = queueView;
+
             _queueService = Locator.Current
                 .GetService<QueueService>();
 
@@ -37,8 +42,19 @@ namespace Ruminoid.Toolbox.Shell.ViewModels
 
         #endregion
 
+        #region View
+
+        private readonly QueueView _queueView;
+
+        private TextBox _runnerOutputTextBox;
+
+        private TextBox RunnerOutputTextBox =>
+            _runnerOutputTextBox ??= _queueView.FindControl<TextBox>("RunnerOutputTextBox");
+
+        #endregion
+
         #region Data
-        
+
         private readonly ReadOnlyObservableCollection<ProjectViewModel> _items;
 
         public ReadOnlyObservableCollection<ProjectViewModel> Items => _items;
@@ -83,19 +99,30 @@ namespace Ruminoid.Toolbox.Shell.ViewModels
 
         //public ObservableCollection<string> RunnerOutputList { get; } = new();
 
-        private string _currentRunnerOutputLine = "";
+        //private string _currentRunnerOutputLine = "";
 
-        public string CurrentRunnerOutputLine
+        //public string CurrentRunnerOutputLine
+        //{
+        //    get => _currentRunnerOutputLine;
+        //    set => this.RaiseAndSetIfChanged(ref _currentRunnerOutputLine, value);
+        //}
+
+        private string _runnerOutput = "";
+
+        public string RunnerOutput
         {
-            get => _currentRunnerOutputLine;
-            set => this.RaiseAndSetIfChanged(ref _currentRunnerOutputLine, value);
+            get => _runnerOutput;
+            set => this.RaiseAndSetIfChanged(ref _runnerOutput, value);
         }
 
         private void NewRunnerOutput(string line)
         {
             //RunnerOutputList.Add(line);
             //if (RunnerOutputList.Count > 100) RunnerOutputList.RemoveAt(0);
-            CurrentRunnerOutputLine = line;
+            //CurrentRunnerOutputLine = line;
+
+            RunnerOutput += line.Trim() + '\n';
+            RunnerOutputTextBox.CaretIndex = RunnerOutput.Length;
         }
 
         #endregion

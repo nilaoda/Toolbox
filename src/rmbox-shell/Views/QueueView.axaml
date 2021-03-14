@@ -6,11 +6,6 @@
              xmlns:controls="clr-namespace:Ruminoid.Toolbox.Shell.Controls"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="Ruminoid.Toolbox.Shell.Views.QueueView">
-
-    <UserControl.DataContext>
-      <viewModels:QueueViewModel />
-    </UserControl.DataContext>
-
     <UserControl.Styles>
         <Style Selector="ProgressBar">
             <Setter Property="Height" Value="32"/>
@@ -192,9 +187,15 @@
       </Grid>
       <Grid
           Grid.Row="3">
-          <TextBlock
+          <!--<TextBlock
               Margin="6"
-              Text="{Binding CurrentRunnerOutputLine}"/>
+              Text="{Binding CurrentRunnerOutputLine}"/>-->
+          <TextBox
+              Name="RunnerOutputTextBox"
+              Margin="0,6"
+              Text="{Binding RunnerOutput}"
+              IsReadOnly="True"
+              AcceptsReturn="True"/>
       </Grid>
   </Grid>
 </UserControl>
