@@ -132,6 +132,12 @@ namespace Ruminoid.Toolbox.Shell.ViewModels
             CaretIndex = RunnerOutput.Length;
         }
 
+        public void DoClearRunnerOutput()
+        {
+            CaretIndex = 0;
+            RunnerOutput = "";
+        }
+
         #endregion
 
         #region Services
