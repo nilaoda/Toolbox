@@ -1,0 +1,64 @@
+<core:ConfigSectionBase xmlns="https://github.com/avaloniaui"
+                        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                        xmlns:core="clr-namespace:Ruminoid.Toolbox.Core;assembly=rmbox-plugbase"
+                        xmlns:viewModels="clr-namespace:Ruminoid.Toolbox.Plugins.Common.ConfigSections.ViewModels"
+                        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+                        x:Class="Ruminoid.Toolbox.Plugins.Common.ConfigSections.Views.CustomArgsConfigSection">
+    <core:ConfigSectionBase.DataContext>
+        <viewModels:CustomArgsConfigSectionViewModel/>
+    </core:ConfigSectionBase.DataContext>
+
+    <core:ConfigSectionBase.Styles>
+        <Style Selector="TextBlock.title">
+            <Setter Property="Margin" Value="0,12"/>
+            <Setter Property="FontSize" Value="18"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+        </Style>
+
+        <Style Selector="TextBlock.description">
+            <Setter Property="TextWrapping" Value="Wrap"/>
+        </Style>
+
+        <Style Selector="Grid.section">
+            <Setter Property="Margin" Value="0,6"/>
+        </Style>
+    </core:ConfigSectionBase.Styles>
+
+    <ScrollViewer
+        HorizontalScrollBarVisibility="Disabled"
+        VerticalScrollBarVisibility="Auto">
+        <StackPanel Margin="24">
+            <Grid Classes="section">
+                <TextBlock Classes="title">自定义参数</TextBlock>
+            </Grid>
+
+            <Grid Classes="section">
+                <TextBlock Classes="description">
+                    如果启用自定义参数，那么操作内所有的默认参数都将失效。确保你提供了所有必须的参数。
+                </TextBlock>
+            </Grid>
+
+            <Grid Classes="section">
+                <ToggleSwitch
+                    OffContent="关闭"
+                    OnContent="启用"
+                    IsChecked="{Binding UseCustom}"/>
+            </Grid>
+
+            <Grid Classes="section">
+                <TextBlock Classes="title">参数</TextBlock>
+            </Grid>
+
+            <Grid Classes="section">
+                <TextBox
+                    Text="{Binding DisplayArgs}"
+                    IsEnabled="{Binding UseCustom}"
+                    TextWrapping="Wrap"
+                    Height="200"
+                    ScrollViewer.HorizontalScrollBarVisibility="Disabled"/>
+            </Grid>
+        </StackPanel>
+    </ScrollViewer>
+</core:ConfigSectionBase>
