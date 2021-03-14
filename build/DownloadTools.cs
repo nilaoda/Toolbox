@@ -131,6 +131,16 @@ partial class Build
         CopyFileToDirectory(
             ToolsTempDirectory / "7za.exe",
             ToolsDirectory);
+
+        Logger.Info("Downloading HwEnc.");
+        HttpTasks.HttpDownloadFile(
+            "https://raw.githubusercontent.com/Afanyiyu/Delivr/master/hwenc/hwenc.zip",
+            ToolsTempDirectory / "hwenc.zip");
+
+        Logger.Info("Extracting HwEnc.");
+        CompressionTasks.UncompressZip(
+            ToolsTempDirectory / "hwenc.zip",
+            ToolsDirectory);
     }
 
     void DownloadToolsMacos()
