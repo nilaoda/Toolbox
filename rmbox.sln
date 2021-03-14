@@ -29,6 +29,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "rmbox-plugin-mp4box", "plug
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "rmbox-plugin-x264", "plugins\rmbox-plugin-x264\rmbox-plugin-x264.csproj", "{C5C555A1-4491-41A2-BE21-37D8496F056F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "rmbox-plugin-hwenc", "plugins\rmbox-plugin-hwenc\rmbox-plugin-hwenc.csproj", "{D932935A-2AAE-49FB-B8CD-110AC40CECBC}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -145,6 +147,18 @@ Global
 		{C5C555A1-4491-41A2-BE21-37D8496F056F}.Release|x64.Build.0 = Release|Any CPU
 		{C5C555A1-4491-41A2-BE21-37D8496F056F}.Release|x86.ActiveCfg = Release|Any CPU
 		{C5C555A1-4491-41A2-BE21-37D8496F056F}.Release|x86.Build.0 = Release|Any CPU
+		{D932935A-2AAE-49FB-B8CD-110AC40CECBC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D932935A-2AAE-49FB-B8CD-110AC40CECBC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D932935A-2AAE-49FB-B8CD-110AC40CECBC}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{D932935A-2AAE-49FB-B8CD-110AC40CECBC}.Debug|x64.Build.0 = Debug|Any CPU
+		{D932935A-2AAE-49FB-B8CD-110AC40CECBC}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{D932935A-2AAE-49FB-B8CD-110AC40CECBC}.Debug|x86.Build.0 = Debug|Any CPU
+		{D932935A-2AAE-49FB-B8CD-110AC40CECBC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D932935A-2AAE-49FB-B8CD-110AC40CECBC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D932935A-2AAE-49FB-B8CD-110AC40CECBC}.Release|x64.ActiveCfg = Release|Any CPU
+		{D932935A-2AAE-49FB-B8CD-110AC40CECBC}.Release|x64.Build.0 = Release|Any CPU
+		{D932935A-2AAE-49FB-B8CD-110AC40CECBC}.Release|x86.ActiveCfg = Release|Any CPU
+		{D932935A-2AAE-49FB-B8CD-110AC40CECBC}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -159,6 +173,7 @@ Global
 		{A89E745C-5E16-4143-9794-C6D68F531A93} = {EABC8353-6E69-4C6B-899D-300C6B7E381C}
 		{367B3C34-AE69-40E4-8685-604542DEB850} = {EABC8353-6E69-4C6B-899D-300C6B7E381C}
 		{C5C555A1-4491-41A2-BE21-37D8496F056F} = {EABC8353-6E69-4C6B-899D-300C6B7E381C}
+		{D932935A-2AAE-49FB-B8CD-110AC40CECBC} = {EABC8353-6E69-4C6B-899D-300C6B7E381C}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {5576A6E2-8C31-4AAA-A8C7-378AC3335E0B}
