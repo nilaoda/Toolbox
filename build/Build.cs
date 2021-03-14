@@ -207,12 +207,12 @@ partial class Build : NukeBuild
             {
                 Logger.Info("Configuring privileges.");
                 ProcessTasks.StartShell(
-                        "chmod 775 -R tools",
+                        "chmod -R 775 tools",
                         TemporaryDirectory)
                     .AssertZeroExitCode();
 
                 ProcessTasks.StartShell(
-                        "chmod 775 -R RuminoidToolbox",
+                        "chmod -R 775 RuminoidToolbox",
                         DistDirectory)
                     .AssertZeroExitCode();
             }
