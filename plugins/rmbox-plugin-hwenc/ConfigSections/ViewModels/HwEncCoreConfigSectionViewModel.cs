@@ -18,13 +18,13 @@ namespace Ruminoid.Toolbox.Plugins.HwEnc.ConfigSections.ViewModels
                     StorageHelper.GetSectionFolderPath("tools"),
                     "*")
                 .Select(Path.GetFileName)
+                .Select(x => x.ToLower())
                 .Where(x =>
                     x.StartsWith("nvencc") ||
                     x.StartsWith("qsvencc") ||
                     x.StartsWith("vceencc"))
                 .Where(x => !RuntimeInformation.IsOSPlatform(OSPlatform.Windows) || x.EndsWith(".exe"))
                 .Select(x => x.EndsWith(".exe") ? x[..^4] : x)
-                .Select(x => x.ToLower())
                 .ToList();
 
         #endregion
