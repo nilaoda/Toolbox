@@ -1,0 +1,50 @@
+<core:ConfigSectionBase xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:core="clr-namespace:Ruminoid.Toolbox.Core;assembly=rmbox-plugbase"
+             xmlns:viewModels="clr-namespace:Ruminoid.Toolbox.Plugins.HwEnc.ConfigSections.ViewModels"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="Ruminoid.Toolbox.Plugins.HwEnc.ConfigSections.Views.HwEncCodecConfigSection">
+    <core:ConfigSectionBase.DataContext>
+        <viewModels:HwEncCodecConfigSectionViewModel/>
+    </core:ConfigSectionBase.DataContext>
+
+    <core:ConfigSectionBase.Styles>
+        <Style Selector="TextBlock.title">
+            <Setter Property="Margin" Value="0,12"/>
+            <Setter Property="FontSize" Value="18"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+        </Style>
+
+        <Style Selector="TextBlock.description">
+            <Setter Property="TextWrapping" Value="Wrap"/>
+        </Style>
+
+        <Style Selector="Grid.section">
+            <Setter Property="Margin" Value="0,6"/>
+        </Style>
+    </core:ConfigSectionBase.Styles>
+
+    <ScrollViewer
+        HorizontalScrollBarVisibility="Hidden"
+        VerticalScrollBarVisibility="Auto">
+        <StackPanel Margin="24">
+            <Grid Classes="section">
+                <TextBlock Classes="title">核心</TextBlock>
+            </Grid>
+
+            <Grid Classes="section">
+                <ComboBox
+                    Items="{Binding CodecList}"
+                    SelectedItem="{Binding Codec}"/>
+            </Grid>
+
+            <Grid Classes="section">
+                <TextBlock Classes="description">
+                    选择视频编码。如果你不知道这是什么，请选择AVC（H.264）.
+                </TextBlock>
+            </Grid>
+        </StackPanel>
+    </ScrollViewer>
+</core:ConfigSectionBase>
