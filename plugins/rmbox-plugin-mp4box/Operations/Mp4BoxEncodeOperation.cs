@@ -53,7 +53,7 @@ namespace Ruminoid.Toolbox.Plugins.Mp4Box.Operations
                             $"-i {vtempPath} -i {atempPath} -vcodec copy -acodec copy {outputPath}"),
                         new(
                             "pwsh",
-                            $"-Command Remove-Item {atempPath} {vtempPath}")
+                            $"-Command Remove-Item {atempPath},{vtempPath}")
                     });
                     break;
                 case "2pass":
