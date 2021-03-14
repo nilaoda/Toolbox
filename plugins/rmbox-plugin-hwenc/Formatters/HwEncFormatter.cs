@@ -10,7 +10,7 @@ namespace Ruminoid.Toolbox.Plugins.HwEnc.Formatters
         public FormattedEvent Format(string target, string data)
         {
             bool parseProgress = double.TryParse(data.GetMidString("[", "%] "), out double progress);
-            string frames = data.GetMidString("%] ", " frames, ");
+            string frames = data.GetMidString("%] ", " frames: ");
             //string fps = data.GetMidString(" frames, ", " fps, ");
             string speed = data.GetMidString(" fps, ", " kb/s, remain ");
             string eta = data.GetMidString(" kb/s, remain ", ", GPU");
@@ -25,7 +25,7 @@ namespace Ruminoid.Toolbox.Plugins.HwEnc.Formatters
                 summaryBuilder.Append("% - ");
             }
 
-            summaryBuilder.Append("正在使用 X264 压制 - ");
+            summaryBuilder.Append($"正在使用 {target} 压制 - ");
             summaryBuilder.Append(speed);
             summaryBuilder.Append(" kb/s");
 
