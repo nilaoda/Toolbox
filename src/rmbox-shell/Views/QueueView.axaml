@@ -208,6 +208,7 @@
               BorderBrush="#FF909090"
               Height="100"
               Text="{Binding RunnerOutput}"
+              CaretIndex="{Binding CaretIndex}"
               IsReadOnly="True"
               AcceptsReturn="True"/>
       </Grid>

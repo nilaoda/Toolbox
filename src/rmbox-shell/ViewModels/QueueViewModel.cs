@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.Reactive.Linq;
-using Avalonia.Controls;
 using DynamicData;
 using ReactiveUI;
 using Ruminoid.Toolbox.Shell.Services;
@@ -46,10 +45,10 @@ namespace Ruminoid.Toolbox.Shell.ViewModels
 
         private readonly QueueView _queueView;
 
-        private TextBox _runnerOutputTextBox;
+        //private TextBox _runnerOutputTextBox;
 
-        private TextBox RunnerOutputTextBox =>
-            _runnerOutputTextBox ??= _queueView.FindControl<TextBox>("RunnerOutputTextBox");
+        //private TextBox RunnerOutputTextBox =>
+        //    _runnerOutputTextBox ??= _queueView.FindControl<TextBox>("RunnerOutputTextBox");
 
         #endregion
 
@@ -115,6 +114,14 @@ namespace Ruminoid.Toolbox.Shell.ViewModels
             set => this.RaiseAndSetIfChanged(ref _runnerOutput, value);
         }
 
+        private int _caretIndex = 0;
+
+        public int CaretIndex
+        {
+            get => _caretIndex;
+            set => this.RaiseAndSetIfChanged(ref _caretIndex, value);
+        }
+
         private void NewRunnerOutput(string line)
         {
             //RunnerOutputList.Add(line);
@@ -122,7 +129,7 @@ namespace Ruminoid.Toolbox.Shell.ViewModels
             //CurrentRunnerOutputLine = line;
 
             RunnerOutput += line.Trim() + '\n';
-            RunnerOutputTextBox.CaretIndex = RunnerOutput.Length;
+            CaretIndex = RunnerOutput.Length;
         }
 
         #endregion
