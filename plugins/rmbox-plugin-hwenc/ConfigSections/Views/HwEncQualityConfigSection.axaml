@@ -1,0 +1,132 @@
+<core:ConfigSectionBase xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:core="clr-namespace:Ruminoid.Toolbox.Core;assembly=rmbox-plugbase"
+             xmlns:viewModels="clr-namespace:Ruminoid.Toolbox.Plugins.HwEnc.ConfigSections.ViewModels"
+             xmlns:converters="clr-namespace:Ruminoid.Toolbox.Utils.Converters;assembly=rmbox-plugbase"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="Ruminoid.Toolbox.Plugins.HwEnc.ConfigSections.Views.HwEncQualityConfigSection">
+    <core:ConfigSectionBase.DataContext>
+        <viewModels:HwEncQualityConfigSectionViewModel/>
+    </core:ConfigSectionBase.DataContext>
+
+    <core:ConfigSectionBase.Styles>
+        <Style Selector="TextBlock.title">
+            <Setter Property="Margin" Value="0,12"/>
+            <Setter Property="FontSize" Value="18"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+        </Style>
+
+        <Style Selector="TextBlock.description">
+            <Setter Property="TextWrapping" Value="Wrap"/>
+        </Style>
+
+        <Style Selector="Grid.section">
+            <Setter Property="Margin" Value="0,6"/>
+        </Style>
+
+        <Style Selector="StackPanel.presets-panel">
+            <Setter Property="Orientation" Value="Horizontal"/>
+        </Style>
+
+        <Style Selector="StackPanel.presets-panel Button">
+            <Setter Property="Margin" Value="6,0"/>
+            <Setter Property="Width" Value="150"/>
+            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+        </Style>
+
+        <Style Selector="TextBox.value-box">
+            <Setter Property="Width" Value="200"/>
+            <Setter Property="HorizontalAlignment" Value="Left"/>
+            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+        </Style>
+
+        <Style Selector="NumericUpDown">
+            <Setter Property="Width" Value="200"/>
+            <Setter Property="HorizontalAlignment" Value="Left"/>
+            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+        </Style>
+    </core:ConfigSectionBase.Styles>
+
+    <ScrollViewer
+        HorizontalScrollBarVisibility="Hidden"
+        VerticalScrollBarVisibility="Auto">
+        <StackPanel Margin="24">
+            <Grid Classes="section">
+                <TextBlock Classes="title">模式</TextBlock>
+            </Grid>
+
+            <Grid Classes="section">
+                <Grid ColumnDefinitions="*,*">
+                    <Grid.Styles>
+                        <Style Selector="RadioButton">
+                            <Setter Property="Margin" Value="12,0"/>
+                        </Style>
+                    </Grid.Styles>
+
+                    <RadioButton
+                        Grid.Column="0"
+                        GroupName="EncodeMode"
+                        IsChecked="{Binding EncodeMode, Converter={x:Static converters:ConverterExtension.StringBoolConverter}, ConverterParameter=cqp}"
+                        Content="CQP"/>
+                    <RadioButton
+                        Grid.Column="1"
+                        GroupName="EncodeMode"
+                        IsChecked="{Binding EncodeMode, Converter={x:Static converters:ConverterExtension.StringBoolConverter}, ConverterParameter=2pass}"
+                        Content="2Pass"/>
+                </Grid>
+            </Grid>
+
+            <Grid Classes="section">
+                <TextBlock Classes="description">
+                    选择建议：&#x000A;如果你需要控制视频画质，请选择 CQP。如果你需要控制视频的码率或文件的大小，请选择 2Pass。&#x000A;请注意：&#x000A;2Pass 力求在控制目标码率的情况下使画质与 CQP 相当，但多数情况下 2Pass 压制并不能达到该理想情况。&#x000A;同时，2Pass 的压制时间约为 CQP 的两倍。
+                </TextBlock>
+            </Grid>
+
+            <Grid Classes="section">
+                <TextBlock Classes="title">质量</TextBlock>
+            </Grid>
+
+            <Grid>
+                <StackPanel
+                    IsVisible="{Binding EncodeMode, Converter={x:Static converters:ConverterExtension.StringBoolConverter}, ConverterParameter=cqp}">
+                    <Grid Classes="section">
+                        <TextBox
+                            Classes="value-box"
+                            Text="{Binding CqpValue}"/>
+                    </Grid>
+
+                    <Grid Classes="section">
+                        <TextBlock Classes="title">说明</TextBlock>
+                    </Grid>
+
+                    <Grid Classes="section">
+                        <TextBlock Classes="description">
+                            CQP（I帧:P帧:B帧）根据上面指定的值通过固定QP的方法来控制视频画质。&#x000A;一般情况下，CQP 值越小，画质越好，同时视频文件大小也会越大。&#x000A;注意数值之间的冒号为英文冒号。三个数值建议递增。
+                        </TextBlock>
+                    </Grid>
+                </StackPanel>
+
+                <StackPanel
+                    IsVisible="{Binding EncodeMode, Converter={x:Static converters:ConverterExtension.StringBoolConverter}, ConverterParameter=2pass}">
+                    <Grid Classes="section">
+                        <NumericUpDown
+                            Value="{Binding TwoPassValue}"
+                            Increment="100"/>
+                    </Grid>
+
+                    <Grid Classes="section">
+                        <TextBlock Classes="title">说明</TextBlock>
+                    </Grid>
+
+                    <Grid Classes="section">
+                        <TextBlock Classes="description">
+                            2Pass 根据上面提供的码率参考值来控制视频码率。&#x000A;一般情况下，码率越高，画质越好，同时视频文件大小也会越大。
+                        </TextBlock>
+                    </Grid>
+                </StackPanel>
+            </Grid>
+        </StackPanel>
+    </ScrollViewer>
+</core:ConfigSectionBase>
