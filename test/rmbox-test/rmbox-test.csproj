@@ -20,4 +20,10 @@
     </PackageReference>
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\rmbox-plugbase\rmbox-plugbase.csproj" />
+    <ProjectReference Include="..\..\src\rmbox-shell\rmbox-shell.csproj" />
+    <ProjectReference Include="..\..\src\rmbox\rmbox.csproj" />
+  </ItemGroup>
+
 </Project>
