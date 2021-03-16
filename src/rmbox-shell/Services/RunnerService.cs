@@ -43,7 +43,7 @@ namespace Ruminoid.Toolbox.Shell.Services
                 });
 
                 socket.OnMessage = message => _dynamicLink.OnNext(message);
-                socket.OnError = ex => _dynamicLink.OnError(ex);
+                //socket.OnError = ex => _dynamicLink.OnError(ex);
 
                 socket.OnClose = () =>
                 {
