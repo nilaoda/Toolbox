@@ -34,7 +34,7 @@ namespace Ruminoid.Toolbox.Composition.Roslim
             }
         }
 
-        public SortedDictionary<string, JToken> RequiredConfigSections => new()
+        public Dictionary<string, JToken> RequiredConfigSections => new()
         {
             {"Ruminoid.Toolbox.Composition.Roslim.RoslimConfigSection", new JObject()}
         };

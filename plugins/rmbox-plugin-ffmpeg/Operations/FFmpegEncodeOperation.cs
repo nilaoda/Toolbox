@@ -28,16 +28,9 @@ namespace Ruminoid.Toolbox.Plugins.FFmpeg.Operations
             };
         }
 
-        public SortedDictionary<string, JToken> RequiredConfigSections
+        public Dictionary<string, JToken> RequiredConfigSections => new()
         {
-            get
-            {
-                SortedDictionary<string, JToken> sections = new();
-
-                sections.Add("Ruminoid.Toolbox.Plugins.Common.ConfigSections.IOConfigSection", new JObject());
-
-                return sections;
-            }
-        }
+            {"Ruminoid.Toolbox.Plugins.Common.ConfigSections.IOConfigSection", new JObject()}
+        };
     }
 }

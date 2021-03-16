@@ -56,20 +56,13 @@ namespace Ruminoid.Toolbox.Plugins.HwEnc.Operations
             }
         }
 
-        public SortedDictionary<string, JToken> RequiredConfigSections
+        public Dictionary<string, JToken> RequiredConfigSections => new()
         {
-            get
-            {
-                SortedDictionary<string, JToken> sections = new();
-
-                sections.Add("Ruminoid.Toolbox.Plugins.Common.ConfigSections.IOConfigSection", new JObject());
-                sections.Add("Ruminoid.Toolbox.Plugins.HwEnc.ConfigSections.HwEncCoreConfigSection", new JObject());
-                sections.Add("Ruminoid.Toolbox.Plugins.HwEnc.ConfigSections.HwEncCodecConfigSection", new JObject());
-                sections.Add("Ruminoid.Toolbox.Plugins.HwEnc.ConfigSections.HwEncQualityConfigSection", new JObject());
-                sections.Add("Ruminoid.Toolbox.Plugins.Common.ConfigSections.CustomArgsConfigSection", new JObject());
-
-                return sections;
-            }
-        }
+            {"Ruminoid.Toolbox.Plugins.Common.ConfigSections.IOConfigSection", new JObject()},
+            {"Ruminoid.Toolbox.Plugins.HwEnc.ConfigSections.HwEncCoreConfigSection", new JObject()},
+            {"Ruminoid.Toolbox.Plugins.HwEnc.ConfigSections.HwEncCodecConfigSection", new JObject()},
+            {"Ruminoid.Toolbox.Plugins.HwEnc.ConfigSections.HwEncQualityConfigSection", new JObject()},
+            {"Ruminoid.Toolbox.Plugins.Common.ConfigSections.CustomArgsConfigSection", new JObject()}
+        };
     }
 }
