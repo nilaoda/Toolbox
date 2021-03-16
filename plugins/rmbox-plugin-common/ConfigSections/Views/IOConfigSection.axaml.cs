@@ -12,7 +12,7 @@ namespace Ruminoid.Toolbox.Plugins.Common.ConfigSections.Views
     {
         public IOConfigSection()
         {
-            DataContext = new IOConfigSectionViewModel(this);
+            DataContext = new IOConfigSectionViewModel(this, null);
 
             InitializeComponent();
         }
@@ -20,7 +20,7 @@ namespace Ruminoid.Toolbox.Plugins.Common.ConfigSections.Views
         public IOConfigSection(
             JToken sectionConfig)
         {
-            DataContext = new IOConfigSectionViewModel(this);
+            DataContext = new IOConfigSectionViewModel(this, sectionConfig);
 
             InitializeComponent();
         }

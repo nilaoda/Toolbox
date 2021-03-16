@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using Avalonia.Controls;
 using Avalonia.VisualTree;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using ReactiveUI;
 using Ruminoid.Toolbox.Plugins.Common.ConfigSections.Views;
 
@@ -14,9 +15,12 @@ namespace Ruminoid.Toolbox.Plugins.Common.ConfigSections.ViewModels
         #region Constructor
 
         public IOConfigSectionViewModel(
-            IOConfigSection view)
+            IOConfigSection view,
+            JToken sectionConfig)
         {
             _view = view;
+
+            SupportSubtitle = sectionConfig["support_subtitle"]?.ToObject<bool>() ?? false;
         }
 
         #endregion
@@ -24,6 +28,12 @@ namespace Ruminoid.Toolbox.Plugins.Common.ConfigSections.ViewModels
         #region View
 
         private readonly IOConfigSection _view;
+
+        #endregion
+
+        #region Config
+
+        public bool SupportSubtitle { get; }
 
         #endregion
 

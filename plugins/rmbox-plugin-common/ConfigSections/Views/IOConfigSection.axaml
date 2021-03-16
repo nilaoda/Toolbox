@@ -43,12 +43,17 @@
                 Command="{Binding PickFile}"
                 CommandParameter="Input"/>
         </Grid>
-        <TextBlock Classes="title">字幕</TextBlock>
-        <TextBlock Classes="description">
+        <TextBlock
+            Classes="title"
+            IsVisible="{Binding SupportSubtitle}">字幕</TextBlock>
+        <TextBlock
+            Classes="description"
+            IsVisible="{Binding SupportSubtitle}">
             指定字幕文件。可以留空。
         </TextBlock>
         <Grid Classes="file-grid"
-              ColumnDefinitions="*,Auto">
+              ColumnDefinitions="*,Auto"
+              IsVisible="{Binding SupportSubtitle}">
             <TextBox
                 Grid.Column="0"
                 Text="{Binding Subtitle}" />
