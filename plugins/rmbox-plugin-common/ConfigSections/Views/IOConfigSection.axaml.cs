@@ -1,4 +1,5 @@
 using Avalonia.Markup.Xaml;
+using Newtonsoft.Json.Linq;
 using Ruminoid.Toolbox.Core;
 using Ruminoid.Toolbox.Plugins.Common.ConfigSections.ViewModels;
 
@@ -10,6 +11,14 @@ namespace Ruminoid.Toolbox.Plugins.Common.ConfigSections.Views
     public sealed class IOConfigSection : ConfigSectionBase
     {
         public IOConfigSection()
+        {
+            DataContext = new IOConfigSectionViewModel(this);
+
+            InitializeComponent();
+        }
+
+        public IOConfigSection(
+            JToken sectionConfig)
         {
             DataContext = new IOConfigSectionViewModel(this);
 

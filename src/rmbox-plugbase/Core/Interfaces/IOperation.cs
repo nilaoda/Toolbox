@@ -8,7 +8,7 @@ namespace Ruminoid.Toolbox.Core
     {
         public List<(string Target, string Args)> Generate(Dictionary<string, JToken> sectionData);
 
-        public List<string> RequiredConfigSections { get; }
+        public SortedDictionary<string, JToken> RequiredConfigSections { get; }
     }
 
     [AttributeUsage(AttributeTargets.Class, Inherited = false)]

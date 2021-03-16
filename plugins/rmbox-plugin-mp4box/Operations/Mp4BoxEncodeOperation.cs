@@ -89,12 +89,12 @@ namespace Ruminoid.Toolbox.Plugins.Mp4Box.Operations
             return result;
         }
 
-        public List<string> RequiredConfigSections => new()
+        public SortedDictionary<string, JToken> RequiredConfigSections => new()
         {
-            "Ruminoid.Toolbox.Plugins.Common.ConfigSections.IOConfigSection",
-            "Ruminoid.Toolbox.Plugins.X264.ConfigSections.X264CoreConfigSection",
-            "Ruminoid.Toolbox.Plugins.X264.ConfigSections.X264EncodeQualityConfigSection",
-            "Ruminoid.Toolbox.Plugins.Common.ConfigSections.CustomArgsConfigSection"
+            {"Ruminoid.Toolbox.Plugins.Common.ConfigSections.IOConfigSection", new JObject()},
+            {"Ruminoid.Toolbox.Plugins.X264.ConfigSections.X264CoreConfigSection", new JObject()},
+            {"Ruminoid.Toolbox.Plugins.X264.ConfigSections.X264EncodeQualityConfigSection", new JObject()},
+            {"Ruminoid.Toolbox.Plugins.Common.ConfigSections.CustomArgsConfigSection", new JObject()}
         };
     }
 }

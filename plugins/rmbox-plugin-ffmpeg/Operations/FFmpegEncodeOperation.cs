@@ -28,9 +28,9 @@ namespace Ruminoid.Toolbox.Plugins.FFmpeg.Operations
             };
         }
 
-        public List<string> RequiredConfigSections => new()
+        public SortedDictionary<string, JToken> RequiredConfigSections => new()
         {
-            "Ruminoid.Toolbox.Plugins.Common.ConfigSections.IOConfigSection"
+            {"Ruminoid.Toolbox.Plugins.Common.ConfigSections.IOConfigSection", new JObject()}
         };
     }
 }

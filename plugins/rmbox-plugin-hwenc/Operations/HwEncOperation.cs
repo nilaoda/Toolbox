@@ -56,13 +56,13 @@ namespace Ruminoid.Toolbox.Plugins.HwEnc.Operations
             }
         }
 
-        public List<string> RequiredConfigSections => new()
+        public SortedDictionary<string, JToken> RequiredConfigSections => new()
         {
-            "Ruminoid.Toolbox.Plugins.Common.ConfigSections.IOConfigSection",
-            "Ruminoid.Toolbox.Plugins.HwEnc.ConfigSections.HwEncCoreConfigSection",
-            "Ruminoid.Toolbox.Plugins.HwEnc.ConfigSections.HwEncCodecConfigSection",
-            "Ruminoid.Toolbox.Plugins.HwEnc.ConfigSections.HwEncQualityConfigSection",
-            "Ruminoid.Toolbox.Plugins.Common.ConfigSections.CustomArgsConfigSection"
+            {"Ruminoid.Toolbox.Plugins.Common.ConfigSections.IOConfigSection", new JObject()},
+            {"Ruminoid.Toolbox.Plugins.HwEnc.ConfigSections.HwEncCoreConfigSection", new JObject()},
+            {"Ruminoid.Toolbox.Plugins.HwEnc.ConfigSections.HwEncCodecConfigSection", new JObject()},
+            {"Ruminoid.Toolbox.Plugins.HwEnc.ConfigSections.HwEncQualityConfigSection", new JObject()},
+            {"Ruminoid.Toolbox.Plugins.Common.ConfigSections.CustomArgsConfigSection", new JObject()}
         };
     }
 }

@@ -1,4 +1,5 @@
 ﻿using Avalonia.Markup.Xaml;
+using Newtonsoft.Json.Linq;
 using Ruminoid.Toolbox.Core;
 using Ruminoid.Toolbox.Plugins.X264.ConfigSections.ViewModels;
 
@@ -10,6 +11,12 @@ namespace Ruminoid.Toolbox.Plugins.X264.ConfigSections.Views
     public class X264EncodeQualityConfigSection : ConfigSectionBase
     {
         public X264EncodeQualityConfigSection()
+        {
+            InitializeComponent();
+        }
+
+        public X264EncodeQualityConfigSection(
+            JToken sectionConfig)
         {
             InitializeComponent();
         }

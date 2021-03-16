@@ -1,4 +1,5 @@
 using Avalonia.Markup.Xaml;
+using Newtonsoft.Json.Linq;
 using Ruminoid.Toolbox.Core;
 using Ruminoid.Toolbox.Plugins.HwEnc.ConfigSections.ViewModels;
 
@@ -10,6 +11,12 @@ namespace Ruminoid.Toolbox.Plugins.HwEnc.ConfigSections.Views
     public class HwEncQualityConfigSection : ConfigSectionBase
     {
         public HwEncQualityConfigSection()
+        {
+            InitializeComponent();
+        }
+
+        public HwEncQualityConfigSection(
+            JToken sectionConfig)
         {
             InitializeComponent();
         }

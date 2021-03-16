@@ -1,8 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using Avalonia.Controls;
 using DynamicData;
+using Newtonsoft.Json.Linq;
 using ReactiveUI;
 using Ruminoid.Toolbox.Composition;
 using Ruminoid.Toolbox.Core;
@@ -55,27 +57,27 @@ namespace Ruminoid.Toolbox.Shell.ViewModels
             if (_operation is null)
                 throw new ArgumentException("Cannot Construct Operation.");
 
-            foreach (string sectionId in _operation.RequiredConfigSections)
+            foreach (KeyValuePair<string, JToken> sectionData in _operation.RequiredConfigSections)
             {
-                (ConfigSectionAttribute ConfigSectionAttribute, Type ConfigSectionType) sectionData = _pluginHelper.ConfigSectionCollection
-                    .Where(x => x.ConfigSectionAttribute.Id == sectionId)
+                (ConfigSectionAttribute ConfigSectionAttribute, Type ConfigSectionType) sectionMeta = _pluginHelper.ConfigSectionCollection
+                    .Where(x => x.ConfigSectionAttribute.Id == sectionData.Key)
                     .ToArray()
                     .FirstOrDefault();
 
-                if (sectionData == default)
+                if (sectionMeta == default)
                     throw new ArgumentException("Cannot Find ConfigSection.");
 
-                ConfigSectionBase section = Activator.CreateInstance(sectionData.ConfigSectionType) as ConfigSectionBase;
+                ConfigSectionBase section = Activator.CreateInstance(sectionMeta.ConfigSectionType, sectionData.Value) as ConfigSectionBase;
 
                 if (section is null)
                     throw new ArgumentException("Cannot Construct ConfigSection.");
 
-                _configSections.Add((sectionData.ConfigSectionAttribute, section));
+                _configSections.Add((sectionMeta.ConfigSectionAttribute, section));
 
                 Items.Add(
                     new TabItem
                     {
-                        Header = sectionData.ConfigSectionAttribute.Name,
+                        Header = sectionMeta.ConfigSectionAttribute.Name,
                         Content = section
                     });
             }
