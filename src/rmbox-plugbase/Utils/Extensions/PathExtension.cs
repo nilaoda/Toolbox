@@ -1,5 +1,7 @@
 ﻿using System;
+using System.IO;
 using System.Linq;
+using System.Runtime.InteropServices;
 
 namespace Ruminoid.Toolbox.Utils.Extensions
 {
@@ -46,5 +48,11 @@ namespace Ruminoid.Toolbox.Utils.Extensions
         public static string EscapeForCode(
             this char c) =>
             "\\" + "u" + ((int)c).ToString("x4");
+
+        public static string GetTargetPath(
+            string target) =>
+            Path.Combine(
+                StorageHelper.GetSectionFolderPath("tools"),
+                target + (RuntimeInformation.IsOSPlatform(OSPlatform.Windows) ? ".exe" : ""));
     }
 }

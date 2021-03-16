@@ -8,7 +8,6 @@ using System.Reactive;
 using System.Reactive.Concurrency;
 using System.Reactive.Linq;
 using System.Reactive.Subjects;
-using System.Runtime.InteropServices;
 using System.Text;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
@@ -16,6 +15,7 @@ using Ruminoid.Toolbox.Composition;
 using Ruminoid.Toolbox.Formatting;
 using Ruminoid.Toolbox.Helpers.CommandLine;
 using Ruminoid.Toolbox.Utils;
+using Ruminoid.Toolbox.Utils.Extensions;
 using Websocket.Client;
 
 namespace Ruminoid.Toolbox.Core
@@ -106,9 +106,7 @@ namespace Ruminoid.Toolbox.Core
 
             string workingDirectory = StorageHelper.GetSectionFolderPath("tools");
 
-            string targetPath = Path.Combine(
-                workingDirectory,
-                target + (RuntimeInformation.IsOSPlatform(OSPlatform.Windows) ? ".exe" : ""));
+            string targetPath = PathExtension.GetTargetPath(target);
 
             if (!File.Exists(targetPath))
             {
