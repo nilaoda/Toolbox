@@ -34,6 +34,9 @@ namespace Ruminoid.Toolbox.Plugins.Mp4Box.Operations
 
             string inputPathIntl = Path.GetFullPath(ioSection["input"]?.ToObject<string>() ?? string.Empty);
             string inputPath = inputPathIntl.EscapePathStringForArg();
+            string subtitlePathIntl = Path.GetFullPath(ioSection["subtitle"]?.ToObject<string>() ?? string.Empty);
+            bool isIncludingSubtitle = !string.IsNullOrWhiteSpace(subtitlePathIntl);
+            string subtitlePath = subtitlePathIntl.EscapePathStringForArg();
             string outputPath = Path.GetFullPath(ioSection["output"]?.ToObject<string>() ?? string.Empty).EscapePathStringForArg();
             string atempPath = Path.ChangeExtension(inputPathIntl, "atemp.aac").EscapePathStringForArg();
             string vtempPath = Path.ChangeExtension(inputPathIntl, "vtemp.mp4").EscapePathStringForArg();
@@ -55,7 +58,7 @@ namespace Ruminoid.Toolbox.Plugins.Mp4Box.Operations
                     {
                         new(
                             x264Core,
-                            $"--crf {x264QualitySection["crf_value"]?.ToObject<double>():N1} {(useCustomArgs ? customArgs : defaultArgs)} -o {vtempPath} {inputPath}"),
+                            $"--crf {x264QualitySection["crf_value"]?.ToObject<double>():N1} {(useCustomArgs ? customArgs : defaultArgs)} {(isIncludingSubtitle ? "--vf subtitles --sub " + subtitlePath : "")} -o {vtempPath} {inputPath}"),
                         new(
                             "ffmpeg",
                             $"-i {vtempPath} -i {atempPath} -vcodec copy -acodec copy {outputPath}"),
@@ -69,10 +72,10 @@ namespace Ruminoid.Toolbox.Plugins.Mp4Box.Operations
                     {
                         new(
                             x264Core,
-                            $"--pass 1 --bitrate {x264QualitySection["2pass_value"]?.ToObject<int>()} --stats {vtempStatsPath} {(useCustomArgs ? customArgs : defaultArgs)} -o NUL {inputPath}"),
+                            $"--pass 1 --bitrate {x264QualitySection["2pass_value"]?.ToObject<int>()} --stats {vtempStatsPath} {(useCustomArgs ? customArgs : defaultArgs)} {(isIncludingSubtitle ? "--vf subtitles --sub " + subtitlePath : "")} -o NUL {inputPath}"),
                         new(
                             x264Core,
-                            $"--pass 2 --bitrate {x264QualitySection["2pass_value"]?.ToObject<int>()} --stats {vtempStatsPath} {(useCustomArgs ? customArgs : defaultArgs)} -o {vtempPath} {inputPath}"),
+                            $"--pass 2 --bitrate {x264QualitySection["2pass_value"]?.ToObject<int>()} --stats {vtempStatsPath} {(useCustomArgs ? customArgs : defaultArgs)} {(isIncludingSubtitle ? "--vf subtitles --sub " + subtitlePath : "")} -o {vtempPath} {inputPath}"),
                         new(
                             "ffmpeg",
                             $"-i {vtempPath} -i {atempPath} -vcodec copy -acodec copy {outputPath}"),
@@ -91,7 +94,12 @@ namespace Ruminoid.Toolbox.Plugins.Mp4Box.Operations
 
         public Dictionary<string, JToken> RequiredConfigSections => new()
         {
-            {"Ruminoid.Toolbox.Plugins.Common.ConfigSections.IOConfigSection", new JObject()},
+            {
+                "Ruminoid.Toolbox.Plugins.Common.ConfigSections.IOConfigSection", JToken.FromObject(new
+                {
+                    support_subtitle = true
+                })
+            },
             {"Ruminoid.Toolbox.Plugins.X264.ConfigSections.X264CoreConfigSection", new JObject()},
             {"Ruminoid.Toolbox.Plugins.X264.ConfigSections.X264EncodeQualityConfigSection", new JObject()},
             {"Ruminoid.Toolbox.Plugins.Common.ConfigSections.CustomArgsConfigSection", new JObject()}
