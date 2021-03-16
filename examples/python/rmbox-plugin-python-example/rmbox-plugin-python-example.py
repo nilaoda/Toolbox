@@ -8,10 +8,11 @@ meta = {
     'id': 'Ruminoid.Toolbox.Plugins.Examples.RmboxPluginPythonExample',
     'class_name': 'RmboxPluginPythonExample',
     'name': 'Python 插件示例',
+    'type': 'operation',
     'description': 'Python 编写的 Ruminoid Toolbox 插件示例。',
-    'config_sections': [
-        'Ruminoid.Toolbox.Plugins.Common.ConfigSections.IOConfigSection',
-    ],
+    'config_sections': {
+        'Ruminoid.Toolbox.Plugins.Common.ConfigSections.IOConfigSection': {},
+    },
 }
 
 if len(argv) == 1:

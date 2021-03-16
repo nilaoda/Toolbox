@@ -110,6 +110,9 @@ namespace Ruminoid.Toolbox.Composition.Roslim
                 JObject meta = JObject.Parse(metaResult);
 
                 _logger.LogDebug("Parsed meta: {metaResult}", metaResult);
+
+                if (meta["type"]!.ToObject<string>() != "operation")
+                    throw new RoslimException("不支持的插件类型。升级Ruminoid Toolbox到较新版本以使用此插件。");
                 
                 string assemblyName = meta["id"]!.ToObject<string>();
 
@@ -126,27 +129,25 @@ namespace Ruminoid.Toolbox.Composition.Roslim
                 };
 
                 // Add Config Sections
-                List<string> configSections = meta["config_sections"]!.ToObject<List<string>>();
+                Dictionary<string, JToken> configSections = meta["config_sections"]!.ToObject<Dictionary<string, JToken>>();
 
                 if (configSections is null)
                     throw new RoslimException($"{nameof(configSections)} 为空。请检查插件元信息。");
 
                 StringBuilder builder = new StringBuilder();
-                builder.Append('"');
-                builder.Append(configSections[0].EscapeForCode());
-                configSections.RemoveAt(0);
 
-                foreach (string section in configSections)
+                foreach (KeyValuePair<string, JToken> section in configSections)
                 {
-                    builder.Append("\",\"");
-                    builder.Append(section.EscapeForCode());
+                    builder.Append("{\"");
+                    builder.Append(section.Key.EscapeForCode());
+                    builder.Append("\", JObject.Parse(\"");
+                    builder.Append(section.Value.ToString().EscapeForCode());
+                    builder.Append("\")},");
                 }
-
-                builder.Append('"');
 
                 providers.Add(
                     new Replacement(
-                        TokenConfig.FromValue("\"Ruminoid.Toolbox.Composition.Roslim.RoslimConfigSection\""),
+                        TokenConfig.FromValue("{\"Ruminoid.Toolbox.Composition.Roslim.RoslimConfigSection\", new JObject()}"),
                         builder.ToString(),
                         "config_sections",
                         true));

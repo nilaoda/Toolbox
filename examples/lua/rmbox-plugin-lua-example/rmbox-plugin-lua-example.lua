@@ -4,9 +4,10 @@ local meta = {
     id = 'Ruminoid.Toolbox.Plugins.Examples.RmboxPluginLuaExample',
     class_name = 'RmboxPluginLuaExample',
     name = 'Lua 插件示例',
+    type = 'operation',
     description = 'Lua 编写的 Ruminoid Toolbox 插件示例。',
     config_sections = {
-        'Ruminoid.Toolbox.Plugins.Common.ConfigSections.IOConfigSection'
+        ["Ruminoid.Toolbox.Plugins.Common.ConfigSections.IOConfigSection"] = {}
     }
 }
 

@@ -1,10 +1,12 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+
 export interface Meta {
   id: string
   class_name: string
   name: string
+  type: string
   description: string
-  config_sections: string[]
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  config_sections: { [K: string]: any }
   [K: string]: any
 }
 

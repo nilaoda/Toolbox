@@ -5,10 +5,11 @@ const meta: Meta = {
   id: 'Ruminoid.Toolbox.Plugins.Examples.RmboxPluginNodeExample',
   class_name: 'RmboxPluginNodeExample',
   name: 'Node 插件示例',
+  type: 'operation',
   description: 'Node 编写的 Ruminoid Toolbox 插件示例。',
-  config_sections: [
-    'Ruminoid.Toolbox.Plugins.Common.ConfigSections.IOConfigSection',
-  ],
+  config_sections: {
+    'Ruminoid.Toolbox.Plugins.Common.ConfigSections.IOConfigSection': {},
+  },
 }
 
 if (process.argv.length <= 2) {
