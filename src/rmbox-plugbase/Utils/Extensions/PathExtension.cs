@@ -54,5 +54,9 @@ namespace Ruminoid.Toolbox.Utils.Extensions
             Path.Combine(
                 StorageHelper.GetSectionFolderPath("tools"),
                 target + (RuntimeInformation.IsOSPlatform(OSPlatform.Windows) ? ".exe" : ""));
+
+        public static string GetFullPathOrEmpty(
+            string path) =>
+            string.IsNullOrWhiteSpace(path) ? string.Empty : Path.GetFullPath(path);
     }
 }

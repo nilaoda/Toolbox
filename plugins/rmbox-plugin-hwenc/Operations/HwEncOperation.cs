@@ -33,8 +33,8 @@ namespace Ruminoid.Toolbox.Plugins.HwEnc.Operations
 
             string defaultArgs = "";
 
-            string inputPath = Path.GetFullPath(ioSection["input"]?.ToObject<string>() ?? string.Empty).EscapePathStringForArg();
-            string outputPath = Path.GetFullPath(ioSection["output"]?.ToObject<string>() ?? string.Empty).EscapePathStringForArg();
+            string inputPath = PathExtension.GetFullPathOrEmpty(ioSection["input"]?.ToObject<string>() ?? string.Empty).EscapePathStringForArg();
+            string outputPath = PathExtension.GetFullPathOrEmpty(ioSection["output"]?.ToObject<string>() ?? string.Empty).EscapePathStringForArg();
 
             switch (hwEncQualitySection["encode_mode"]?.ToObject<string>())
             {

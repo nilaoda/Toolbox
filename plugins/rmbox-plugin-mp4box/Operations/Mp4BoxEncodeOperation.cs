@@ -32,12 +32,12 @@ namespace Ruminoid.Toolbox.Plugins.Mp4Box.Operations
             string defaultArgs =
                 @"--preset 8 -I 300 -r 4 -b 3 --me umh -i 1 --scenecut 60 -f 1:1 --qcomp 0.5 --psy-rd 0.3:0 --aq-mode 2 --aq-strength 0.8";
 
-            string inputPathIntl = Path.GetFullPath(ioSection["input"]?.ToObject<string>() ?? string.Empty);
+            string inputPathIntl = PathExtension.GetFullPathOrEmpty(ioSection["input"]?.ToObject<string>() ?? string.Empty);
             string inputPath = inputPathIntl.EscapePathStringForArg();
-            string subtitlePathIntl = Path.GetFullPath(ioSection["subtitle"]?.ToObject<string>() ?? string.Empty);
+            string subtitlePathIntl = PathExtension.GetFullPathOrEmpty(ioSection["subtitle"]?.ToObject<string>() ?? string.Empty);
             bool isIncludingSubtitle = !string.IsNullOrWhiteSpace(subtitlePathIntl);
             string subtitlePath = subtitlePathIntl.EscapePathStringForArg();
-            string outputPath = Path.GetFullPath(ioSection["output"]?.ToObject<string>() ?? string.Empty).EscapePathStringForArg();
+            string outputPath = PathExtension.GetFullPathOrEmpty(ioSection["output"]?.ToObject<string>() ?? string.Empty).EscapePathStringForArg();
             string atempPath = Path.ChangeExtension(inputPathIntl, "atemp.aac").EscapePathStringForArg();
             string vtempPath = Path.ChangeExtension(inputPathIntl, "vtemp.mp4").EscapePathStringForArg();
             string vtempStatsPath = Path.ChangeExtension(inputPathIntl, "vtemp.stats").EscapePathStringForArg();

@@ -17,8 +17,8 @@ namespace Ruminoid.Toolbox.Plugins.FFmpeg.Operations
             JToken ioSection =
                 sectionData["Ruminoid.Toolbox.Plugins.Common.ConfigSections.IOConfigSection"];
 
-            string inputPath = Path.GetFullPath(ioSection["input"]?.ToObject<string>() ?? string.Empty).EscapePathStringForArg();
-            string outputPath = Path.GetFullPath(ioSection["output"]?.ToObject<string>() ?? string.Empty).EscapePathStringForArg();
+            string inputPath = PathExtension.GetFullPathOrEmpty(ioSection["input"]?.ToObject<string>() ?? string.Empty).EscapePathStringForArg();
+            string outputPath = PathExtension.GetFullPathOrEmpty(ioSection["output"]?.ToObject<string>() ?? string.Empty).EscapePathStringForArg();
 
             return new List<(string, string)>
             {
