@@ -134,12 +134,22 @@ partial class Build
 
         Logger.Info("Downloading HwEnc.");
         HttpTasks.HttpDownloadFile(
-            "https://raw.githubusercontent.com/Afanyiyu/Delivr/master/hwenc/hwenc.zip",
+            "https://raw.githubusercontent.com/Afanyiyu/Delivr/master/rmbox/hwenc.zip",
             ToolsTempDirectory / "hwenc.zip");
 
         Logger.Info("Extracting HwEnc.");
         CompressionTasks.UncompressZip(
             ToolsTempDirectory / "hwenc.zip",
+            ToolsDirectory);
+
+        Logger.Info("Downloading QAAC.");
+        HttpTasks.HttpDownloadFile(
+            "https://raw.githubusercontent.com/Afanyiyu/Delivr/master/rmbox/qaac.zip",
+            ToolsTempDirectory / "qaac.zip");
+
+        Logger.Info("Extracting QAAC.");
+        CompressionTasks.UncompressZip(
+            ToolsTempDirectory / "qaac.zip",
             ToolsDirectory);
     }
 
