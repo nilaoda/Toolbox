@@ -29,7 +29,7 @@ const ioSection =
 const commands: Command[] = [
   {
     target: 'ffmpeg',
-    args: `-i ${ioSection['video']} ${ioSection['output']}`,
+    args: `-i ${ioSection['input']} ${ioSection['output']}`,
   },
 ]
 

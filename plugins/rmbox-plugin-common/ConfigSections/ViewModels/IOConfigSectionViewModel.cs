@@ -29,13 +29,13 @@ namespace Ruminoid.Toolbox.Plugins.Common.ConfigSections.ViewModels
 
         #region Data
 
-        [JsonProperty("video")]
-        private string _video = "";
+        [JsonProperty("input")]
+        private string _input = "";
 
-        public string Video
+        public string Input
         {
-            get => _video;
-            set => this.RaiseAndSetIfChanged(ref _video, value);
+            get => _input;
+            set => this.RaiseAndSetIfChanged(ref _input, value);
         }
 
         [JsonProperty("subtitle")]
@@ -64,7 +64,7 @@ namespace Ruminoid.Toolbox.Plugins.Common.ConfigSections.ViewModels
         {
             string title = field switch
             {
-                "Video" => "输入",
+                "Input" => "输入",
                 "Subtitle" => "字幕",
                 _ => ""
             };
@@ -82,8 +82,8 @@ namespace Ruminoid.Toolbox.Plugins.Common.ConfigSections.ViewModels
 
             switch (field)
             {
-                case "Video":
-                    Video = result[0];
+                case "Input":
+                    Input = result[0];
                     break;
                 case "Subtitle":
                     Subtitle = result[0];

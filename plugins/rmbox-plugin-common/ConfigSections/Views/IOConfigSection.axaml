@@ -41,7 +41,7 @@
                 Grid.Column="1"
                 Content="浏览"
                 Command="{Binding PickFile}"
-                CommandParameter="Video"/>
+                CommandParameter="Input"/>
         </Grid>
         <TextBlock Classes="title">字幕</TextBlock>
         <TextBlock Classes="description">

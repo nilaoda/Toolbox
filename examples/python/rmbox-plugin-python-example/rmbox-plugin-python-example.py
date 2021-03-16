@@ -29,7 +29,7 @@ io_section: Any = config_sections['Ruminoid.Toolbox.Plugins.Common.ConfigSection
 commands = [
     {
         'target': 'ffmpeg',
-        'args': f'-i {io_section["video"]} {io_section["output"]}',
+        'args': f'-i {io_section["input"]} {io_section["output"]}',
     },
 ]
 

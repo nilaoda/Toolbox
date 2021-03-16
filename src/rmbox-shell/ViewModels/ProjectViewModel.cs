@@ -31,7 +31,7 @@ namespace Ruminoid.Toolbox.Shell.ViewModels
             {
                 JObject jObject = JObject.FromObject(ioConfigSection.ConfigSection);
 
-                var source = jObject["video"]?.ToString();
+                var source = jObject["input"]?.ToString();
                 if (string.IsNullOrWhiteSpace(source)) source = jObject["subtitle"]?.ToString();
                 if (!string.IsNullOrWhiteSpace(source)) Source = source;
             }

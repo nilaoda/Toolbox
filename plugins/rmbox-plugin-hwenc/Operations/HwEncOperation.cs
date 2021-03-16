@@ -33,8 +33,7 @@ namespace Ruminoid.Toolbox.Plugins.HwEnc.Operations
 
             string defaultArgs = "";
 
-            string videoPathIntl = Path.GetFullPath(ioSection["video"]?.ToObject<string>() ?? string.Empty);
-            string videoPath = videoPathIntl.EscapePathStringForArg();
+            string inputPath = Path.GetFullPath(ioSection["input"]?.ToObject<string>() ?? string.Empty).EscapePathStringForArg();
             string outputPath = Path.GetFullPath(ioSection["output"]?.ToObject<string>() ?? string.Empty).EscapePathStringForArg();
 
             switch (hwEncQualitySection["encode_mode"]?.ToObject<string>())
@@ -43,13 +42,13 @@ namespace Ruminoid.Toolbox.Plugins.HwEnc.Operations
                     return new List<(string Target, string Args)>
                     {
                         (hwEncCore,
-                            $"-i {videoPath} -o {outputPath} --avhw --audio-copy --codec {hwEncCodecSection["codec"]?.ToObject<string>()} --cqp {hwEncQualitySection["cqp_value"]?.ToObject<string>()} {(useCustomArgs ? customArgs : defaultArgs)}")
+                            $"-i {inputPath} -o {outputPath} --avhw --audio-copy --codec {hwEncCodecSection["codec"]?.ToObject<string>()} --cqp {hwEncQualitySection["cqp_value"]?.ToObject<string>()} {(useCustomArgs ? customArgs : defaultArgs)}")
                     };
                 case "2pass":
                     return new List<(string Target, string Args)>
                     {
                         (hwEncCore,
-                            $"-i {videoPath} -o {outputPath} --avhw --audio-copy --codec {hwEncCodecSection["codec"]?.ToObject<string>()} --vbr {hwEncQualitySection["2pass_value"]?.ToObject<int>()} --multipass 2pass-full {(useCustomArgs ? customArgs : defaultArgs)}")
+                            $"-i {inputPath} -o {outputPath} --avhw --audio-copy --codec {hwEncCodecSection["codec"]?.ToObject<string>()} --vbr {hwEncQualitySection["2pass_value"]?.ToObject<int>()} --multipass 2pass-full {(useCustomArgs ? customArgs : defaultArgs)}")
                     };
                 default:
                     throw new ArgumentOutOfRangeException("encode_mode");
