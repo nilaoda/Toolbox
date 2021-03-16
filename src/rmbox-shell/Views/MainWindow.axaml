@@ -21,13 +21,11 @@
                     Icon="{DynamicResource VSCodeLight.add}"
                     Command="{Binding DoCreateNewOperation}"
                     Header="创建操作"
-                    InputGesture="Ctrl+N"
                     Classes="accent"/>
                 <controls:DrawingIconMenuItem
                     Icon="{DynamicResource VSCodeLight.radio-tower}"
                     Command="{Binding DoCreateService}"
                     Header="创建服务"
-                    InputGesture="Ctrl+Shift+N"
                     IsEnabled="False"/>
                 <controls:DrawingIconMenuItem
                     Icon="{DynamicResource VSCodeLight.list-ordered}"
@@ -37,16 +35,14 @@
                 <Separator/>
                 <MenuItem
                     Command="{Binding DoClose}"
-                    Header="退出"
-                    InputGesture="Alt+F4"/>
+                    Header="退出"/>
             </MenuItem>
             <MenuItem
                 Header="帮助">
                 <controls:DrawingIconMenuItem
                     Icon="{DynamicResource VSCodeLight.help}"
                     Command="{Binding DoShowAboutWindow}"
-                    Header="帮助"
-                    InputGesture="F1"/>
+                    Header="帮助"/>
             </MenuItem>
         </Menu>
 
