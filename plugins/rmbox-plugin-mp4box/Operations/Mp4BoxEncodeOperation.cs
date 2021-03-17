@@ -68,7 +68,7 @@ namespace Ruminoid.Toolbox.Plugins.Mp4Box.Operations
                         new(
                             "pwsh",
                             $"-Command Remove-Item {atempPath},{vtempPath}",
-                            "pwsh")
+                            "null")
                     });
                     break;
                 case "2pass":
@@ -89,7 +89,7 @@ namespace Ruminoid.Toolbox.Plugins.Mp4Box.Operations
                         new(
                             "pwsh",
                             $"-Command Remove-Item {atempPath},{vtempPath},{vtempStatsPath},{vtempStatsMbtreePath}",
-                            "pwsh")
+                            "null")
                     });
                     break;
                 default:
