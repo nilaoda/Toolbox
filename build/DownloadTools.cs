@@ -151,6 +151,16 @@ partial class Build
         CompressionTasks.UncompressZip(
             ToolsTempDirectory / "qaac.zip",
             ToolsDirectory);
+
+        Logger.Info("Downloading VapourSynth.");
+        HttpTasks.HttpDownloadFile(
+            "https://raw.githubusercontent.com/Afanyiyu/Delivr/master/rmbox/vsfm.zip",
+            ToolsTempDirectory / "vsfm.zip");
+
+        Logger.Info("Extracting VapourSynth.");
+        CompressionTasks.UncompressZip(
+            ToolsTempDirectory / "vsfm.zip",
+            ToolsDirectory);
     }
 
     void DownloadToolsMacos()
