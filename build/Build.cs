@@ -196,11 +196,16 @@ partial class Build : NukeBuild
 
             DownloadTools();
 
-            Logger.Info("Making soft link.");
-            ProcessTasks.StartShell(
-                    Platform == PlatformFamily.Windows ? "mklink 启动Toolbox rmbox\\rmbox.exe" : "ln -s ./rmbox/rmbox 启动Toolbox",
-                    PackDirectory)
-                .AssertZeroExitCode();
+            //Logger.Info("Making soft link.");
+            //ProcessTasks.StartShell(
+            //        Platform == PlatformFamily.Windows ? "mklink 启动Toolbox rmbox\\rmbox.exe" : "ln -s ./rmbox/rmbox 启动Toolbox",
+            //        PackDirectory)
+            //    .AssertZeroExitCode();
+
+            Logger.Info("Making link.");
+            TextTasks.WriteAllText(
+                PackDirectory / ("启动Toolbox" + (Platform == PlatformFamily.Windows ? ".bat" : ".sh")),
+                Platform == PlatformFamily.Windows ? "@echo off\nrmbox\\rmbox.exe %*\n" : "./rmbox/rmbox $*\n");
 
             if (Platform == PlatformFamily.Linux ||
                 Platform == PlatformFamily.OSX)
