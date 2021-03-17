@@ -21,6 +21,8 @@ namespace Ruminoid.Toolbox.Plugins.Common.ConfigSections.ViewModels
             _view = view;
 
             SupportSubtitle = sectionConfig["support_subtitle"]?.ToObject<bool>() ?? false;
+            SupportVsfm = (sectionConfig["support_subtitle"]?.ToObject<bool>() ?? false) &&
+                          (sectionConfig["support_vsfm"]?.ToObject<bool>() ?? false);
         }
 
         #endregion
@@ -34,6 +36,8 @@ namespace Ruminoid.Toolbox.Plugins.Common.ConfigSections.ViewModels
         #region Config
 
         public bool SupportSubtitle { get; }
+
+        public bool SupportVsfm { get; }
 
         #endregion
 
@@ -55,6 +59,15 @@ namespace Ruminoid.Toolbox.Plugins.Common.ConfigSections.ViewModels
         {
             get => _subtitle;
             set => this.RaiseAndSetIfChanged(ref _subtitle, value);
+        }
+
+        [JsonProperty("use_vsfm")]
+        private bool _useVsfm;
+
+        public bool UseVsfm
+        {
+            get => _useVsfm;
+            set => this.RaiseAndSetIfChanged(ref _useVsfm, value);
         }
 
         [JsonProperty("output")]
