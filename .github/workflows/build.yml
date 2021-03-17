@@ -23,8 +23,25 @@ jobs:
       with:
         submodules: recursive
         fetch-depth: 0
+
+    - name: Setup Node.js
+      uses: actions/setup-node@v2
+      with:
+        node-version: '14'
+
+    - name: Build rmbox-vpygen
+      run: |
+        cd src/rmbox-vpygen
+        npm i
+        npm run build
+        cd ../..
+        mkdir tools-gen
+        mv src/rmbox-vpygen/dist/index.js tools-gen/rmbox-vpygen.js
+      shell: bash
+
     - name: Build and Pack
       run: ./build.cmd Full --configuration Release --runtime ${{ fromJson(matrix.target).rid }}
+
     - name: Push Artifacts
       uses: actions/upload-artifact@v2
       with:

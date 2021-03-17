@@ -55,6 +55,11 @@ partial class Build : NukeBuild
     AbsolutePath OutputDirectory => PackDirectory / "rmbox";
     AbsolutePath ToolsDirectory => OutputDirectory / "tools";
 
+    readonly string[] ExcludeSourceFolders =
+    {
+        "rmbox-vpygen"
+    };
+
     Target Clean => _ => _
         .Before(Restore)
         .Executes(() =>
@@ -137,6 +142,7 @@ partial class Build : NukeBuild
 
             Logger.Info("Packing projects in src.");
             Directory.EnumerateDirectories(SourceDirectory).ToArray()
+                .Where(x => !ExcludeSourceFolders.Any(x.EndsWith))
                 .ForEach(x =>
                     ForceCopyDirectoryRecursively(
                         NavigateToProjectOutput((AbsolutePath) x),
@@ -169,6 +175,7 @@ partial class Build : NukeBuild
 
             Logger.Info("Packing projects in src.");
             Directory.EnumerateDirectories(SourceDirectory).ToArray()
+                .Where(x => !ExcludeSourceFolders.Any(x.EndsWith))
                 .ForEach(x =>
                     ForceCopyDirectoryRecursively(
                         NavigateToProjectOutput(
@@ -195,6 +202,14 @@ partial class Build : NukeBuild
             EnsureCleanDirectory(ToolsDirectory);
 
             DownloadTools();
+
+            if (DirectoryExists(RootDirectory / "tools-gen"))
+            {
+                Logger.Info("tools-gen folder founded. Packing tools.");
+                ForceCopyDirectoryRecursively(RootDirectory / "tools-gen", ToolsDirectory);
+            }
+
+            Logger.Success("PackTools completed.");
 
             //Logger.Info("Making soft link.");
             //ProcessTasks.StartShell(
