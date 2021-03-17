@@ -164,12 +164,12 @@ namespace Ruminoid.Toolbox.Core
 
             if (_currentProcess.ExitCode != 0)
             {
-                string err = $"{formatter} 程序出现错误，退出码为 {_currentProcess.ExitCode}。";
+                string err = $"{(formatter == "null" ? "命令运行" : formatter)} 出现错误，退出码为 {_currentProcess.ExitCode}。";
                 _logger.LogCritical(err);
                 throw new ProcessRunnerException(err);
             }
 
-            _logger.LogInformation($"{formatter} 运行结束，程序正常退出。");
+            _logger.LogInformation($"{(formatter == "null" ? "命令" : formatter)} 运行结束，程序正常退出。");
         }
 
         /// <summary>
