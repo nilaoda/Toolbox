@@ -30,6 +30,7 @@ commands = [
     {
         'target': 'ffmpeg',
         'args': f'-i {io_section["input"]} {io_section["output"]}',
+        'formatter': 'ffmpeg',
     },
 ]
 

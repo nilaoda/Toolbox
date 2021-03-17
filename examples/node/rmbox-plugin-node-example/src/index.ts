@@ -30,6 +30,7 @@ const commands: Command[] = [
   {
     target: 'ffmpeg',
     args: `-i ${ioSection['input']} ${ioSection['output']}`,
+    formatter: 'ffmpeg',
   },
 ]
 

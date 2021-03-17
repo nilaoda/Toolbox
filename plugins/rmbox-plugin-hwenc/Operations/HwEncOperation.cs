@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using Newtonsoft.Json.Linq;
 using Ruminoid.Toolbox.Core;
 using Ruminoid.Toolbox.Utils.Extensions;
@@ -13,7 +12,7 @@ namespace Ruminoid.Toolbox.Plugins.HwEnc.Operations
         "使用显卡进行视频压制。")]
     public class HwEncOperation : IOperation
     {
-        public List<(string Target, string Args)> Generate(Dictionary<string, JToken> sectionData)
+        public List<(string Target, string Args, string Formatter)> Generate(Dictionary<string, JToken> sectionData)
         {
             JToken ioSection =
                 sectionData["Ruminoid.Toolbox.Plugins.Common.ConfigSections.IOConfigSection"];
@@ -39,18 +38,21 @@ namespace Ruminoid.Toolbox.Plugins.HwEnc.Operations
             switch (hwEncQualitySection["encode_mode"]?.ToObject<string>())
             {
                 case "cqp":
-                    return new List<(string Target, string Args)>
+                    return new List<(string Target, string Args, string Formatter)>
                     {
                         (hwEncCore,
-                            $"-i {inputPath} -o {outputPath} --avhw --audio-copy --codec {hwEncCodecSection["codec"]?.ToObject<string>()} --cqp {hwEncQualitySection["cqp_value"]?.ToObject<string>()} {(useCustomArgs ? customArgs : defaultArgs)}")
+                            $"-i {inputPath} -o {outputPath} --avhw --audio-copy --codec {hwEncCodecSection["codec"]?.ToObject<string>()} --cqp {hwEncQualitySection["cqp_value"]?.ToObject<string>()} {(useCustomArgs ? customArgs : defaultArgs)}",
+                            hwEncCore)
                     };
                 case "2pass":
-                    return new List<(string Target, string Args)>
+                    return new List<(string Target, string Args, string Formatter)>
                     {
                         (hwEncCore,
-                            $"-i {inputPath} -o {outputPath} --avhw --audio-copy --codec {hwEncCodecSection["codec"]?.ToObject<string>()} --vbr {hwEncQualitySection["2pass_value"]?.ToObject<int>()} --multipass 2pass-full {(useCustomArgs ? customArgs : defaultArgs)}")
+                            $"-i {inputPath} -o {outputPath} --avhw --audio-copy --codec {hwEncCodecSection["codec"]?.ToObject<string>()} --vbr {hwEncQualitySection["2pass_value"]?.ToObject<int>()} --multipass 2pass-full {(useCustomArgs ? customArgs : defaultArgs)}",
+                            hwEncCore)
                     };
                 default:
+                    // ReSharper disable once NotResolvedInText
                     throw new ArgumentOutOfRangeException("encode_mode");
             }
         }

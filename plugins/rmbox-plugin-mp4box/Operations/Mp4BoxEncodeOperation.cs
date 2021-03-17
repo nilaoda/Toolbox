@@ -13,7 +13,7 @@ namespace Ruminoid.Toolbox.Plugins.Mp4Box.Operations
         "使用小丸压制法进行视频压制。")]
     public class Mp4BoxEncodeOperation : IOperation
     {
-        public List<(string Target, string Args)> Generate(Dictionary<string, JToken> sectionData)
+        public List<(string Target, string Args, string Formatter)> Generate(Dictionary<string, JToken> sectionData)
         {
             JToken ioSection =
                 sectionData["Ruminoid.Toolbox.Plugins.Common.ConfigSections.IOConfigSection"];
@@ -43,45 +43,53 @@ namespace Ruminoid.Toolbox.Plugins.Mp4Box.Operations
             string vtempStatsPath = Path.ChangeExtension(inputPathIntl, "vtemp.stats").EscapePathStringForArg();
             string vtempStatsMbtreePath = Path.ChangeExtension(inputPathIntl, "vtemp.stats.mbtree").EscapePathStringForArg();
 
-            List<(string, string)> result = new()
+            List<(string, string, string)> result = new()
             {
                 // Extract Audio
                 new(
                     "ffmpeg",
-                    $"-i {inputPath} -vn -sn -c:a copy -y -map 0:a:0 {atempPath}")
+                    $"-i {inputPath} -vn -sn -c:a copy -y -map 0:a:0 {atempPath}",
+                    "ffmpeg")
             };
 
             switch (x264QualitySection["encode_mode"]?.ToObject<string>())
             {
                 case "crf":
-                    result.AddRange(new (string, string)[]
+                    result.AddRange(new (string, string, string)[]
                     {
                         new(
                             x264Core,
-                            $"--crf {x264QualitySection["crf_value"]?.ToObject<double>():N1} {(useCustomArgs ? customArgs : defaultArgs)} {(isIncludingSubtitle ? "--vf subtitles --sub " + subtitlePath : "")} -o {vtempPath} {inputPath}"),
+                            $"--crf {x264QualitySection["crf_value"]?.ToObject<double>():N1} {(useCustomArgs ? customArgs : defaultArgs)} {(isIncludingSubtitle ? "--vf subtitles --sub " + subtitlePath : "")} -o {vtempPath} {inputPath}",
+                            x264Core),
                         new(
                             "ffmpeg",
-                            $"-i {vtempPath} -i {atempPath} -vcodec copy -acodec copy {outputPath}"),
+                            $"-i {vtempPath} -i {atempPath} -vcodec copy -acodec copy {outputPath}",
+                            "ffmpeg"),
                         new(
                             "pwsh",
-                            $"-Command Remove-Item {atempPath},{vtempPath}")
+                            $"-Command Remove-Item {atempPath},{vtempPath}",
+                            "pwsh")
                     });
                     break;
                 case "2pass":
-                    result.AddRange(new (string, string)[]
+                    result.AddRange(new (string, string, string)[]
                     {
                         new(
                             x264Core,
-                            $"--pass 1 --bitrate {x264QualitySection["2pass_value"]?.ToObject<int>()} --stats {vtempStatsPath} {(useCustomArgs ? customArgs : defaultArgs)} {(isIncludingSubtitle ? "--vf subtitles --sub " + subtitlePath : "")} -o NUL {inputPath}"),
+                            $"--pass 1 --bitrate {x264QualitySection["2pass_value"]?.ToObject<int>()} --stats {vtempStatsPath} {(useCustomArgs ? customArgs : defaultArgs)} {(isIncludingSubtitle ? "--vf subtitles --sub " + subtitlePath : "")} -o NUL {inputPath}",
+                            x264Core),
                         new(
                             x264Core,
-                            $"--pass 2 --bitrate {x264QualitySection["2pass_value"]?.ToObject<int>()} --stats {vtempStatsPath} {(useCustomArgs ? customArgs : defaultArgs)} {(isIncludingSubtitle ? "--vf subtitles --sub " + subtitlePath : "")} -o {vtempPath} {inputPath}"),
+                            $"--pass 2 --bitrate {x264QualitySection["2pass_value"]?.ToObject<int>()} --stats {vtempStatsPath} {(useCustomArgs ? customArgs : defaultArgs)} {(isIncludingSubtitle ? "--vf subtitles --sub " + subtitlePath : "")} -o {vtempPath} {inputPath}",
+                            x264Core),
                         new(
                             "ffmpeg",
-                            $"-i {vtempPath} -i {atempPath} -vcodec copy -acodec copy {outputPath}"),
+                            $"-i {vtempPath} -i {atempPath} -vcodec copy -acodec copy {outputPath}",
+                            "ffmpeg"),
                         new(
                             "pwsh",
-                            $"-Command Remove-Item {atempPath},{vtempPath},{vtempStatsPath},{vtempStatsMbtreePath}")
+                            $"-Command Remove-Item {atempPath},{vtempPath},{vtempStatsPath},{vtempStatsMbtreePath}",
+                            "pwsh")
                     });
                     break;
                 default:

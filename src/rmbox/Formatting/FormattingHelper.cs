@@ -27,17 +27,17 @@ namespace Ruminoid.Toolbox.Formatting
         
         #region Subjects
 
-        public readonly Subject<(string Target, string Data)> ReceiveData = new();
+        public readonly Subject<(string Formatter, string Data)> ReceiveData = new();
 
         public readonly IObservable<FormattedEvent> FormatData;
 
         #endregion
 
-        private FormattedEvent Format((string Target, string Data) arg)
+        private FormattedEvent Format((string FormatTarget, string Data) arg)
         {
-            var (target, data) = arg;
-            var (_, formatter) = _pluginHelper.GetFormatter(target);
-            return formatter.Format(target, data);
+            var (formatTarget, data) = arg;
+            var (_, formatter) = _pluginHelper.GetFormatter(formatTarget);
+            return formatter.Format(formatTarget, data);
         }
         
         private readonly CommandLineHelper _commandLineHelper;

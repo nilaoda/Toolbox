@@ -100,7 +100,8 @@ namespace Ruminoid.Toolbox.Core
         /// </summary>
         /// <param name="target">进程目标。</param>
         /// <param name="args">进程参数。</param>
-        public void Run(string target, string args)
+        /// <param name="formatter">格式器目标。</param>
+        public void Run(string target, string args, string formatter)
         {
             _logger.LogDebug($"Resolving target: {target}");
 
@@ -147,8 +148,8 @@ namespace Ruminoid.Toolbox.Core
                         if (string.IsNullOrEmpty(e.Data)) return;
 
                         if (((ProcessOptions) _commandLineHelper.Options).LogProcessOut)
-                            _logger.LogInformation($"[{target}]{e.Data}");
-                        _formattingHelper.ReceiveData.OnNext((target, e.Data));
+                            _logger.LogInformation($"[{formatter}]{e.Data}");
+                        _formattingHelper.ReceiveData.OnNext((formatter, e.Data));
                     },
                     error => _logger.LogError(error, "进程发生了错误。"));
 
@@ -163,26 +164,26 @@ namespace Ruminoid.Toolbox.Core
 
             if (_currentProcess.ExitCode != 0)
             {
-                string err = $"{target} 程序出现错误，退出码为 {_currentProcess.ExitCode}。";
+                string err = $"{formatter} 程序出现错误，退出码为 {_currentProcess.ExitCode}。";
                 _logger.LogCritical(err);
                 throw new ProcessRunnerException(err);
             }
 
-            _logger.LogInformation($"{target} 运行结束，程序正常退出。");
+            _logger.LogInformation($"{formatter} 运行结束，程序正常退出。");
         }
 
         /// <summary>
         /// 执行进程。
         /// </summary>
         /// <param name="command">指令。</param>
-        public void Run((string Target, string Args) command) =>
-            Run(command.Target, command.Args);
+        public void Run((string Target, string Args, string Formatter) command) =>
+            Run(command.Target, command.Args, command.Formatter);
 
         /// <summary>
         /// 执行进程。
         /// </summary>
         /// <param name="commands">指令列表。</param>
-        public void Run(List<(string Target, string Args)> commands)
+        public void Run(List<(string Target, string Args, string Formatter)> commands)
         {
             _logger.LogInformation($"开始运行 {commands.Count} 条指令。");
 

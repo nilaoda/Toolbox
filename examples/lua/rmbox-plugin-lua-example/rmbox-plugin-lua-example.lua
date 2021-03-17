@@ -25,7 +25,8 @@ local io_section =
 
 local commands = {
     target = "ffmpeg",
-    args = "-i " + io_section["input"] + " " + io_section["output"]
+    args = "-i " + io_section["input"] + " " + io_section["output"],
+    formatter = "ffmpeg"
 }
 
 print(json.encode(commands))

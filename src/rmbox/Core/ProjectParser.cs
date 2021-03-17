@@ -45,7 +45,7 @@ namespace Ruminoid.Toolbox.Core
             _logger.LogDebug("Parsing projectPath:");
             _logger.LogDebug(path);
 
-            List<(string Target, string Args)> commands;
+            List<(string Target, string Args, string Formatter)> commands;
 
             try
             {

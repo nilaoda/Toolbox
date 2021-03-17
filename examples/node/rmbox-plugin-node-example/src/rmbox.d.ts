@@ -13,4 +13,5 @@ export interface Meta {
 export interface Command {
   target: string
   args: string
+  formatter: string
 }

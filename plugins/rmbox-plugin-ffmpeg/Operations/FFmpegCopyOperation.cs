@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.IO;
 using Newtonsoft.Json.Linq;
 using Ruminoid.Toolbox.Core;
 using Ruminoid.Toolbox.Utils.Extensions;
@@ -12,7 +11,7 @@ namespace Ruminoid.Toolbox.Plugins.FFmpeg.Operations
         "使用 FFmpeg 进行视频格式的转换（封装）。")]
     public class FFmpegCopyOperation : IOperation
     {
-        public List<(string Target, string Args)> Generate(Dictionary<string, JToken> sectionData)
+        public List<(string Target, string Args, string Formatter)> Generate(Dictionary<string, JToken> sectionData)
         {
             JToken ioSection =
                 sectionData["Ruminoid.Toolbox.Plugins.Common.ConfigSections.IOConfigSection"];
@@ -20,11 +19,12 @@ namespace Ruminoid.Toolbox.Plugins.FFmpeg.Operations
             string inputPath = PathExtension.GetFullPathOrEmpty(ioSection["input"]?.ToObject<string>() ?? string.Empty).EscapePathStringForArg();
             string outputPath = PathExtension.GetFullPathOrEmpty(ioSection["output"]?.ToObject<string>() ?? string.Empty).EscapePathStringForArg();
 
-            return new List<(string, string)>
+            return new List<(string, string, string)>
             {
                 new(
                     "ffmpeg",
-                    $"-i {inputPath} -c copy {outputPath}")
+                    $"-i {inputPath} -c copy {outputPath}",
+                    "ffmpeg")
             };
         }
 
