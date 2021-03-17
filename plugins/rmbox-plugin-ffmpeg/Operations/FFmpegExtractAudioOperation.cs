@@ -6,10 +6,10 @@ using Ruminoid.Toolbox.Utils.Extensions;
 namespace Ruminoid.Toolbox.Plugins.FFmpeg.Operations
 {
     [Operation(
-        "Ruminoid.Toolbox.Plugins.FFmpeg.Operations.FFmpegCopyOperation",
-        "格式转换（不压制）",
-        "使用 FFmpeg 进行视频格式的转换（封装）。")]
-    public class FFmpegCopyOperation : IOperation
+        "Ruminoid.Toolbox.Plugins.FFmpeg.Operations.FFmpegExtractAudioOperation",
+        "抽取音频",
+        "使用 FFmpeg 抽取音频。")]
+    public class FFmpegExtractAudioOperation : IOperation
     {
         public List<(string Target, string Args, string Formatter)> Generate(Dictionary<string, JToken> sectionData)
         {
@@ -23,14 +23,14 @@ namespace Ruminoid.Toolbox.Plugins.FFmpeg.Operations
             {
                 new(
                     "ffmpeg",
-                    $"-i {inputPath} -y -c copy {outputPath}",
+                    $"-i {inputPath} -vn -sn -c:a copy -y -map 0:a:0 {outputPath}",
                     "ffmpeg")
             };
         }
 
         public Dictionary<string, JToken> RequiredConfigSections => new()
         {
-            {"Ruminoid.Toolbox.Plugins.Common.ConfigSections.IOConfigSection", new JObject()}
+            { "Ruminoid.Toolbox.Plugins.Common.ConfigSections.IOConfigSection", new JObject() }
         };
     }
 }

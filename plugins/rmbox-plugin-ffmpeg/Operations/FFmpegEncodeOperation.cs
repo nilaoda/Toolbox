@@ -23,7 +23,7 @@ namespace Ruminoid.Toolbox.Plugins.FFmpeg.Operations
             {
                 new(
                     "ffmpeg",
-                    $"-i {inputPath} {outputPath}",
+                    $"-i {inputPath} -y {outputPath}",
                     "ffmpeg")
             };
         }
