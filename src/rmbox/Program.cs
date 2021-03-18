@@ -31,12 +31,14 @@ namespace Ruminoid.Toolbox
         {
             Console.OutputEncoding = Encoding.UTF8;
 
+#if DEBUG
             if (args.Contains(CommandLineHelper.DebugAttachString))
             {
                 Console.WriteLine("Attach debugger and press ENTER to continue...");
                 Console.ReadLine();
             }
-            
+#endif
+
             IHost host = CreateHostBuilder(args).Build();
             _ = host.Services.GetService<Processor>();
         }
@@ -56,7 +58,9 @@ namespace Ruminoid.Toolbox
                         services.AddSingleton(type);
                 })
                 .ConfigureLogging(builder => builder
+#if DEBUG
                     .AddDebug()
+#endif
                     .AddConsole(options => options.FormatterName = RmboxConsoleFormatter.RmboxConsoleFormatterName)
                     .AddConsoleFormatter<RmboxConsoleFormatter, ConsoleFormatterOptions>());
     }
