@@ -7,6 +7,7 @@ using System.IO.Enumeration;
 using System.Linq;
 using System.Reflection;
 using Microsoft.Extensions.Logging;
+using rmbox.Composition.Roslim;
 using Ruminoid.Toolbox.Composition.Roslim;
 using Ruminoid.Toolbox.Core;
 using Ruminoid.Toolbox.Formatting;
@@ -143,7 +144,7 @@ namespace Ruminoid.Toolbox.Composition
                             Attribute.GetCustomAttribute(operationType, typeof(OperationAttribute))
                             as OperationAttribute;
 
-                        OperationCollection.Add((operationAttribute, operationType));
+                        OperationCollection.Add((operationAttribute, pluginMeta, operationType));
 
                         _logger.LogDebug($"Operation {operationAttribute.Name} loaded.");
                     }
@@ -209,7 +210,7 @@ namespace Ruminoid.Toolbox.Composition
                 {
                     _logger.LogDebug($"Loading plugin: {file}");
 
-                    Assembly pluginAssembly = _roslimGenerator.Generate(file);
+                    var (meta, pluginAssembly) = _roslimGenerator.Generate(file);
                     Type exportedType = pluginAssembly.GetExportedTypes()
                         .First(type => Attribute.GetCustomAttribute(type, typeof(OperationAttribute)) is not null);
 
@@ -221,7 +222,12 @@ namespace Ruminoid.Toolbox.Composition
                         Attribute.GetCustomAttribute(exportedType, typeof(OperationAttribute))
                             as OperationAttribute;
 
-                    OperationCollection.Add(new(operationAttribute, exportedType));
+                    RoslimMeta pluginMeta = new(
+                        meta["name"]!.ToObject<string>(),
+                        meta["description"]!.ToObject<string>(),
+                        meta["author"]!.ToObject<string>());
+
+                    OperationCollection.Add(new(operationAttribute, pluginMeta, exportedType));
 
                     _logger.LogDebug($"Operation {operationAttribute.Name} loaded.");
                     _logger.LogDebug($"Plugin {pluginName} loaded.");
@@ -243,9 +249,9 @@ namespace Ruminoid.Toolbox.Composition
 
         public Collection<(IMeta Meta, Assembly Assembly)> MetaCollection { get; } = new();
 
-        public Collection<(OperationAttribute OperationAttribute, Type OperationType)> OperationCollection { get; } = new();
+        public Collection<(OperationAttribute OperationAttribute, IMeta OperationMeta, Type OperationType)> OperationCollection { get; } = new();
 
-        private Dictionary<string, (OperationAttribute OperationAttribute, IOperation Operation)> OperationCache { get; } = new();
+        private Dictionary<string, (OperationAttribute OperationAttribute, IMeta OperationMeta, IOperation Operation)> OperationCache { get; } = new();
 
         public Collection<(ConfigSectionAttribute ConfigSectionAttribute, Type ConfigSectionType)> ConfigSectionCollection { get; } = new();
 
@@ -253,12 +259,13 @@ namespace Ruminoid.Toolbox.Composition
 
         private Dictionary<string, (FormatterAttribute FormatterAttribute, IFormatter Formatter)> FormatterCache { get; } = new();
 
-        public (OperationAttribute OperationAttribute, IOperation Operation) GetOperation(string id)
+        public (OperationAttribute OperationAttribute, IMeta OperationMeta, IOperation Operation) GetOperation(string id)
         {
-            bool success = OperationCache.TryGetValue(id, out (OperationAttribute, IOperation) cached);
+            bool success = OperationCache.TryGetValue(id, out (OperationAttribute OperationAttribute, IMeta OperationMeta, IOperation Operation) cached);
             if (success) return cached;
 
-            (OperationAttribute OperationAttribute, Type OperationType) tuple = OperationCollection.FirstOrDefault(x => x.OperationAttribute.Id == id);
+            (OperationAttribute OperationAttribute, IMeta OperationMeta, Type OperationType) tuple =
+                OperationCollection.FirstOrDefault(x => x.OperationAttribute.Id == id);
 
             // ReSharper disable once InvertIf
             if (tuple == default)
@@ -268,8 +275,8 @@ namespace Ruminoid.Toolbox.Composition
                 throw new PluginCompositionException(err);
             }
 
-            (OperationAttribute OperationAttribute, IOperation Operation) created =
-                new(tuple.OperationAttribute, Activator.CreateInstance(tuple.OperationType) as IOperation);
+            (OperationAttribute OperationAttribute, IMeta OperationMeta, IOperation Operation) created =
+                new(tuple.OperationAttribute, tuple.OperationMeta, Activator.CreateInstance(tuple.OperationType) as IOperation);
 
             OperationCache.TryAdd(tuple.OperationAttribute.Id, created);
 

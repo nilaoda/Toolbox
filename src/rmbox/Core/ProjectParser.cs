@@ -114,7 +114,7 @@ namespace Ruminoid.Toolbox.Core
                     throw new ProjectParseException(err, e);
                 }
 
-                (OperationAttribute OperationAttribute, IOperation Operation) operation;
+                (OperationAttribute OperationAttribute, IMeta OperationMeta, IOperation Operation) operation;
 
                 try
                 {

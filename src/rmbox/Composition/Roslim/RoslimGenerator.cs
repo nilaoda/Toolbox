@@ -85,7 +85,7 @@ namespace Ruminoid.Toolbox.Composition.Roslim
 
         #region Core
 
-        public Assembly Generate(string path)
+        public (JObject Meta, Assembly Assembly) Generate(string path)
         {
             try
             {
@@ -193,7 +193,7 @@ namespace Ruminoid.Toolbox.Composition.Roslim
 
                 _logger.LogDebug("Successfully generated assembly for {assemblyName}.", assemblyName);
 
-                return Assembly.Load(assemblyStream.GetBuffer());
+                return (meta, Assembly.Load(assemblyStream.GetBuffer()));
             }
             catch (JsonException e)
             {
