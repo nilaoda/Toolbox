@@ -7,6 +7,7 @@ const meta: Meta = {
   name: 'Node 插件示例',
   type: 'operation',
   description: 'Node 编写的 Ruminoid Toolbox 插件示例。',
+  author: 'Il Harper',
   config_sections: {
     'Ruminoid.Toolbox.Plugins.Common.ConfigSections.IOConfigSection': {},
   },

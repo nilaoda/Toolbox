@@ -7,5 +7,6 @@ namespace Ruminoid.Toolbox.Plugins.Common
     {
         public string Name => "Ruminoid Toolbox 基础";
         public string Description => "提供了工具箱的基础功能。";
+        public string Author => "Il Harper";
     }
 }

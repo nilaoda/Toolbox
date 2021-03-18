@@ -6,6 +6,7 @@ local meta = {
     name = 'Lua 插件示例',
     type = 'operation',
     description = 'Lua 编写的 Ruminoid Toolbox 插件示例。',
+    author = 'Il Harper',
     config_sections = {
         ["Ruminoid.Toolbox.Plugins.Common.ConfigSections.IOConfigSection"] = {}
     }

@@ -7,6 +7,8 @@ namespace Ruminoid.Toolbox.Core
         public string Name { get; }
 
         public string Description { get; }
+
+        public string Author { get; }
     }
 
     [AttributeUsage(AttributeTargets.Class, Inherited = false)]

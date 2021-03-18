@@ -7,5 +7,6 @@ namespace Ruminoid.Toolbox.Plugins.FFmpeg
     {
         public string Name => "FFmpeg";
         public string Description => "提供了 FFmpeg 的基础功能和格式器。";
+        public string Author => "Il Harper";
     }
 }
