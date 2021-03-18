@@ -24,6 +24,7 @@ namespace Ruminoid.Toolbox.Shell.ViewModels
                         {
                             Name = x.OperationAttribute.Name,
                             Description = x.OperationAttribute.Description,
+                            Author = x.OperationMeta.Author,
                             Id = x.OperationAttribute.Id,
                             Type = x.OperationType
                         }));
