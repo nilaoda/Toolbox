@@ -91,10 +91,19 @@
                       Grid.Column="0"
                       Text="{Binding CurrentProject.OperationName}"
                       FontSize="24" />
-                  <ProgressBar
+                  <Grid
                       Grid.Column="2"
-                      Value="{Binding CurrentProject.Progress}"
-                      IsIndeterminate="{Binding CurrentProject.IsIndeterminate}"/>
+                      MaxWidth="600"
+                      HorizontalAlignment="Right">
+                      <ProgressBar
+                          Value="{Binding CurrentProject.Progress}"
+                          IsIndeterminate="{Binding CurrentProject.IsIndeterminate}"/>
+                      <TextBlock
+                          HorizontalAlignment="Center"
+                          VerticalAlignment="Center"
+                          Text="{Binding CurrentProject.Progress, StringFormat={}{0:0}%}"
+                          IsVisible="{Binding !CurrentProject.IsIndeterminate}"/>
+                  </Grid>
               </Grid>
               <TextBlock Grid.Row="1"
                          Text="{Binding CurrentProject.Source}"
@@ -146,9 +155,14 @@
               Items="{Binding Items}"
               SelectedItem="{Binding SelectedItem}"
               Background="{x:Null}">
+              <ListBox.Styles>
+                  <Style Selector="ListBoxItem">
+                      <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                  </Style>
+              </ListBox.Styles>
               <ListBox.ItemTemplate>
                   <DataTemplate>
-                      <Grid RowDefinitions="Auto,Auto,*">
+                      <Grid RowDefinitions="Auto,Auto,*,1,6">
                           <Grid
                               Grid.Row="0"
                               Margin="0,0,0,12"
@@ -157,10 +171,19 @@
                                   Grid.Column="0"
                                   Text="{Binding OperationName}"
                                   FontSize="24" />
-                              <ProgressBar
+                              <Grid
                                   Grid.Column="1"
-                                  Value="{Binding Progress}"
-                                  IsIndeterminate="{Binding IsIndeterminate}"/>
+                                  HorizontalAlignment="Right"
+                                  Width="400">
+                                  <ProgressBar
+                                      Value="{Binding Progress}"
+                                      IsIndeterminate="{Binding IsIndeterminate}"/>
+                                  <TextBlock
+                                      HorizontalAlignment="Center"
+                                      VerticalAlignment="Center"
+                                      Text="{Binding Progress, StringFormat={}{0:0}%}"
+                                      IsVisible="{Binding !IsIndeterminate}"/>
+                              </Grid>
                           </Grid>
                           <TextBlock Grid.Row="1"
                                      Text="{Binding Source}"
@@ -168,17 +191,19 @@
                                      TextWrapping="Wrap" />
                           <Grid
                               Grid.Row="2"
-                              Margin="0,0,0,6"
                               RowDefinitions="*,*">
                               <TextBlock
                                   Grid.Row="0"
-                                  Margin="6"
+                                  Margin="0,6"
                                   Text="{Binding Summary}"/>
                               <TextBlock
                                   Grid.Row="1"
-                                  Margin="6"
+                                  Margin="0,6"
                                   Text="{Binding Detail}"/>
                           </Grid>
+                          <Grid
+                              Grid.Row="3"
+                              Background="#FF909090"/>
                       </Grid>
                   </DataTemplate>
               </ListBox.ItemTemplate>
