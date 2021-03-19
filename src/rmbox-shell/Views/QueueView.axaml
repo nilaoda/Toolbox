@@ -93,7 +93,7 @@
                       FontSize="24" />
                   <Grid
                       Grid.Column="2"
-                      MaxWidth="600"
+                      Width="500"
                       HorizontalAlignment="Right">
                       <ProgressBar
                           Value="{Binding CurrentProject.Progress}"
