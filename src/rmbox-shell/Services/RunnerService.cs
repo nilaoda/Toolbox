@@ -64,6 +64,7 @@ namespace Ruminoid.Toolbox.Shell.Services
                 .Where(_ => CurrentProject is not null)
                 .Where(_ => CurrentProject.Status == ProjectStatus.Queued)
                 .Select(_ => CurrentProject)
+                .ObserveOn(RxApp.TaskpoolScheduler)
                 .Subscribe(Run);
         }
 

@@ -95,7 +95,13 @@ namespace Ruminoid.Toolbox.Shell.Services
 
         #region Status
 
-        public bool QueueRunning = true;
+        private bool _queueRunning = true;
+
+        public bool QueueRunning
+        {
+            get => _queueRunning;
+            set => this.RaiseAndSetIfChanged(ref _queueRunning, value);
+        }
 
         #endregion
 
