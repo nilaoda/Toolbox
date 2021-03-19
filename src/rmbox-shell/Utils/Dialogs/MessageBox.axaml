@@ -1,0 +1,61 @@
+<Window
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d" d:DesignWidth="400" d:DesignHeight="300"
+    x:Class="Ruminoid.Toolbox.Shell.Utils.Dialogs.MessageBox"
+    Icon="resm:rmbox-shell.Assets.rmbox.ico"
+    ExtendClientAreaChromeHints="NoChrome"
+    ExtendClientAreaTitleBarHeightHint="-1"
+    ExtendClientAreaToDecorationsHint="True"
+    Width="400" Height="300"
+    CanResize="False"
+    WindowStartupLocation="CenterScreen"
+    ShowActivated="True"
+    ShowInTaskbar="False">
+    <Grid
+        RowDefinitions="*,Auto"
+        Margin="18">
+        <StackPanel
+            Grid.Row="0"
+            Spacing="18"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center">
+            <StackPanel.Styles>
+                <Style Selector="TextBlock">
+                    <Setter Property="HorizontalAlignment" Value="Center"/>
+                </Style>
+            </StackPanel.Styles>
+
+            <TextBlock
+                Name="TitleBlock"
+                FontWeight="Bold"
+                TextWrapping="NoWrap"
+                FontSize="24"/>
+            <TextBlock
+                Name="ContentBlock"
+                TextWrapping="Wrap"/>
+        </StackPanel>
+
+        <StackPanel
+            Grid.Row="1"
+            Spacing="12">
+            <StackPanel.Styles>
+                <Style Selector="Button">
+                    <Setter Property="HorizontalAlignment" Value="Stretch"/>
+                    <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                    <Setter Property="VerticalContentAlignment" Value="Center"/>
+                    <Setter Property="Height" Value="40"/>
+                </Style>
+            </StackPanel.Styles>
+
+            <Button
+                Click="YesClick"
+                Content="是"/>
+            <Button
+                Click="NoClick"
+                Content="否"/>
+        </StackPanel>
+    </Grid>
+</Window>
