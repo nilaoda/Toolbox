@@ -4,7 +4,6 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:views="clr-namespace:Ruminoid.Toolbox.Shell.Views"
         xmlns:controls="clr-namespace:Ruminoid.Toolbox.Shell.Controls"
-        xmlns:helpers="clr-namespace:Ruminoid.Toolbox.Shell.Helpers"
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
         x:Class="Ruminoid.Toolbox.Shell.Views.MainWindow"
         Title="Toolbox"
@@ -46,9 +45,110 @@
             </MenuItem>
         </Menu>
 
-        <Grid
-            Grid.Row="1">
-            <views:QueueView/>
-        </Grid>
+        <TabControl
+            Grid.Row="1"
+            SelectedIndex="{Binding CurrentTabIndex}">
+            <TabItem
+                Header="开始">
+                <StackPanel
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Spacing="18">
+                    <Image
+                        Source="resm:rmbox-shell.Assets.rmbox.png"
+                        Width="150" Height="150"
+                        HorizontalAlignment="Center"/>
+
+                    <TextBlock
+                        HorizontalAlignment="Center"
+                        TextWrapping="NoWrap"
+                        Text="{Binding VersionSummary}"/>
+
+                    <Grid
+                        Height="1"
+                        Background="#FF909090"/>
+
+                    <StackPanel
+                        Spacing="3">
+                        <StackPanel.Styles>
+                            <Style Selector="Button">
+                                <Setter Property="Background" Value="Transparent"/>
+                                <Setter Property="HorizontalAlignment" Value="Stretch"/>
+                                <Setter Property="VerticalAlignment" Value="Stretch"/>
+                                <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                                <Setter Property="VerticalContentAlignment" Value="Stretch"/>
+                                <Setter Property="MinWidth" Value="450"/>
+                            </Style>
+
+                            <Style Selector="controls|DrawingIcon">
+                                <Setter Property="VerticalAlignment" Value="Center"/>
+                                <Setter Property="Margin" Value="12,0"/>
+                                <Setter Property="Width" Value="32"/>
+                                <Setter Property="Height" Value="32"/>
+                            </Style>
+
+                            <Style Selector="TextBlock.action-title">
+                                <Setter Property="FontSize" Value="22"/>
+                                <Setter Property="TextWrapping" Value="NoWrap"/>
+                                <Setter Property="Margin" Value="0,2"/>
+                            </Style>
+
+                            <Style Selector="TextBlock.action-description">
+                                <Setter Property="TextWrapping" Value="Wrap"/>
+                                <Setter Property="Margin" Value="0,2"/>
+                            </Style>
+                        </StackPanel.Styles>
+
+                        <Button
+                            Command="{Binding DoCreateNewOperation}">
+                            <Grid
+                                ColumnDefinitions="Auto,Auto">
+                                <controls:DrawingIcon
+                                    Grid.Column="0"
+                                    Icon="{DynamicResource VSCodeLight.add}"/>
+                                <Grid
+                                    Grid.Column="1"
+                                    RowDefinitions="Auto,Auto">
+                                    <TextBlock
+                                        Grid.Row="0"
+                                        Classes="action-title"
+                                        Text="创建操作"/>
+                                    <TextBlock
+                                        Grid.Row="1"
+                                        Classes="action-description"
+                                        Text="创建操作以开始处理媒体。"/>
+                                </Grid>
+                            </Grid>
+                        </Button>
+
+                        <Button
+                            Command="{Binding DoShowAboutWindow}">
+                            <Grid
+                                ColumnDefinitions="Auto,*">
+                                <controls:DrawingIcon
+                                    Grid.Column="0"
+                                    Icon="{DynamicResource VSCodeLight.help}"/>
+                                <Grid
+                                    Grid.Column="1"
+                                    RowDefinitions="Auto,Auto">
+                                    <TextBlock
+                                        Grid.Row="0"
+                                        Classes="action-title"
+                                        Text="查看帮助"/>
+                                    <TextBlock
+                                        Grid.Row="1"
+                                        Classes="action-description"
+                                        Text="查看帮助以快速上手。"/>
+                                </Grid>
+                            </Grid>
+                        </Button>
+                    </StackPanel>
+                </StackPanel>
+            </TabItem>
+            <TabItem
+                Header="任务">
+                <views:QueueView/>
+            </TabItem>
+        </TabControl>
     </Grid>
 </Window>
