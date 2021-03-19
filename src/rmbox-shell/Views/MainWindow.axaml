@@ -10,145 +10,130 @@
         Icon="resm:rmbox-shell.Assets.rmbox.ico"
         Width="1050" Height="600"
         MinWidth="1050" MinHeight="600">
-    <Grid
-        RowDefinitions="Auto,*">
-        <Menu
-            Grid.Row="0">
-            <MenuItem
-                Header="Toolbox">
-                <controls:DrawingIconMenuItem
-                    Icon="{DynamicResource VSCodeLight.add}"
-                    Command="{Binding DoCreateNewOperation}"
-                    Header="创建操作"
-                    Classes="accent"/>
-                <controls:DrawingIconMenuItem
-                    Icon="{DynamicResource VSCodeLight.radio-tower}"
-                    Command="{Binding DoCreateService}"
-                    Header="创建服务"
-                    IsEnabled="False"/>
-                <controls:DrawingIconMenuItem
-                    Icon="{DynamicResource VSCodeLight.list-ordered}"
-                    Command="{Binding DoCreateNewChain}"
-                    Header="创建链式操作"
-                    IsEnabled="False"/>
-                <Separator/>
-                <MenuItem
-                    Command="{Binding DoClose}"
-                    Header="退出"/>
-            </MenuItem>
-            <MenuItem
-                Header="帮助">
-                <controls:DrawingIconMenuItem
-                    Icon="{DynamicResource VSCodeLight.help}"
-                    Command="{Binding DoShowAboutWindow}"
-                    Header="帮助"/>
-            </MenuItem>
-        </Menu>
-
-        <TabControl
-            Grid.Row="1"
+    <TabControl
             SelectedIndex="{Binding CurrentTabIndex}">
-            <TabItem
-                Header="开始">
-                <StackPanel
+        <TabItem
+            Header="开始">
+            <StackPanel
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                Spacing="18">
+                <Image
+                    Source="resm:rmbox-shell.Assets.rmbox.png"
+                    Width="150" Height="150"
+                    HorizontalAlignment="Center"/>
+
+                <TextBlock
                     HorizontalAlignment="Center"
-                    VerticalAlignment="Center"
-                    Spacing="18">
-                    <Image
-                        Source="resm:rmbox-shell.Assets.rmbox.png"
-                        Width="150" Height="150"
-                        HorizontalAlignment="Center"/>
+                    TextWrapping="NoWrap"
+                    Text="{Binding VersionSummary}"/>
 
-                    <TextBlock
-                        HorizontalAlignment="Center"
-                        TextWrapping="NoWrap"
-                        Text="{Binding VersionSummary}"/>
+                <Grid
+                    Height="1"
+                    Background="#FF909090"/>
 
-                    <Grid
-                        Height="1"
-                        Background="#FF909090"/>
+                <StackPanel
+                    Spacing="3">
+                    <StackPanel.Styles>
+                        <Style Selector="Button">
+                            <Setter Property="Background" Value="Transparent"/>
+                            <Setter Property="HorizontalAlignment" Value="Stretch"/>
+                            <Setter Property="VerticalAlignment" Value="Stretch"/>
+                            <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                            <Setter Property="VerticalContentAlignment" Value="Stretch"/>
+                            <Setter Property="MinWidth" Value="450"/>
+                        </Style>
 
-                    <StackPanel
-                        Spacing="3">
-                        <StackPanel.Styles>
-                            <Style Selector="Button">
-                                <Setter Property="Background" Value="Transparent"/>
-                                <Setter Property="HorizontalAlignment" Value="Stretch"/>
-                                <Setter Property="VerticalAlignment" Value="Stretch"/>
-                                <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
-                                <Setter Property="VerticalContentAlignment" Value="Stretch"/>
-                                <Setter Property="MinWidth" Value="450"/>
-                            </Style>
+                        <Style Selector="controls|DrawingIcon">
+                            <Setter Property="VerticalAlignment" Value="Center"/>
+                            <Setter Property="Margin" Value="12,0"/>
+                            <Setter Property="Width" Value="32"/>
+                            <Setter Property="Height" Value="32"/>
+                        </Style>
 
-                            <Style Selector="controls|DrawingIcon">
-                                <Setter Property="VerticalAlignment" Value="Center"/>
-                                <Setter Property="Margin" Value="12,0"/>
-                                <Setter Property="Width" Value="32"/>
-                                <Setter Property="Height" Value="32"/>
-                            </Style>
+                        <Style Selector="TextBlock.action-title">
+                            <Setter Property="FontSize" Value="22"/>
+                            <Setter Property="TextWrapping" Value="NoWrap"/>
+                            <Setter Property="Margin" Value="0,2"/>
+                        </Style>
 
-                            <Style Selector="TextBlock.action-title">
-                                <Setter Property="FontSize" Value="22"/>
-                                <Setter Property="TextWrapping" Value="NoWrap"/>
-                                <Setter Property="Margin" Value="0,2"/>
-                            </Style>
+                        <Style Selector="TextBlock.action-description">
+                            <Setter Property="TextWrapping" Value="Wrap"/>
+                            <Setter Property="Margin" Value="0,2"/>
+                        </Style>
+                    </StackPanel.Styles>
 
-                            <Style Selector="TextBlock.action-description">
-                                <Setter Property="TextWrapping" Value="Wrap"/>
-                                <Setter Property="Margin" Value="0,2"/>
-                            </Style>
-                        </StackPanel.Styles>
-
-                        <Button
-                            Command="{Binding DoCreateNewOperation}">
+                    <Button
+                        Command="{Binding DoCreateNewOperation}">
+                        <Grid
+                            ColumnDefinitions="Auto,Auto">
+                            <controls:DrawingIcon
+                                Grid.Column="0"
+                                Icon="{DynamicResource VSCodeLight.add}"/>
                             <Grid
-                                ColumnDefinitions="Auto,Auto">
-                                <controls:DrawingIcon
-                                    Grid.Column="0"
-                                    Icon="{DynamicResource VSCodeLight.add}"/>
-                                <Grid
-                                    Grid.Column="1"
-                                    RowDefinitions="Auto,Auto">
-                                    <TextBlock
-                                        Grid.Row="0"
-                                        Classes="action-title"
-                                        Text="创建操作"/>
-                                    <TextBlock
-                                        Grid.Row="1"
-                                        Classes="action-description"
-                                        Text="创建操作以开始处理媒体。"/>
-                                </Grid>
+                                Grid.Column="1"
+                                RowDefinitions="Auto,Auto">
+                                <TextBlock
+                                    Grid.Row="0"
+                                    Classes="action-title"
+                                    Text="创建操作"/>
+                                <TextBlock
+                                    Grid.Row="1"
+                                    Classes="action-description"
+                                    Text="创建操作以开始处理媒体。"/>
                             </Grid>
-                        </Button>
+                        </Grid>
+                    </Button>
 
-                        <Button
-                            Command="{Binding DoShowAboutWindow}">
+                    <Button
+                        Command="{Binding DoShowAboutWindow}">
+                        <Grid
+                            ColumnDefinitions="Auto,*">
+                            <controls:DrawingIcon
+                                Grid.Column="0"
+                                Icon="{DynamicResource VSCodeLight.help}"/>
                             <Grid
-                                ColumnDefinitions="Auto,*">
-                                <controls:DrawingIcon
-                                    Grid.Column="0"
-                                    Icon="{DynamicResource VSCodeLight.help}"/>
-                                <Grid
-                                    Grid.Column="1"
-                                    RowDefinitions="Auto,Auto">
-                                    <TextBlock
-                                        Grid.Row="0"
-                                        Classes="action-title"
-                                        Text="查看帮助"/>
-                                    <TextBlock
-                                        Grid.Row="1"
-                                        Classes="action-description"
-                                        Text="查看帮助以快速上手。"/>
-                                </Grid>
+                                Grid.Column="1"
+                                RowDefinitions="Auto,Auto">
+                                <TextBlock
+                                    Grid.Row="0"
+                                    Classes="action-title"
+                                    Text="查看帮助"/>
+                                <TextBlock
+                                    Grid.Row="1"
+                                    Classes="action-description"
+                                    Text="查看帮助以快速上手。"/>
                             </Grid>
-                        </Button>
-                    </StackPanel>
+                        </Grid>
+                    </Button>
+
+                    <Button
+                        Command="{Binding DoClose}">
+                        <Grid
+                            ColumnDefinitions="Auto,*">
+                            <controls:DrawingIcon
+                                Grid.Column="0"
+                                Icon="{DynamicResource VSCodeLight.close}"/>
+                            <Grid
+                                Grid.Column="1"
+                                RowDefinitions="Auto,Auto">
+                                <TextBlock
+                                    Grid.Row="0"
+                                    Classes="action-title"
+                                    Text="退出"/>
+                                <TextBlock
+                                    Grid.Row="1"
+                                    Classes="action-description"
+                                    Text="退出Ruminoid Toolbox。"/>
+                            </Grid>
+                        </Grid>
+                    </Button>
                 </StackPanel>
-            </TabItem>
-            <TabItem
-                Header="任务">
-                <views:QueueView/>
-            </TabItem>
-        </TabControl>
-    </Grid>
+            </StackPanel>
+        </TabItem>
+        <TabItem
+            Header="任务">
+            <views:QueueView/>
+        </TabItem>
+    </TabControl>
 </Window>
