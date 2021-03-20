@@ -8,10 +8,11 @@ using ReactiveUI;
 using Ruminoid.Toolbox.Shell.Models;
 using Ruminoid.Toolbox.Shell.Operations.ViewModels;
 using Ruminoid.Toolbox.Shell.Utils.Dialogs;
+using Ruminoid.Toolbox.Shell.Utils.Windows;
 
 namespace Ruminoid.Toolbox.Shell.Operations.Views
 {
-    public class SimpleOperationWindow : Window
+    public class SimpleOperationWindow : RmboxWindowBase
     {
         public SimpleOperationWindow()
         {
@@ -35,7 +36,7 @@ namespace Ruminoid.Toolbox.Shell.Operations.Views
 
         private void OnClosing(object sender, CancelEventArgs e)
         {
-            if (_closeConfirmed) return;
+            if (CloseConfirmed) return;
 
             e.Cancel = true;
 
@@ -47,11 +48,7 @@ namespace Ruminoid.Toolbox.Shell.Operations.Views
                     RxApp.MainThreadScheduler)
                 .Subscribe(result =>
                 {
-                    if (result)
-                    {
-                        _closeConfirmed = true;
-                        Close();
-                    }
+                    if (result) ForceClose();
                 });
         }
 
@@ -59,7 +56,5 @@ namespace Ruminoid.Toolbox.Shell.Operations.Views
         {
             AvaloniaXamlLoader.Load(this);
         }
-
-        private bool _closeConfirmed;
     }
 }
