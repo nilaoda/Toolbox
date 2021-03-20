@@ -57,7 +57,7 @@ namespace Ruminoid.Toolbox.Shell.ViewModels
             OperationModel result = await ChooseOperationWindow.ChooseOperation(_window);
             if (result is null) return;
             if (!BatchOperationWindowViewModel.CheckCompatibilityAndReport(result, _window)) return;
-            new SingleOperationWindow(result).Show(_window);
+            new BatchOperationWindow(result).Show(_window);
         }
 
         public void DoShowAboutWindow()
