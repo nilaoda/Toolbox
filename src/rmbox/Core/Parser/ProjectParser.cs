@@ -14,11 +14,13 @@ namespace Ruminoid.Toolbox.Core.Parser
         public ProjectParser(
             SingleProjectParser singleProjectParser,
             QueueProjectParser queueProjectParser,
+            BatchProjectParser batchProjectParser,
             CommandLineHelper commandLineHelper,
             ILogger<ProjectParser> logger)
         {
             _singleProjectParser = singleProjectParser;
             _queueProjectParser = queueProjectParser;
+            _batchProjectParser = batchProjectParser;
 
             _commandLineHelper = commandLineHelper;
             _logger = logger;
@@ -82,6 +84,7 @@ namespace Ruminoid.Toolbox.Core.Parser
                 {
                     "project" => _singleProjectParser.Parse(project),
                     "queue" => _queueProjectParser.Parse(project),
+                    "batch" => _batchProjectParser.Parse(project),
                     _ => throw new ProjectParseException($"不能识别的项目文件的类型 {projectType}。升级Ruminoid Toolbox到较新版本以解决此问题。")
                 };
             }
@@ -124,6 +127,7 @@ namespace Ruminoid.Toolbox.Core.Parser
 
         private readonly SingleProjectParser _singleProjectParser;
         private readonly QueueProjectParser _queueProjectParser;
+        private readonly BatchProjectParser _batchProjectParser;
 
         #endregion
 
