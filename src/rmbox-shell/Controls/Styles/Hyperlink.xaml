@@ -7,7 +7,6 @@
     </Style>
     <Style Selector="controls|Hyperlink:pointerover">
         <Setter Property="Cursor" Value="Hand"/>
-        <Setter Property="TextDecorations" Value="Underline"/>
         <Setter Property="Foreground"  Value="#3496eb"/>
     </Style>
 </Styles>
