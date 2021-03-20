@@ -8,6 +8,12 @@ namespace Ruminoid.Toolbox.Shell.Utils.Windows
 
         protected bool CloseConfirmed;
 
+        public void ForceClose()
+        {
+            CloseConfirmed = true;
+            Close();
+        }
+
         public void ForceClose(object dialogResult)
         {
             CloseConfirmed = true;
