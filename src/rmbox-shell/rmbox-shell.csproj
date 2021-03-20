@@ -13,6 +13,7 @@
     <None Remove="Controls\Styles\DrawingIcon.xaml" />
     <None Remove="Controls\Styles\DrawingIconButton.xaml" />
     <None Remove="Controls\Styles\DrawingIconMenuItem.xaml" />
+    <None Remove="Controls\Styles\Hyperlink.xaml" />
     <None Remove="Icons\Icons.xaml" />
     <None Remove="Styles\Generic.xaml" />
   </ItemGroup>
@@ -24,6 +25,9 @@
       <Generator>MSBuild:Compile</Generator>
     </AvaloniaResource>
     <AvaloniaResource Include="Controls\Styles\DrawingIconMenuItem.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </AvaloniaResource>
+    <AvaloniaResource Include="Controls\Styles\Hyperlink.xaml">
       <Generator>MSBuild:Compile</Generator>
     </AvaloniaResource>
     <AvaloniaResource Include="Icons\Icons.xaml">
