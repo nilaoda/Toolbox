@@ -10,6 +10,7 @@ using Ruminoid.Toolbox.Composition;
 using Ruminoid.Toolbox.Core;
 using Ruminoid.Toolbox.Shell.Models;
 using Ruminoid.Toolbox.Shell.Services;
+using Ruminoid.Toolbox.Shell.ViewModels.Project;
 using Ruminoid.Toolbox.Shell.Views;
 using Splat;
 
@@ -107,7 +108,7 @@ namespace Ruminoid.Toolbox.Shell.ViewModels
 
         #region Utils
 
-        private ProjectViewModel GenerateProjectModel() =>
+        private SingleProjectViewModel GenerateProjectModel() =>
             new(
                 OperationModel,
                 new Collection<(ConfigSectionAttribute ConfigSectionAttribute, object ConfigSection)>(

@@ -11,7 +11,7 @@ using ReactiveUI;
 using Ruminoid.Toolbox.Core;
 using Ruminoid.Toolbox.Formatting;
 using Ruminoid.Toolbox.Shell.Core;
-using Ruminoid.Toolbox.Shell.ViewModels;
+using Ruminoid.Toolbox.Shell.ViewModels.Project;
 using Ruminoid.Toolbox.Utils;
 using Ruminoid.Toolbox.Utils.Extensions;
 

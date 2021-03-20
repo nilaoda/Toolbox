@@ -1,7 +1,8 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.Linq;
 using Newtonsoft.Json.Linq;
-using Ruminoid.Toolbox.Shell.ViewModels;
+using Ruminoid.Toolbox.Shell.ViewModels.Project;
 
 // ReSharper disable MemberCanBePrivate.Global
 
@@ -11,20 +12,24 @@ namespace Ruminoid.Toolbox.Shell.Core
     {
         public static object ExportProjectToObject(
             ProjectViewModel project) =>
-            new
+            project switch
             {
-                version = 1,
-                type = "project",
-                operation = project.OperationModel.Id,
-                sections =
-                    project.ConfigSections
-                        .Select(x =>
-                            new
-                            {
-                                type = x.ConfigSectionAttribute.Id,
-                                data = x.ConfigSection
-                            })
-                        .ToArray()
+                SingleProjectViewModel singleProject => new
+                {
+                    version = 1,
+                    type = "singleProject",
+                    operation = singleProject.OperationModel.Id,
+                    sections =
+                        singleProject.ConfigSections
+                            .Select(x =>
+                                new
+                                {
+                                    type = x.ConfigSectionAttribute.Id,
+                                    data = x.ConfigSection
+                                })
+                            .ToArray()
+                },
+                _ => throw new ArgumentOutOfRangeException(nameof(project), project, null)
             };
 
         public static JObject ExportProjectToJObject(

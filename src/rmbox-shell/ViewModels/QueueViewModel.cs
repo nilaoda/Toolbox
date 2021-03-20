@@ -4,6 +4,7 @@ using System.Reactive.Linq;
 using DynamicData;
 using ReactiveUI;
 using Ruminoid.Toolbox.Shell.Services;
+using Ruminoid.Toolbox.Shell.ViewModels.Project;
 using Ruminoid.Toolbox.Shell.Views;
 using Splat;
 
@@ -44,12 +45,7 @@ namespace Ruminoid.Toolbox.Shell.ViewModels
         #region View
 
         private readonly QueueView _queueView;
-
-        //private TextBox _runnerOutputTextBox;
-
-        //private TextBox RunnerOutputTextBox =>
-        //    _runnerOutputTextBox ??= _queueView.FindControl<TextBox>("RunnerOutputTextBox");
-
+        
         #endregion
 
         #region Data
@@ -96,16 +92,6 @@ namespace Ruminoid.Toolbox.Shell.ViewModels
 
         #region Runner Output
 
-        //public ObservableCollection<string> RunnerOutputList { get; } = new();
-
-        //private string _currentRunnerOutputLine = "";
-
-        //public string CurrentRunnerOutputLine
-        //{
-        //    get => _currentRunnerOutputLine;
-        //    set => this.RaiseAndSetIfChanged(ref _currentRunnerOutputLine, value);
-        //}
-
         private string _runnerOutput = "";
 
         public string RunnerOutput
@@ -114,7 +100,7 @@ namespace Ruminoid.Toolbox.Shell.ViewModels
             set => this.RaiseAndSetIfChanged(ref _runnerOutput, value);
         }
 
-        private int _caretIndex = 0;
+        private int _caretIndex;
 
         public int CaretIndex
         {
@@ -124,10 +110,6 @@ namespace Ruminoid.Toolbox.Shell.ViewModels
 
         private void NewRunnerOutput(string line)
         {
-            //RunnerOutputList.Add(line);
-            //if (RunnerOutputList.Count > 100) RunnerOutputList.RemoveAt(0);
-            //CurrentRunnerOutputLine = line;
-
             RunnerOutput += line.Trim() + '\n';
             CaretIndex = RunnerOutput.Length;
         }

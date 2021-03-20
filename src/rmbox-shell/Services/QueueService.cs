@@ -5,7 +5,7 @@ using System.Reactive.Subjects;
 using DynamicData;
 using DynamicData.Kernel;
 using ReactiveUI;
-using Ruminoid.Toolbox.Shell.ViewModels;
+using Ruminoid.Toolbox.Shell.ViewModels.Project;
 
 namespace Ruminoid.Toolbox.Shell.Services
 {
