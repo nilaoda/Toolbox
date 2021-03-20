@@ -10,10 +10,14 @@
         Width="1050" Height="600"
         MinWidth="1050" MinHeight="600">
 
-    <Grid Margin="24">
-        <Grid RowDefinitions="*,Auto">
+    <Grid Margin="18">
+        <Grid RowDefinitions="Auto,*,Auto">
+            <TextBlock
+                Text="从下方的操作列表里选择一个操作。安装插件以使用更多操作。"
+                TextWrapping="Wrap"
+                Margin="0,0,0,18"/>
             <ListBox
-                Grid.Row="0"
+                Grid.Row="1"
                 Items="{Binding OperationsList}"
                 SelectedItem="{Binding SelectedOperation}"
                 Background="{x:Null}">
@@ -55,7 +59,7 @@
             </ListBox>
 
             <StackPanel
-                Grid.Row="1"
+                Grid.Row="2"
                 Orientation="Horizontal"
                 Margin="12"
                 HorizontalAlignment="Right"
