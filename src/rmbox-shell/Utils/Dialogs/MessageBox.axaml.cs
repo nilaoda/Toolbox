@@ -47,9 +47,10 @@ namespace Ruminoid.Toolbox.Shell.Utils.Dialogs
         public static Task<bool> ShowAndGetResult(
             string title,
             string content,
-            Window parent)
+            Window parent,
+            bool showNoButton = true)
         {
-            MessageBox window = new(title, content);
+            MessageBox window = new(title, content, showNoButton);
             return window.ShowDialog<bool>(parent);
         }
 
