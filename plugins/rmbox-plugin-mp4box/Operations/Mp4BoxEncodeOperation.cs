@@ -44,6 +44,7 @@ namespace Ruminoid.Toolbox.Plugins.Mp4Box.Operations
             bool isIncludingSubtitle = !string.IsNullOrWhiteSpace(subtitlePathIntl);
             string subtitlePath = subtitlePathIntl.EscapePathStringForArg();
             string outputPath = PathExtension.GetFullPathOrEmpty(ioSection["output"]?.ToObject<string>() ?? string.Empty).EscapePathStringForArg();
+            string atempOriginPath = Path.ChangeExtension(inputPathIntl, "atemp.origin.aac").EscapePathStringForArg();
             string atempPath = Path.ChangeExtension(inputPathIntl, "atemp.aac").EscapePathStringForArg();
             string vtempPath = Path.ChangeExtension(inputPathIntl, "vtemp.mp4").EscapePathStringForArg();
             string vtempStatsPath = Path.ChangeExtension(inputPathIntl, "vtemp.stats").EscapePathStringForArg();
@@ -61,8 +62,12 @@ namespace Ruminoid.Toolbox.Plugins.Mp4Box.Operations
                     break;
                 case "process":
                     result.Add(new(
-                        "pwsh",
-                        $"-Command {PathExtension.GetTargetPath("ffmpeg").EscapePathStringForArg()} -i {inputPath} -vn -sn -v 0 -c:a pcm_s16le -f wav pipe:  | {PathExtension.GetTargetPath("qaac64")} -q 2 --ignorelength -c {audioBitrate} - -o {atempPath}",
+                        "ffmpeg",
+                        $"-i {inputPath} -vn -sn -c:a copy -y -map 0:a:0 {atempOriginPath}",
+                        "null"));
+                    result.Add(new(
+                        "qaac64",
+                        $"-q 2 --ignorelength -c {audioBitrate} {atempOriginPath} -o {atempPath}",
                         "null"));
                     break;
             }
@@ -120,6 +125,12 @@ namespace Ruminoid.Toolbox.Plugins.Mp4Box.Operations
                     // ReSharper disable once NotResolvedInText
                     throw new ArgumentOutOfRangeException("encode_mode");
             }
+
+            if (audioMode == "process")
+                result.Add(new(
+                    "pwsh",
+                    $"-Command Remove-Item {atempOriginPath}",
+                    "null"));
 
             return result;
         }
