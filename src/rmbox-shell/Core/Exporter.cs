@@ -29,6 +29,24 @@ namespace Ruminoid.Toolbox.Shell.Core
                                 })
                             .ToArray()
                 },
+                BatchProjectViewModel batchProject => new
+                {
+                    version = 1,
+                    type = "batch",
+                    inputs = batchProject.BatchConfig.InputList,
+                    subtitle_format = batchProject.BatchConfig.SubtitleFormat,
+                    output_format = batchProject.BatchConfig.OutputFormat,
+                    operation = batchProject.OperationModel.Id,
+                    sections =
+                        batchProject.ConfigSections
+                            .Select(x =>
+                                new
+                                {
+                                    type = x.ConfigSectionAttribute.Id,
+                                    data = x.ConfigSection
+                                })
+                            .ToArray()
+                },
                 _ => throw new ArgumentOutOfRangeException(nameof(project), project, null)
             };
 
