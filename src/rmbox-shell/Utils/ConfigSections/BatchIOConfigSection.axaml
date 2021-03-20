@@ -1,0 +1,99 @@
+<core:ConfigSectionBase xmlns="https://github.com/avaloniaui"
+                   xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                   xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                   xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                   xmlns:core="clr-namespace:Ruminoid.Toolbox.Core;assembly=rmbox-plugbase"
+                   mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+                   x:Class="Ruminoid.Toolbox.Shell.Utils.ConfigSections.BatchIOConfigSection">
+    <core:ConfigSectionBase.Styles>
+        <Style Selector="TextBlock.title">
+            <Setter Property="Margin" Value="0,12"/>
+            <Setter Property="FontSize" Value="18"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+        </Style>
+
+        <Style Selector="TextBlock.description">
+            <Setter Property="Margin" Value="0,6"/>
+            <Setter Property="TextWrapping" Value="Wrap"/>
+        </Style>
+
+        <Style Selector="Grid.section">
+            <Setter Property="Margin" Value="0,6"/>
+        </Style>
+    </core:ConfigSectionBase.Styles>
+
+    <Grid
+        RowDefinitions="*,Auto"
+        Margin="24">
+        <Grid
+            Grid.Row="0">
+            <Grid
+                Classes="section">
+                <Grid
+                    RowDefinitions="Auto,12,Auto,12,*,12,Auto">
+                    <TextBlock
+                        Grid.Row="0"
+                        Text="输入"
+                        Classes="title"/>
+                    <TextBlock
+                        Grid.Row="2"
+                        Text="{Binding InputList.Count, StringFormat={}{0}项目}"
+                        Classes="description"/>
+
+                    <ListBox
+                        Grid.Row="4"
+                        Name="InputListBox"
+                        Items="{Binding InputList}"
+                        SelectedItem="{Binding SelectedInput}"/>
+
+                    <StackPanel
+                        Grid.Row="6"
+                        Orientation="Horizontal"
+                        Spacing="6">
+                        <Button
+                            Command="{Binding DoAddFile}"
+                            Content="添加文件"
+                            Classes="accent"/>
+                        <Button
+                            Command="{Binding DoAddFolder}"
+                            Content="添加文件夹"/>
+                        <Button
+                            IsEnabled="{Binding IsInputListSelected}"
+                            Command="{Binding DoRemoveFile}"
+                            Content="删除"/>
+                        <Button
+                            Command="{Binding DoClear}"
+                            Content="清空"/>
+                    </StackPanel>
+                </Grid>
+            </Grid>
+        </Grid>
+
+        <Grid
+            Grid.Row="1">
+            <Grid
+                Classes="section">
+                <StackPanel
+                    Spacing="12">
+                    <TextBlock
+                        Text="字幕/输出"
+                        Classes="title"/>
+
+                    <Grid
+                        ColumnDefinitions="*,12,*">
+                        <TextBox
+                            Grid.Column="0"
+                            Text="{Binding SubtitleFormat}"/>
+                        <TextBox
+                            Grid.Column="2"
+                            Text="{Binding OutputFormat}"/>
+                    </Grid>
+
+                    <TextBlock>
+                        支持的插值：&#x000A;{folder}：文件夹&#x000A;{name}：输入名称&#x000A;{fileName}：含扩展名的文件名&#x000A;{extension}：含点的扩展名
+                    </TextBlock>
+                </StackPanel>
+            </Grid>
+        </Grid>
+    </Grid>
+</core:ConfigSectionBase>
