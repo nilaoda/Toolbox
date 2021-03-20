@@ -14,7 +14,7 @@ namespace Ruminoid.Toolbox.Plugins.FFmpeg.Operations
         public List<(string Target, string Args, string Formatter)> Generate(Dictionary<string, JToken> sectionData)
         {
             JToken ioSection =
-                sectionData["Ruminoid.Toolbox.Plugins.Common.ConfigSections.IOConfigSection"];
+                sectionData[ConfigSectionBase.IOConfigSectionId];
 
             string inputPath = PathExtension.GetFullPathOrEmpty(ioSection["input"]?.ToObject<string>() ?? string.Empty).EscapePathStringForArg();
             string outputPath = PathExtension.GetFullPathOrEmpty(ioSection["output"]?.ToObject<string>() ?? string.Empty).EscapePathStringForArg();
@@ -30,7 +30,7 @@ namespace Ruminoid.Toolbox.Plugins.FFmpeg.Operations
 
         public Dictionary<string, JToken> RequiredConfigSections => new()
         {
-            { "Ruminoid.Toolbox.Plugins.Common.ConfigSections.IOConfigSection", new JObject() }
+            {ConfigSectionBase.IOConfigSectionId, new JObject()}
         };
     }
 }

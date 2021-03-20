@@ -22,7 +22,7 @@ namespace Ruminoid.Toolbox.Shell.ViewModels.Project
                     ConfigSections
                         .FirstOrDefault(
                             x => x.ConfigSectionAttribute.Id ==
-                                 "Ruminoid.Toolbox.Plugins.Common.ConfigSections.IOConfigSection");
+                                 ConfigSectionBase.IOConfigSectionId);
 
             // ReSharper disable once InvertIf
             if (ioConfigSection != default)

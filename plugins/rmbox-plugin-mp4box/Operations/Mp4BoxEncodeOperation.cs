@@ -16,7 +16,7 @@ namespace Ruminoid.Toolbox.Plugins.Mp4Box.Operations
         public List<(string Target, string Args, string Formatter)> Generate(Dictionary<string, JToken> sectionData)
         {
             JToken ioSection =
-                sectionData["Ruminoid.Toolbox.Plugins.Common.ConfigSections.IOConfigSection"];
+                sectionData[ConfigSectionBase.IOConfigSectionId];
             JToken x264QualitySection =
                 sectionData["Ruminoid.Toolbox.Plugins.X264.ConfigSections.X264EncodeQualityConfigSection"];
             JToken x264CoreSection =
@@ -103,7 +103,7 @@ namespace Ruminoid.Toolbox.Plugins.Mp4Box.Operations
         public Dictionary<string, JToken> RequiredConfigSections => new()
         {
             {
-                "Ruminoid.Toolbox.Plugins.Common.ConfigSections.IOConfigSection", JToken.FromObject(new
+                ConfigSectionBase.IOConfigSectionId, JToken.FromObject(new
                 {
                     support_subtitle = true
                 })

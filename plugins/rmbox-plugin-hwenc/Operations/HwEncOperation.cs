@@ -16,7 +16,7 @@ namespace Ruminoid.Toolbox.Plugins.HwEnc.Operations
         public List<(string Target, string Args, string Formatter)> Generate(Dictionary<string, JToken> sectionData)
         {
             JToken ioSection =
-                sectionData["Ruminoid.Toolbox.Plugins.Common.ConfigSections.IOConfigSection"];
+                sectionData[ConfigSectionBase.IOConfigSectionId];
             JToken hwEncQualitySection =
                 sectionData["Ruminoid.Toolbox.Plugins.HwEnc.ConfigSections.HwEncQualityConfigSection"];
             JToken hwEncCodecSection =
@@ -95,7 +95,7 @@ namespace Ruminoid.Toolbox.Plugins.HwEnc.Operations
         public Dictionary<string, JToken> RequiredConfigSections => new()
         {
             {
-                "Ruminoid.Toolbox.Plugins.Common.ConfigSections.IOConfigSection", JToken.FromObject(new
+                ConfigSectionBase.IOConfigSectionId, JToken.FromObject(new
                 {
                     support_subtitle = true,
                     support_vsfm = true

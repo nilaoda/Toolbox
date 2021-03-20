@@ -6,7 +6,7 @@ using Ruminoid.Toolbox.Plugins.Common.ConfigSections.ViewModels;
 namespace Ruminoid.Toolbox.Plugins.Common.ConfigSections.Views
 {
     [ConfigSection(
-        "Ruminoid.Toolbox.Plugins.Common.ConfigSections.IOConfigSection",
+        IOConfigSectionId,
         "输入/输出")]
     public sealed class IOConfigSection : ConfigSectionBase
     {

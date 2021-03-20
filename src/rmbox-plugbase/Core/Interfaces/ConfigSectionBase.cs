@@ -8,6 +8,13 @@ namespace Ruminoid.Toolbox.Core
         public abstract object Config { get; }
 
         public string CurrentHelpText { get; }
+
+        #region Consts
+
+        // ReSharper disable once InconsistentNaming
+        public const string IOConfigSectionId = "Ruminoid.Toolbox.Plugins.Common.ConfigSections.IOConfigSection";
+
+        #endregion
     }
 
     [AttributeUsage(AttributeTargets.Class, Inherited = false)]
