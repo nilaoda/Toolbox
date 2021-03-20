@@ -11,8 +11,57 @@
         CanResize="False">
     <TabControl>
         <TabItem Header="快速上手">
-            <TextBlock Text="这里是「快速上手」教程。"
-                       Margin="36"/>
+            <ScrollViewer
+                HorizontalScrollBarVisibility="Disabled"
+                VerticalScrollBarVisibility="Auto">
+                <StackPanel
+                    Spacing="12"
+                    Margin="24">
+                    <StackPanel.Styles>
+                        <Style Selector="TextBlock.title">
+                            <Setter Property="FontSize" Value="18"/>
+                            <Setter Property="FontWeight" Value="Bold"/>
+                        </Style>
+                    </StackPanel.Styles>
+
+                    <TextBlock>首先，确保你的Ruminoid Toolbox是最新的。</TextBlock>
+                    <StackPanel
+                        Orientation="Horizontal">
+                        <TextBlock>下载+更新：</TextBlock>
+                        <controls:Hyperlink
+                            Url="https://update.ruminoid.world/">https://update.ruminoid.world/</controls:Hyperlink>
+                    </StackPanel>
+                    <TextBlock
+                        Classes="title">开始上手</TextBlock>
+                    <StackPanel
+                        Orientation="Horizontal">
+                        <TextBlock>教程：</TextBlock>
+                        <controls:Hyperlink
+                            Url="https://update.ruminoid.world/">https://update.ruminoid.world/</controls:Hyperlink>
+                    </StackPanel>
+                    <TextBlock
+                        Classes="title">遇到问题……</TextBlock>
+                    <StackPanel
+                        Orientation="Horizontal">
+                        <TextBlock>阅读文档和指南：</TextBlock>
+                        <controls:Hyperlink
+                            Url="https://update.ruminoid.world/">https://update.ruminoid.world/</controls:Hyperlink>
+                    </StackPanel>
+                    <TextBlock>如果上述方法未能解决你的问题，你可以加入群聊反馈。</TextBlock>
+                    <StackPanel
+                        Orientation="Horizontal">
+                        <TextBlock>首先阅读：</TextBlock>
+                        <controls:Hyperlink
+                            Url="https://down.7086.in/smart-questions/">提问的智慧</controls:Hyperlink>
+                    </StackPanel>
+                    <StackPanel
+                        Orientation="Horizontal">
+                        <TextBlock>加群：</TextBlock>
+                        <controls:Hyperlink
+                            Url="https://qm.qq.com/cgi-bin/qm/qr?k=YpkYzFfH5vOcjvLl2zZprJZgB-ixiTi5">470394928</controls:Hyperlink>
+                    </StackPanel>
+                </StackPanel>
+            </ScrollViewer>
         </TabItem>
 
         <TabItem Header="关于">
