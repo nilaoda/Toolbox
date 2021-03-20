@@ -23,6 +23,8 @@ namespace Ruminoid.Toolbox.Plugins.HwEnc.Operations
                 sectionData["Ruminoid.Toolbox.Plugins.HwEnc.ConfigSections.HwEncCodecConfigSection"];
             JToken hwEncCoreSection =
                 sectionData["Ruminoid.Toolbox.Plugins.HwEnc.ConfigSections.HwEncCoreConfigSection"];
+            JToken audioSection =
+                sectionData["Ruminoid.Toolbox.Plugins.Audio.AudioConfigSection"];
             JToken customArgsSection =
                 sectionData["Ruminoid.Toolbox.Plugins.Common.ConfigSections.CustomArgsConfigSection"];
 
@@ -32,6 +34,14 @@ namespace Ruminoid.Toolbox.Plugins.HwEnc.Operations
             bool useCustomArgs = !string.IsNullOrWhiteSpace(customArgs);
 
             string defaultArgs = "";
+
+            string audioMode = audioSection["mode"]?.ToObject<string>();
+            string audioArgs = audioMode switch
+            {
+                "process" => "--audio-codec --audio-bitrate " + audioSection["bitrate"]?.ToObject<int>(),
+                "none" => "",
+                _ => "--audio-copy"
+            };
 
             string inputPathIntl = PathExtension.GetFullPathOrEmpty(ioSection["input"]?.ToObject<string>() ?? string.Empty);
             string inputPath = inputPathIntl.EscapePathStringForArg();
@@ -74,7 +84,7 @@ namespace Ruminoid.Toolbox.Plugins.HwEnc.Operations
 
             result.Add(
                 (hwEncCore,
-                    $"{(useVpy ? "--vpy" : "--avhw")} -i {inputPath} -o {outputPath} --audio-copy --codec {hwEncCodecSection["codec"]?.ToObject<string>()} {encodeMode} {(useCustomArgs ? customArgs : defaultArgs)}",
+                    $"{(useVpy ? "--vpy" : "--avhw")} -i {inputPath} -o {outputPath} {audioArgs} --codec {hwEncCodecSection["codec"]?.ToObject<string>()} {encodeMode} {(useCustomArgs ? customArgs : defaultArgs)}",
                     hwEncCore));
 
             if (useVpy)
@@ -104,6 +114,7 @@ namespace Ruminoid.Toolbox.Plugins.HwEnc.Operations
             {"Ruminoid.Toolbox.Plugins.HwEnc.ConfigSections.HwEncCoreConfigSection", new JObject()},
             {"Ruminoid.Toolbox.Plugins.HwEnc.ConfigSections.HwEncCodecConfigSection", new JObject()},
             {"Ruminoid.Toolbox.Plugins.HwEnc.ConfigSections.HwEncQualityConfigSection", new JObject()},
+            {"Ruminoid.Toolbox.Plugins.Audio.AudioConfigSection", new JObject()},
             {"Ruminoid.Toolbox.Plugins.Common.ConfigSections.CustomArgsConfigSection", new JObject()}
         };
     }
