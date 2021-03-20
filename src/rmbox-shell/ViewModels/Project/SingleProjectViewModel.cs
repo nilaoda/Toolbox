@@ -49,7 +49,7 @@ namespace Ruminoid.Toolbox.Shell.ViewModels.Project
 
         public override string OperationName => OperationModel.Name;
 
-        public override string Source { get; }
+        public override string Source { get; } = "";
 
         #endregion
     }
