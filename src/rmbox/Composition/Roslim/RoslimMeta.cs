@@ -1,6 +1,6 @@
 ﻿using Ruminoid.Toolbox.Core;
 
-namespace rmbox.Composition.Roslim
+namespace Ruminoid.Toolbox.Composition.Roslim
 {
     public class RoslimMeta : IMeta
     {
