@@ -16,11 +16,11 @@ using Splat;
 
 namespace Ruminoid.Toolbox.Shell.Operations.ViewModels
 {
-    public class SimpleOperationWindowViewModel : ReactiveObject
+    public class SingleOperationWindowViewModel : ReactiveObject
     {
-        public SimpleOperationWindowViewModel(
+        public SingleOperationWindowViewModel(
             OperationModel operationModel,
-            SimpleOperationWindow window)
+            SingleOperationWindow window)
         {
             OperationModel = operationModel;
             _window = window;
@@ -31,7 +31,7 @@ namespace Ruminoid.Toolbox.Shell.Operations.ViewModels
             InitializeTabs();
         }
 
-        private readonly SimpleOperationWindow _window;
+        private readonly SingleOperationWindow _window;
 
         private OperationModel OperationModel { get; }
 

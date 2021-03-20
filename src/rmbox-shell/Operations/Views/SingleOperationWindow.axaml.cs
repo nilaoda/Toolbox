@@ -12,17 +12,17 @@ using Ruminoid.Toolbox.Shell.Utils.Windows;
 
 namespace Ruminoid.Toolbox.Shell.Operations.Views
 {
-    public class SimpleOperationWindow : RmboxWindowBase
+    public class SingleOperationWindow : RmboxWindowBase
     {
-        public SimpleOperationWindow()
+        public SingleOperationWindow()
         {
             throw new ArgumentException("No OperationModel provided.");
         }
 
-        public SimpleOperationWindow(
+        public SingleOperationWindow(
             OperationModel operationModel)
         {
-            DataContext = new SimpleOperationWindowViewModel(
+            DataContext = new SingleOperationWindowViewModel(
                 operationModel,
                 this);
 

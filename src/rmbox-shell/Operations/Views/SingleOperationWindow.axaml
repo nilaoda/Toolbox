@@ -6,7 +6,7 @@
                  xmlns:controls="clr-namespace:Ruminoid.Toolbox.Shell.Controls"
                  xmlns:windows="clr-namespace:Ruminoid.Toolbox.Shell.Utils.Windows"
                  mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
-                 x:Class="Ruminoid.Toolbox.Shell.Operations.Views.SimpleOperationWindow"
+                 x:Class="Ruminoid.Toolbox.Shell.Operations.Views.SingleOperationWindow"
                  Title="{Binding OperationModel.Name}"
                  Icon="resm:rmbox-shell.Assets.rmbox.ico"
                  Width="1050" Height="600"
