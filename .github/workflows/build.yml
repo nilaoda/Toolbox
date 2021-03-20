@@ -15,8 +15,6 @@ jobs:
 
     runs-on: ${{ fromJson(matrix.target).os }}
 
-    continue-on-error: true
-
     steps:
     - name: Checkout
       uses: actions/checkout@v2
