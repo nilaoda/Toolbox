@@ -2,6 +2,7 @@
 using System.Reflection;
 using ReactiveUI;
 using Ruminoid.Toolbox.Shell.Models;
+using Ruminoid.Toolbox.Shell.Operations.ViewModels;
 using Ruminoid.Toolbox.Shell.Operations.Views;
 using Ruminoid.Toolbox.Shell.Services;
 using Ruminoid.Toolbox.Shell.Views;
@@ -48,17 +49,15 @@ namespace Ruminoid.Toolbox.Shell.ViewModels
         {
             OperationModel result = await ChooseOperationWindow.ChooseOperation(_window);
             if (result is null) return;
-            new SimpleOperationWindow(result).Show(_window);
+            new SingleOperationWindow(result).Show(_window);
         }
 
-        public void DoCreateNewChain()
+        public async void DoCreateNewBatch()
         {
-            throw new NotImplementedException();
-        }
-
-        public void DoCreateService()
-        {
-            throw new NotImplementedException();
+            OperationModel result = await ChooseOperationWindow.ChooseOperation(_window);
+            if (result is null) return;
+            if (!BatchOperationWindowViewModel.CheckCompatibilityAndReport(result, _window)) return;
+            new SingleOperationWindow(result).Show(_window);
         }
 
         public void DoShowAboutWindow()

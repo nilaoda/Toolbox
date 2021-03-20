@@ -1,0 +1,53 @@
+<windows:RmboxWindowBase xmlns="https://github.com/avaloniaui"
+                 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                 xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                 xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                 xmlns:helpers="clr-namespace:Ruminoid.Toolbox.Shell.Helpers"
+                 xmlns:controls="clr-namespace:Ruminoid.Toolbox.Shell.Controls"
+                 xmlns:windows="clr-namespace:Ruminoid.Toolbox.Shell.Utils.Windows"
+                 mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+                 x:Class="Ruminoid.Toolbox.Shell.Operations.Views.BatchOperationWindow"
+                 Title="{Binding OperationModel.Name, StringFormat=批量任务：{0}}"
+                 Icon="resm:rmbox-shell.Assets.rmbox.ico"
+                 Width="1050" Height="600"
+                 MinWidth="1050" MinHeight="600">
+    <Grid RowDefinitions="*,Auto">
+        <TabControl
+            Grid.Row="0"
+            Items="{Binding Items}"
+            TabStripPlacement="Left"/>
+        <Grid Grid.Row="1">
+            <StackPanel
+                Orientation="Horizontal"
+                Margin="24"
+                HorizontalAlignment="Right"
+                Spacing="12">
+                <controls:DrawingIconButton
+                    Icon="{DynamicResource VSCodeDark.check}"
+                    Command="{x:Static helpers:CommandHelper.OpenContextMenuCommand}"
+                    CommandParameter="{Binding RelativeSource={RelativeSource Self}}"
+                    Content="添加到队列"
+                    Classes="accent">
+                    <controls:DrawingIconButton.ContextMenu>
+                        <ContextMenu>
+                            <controls:DrawingIconMenuItem
+                                Icon="{DynamicResource VSCodeLight.check}"
+                                Command="{Binding DoAddToQueue}"
+                                Header="添加到队列"
+                                Classes="accent"/>
+                            <controls:DrawingIconMenuItem
+                                Icon="{DynamicResource VSCodeLight.arrow-right}"
+                                Command="{Binding DoAddToQueueAndContinue}"
+                                Header="添加到队列并继续"/>
+                        </ContextMenu>
+                    </controls:DrawingIconButton.ContextMenu>
+                </controls:DrawingIconButton>
+                <controls:DrawingIconButton
+                    Icon="{DynamicResource VSCodeLight.file-symlink-directory}"
+                    Command="{Binding DoExport}"
+                    IsEnabled="False"
+                    Content="导出"/>
+            </StackPanel>
+        </Grid>
+    </Grid>
+</windows:RmboxWindowBase>

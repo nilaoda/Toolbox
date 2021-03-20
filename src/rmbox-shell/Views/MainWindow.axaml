@@ -87,6 +87,28 @@
                     </Button>
 
                     <Button
+                        Command="{Binding DoCreateNewBatch}">
+                        <Grid
+                            ColumnDefinitions="Auto,Auto">
+                            <controls:DrawingIcon
+                                Grid.Column="0"
+                                Icon="{DynamicResource VSCodeLight.list-ordered}"/>
+                            <Grid
+                                Grid.Column="1"
+                                RowDefinitions="Auto,Auto">
+                                <TextBlock
+                                    Grid.Row="0"
+                                    Classes="action-title"
+                                    Text="创建批量操作"/>
+                                <TextBlock
+                                    Grid.Row="1"
+                                    Classes="action-description"
+                                    Text="开始批量处理媒体。"/>
+                            </Grid>
+                        </Grid>
+                    </Button>
+
+                    <Button
                         Command="{Binding DoShowAboutWindow}">
                         <Grid
                             ColumnDefinitions="Auto,*">
