@@ -9,7 +9,7 @@ namespace Ruminoid.Toolbox.Plugins.Mp4Box.Operations
 {
     [Operation(
         "Ruminoid.Toolbox.Plugins.Mp4Box.Operations.Mp4BoxEncodeOperation",
-        "小丸压制",
+        "小丸（CPU）压制",
         "使用小丸压制法进行视频压制。")]
     public class Mp4BoxEncodeOperation : IOperation
     {
@@ -21,6 +21,8 @@ namespace Ruminoid.Toolbox.Plugins.Mp4Box.Operations
                 sectionData["Ruminoid.Toolbox.Plugins.X264.ConfigSections.X264EncodeQualityConfigSection"];
             JToken x264CoreSection =
                 sectionData["Ruminoid.Toolbox.Plugins.X264.ConfigSections.X264CoreConfigSection"];
+            JToken audioSection =
+                sectionData["Ruminoid.Toolbox.Plugins.Audio.AudioConfigSection"];
             JToken customArgsSection =
                 sectionData["Ruminoid.Toolbox.Plugins.Common.ConfigSections.CustomArgsConfigSection"];
 
@@ -31,6 +33,10 @@ namespace Ruminoid.Toolbox.Plugins.Mp4Box.Operations
 
             string defaultArgs =
                 @"--preset 8 -I 300 -r 4 -b 3 --me umh -i 1 --scenecut 60 -f 1:1 --qcomp 0.5 --psy-rd 0.3:0 --aq-mode 2 --aq-strength 0.8";
+
+            string audioMode = audioSection["mode"]?.ToObject<string>();
+            bool hasAudio = audioMode != "none";
+            int audioBitrate = audioSection["bitrate"].ToObject<int>();
 
             string inputPathIntl = PathExtension.GetFullPathOrEmpty(ioSection["input"]?.ToObject<string>() ?? string.Empty);
             string inputPath = inputPathIntl.EscapePathStringForArg();
@@ -43,33 +49,45 @@ namespace Ruminoid.Toolbox.Plugins.Mp4Box.Operations
             string vtempStatsPath = Path.ChangeExtension(inputPathIntl, "vtemp.stats").EscapePathStringForArg();
             string vtempStatsMbtreePath = Path.ChangeExtension(inputPathIntl, "vtemp.stats.mbtree").EscapePathStringForArg();
 
-            List<(string, string, string)> result = new()
+            List<(string, string, string)> result = new();
+
+            switch (audioMode)
             {
-                // Extract Audio
-                new(
-                    "ffmpeg",
-                    $"-i {inputPath} -vn -sn -c:a copy -y -map 0:a:0 {atempPath}",
-                    "ffmpeg")
-            };
+                case "copy":
+                    result.Add(new(
+                        "ffmpeg",
+                        $"-i {inputPath} -vn -sn -c:a copy -y -map 0:a:0 {atempPath}",
+                        "null"));
+                    break;
+                case "process":
+                    result.Add(new(
+                        "pwsh",
+                        $"-Command {PathExtension.GetTargetPath("ffmpeg").EscapePathStringForArg()} -i {inputPath} -vn -sn -v 0 -c:a pcm_s16le -f wav pipe:  | {PathExtension.GetTargetPath("qaac64")} -q 2 --ignorelength -c {audioBitrate} - -o {atempPath}",
+                        "null"));
+                    break;
+            }
 
             switch (x264QualitySection["encode_mode"]?.ToObject<string>())
             {
                 case "crf":
-                    result.AddRange(new (string, string, string)[]
-                    {
-                        new(
-                            x264Core,
-                            $"--crf {x264QualitySection["crf_value"]?.ToObject<double>():N1} {(useCustomArgs ? customArgs : defaultArgs)} {(isIncludingSubtitle ? "--vf subtitles --sub " + subtitlePath : "")} -o {vtempPath} {inputPath}",
-                            x264Core),
-                        new(
+                    result.Add(new(
+                        x264Core,
+                        $"--crf {x264QualitySection["crf_value"]?.ToObject<double>():N1} {(useCustomArgs ? customArgs : defaultArgs)} {(isIncludingSubtitle ? "--vf subtitles --sub " + subtitlePath : "")} -o {(hasAudio ? vtempPath : outputPath)} {inputPath}",
+                        x264Core));
+                    if (hasAudio)
+                        result.Add(new(
                             "ffmpeg",
                             $"-i {vtempPath} -i {atempPath} -vcodec copy -acodec copy {outputPath}",
-                            "ffmpeg"),
-                        new(
+                            "ffmpeg"));
+                    result.Add(new(
+                        "pwsh",
+                        $"-Command Remove-Item {vtempPath}",
+                        "null"));
+                    if (hasAudio)
+                        result.Add(new(
                             "pwsh",
-                            $"-Command Remove-Item {atempPath},{vtempPath}",
-                            "null")
-                    });
+                            $"-Command Remove-Item {atempPath}",
+                            "null"));
                     break;
                 case "2pass":
                     result.AddRange(new (string, string, string)[]
@@ -80,17 +98,23 @@ namespace Ruminoid.Toolbox.Plugins.Mp4Box.Operations
                             x264Core),
                         new(
                             x264Core,
-                            $"--pass 2 --bitrate {x264QualitySection["2pass_value"]?.ToObject<int>()} --stats {vtempStatsPath} {(useCustomArgs ? customArgs : defaultArgs)} {(isIncludingSubtitle ? "--vf subtitles --sub " + subtitlePath : "")} -o {vtempPath} {inputPath}",
-                            x264Core),
-                        new(
+                            $"--pass 2 --bitrate {x264QualitySection["2pass_value"]?.ToObject<int>()} --stats {vtempStatsPath} {(useCustomArgs ? customArgs : defaultArgs)} {(isIncludingSubtitle ? "--vf subtitles --sub " + subtitlePath : "")} -o {(hasAudio ? vtempPath : outputPath)} {inputPath}",
+                            x264Core)
+                    });
+                    if (hasAudio)
+                        result.Add(new(
                             "ffmpeg",
                             $"-i {vtempPath} -i {atempPath} -vcodec copy -acodec copy {outputPath}",
-                            "ffmpeg"),
-                        new(
+                            "ffmpeg"));
+                    result.Add(new(
+                        "pwsh",
+                        $"-Command Remove-Item {vtempPath},{vtempStatsPath},{vtempStatsMbtreePath}",
+                        "null"));
+                    if (hasAudio)
+                        result.Add(new(
                             "pwsh",
-                            $"-Command Remove-Item {atempPath},{vtempPath},{vtempStatsPath},{vtempStatsMbtreePath}",
-                            "null")
-                    });
+                            $"-Command Remove-Item {atempPath}",
+                            "null"));
                     break;
                 default:
                     // ReSharper disable once NotResolvedInText
