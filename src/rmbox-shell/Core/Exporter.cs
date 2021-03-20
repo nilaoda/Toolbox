@@ -17,7 +17,7 @@ namespace Ruminoid.Toolbox.Shell.Core
                 SingleProjectViewModel singleProject => new
                 {
                     version = 1,
-                    type = "singleProject",
+                    type = "project",
                     operation = singleProject.OperationModel.Id,
                     sections =
                         singleProject.ConfigSections
