@@ -6,7 +6,7 @@ using Ruminoid.Toolbox.Plugins.Audio.ConfigSections.ViewModels;
 namespace Ruminoid.Toolbox.Plugins.Audio.ConfigSections.Views
 {
     [ConfigSection(
-        "Ruminoid.Toolbox.Plugins.Audio.AudioConfigSection",
+        "Ruminoid.Toolbox.Plugins.Audio.ConfigSections.AudioConfigSection",
         "音频")]
     public class AudioConfigSection : ConfigSectionBase
     {

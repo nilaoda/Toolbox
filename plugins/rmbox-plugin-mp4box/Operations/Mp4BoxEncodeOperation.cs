@@ -22,7 +22,7 @@ namespace Ruminoid.Toolbox.Plugins.Mp4Box.Operations
             JToken x264CoreSection =
                 sectionData["Ruminoid.Toolbox.Plugins.X264.ConfigSections.X264CoreConfigSection"];
             JToken audioSection =
-                sectionData["Ruminoid.Toolbox.Plugins.Audio.AudioConfigSection"];
+                sectionData["Ruminoid.Toolbox.Plugins.Audio.ConfigSections.AudioConfigSection"];
             JToken customArgsSection =
                 sectionData["Ruminoid.Toolbox.Plugins.Common.ConfigSections.CustomArgsConfigSection"];
 
@@ -134,6 +134,7 @@ namespace Ruminoid.Toolbox.Plugins.Mp4Box.Operations
             },
             {"Ruminoid.Toolbox.Plugins.X264.ConfigSections.X264CoreConfigSection", new JObject()},
             {"Ruminoid.Toolbox.Plugins.X264.ConfigSections.X264EncodeQualityConfigSection", new JObject()},
+            {"Ruminoid.Toolbox.Plugins.Audio.ConfigSections.AudioConfigSection", new JObject()},
             {"Ruminoid.Toolbox.Plugins.Common.ConfigSections.CustomArgsConfigSection", new JObject()}
         };
     }

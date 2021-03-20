@@ -24,7 +24,7 @@ namespace Ruminoid.Toolbox.Plugins.HwEnc.Operations
             JToken hwEncCoreSection =
                 sectionData["Ruminoid.Toolbox.Plugins.HwEnc.ConfigSections.HwEncCoreConfigSection"];
             JToken audioSection =
-                sectionData["Ruminoid.Toolbox.Plugins.Audio.AudioConfigSection"];
+                sectionData["Ruminoid.Toolbox.Plugins.Audio.ConfigSections.AudioConfigSection"];
             JToken customArgsSection =
                 sectionData["Ruminoid.Toolbox.Plugins.Common.ConfigSections.CustomArgsConfigSection"];
 
@@ -114,7 +114,7 @@ namespace Ruminoid.Toolbox.Plugins.HwEnc.Operations
             {"Ruminoid.Toolbox.Plugins.HwEnc.ConfigSections.HwEncCoreConfigSection", new JObject()},
             {"Ruminoid.Toolbox.Plugins.HwEnc.ConfigSections.HwEncCodecConfigSection", new JObject()},
             {"Ruminoid.Toolbox.Plugins.HwEnc.ConfigSections.HwEncQualityConfigSection", new JObject()},
-            {"Ruminoid.Toolbox.Plugins.Audio.AudioConfigSection", new JObject()},
+            {"Ruminoid.Toolbox.Plugins.Audio.ConfigSections.AudioConfigSection", new JObject()},
             {"Ruminoid.Toolbox.Plugins.Common.ConfigSections.CustomArgsConfigSection", new JObject()}
         };
     }
