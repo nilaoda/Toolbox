@@ -93,7 +93,7 @@ namespace Ruminoid.Toolbox.Shell.Operations.ViewModels
         public void DoAddToQueue()
         {
             DoAddToQueueAndContinue();
-            _window.Close();
+            _window.ForceClose();
         }
         public void DoAddToQueueAndContinue() => _queueService.AddOrUpdate(GenerateProjectModel());
 
