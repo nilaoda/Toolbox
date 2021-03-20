@@ -11,6 +11,7 @@ using Ruminoid.Toolbox.Core;
 using Ruminoid.Toolbox.Shell.Models;
 using Ruminoid.Toolbox.Shell.Operations.Views;
 using Ruminoid.Toolbox.Shell.Services;
+using Ruminoid.Toolbox.Shell.Utils.ConfigSections;
 using Ruminoid.Toolbox.Shell.Utils.Dialogs;
 using Ruminoid.Toolbox.Shell.ViewModels.Project;
 using Splat;
@@ -54,6 +55,20 @@ namespace Ruminoid.Toolbox.Shell.Operations.ViewModels
 
         private void InitializeTabs()
         {
+            ConfigSectionAttribute batchAttribute =
+                Attribute.GetCustomAttribute(typeof(BatchIOConfigSection), typeof(ConfigSectionAttribute)) as
+                    ConfigSectionAttribute;
+            BatchIOConfigSection batchConfig = new BatchIOConfigSection();
+
+            _configSections.Add((batchAttribute, batchConfig));
+
+            Items.Add(
+                new()
+                {
+                    Header = batchAttribute?.Name,
+                    Content = batchConfig
+                });
+
             _operation = Activator.CreateInstance(OperationModel.Type) as IOperation;
 
             if (_operation is null)

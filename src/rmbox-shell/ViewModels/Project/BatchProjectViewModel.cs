@@ -30,7 +30,7 @@ namespace Ruminoid.Toolbox.Shell.ViewModels.Project
             ConfigSections.Remove(ioTuple);
 
             BatchConfig =
-                new((ioTuple.ConfigSection as BatchIOConfigSection)?.Config as BatchIOConfigSectionViewModel);
+                new(ioTuple.ConfigSection as BatchIOConfigSectionViewModel);
         }
 
         #endregion
