@@ -5,7 +5,7 @@ using System.Runtime.InteropServices;
 
 namespace Ruminoid.Toolbox.Utils.Extensions
 {
-    public static class PathExtension
+    public static partial class PathExtension
     {
         public static string GetMidString(
             this string source,
