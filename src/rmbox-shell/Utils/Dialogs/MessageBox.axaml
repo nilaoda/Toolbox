@@ -51,9 +51,11 @@
             </StackPanel.Styles>
 
             <Button
+                Name="YesButton"
                 Click="YesClick"
                 Content="是"/>
             <Button
+                Name="NoButton"
                 Click="NoClick"
                 Content="否"/>
         </StackPanel>

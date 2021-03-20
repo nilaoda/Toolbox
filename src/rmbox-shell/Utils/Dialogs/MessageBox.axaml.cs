@@ -18,12 +18,19 @@ namespace Ruminoid.Toolbox.Shell.Utils.Dialogs
 
         private MessageBox(
             string title,
-            string content)
+            string content,
+            bool showNoButton = true)
         {
             InitializeComponent();
 
             this.FindControl<TextBlock>("TitleBlock").Text = title;
             this.FindControl<TextBlock>("ContentBlock").Text = content;
+
+            if (!showNoButton)
+            {
+                this.FindControl<Button>("YesButton").Content = "çD";
+                this.FindControl<Button>("NoButton").IsVisible = false;
+            }
 
 #if DEBUG
             this.AttachDevTools();
