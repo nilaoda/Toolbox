@@ -2,6 +2,7 @@
 using System.Reflection;
 using ReactiveUI;
 using Ruminoid.Toolbox.Shell.Models;
+using Ruminoid.Toolbox.Shell.Operations.Views;
 using Ruminoid.Toolbox.Shell.Services;
 using Ruminoid.Toolbox.Shell.Views;
 using Splat;
@@ -47,7 +48,7 @@ namespace Ruminoid.Toolbox.Shell.ViewModels
         {
             OperationModel result = await ChooseOperationWindow.ChooseOperation(_window);
             if (result is null) return;
-            new OperationWindow(result).Show(_window);
+            new SimpleOperationWindow(result).Show(_window);
         }
 
         public void DoCreateNewChain()

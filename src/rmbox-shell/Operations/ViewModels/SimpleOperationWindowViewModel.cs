@@ -9,18 +9,18 @@ using ReactiveUI;
 using Ruminoid.Toolbox.Composition;
 using Ruminoid.Toolbox.Core;
 using Ruminoid.Toolbox.Shell.Models;
+using Ruminoid.Toolbox.Shell.Operations.Views;
 using Ruminoid.Toolbox.Shell.Services;
 using Ruminoid.Toolbox.Shell.ViewModels.Project;
-using Ruminoid.Toolbox.Shell.Views;
 using Splat;
 
-namespace Ruminoid.Toolbox.Shell.ViewModels
+namespace Ruminoid.Toolbox.Shell.Operations.ViewModels
 {
-    public class OperationWindowViewModel : ReactiveObject
+    public class SimpleOperationWindowViewModel : ReactiveObject
     {
-        public OperationWindowViewModel(
+        public SimpleOperationWindowViewModel(
             OperationModel operationModel,
-            OperationWindow window)
+            SimpleOperationWindow window)
         {
             OperationModel = operationModel;
             _window = window;
@@ -31,7 +31,7 @@ namespace Ruminoid.Toolbox.Shell.ViewModels
             InitializeTabs();
         }
 
-        private readonly OperationWindow _window;
+        private readonly SimpleOperationWindow _window;
 
         private OperationModel OperationModel { get; }
 

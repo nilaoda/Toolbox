@@ -6,22 +6,22 @@ using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
 using ReactiveUI;
 using Ruminoid.Toolbox.Shell.Models;
+using Ruminoid.Toolbox.Shell.Operations.ViewModels;
 using Ruminoid.Toolbox.Shell.Utils.Dialogs;
-using Ruminoid.Toolbox.Shell.ViewModels;
 
-namespace Ruminoid.Toolbox.Shell.Views
+namespace Ruminoid.Toolbox.Shell.Operations.Views
 {
-    public class OperationWindow : Window
+    public class SimpleOperationWindow : Window
     {
-        public OperationWindow()
+        public SimpleOperationWindow()
         {
             throw new ArgumentException("No OperationModel provided.");
         }
 
-        public OperationWindow(
+        public SimpleOperationWindow(
             OperationModel operationModel)
         {
-            DataContext = new OperationWindowViewModel(
+            DataContext = new SimpleOperationWindowViewModel(
                 operationModel,
                 this);
 
