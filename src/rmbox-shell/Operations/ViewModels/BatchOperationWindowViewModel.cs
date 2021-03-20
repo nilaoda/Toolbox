@@ -137,6 +137,8 @@ namespace Ruminoid.Toolbox.Shell.Operations.ViewModels
                 $"{operationModel.Name} 不支持批量处理。",
                 parent,
                 false);
+
+            return false;
         }
 
         #endregion
