@@ -116,7 +116,13 @@ partial class Build : NukeBuild
                             .SetConfiguration(Configuration)
                             .SetAssemblyVersion(GitVersion.AssemblySemVer)
                             .SetFileVersion(GitVersion.AssemblySemFileVer)
-                            .SetInformationalVersion(GitVersion.InformationalVersion);
+                            .SetInformationalVersion(GitVersion.InformationalVersion)
+                            .SetAuthors("Il Harper")
+                            .SetCopyright("2021 Il Harper")
+                            .SetTitle("Ruminoid Toolbox")
+                            .SetDescription("Visual Processing Toolbox.")
+                            .SetRepositoryType("git")
+                            .SetRepositoryUrl("https://github.com/Ruminoid/Toolbox.git");
 
                         if (PublishRelease &&
                             (x.EndsWith("rmbox.csproj") ||
