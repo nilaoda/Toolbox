@@ -10,9 +10,14 @@ namespace Ruminoid.Toolbox.Core
         public string CurrentHelpText { get; }
 
         #region Consts
+        
+        // ReSharper disable InconsistentNaming
 
-        // ReSharper disable once InconsistentNaming
         public const string IOConfigSectionId = "Ruminoid.Toolbox.Plugins.Common.ConfigSections.IOConfigSection";
+
+        public const string BatchIOConfigSectionId = "Ruminoid.Toolbox.Shell.Utils.ConfigSections.BatchIOConfigSection";
+
+        // ReSharper restore InconsistentNaming
 
         #endregion
     }
