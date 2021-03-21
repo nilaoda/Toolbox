@@ -105,7 +105,7 @@ namespace Ruminoid.Toolbox.Composition.Roslim
                 _logger.LogDebug("Using: {target} {args}", target, args);
 
                 // Parse Meta
-                string metaResult = ProcessExtension.RunExternalProcess(target, args);
+                string metaResult = ProcessExtension.RunToolProcess(target, args);
                 JObject meta = JObject.Parse(metaResult);
 
                 _logger.LogDebug("Parsed meta: {metaResult}", metaResult);

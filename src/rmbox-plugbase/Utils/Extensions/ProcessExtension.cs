@@ -15,7 +15,7 @@ namespace Ruminoid.Toolbox.Utils.Extensions
         /// <param name="args">运行参数。</param>
         /// <returns>外部进程的输出。</returns>
         /// <exception cref="ProcessExtensionException">外部进程运行错误异常。</exception>
-        public static string RunExternalProcess(string target, string args)
+        public static string RunToolProcess(string target, string args)
         {
             string workingDirectory = StorageHelper.GetSectionFolderPath("tools");
 
