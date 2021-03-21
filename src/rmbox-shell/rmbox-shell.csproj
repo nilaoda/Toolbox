@@ -2,6 +2,7 @@
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
     <TargetFramework>net5.0</TargetFramework>
+    <RootNamespace>Ruminoid.Toolbox.Shell</RootNamespace>
     <ApplicationIcon>..\..\common\Assets\rmbox.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
