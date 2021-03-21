@@ -36,6 +36,7 @@ namespace Ruminoid.Toolbox.Shell.Core
                     inputs = batchProject.BatchConfig.InputList,
                     subtitle_format = batchProject.BatchConfig.SubtitleFormat,
                     output_format = batchProject.BatchConfig.OutputFormat,
+                    use_vsfm = batchProject.BatchConfig.UseVsfm,
                     operation = batchProject.OperationModel.Id,
                     sections =
                         batchProject.ConfigSections

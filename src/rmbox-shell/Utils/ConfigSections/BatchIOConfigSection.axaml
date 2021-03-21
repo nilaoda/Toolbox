@@ -81,13 +81,33 @@
 
                     <Grid
                         ColumnDefinitions="*,12,*">
-                        <TextBox
+                        <Grid
                             Grid.Column="0"
-                            Text="{Binding SubtitleFormat}"/>
-                        <TextBox
+                            ColumnDefinitions="Auto,6,*">
+                            <TextBlock
+                                Grid.Column="0"
+                                Text="字幕格式："
+                                VerticalAlignment="Center"/>
+                            <TextBox
+                                Grid.Column="2"
+                                Text="{Binding SubtitleFormat}"/>
+                        </Grid>
+                        <Grid
                             Grid.Column="2"
-                            Text="{Binding OutputFormat}"/>
+                            ColumnDefinitions="Auto,6,*">
+                            <TextBlock
+                                Grid.Column="0"
+                                Text="输出格式："
+                                VerticalAlignment="Center"/>
+                            <TextBox
+                                Grid.Column="2"
+                                Text="{Binding OutputFormat}"/>
+                        </Grid>
                     </Grid>
+
+                    <CheckBox
+                        Content="使用 VSFilterMod 压制。"
+                        IsChecked="{Binding UseVsfm}"/>
 
                     <TextBlock>
                         支持的插值：&#x000A;{folder}：文件夹&#x000A;{name}：输入名称&#x000A;{fileName}：含扩展名的文件名&#x000A;{extension}：含点的扩展名
