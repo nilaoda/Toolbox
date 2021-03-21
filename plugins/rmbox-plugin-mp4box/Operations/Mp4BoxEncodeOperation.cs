@@ -186,14 +186,16 @@ namespace Ruminoid.Toolbox.Plugins.Mp4Box.Operations
                 case "2pass":
                     result.AddRange(new (string, string, string)[]
                     {
-                        new(
-                            x264Core,
+                        GenerateVideoProcessingCommand(
                             $"--pass 1 --bitrate {x264QualitySection["2pass_value"]?.ToObject<int>()} --stats {vtempStatsPath} {x264Args} -o NUL",
-                            x264Core),
-                        new(
                             x264Core,
+                            inputPath,
+                            useVpy),
+                        GenerateVideoProcessingCommand(
                             $"--pass 2 --bitrate {x264QualitySection["2pass_value"]?.ToObject<int>()} --stats {vtempStatsPath} {x264Args} -o {(hasAudio ? vtempPath : outputPath)}",
-                            x264Core)
+                            x264Core,
+                            inputPath,
+                            useVpy)
                     });
                     break;
                 default:
@@ -221,6 +223,9 @@ namespace Ruminoid.Toolbox.Plugins.Mp4Box.Operations
                 }
                 .Select(GenerateTryDeleteCommand)
                 .ToList());
+
+            if (isVsfm)
+                result.Add(GenerateTryDeleteCommand(inputPath));
 
             #endregion
 
