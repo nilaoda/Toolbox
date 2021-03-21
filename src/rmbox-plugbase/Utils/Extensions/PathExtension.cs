@@ -3,6 +3,8 @@ using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
 
+// ReSharper disable MemberCanBePrivate.Global
+
 namespace Ruminoid.Toolbox.Utils.Extensions
 {
     public static partial class PathExtension
@@ -36,6 +38,13 @@ namespace Ruminoid.Toolbox.Utils.Extensions
 
             return result;
         }
+
+        public static string[] GetLines(
+            this string str) =>
+            str
+                .Split(Environment.NewLine.ToCharArray(), StringSplitOptions.None)
+                .Where(x => !string.IsNullOrWhiteSpace(x))
+                .ToArray();
 
         public static string EscapePathStringForArg(
             this string path) =>
