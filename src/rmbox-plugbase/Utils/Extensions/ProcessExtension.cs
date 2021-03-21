@@ -4,9 +4,9 @@ using System.IO;
 using System.Runtime.InteropServices;
 using System.Text;
 
-namespace Ruminoid.Toolbox.Utils
+namespace Ruminoid.Toolbox.Utils.Extensions
 {
-    public static class ExternalProcessRunner
+    public static partial class ProcessExtension
     {
         /// <summary>
         /// 运行外部进程。
@@ -14,8 +14,8 @@ namespace Ruminoid.Toolbox.Utils
         /// <param name="target">外部进程目标。</param>
         /// <param name="args">运行参数。</param>
         /// <returns>外部进程的输出。</returns>
-        /// <exception cref="ExternalProcessRunnerException">外部进程运行错误异常。</exception>
-        public static string Run(string target, string args)
+        /// <exception cref="ProcessExtensionException">外部进程运行错误异常。</exception>
+        public static string RunExternalProcess(string target, string args)
         {
             string workingDirectory = StorageHelper.GetSectionFolderPath("tools");
 
@@ -23,7 +23,7 @@ namespace Ruminoid.Toolbox.Utils
                 workingDirectory,
                 target + (RuntimeInformation.IsOSPlatform(OSPlatform.Windows) ? ".exe" : ""));
 
-            Process process = new Process
+            Process process = new()
             {
                 StartInfo = new ProcessStartInfo
                 {
@@ -50,12 +50,12 @@ namespace Ruminoid.Toolbox.Utils
             if (!process.HasExited)
             {
                 process.Kill(true);
-                throw new ExternalProcessRunnerException($"外部进程{target}因为超时而被强制退出。");
+                throw new ProcessExtensionException($"外部进程{target}因为超时而被强制退出。");
             }
 
             if (process.ExitCode != 0)
             {
-                throw new ExternalProcessRunnerException($"外部进程{target}错误退出，退出码为{process.ExitCode}。");
+                throw new ProcessExtensionException($"外部进程{target}错误退出，退出码为{process.ExitCode}。");
             }
 
             return result;
@@ -63,17 +63,17 @@ namespace Ruminoid.Toolbox.Utils
     }
 
     [Serializable]
-    public class ExternalProcessRunnerException : Exception
+    public class ProcessExtensionException : Exception
     {
-        public ExternalProcessRunnerException()
+        public ProcessExtensionException()
         {
         }
 
-        public ExternalProcessRunnerException(string message) : base(message)
+        public ProcessExtensionException(string message) : base(message)
         {
         }
 
-        public ExternalProcessRunnerException(string message, Exception inner) : base(message, inner)
+        public ProcessExtensionException(string message, Exception inner) : base(message, inner)
         {
         }
     }

@@ -17,7 +17,6 @@ using Microsoft.TemplateEngine.Core.Util;
 using Microsoft.TemplateEngine.Utils;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using Ruminoid.Toolbox.Utils;
 using Ruminoid.Toolbox.Utils.Extensions;
 
 namespace Ruminoid.Toolbox.Composition.Roslim
@@ -106,7 +105,7 @@ namespace Ruminoid.Toolbox.Composition.Roslim
                 _logger.LogDebug("Using: {target} {args}", target, args);
 
                 // Parse Meta
-                string metaResult = ExternalProcessRunner.Run(target, args);
+                string metaResult = ProcessExtension.RunExternalProcess(target, args);
                 JObject meta = JObject.Parse(metaResult);
 
                 _logger.LogDebug("Parsed meta: {metaResult}", metaResult);
