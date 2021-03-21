@@ -10,7 +10,7 @@ VIDEO_PATH = r'rmbox-input'
 SUB_PATH = r'rmbox-subtitle'
 
 clip = core.lsmas.LWLibavSource(VIDEO_PATH)
-clip = core.resize.Bicubic(clip, format=YUV420P8, matrix_s="709")
+clip = core.resize.Bicubic(clip, format=YUV420P8)
 clip = core.vsfm.TextSubMod(clip, SUB_PATH)
 clip.set_output()
 `
