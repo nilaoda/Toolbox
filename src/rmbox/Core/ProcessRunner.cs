@@ -8,6 +8,7 @@ using System.Reactive;
 using System.Reactive.Concurrency;
 using System.Reactive.Linq;
 using System.Reactive.Subjects;
+using System.Runtime.InteropServices;
 using System.Text;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
@@ -129,8 +130,9 @@ namespace Ruminoid.Toolbox.Core
                     RedirectStandardInput = true,
                     RedirectStandardOutput = true,
                     UseShellExecute = false,
-                    Arguments = ' ' + args,
-                    FileName = targetPath,
+                    Arguments = (RuntimeInformation.IsOSPlatform(OSPlatform.Windows) ? "/c" : "-c") + ' ' +
+                                (targetPath.EscapePathStringForArg() + ' ' + args).EscapePathStringForArg(),
+                    FileName = ProcessExtension.GetPathExecutable(),
                     WindowStyle = ProcessWindowStyle.Hidden
                 },
                 EnableRaisingEvents = true
