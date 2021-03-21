@@ -6,7 +6,7 @@
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
         x:Class="Ruminoid.Toolbox.Shell.Views.ChooseOperationWindow"
         Title="选择任务"
-        Icon="resm:rmbox-shell.Assets.rmbox.ico"
+        Icon="resm:Ruminoid.Toolbox.Shell.Assets.rmbox.ico"
         Width="1050" Height="600"
         MinWidth="1050" MinHeight="600">
 

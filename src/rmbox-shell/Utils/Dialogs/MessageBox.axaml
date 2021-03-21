@@ -5,7 +5,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d" d:DesignWidth="400" d:DesignHeight="300"
     x:Class="Ruminoid.Toolbox.Shell.Utils.Dialogs.MessageBox"
-    Icon="resm:rmbox-shell.Assets.rmbox.ico"
+    Icon="resm:Ruminoid.Toolbox.Shell.Assets.rmbox.ico"
     ExtendClientAreaChromeHints="NoChrome"
     ExtendClientAreaTitleBarHeightHint="-1"
     ExtendClientAreaToDecorationsHint="True"

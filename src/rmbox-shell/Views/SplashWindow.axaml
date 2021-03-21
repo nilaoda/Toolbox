@@ -6,7 +6,7 @@
         mc:Ignorable="d" d:DesignWidth="500" d:DesignHeight="600"
         x:Class="Ruminoid.Toolbox.Shell.Views.SplashWindow"
         Title="Toolbox"
-        Icon="resm:rmbox-shell.Assets.rmbox.ico"
+        Icon="resm:Ruminoid.Toolbox.Shell.Assets.rmbox.ico"
         ExtendClientAreaChromeHints="NoChrome"
         ExtendClientAreaTitleBarHeightHint="-1"
         ExtendClientAreaToDecorationsHint="True"
@@ -36,7 +36,7 @@
 
         <Image
             Grid.Row="0"
-            Source="resm:rmbox-shell.Assets.rmbox.png"
+            Source="resm:Ruminoid.Toolbox.Shell.Assets.rmbox.png"
             Width="200"
             Height="200"/>
         <Grid

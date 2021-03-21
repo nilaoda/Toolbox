@@ -8,7 +8,7 @@
                  mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
                  x:Class="Ruminoid.Toolbox.Shell.Operations.Views.BatchOperationWindow"
                  Title="{Binding OperationModel.Name, StringFormat=批量任务：{0}}"
-                 Icon="resm:rmbox-shell.Assets.rmbox.ico"
+                 Icon="resm:Ruminoid.Toolbox.Shell.Assets.rmbox.ico"
                  Width="1050" Height="600"
                  MinWidth="1050" MinHeight="600">
     <Grid RowDefinitions="*,Auto">

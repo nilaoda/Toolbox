@@ -8,7 +8,7 @@
                  mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
                  x:Class="Ruminoid.Toolbox.Shell.Views.MainWindow"
                  Title="Toolbox"
-                 Icon="resm:rmbox-shell.Assets.rmbox.ico"
+                 Icon="resm:Ruminoid.Toolbox.Shell.Assets.rmbox.ico"
                  Width="1050" Height="600"
                  MinWidth="1050" MinHeight="600">
     <TabControl
@@ -20,7 +20,7 @@
                 VerticalAlignment="Center"
                 Spacing="18">
                 <Image
-                    Source="resm:rmbox-shell.Assets.rmbox.png"
+                    Source="resm:Ruminoid.Toolbox.Shell.Assets.rmbox.png"
                     Width="150" Height="150"
                     HorizontalAlignment="Center"/>
 
