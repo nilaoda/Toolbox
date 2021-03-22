@@ -54,11 +54,15 @@ namespace Ruminoid.Toolbox.Core
                     ReconnectTimeout = TimeSpan.FromSeconds(30)
                 };
 
+#if DEBUG
+
                 _websocketClient.ReconnectionHappened
                     .Subscribe(info =>
                     {
                         _logger.LogWarning($"Dynamic link reconnected because of {info.Type}");
                     });
+
+#endif
 
                 _websocketClient.MessageReceived
                     .Where(x => x.MessageType == WebSocketMessageType.Text)
