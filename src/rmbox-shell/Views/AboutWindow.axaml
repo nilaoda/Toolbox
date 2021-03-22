@@ -9,93 +9,98 @@
         Icon="resm:Ruminoid.Toolbox.Shell.Assets.rmbox.ico"
         Width="1000" Height="600"
         CanResize="False">
-    <TabControl>
-        <TabItem Header="快速上手">
-            <ScrollViewer
-                HorizontalScrollBarVisibility="Disabled"
-                VerticalScrollBarVisibility="Auto">
+    <Grid
+        RowDefinitions="*,Auto">
+        <TabControl
+            Grid.Row="0">
+            <TabItem Header="快速上手">
+                <ScrollViewer
+                    HorizontalScrollBarVisibility="Disabled"
+                    VerticalScrollBarVisibility="Auto">
+                    <StackPanel
+                        Spacing="12"
+                        Margin="24">
+                        <StackPanel.Styles>
+                            <Style Selector="TextBlock.title">
+                                <Setter Property="FontSize" Value="18"/>
+                                <Setter Property="FontWeight" Value="Bold"/>
+                            </Style>
+                        </StackPanel.Styles>
+
+                        <TextBlock>首先，确保你的Ruminoid Toolbox是最新的。</TextBlock>
+                        <StackPanel
+                            Orientation="Horizontal">
+                            <TextBlock>下载+更新：</TextBlock>
+                            <controls:Hyperlink
+                                Url="https://update.ruminoid.world/">https://update.ruminoid.world/</controls:Hyperlink>
+                        </StackPanel>
+                        <TextBlock
+                            Classes="title">开始上手</TextBlock>
+                        <StackPanel
+                            Orientation="Horizontal">
+                            <TextBlock>教程：</TextBlock>
+                            <controls:Hyperlink
+                                Url="https://update.ruminoid.world/">https://update.ruminoid.world/</controls:Hyperlink>
+                        </StackPanel>
+                        <TextBlock
+                            Classes="title">遇到问题……</TextBlock>
+                        <StackPanel
+                            Orientation="Horizontal">
+                            <TextBlock>阅读文档和指南：</TextBlock>
+                            <controls:Hyperlink
+                                Url="https://update.ruminoid.world/">https://update.ruminoid.world/</controls:Hyperlink>
+                        </StackPanel>
+                        <TextBlock>如果上述方法未能解决你的问题，你可以加入群聊反馈。</TextBlock>
+                        <StackPanel
+                            Orientation="Horizontal">
+                            <TextBlock>首先阅读：</TextBlock>
+                            <controls:Hyperlink
+                                Url="https://down.7086.in/smart-questions/">提问的智慧</controls:Hyperlink>
+                        </StackPanel>
+                        <StackPanel
+                            Orientation="Horizontal">
+                            <TextBlock>加群：</TextBlock>
+                            <controls:Hyperlink
+                                Url="https://qm.qq.com/cgi-bin/qm/qr?k=YpkYzFfH5vOcjvLl2zZprJZgB-ixiTi5">470394928</controls:Hyperlink>
+                        </StackPanel>
+                    </StackPanel>
+                </ScrollViewer>
+            </TabItem>
+
+            <TabItem Header="关于">
                 <StackPanel
-                    Spacing="12"
-                    Margin="24">
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center">
                     <StackPanel.Styles>
-                        <Style Selector="TextBlock.title">
-                            <Setter Property="FontSize" Value="18"/>
-                            <Setter Property="FontWeight" Value="Bold"/>
+                        <Style Selector="TextBlock.info">
+                            <Setter Property="Margin" Value="12"/>
+                            <Setter Property="TextAlignment" Value="Center"/>
                         </Style>
                     </StackPanel.Styles>
+                    <Image
+                        Source="resm:Ruminoid.Toolbox.Shell.Assets.rmbox.png"
+                        Width="200"
+                        Height="200"
+                        Margin="24"/>
 
-                    <TextBlock>首先，确保你的Ruminoid Toolbox是最新的。</TextBlock>
-                    <StackPanel
-                        Orientation="Horizontal">
-                        <TextBlock>下载+更新：</TextBlock>
-                        <controls:Hyperlink
-                            Url="https://update.ruminoid.world/">https://update.ruminoid.world/</controls:Hyperlink>
-                    </StackPanel>
-                    <TextBlock
-                        Classes="title">开始上手</TextBlock>
-                    <StackPanel
-                        Orientation="Horizontal">
-                        <TextBlock>教程：</TextBlock>
-                        <controls:Hyperlink
-                            Url="https://update.ruminoid.world/">https://update.ruminoid.world/</controls:Hyperlink>
-                    </StackPanel>
-                    <TextBlock
-                        Classes="title">遇到问题……</TextBlock>
-                    <StackPanel
-                        Orientation="Horizontal">
-                        <TextBlock>阅读文档和指南：</TextBlock>
-                        <controls:Hyperlink
-                            Url="https://update.ruminoid.world/">https://update.ruminoid.world/</controls:Hyperlink>
-                    </StackPanel>
-                    <TextBlock>如果上述方法未能解决你的问题，你可以加入群聊反馈。</TextBlock>
-                    <StackPanel
-                        Orientation="Horizontal">
-                        <TextBlock>首先阅读：</TextBlock>
-                        <controls:Hyperlink
-                            Url="https://down.7086.in/smart-questions/">提问的智慧</controls:Hyperlink>
-                    </StackPanel>
-                    <StackPanel
-                        Orientation="Horizontal">
-                        <TextBlock>加群：</TextBlock>
-                        <controls:Hyperlink
-                            Url="https://qm.qq.com/cgi-bin/qm/qr?k=YpkYzFfH5vOcjvLl2zZprJZgB-ixiTi5">470394928</controls:Hyperlink>
-                    </StackPanel>
+                    <TextBlock Text="Ruminoid Toolbox"
+                               FontSize="18"
+                               FontWeight="Bold"
+                               Classes="info"/>
+                    <TextBlock Text="{Binding VersionSummary}"
+                               Classes="info"/>
+                    <TextBlock Text="{Binding VersionDetail}"
+                               Classes="info"/>
                 </StackPanel>
-            </ScrollViewer>
-        </TabItem>
+            </TabItem>
+        </TabControl>
 
-        <TabItem Header="关于">
-            <StackPanel
-                HorizontalAlignment="Center"
-                VerticalAlignment="Center">
-                <StackPanel.Styles>
-                    <Style Selector="TextBlock.info">
-                        <Setter Property="Margin" Value="12"/>
-                        <Setter Property="TextAlignment" Value="Center"/>
-                    </Style>
-                </StackPanel.Styles>
-                <Image
-                    Source="resm:Ruminoid.Toolbox.Shell.Assets.rmbox.png"
-                    Width="200"
-                    Height="200"
-                    Margin="24"/>
-
-                <TextBlock Text="Ruminoid Toolbox"
-                           FontSize="18"
-                           FontWeight="Bold"
-                           Classes="info"/>
-                <TextBlock Text="{Binding VersionSummary}"
-                           Classes="info"/>
-                <TextBlock Text="{Binding VersionDetail}"
-                           Classes="info"/>
-
-                <controls:DrawingIconButton
-                    Icon="{DynamicResource VSCodeLight.check}"
-                    HorizontalAlignment="Center"
-                    Content="确定"
-                    Margin="24"
-                    Command="{Binding DoCloseWindow}"/>
-            </StackPanel>
-        </TabItem>
-    </TabControl>
+        <controls:DrawingIconButton
+            Grid.Row="1"
+            Icon="{DynamicResource VSCodeLight.check}"
+            HorizontalAlignment="Center"
+            Content="确定"
+            Margin="24"
+            Command="{Binding DoCloseWindow}"/>
+    </Grid>
 </Window>
