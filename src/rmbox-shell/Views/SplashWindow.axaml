@@ -3,14 +3,14 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:viewModels="clr-namespace:Ruminoid.Toolbox.Shell.ViewModels"
-        mc:Ignorable="d" d:DesignWidth="500" d:DesignHeight="600"
+        mc:Ignorable="d" d:DesignWidth="500" d:DesignHeight="650"
         x:Class="Ruminoid.Toolbox.Shell.Views.SplashWindow"
         Title="Toolbox"
         Icon="resm:Ruminoid.Toolbox.Shell.Assets.rmbox.ico"
         ExtendClientAreaChromeHints="NoChrome"
         ExtendClientAreaTitleBarHeightHint="-1"
         ExtendClientAreaToDecorationsHint="True"
-        Width="500" Height="600"
+        Width="500" Height="650"
         CanResize="False"
         WindowStartupLocation="CenterScreen"
         ShowActivated="True"
@@ -21,11 +21,10 @@
     </Window.DataContext>
 
     <Grid
-        RowDefinitions="*,Auto">
+        RowDefinitions="*,Auto,Auto">
         <Grid.Styles>
             <Style Selector="TextBlock">
                 <Setter Property="Foreground" Value="#FF61F6"/>
-                <Setter Property="Margin" Value="0,6"/>
             </Style>
 
             <Style Selector="TextBlock.header">
@@ -42,7 +41,8 @@
         <Grid
             Grid.Row="1">
             <StackPanel
-                Margin="48,24">
+                Margin="48,0"
+                Spacing="14">
                 <TextBlock
                     Text="Ruminoid Toolbox"
                     Classes="header"/>
@@ -50,6 +50,23 @@
                     Text="{Binding VersionSummary}"/>
                 <TextBlock
                     Text="{Binding InitializeStatus}"/>
+            </StackPanel>
+        </Grid>
+
+        <Grid
+            Grid.Row="2">
+            <StackPanel
+                Margin="30,24"
+                Spacing="8">
+                <Grid
+                    Height="1"
+                    Background="#FFFF61F6"
+                    Opacity="0.2"/>
+                <TextBlock
+                    Text="这是一个免费软件。如果你付费得到了本软件，请立即寻找投诉渠道并与我联系。"
+                    Opacity="0.6"
+                    Margin="6,0"
+                    TextWrapping="Wrap"/>
             </StackPanel>
         </Grid>
     </Grid>
