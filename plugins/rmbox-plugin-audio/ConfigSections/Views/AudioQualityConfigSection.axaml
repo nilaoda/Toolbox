@@ -1,0 +1,74 @@
+<core:ConfigSectionBase xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:core="clr-namespace:Ruminoid.Toolbox.Core;assembly=rmbox-plugbase"
+             xmlns:viewModels="clr-namespace:Ruminoid.Toolbox.Plugins.Audio.ConfigSections.ViewModels"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="Ruminoid.Toolbox.Plugins.Audio.ConfigSections.Views.AudioQualityConfigSection">
+    <core:ConfigSectionBase.DataContext>
+        <viewModels:AudioQualityConfigSectionViewModel/>
+    </core:ConfigSectionBase.DataContext>
+
+    <core:ConfigSectionBase.Styles>
+        <Style Selector="TextBlock.title">
+            <Setter Property="Margin" Value="0,12"/>
+            <Setter Property="FontSize" Value="18"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+        </Style>
+
+        <Style Selector="TextBlock.description">
+            <Setter Property="TextWrapping" Value="Wrap"/>
+        </Style>
+
+        <Style Selector="Grid.section">
+            <Setter Property="Margin" Value="0,6"/>
+        </Style>
+
+        <Style Selector="StackPanel.presets-panel">
+            <Setter Property="Orientation" Value="Horizontal"/>
+        </Style>
+
+        <Style Selector="StackPanel.presets-panel Button">
+            <Setter Property="Margin" Value="6,0"/>
+            <Setter Property="Width" Value="150"/>
+            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+        </Style>
+
+        <Style Selector="NumericUpDown">
+            <Setter Property="Width" Value="200"/>
+            <Setter Property="HorizontalAlignment" Value="Left"/>
+            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+        </Style>
+    </core:ConfigSectionBase.Styles>
+
+    <ScrollViewer
+        HorizontalScrollBarVisibility="Hidden"
+        VerticalScrollBarVisibility="Auto">
+        <StackPanel Margin="24">
+            <Grid>
+                <StackPanel>
+                    <Grid Classes="section">
+                        <TextBlock Classes="title">码率</TextBlock>
+                    </Grid>
+
+                    <Grid Classes="section">
+                        <NumericUpDown
+                            Value="{Binding Bitrate}"
+                            Increment="100"/>
+                    </Grid>
+
+                    <Grid Classes="section">
+                        <TextBlock Classes="title">说明</TextBlock>
+                    </Grid>
+
+                    <Grid Classes="section">
+                        <TextBlock Classes="description">
+                            在解码器支持的范围内，音频码率越高，音频质量越好。
+                        </TextBlock>
+                    </Grid>
+                </StackPanel>
+            </Grid>
+        </StackPanel>
+    </ScrollViewer>
+</core:ConfigSectionBase>
