@@ -1,0 +1,95 @@
+<core:ConfigSectionBase xmlns="https://github.com/avaloniaui"
+                   xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                   xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                   xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                   xmlns:core="clr-namespace:Ruminoid.Toolbox.Core;assembly=rmbox-plugbase"
+                   mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+                   x:Class="Ruminoid.Toolbox.Plugins.Common.ConfigSections.Views.MuxConfigSection">
+    <core:ConfigSectionBase.Styles>
+        <Style Selector="TextBlock.title">
+            <Setter Property="Margin" Value="0,12"/>
+            <Setter Property="FontSize" Value="18"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+        </Style>
+
+        <Style Selector="TextBlock.description">
+            <Setter Property="Margin" Value="0,6"/>
+            <Setter Property="TextWrapping" Value="Wrap"/>
+        </Style>
+
+        <Style Selector="Grid.file-grid">
+            <Setter Property="Margin" Value="0,6"/>
+        </Style>
+
+        <Style Selector="Button">
+            <Setter Property="Margin" Value="6,0"/>
+        </Style>
+    </core:ConfigSectionBase.Styles>
+
+    <StackPanel Margin="24">
+        <TextBlock Classes="title">视频</TextBlock>
+        <TextBlock Classes="description">
+            指定视频文件。
+        </TextBlock>
+        <Grid Classes="file-grid"
+              ColumnDefinitions="*,Auto">
+            <TextBox
+                Grid.Column="0"
+                Text="{Binding Video}" />
+            <Button
+                Grid.Column="1"
+                Content="浏览"
+                Command="{Binding PickFile}"
+                CommandParameter="Video"/>
+        </Grid>
+        <TextBlock Classes="title">音频</TextBlock>
+        <TextBlock Classes="description">
+            指定音频文件。
+        </TextBlock>
+        <Grid Classes="file-grid"
+              ColumnDefinitions="*,Auto">
+            <TextBox
+                Grid.Column="0"
+                Text="{Binding Audio}" />
+            <Button
+                Grid.Column="1"
+                Content="浏览"
+                Command="{Binding PickFile}"
+                CommandParameter="Audio"/>
+        </Grid>
+        <TextBlock
+            Classes="title"
+            IsVisible="{Binding SupportSubtitle}">字幕</TextBlock>
+        <TextBlock
+            Classes="description"
+            IsVisible="{Binding SupportSubtitle}">
+            指定字幕文件。可以留空。
+        </TextBlock>
+        <Grid Classes="file-grid"
+              ColumnDefinitions="*,Auto"
+              IsVisible="{Binding SupportSubtitle}">
+            <TextBox
+                Grid.Column="0"
+                Text="{Binding Subtitle}" />
+            <Button
+                Grid.Column="1"
+                Content="浏览"
+                Command="{Binding PickFile}"
+                CommandParameter="Subtitle"/>
+        </Grid>
+        <TextBlock Classes="title">输出</TextBlock>
+        <TextBlock Classes="description">
+            指定输出文件。输出文件可以是操作所支持的任何文件格式。
+        </TextBlock>
+        <Grid Classes="file-grid"
+              ColumnDefinitions="*,Auto">
+            <TextBox
+                Grid.Column="0"
+                Text="{Binding Output}" />
+            <Button
+                Grid.Column="1"
+                Content="浏览"
+                Command="{Binding SaveFile}"/>
+        </Grid>
+    </StackPanel>
+</core:ConfigSectionBase>
