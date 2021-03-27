@@ -98,6 +98,19 @@
                     </Grid>
 
                     <Grid Classes="section">
+                        <TextBlock Classes="title">预设</TextBlock>
+                    </Grid>
+
+                    <Grid Classes="section">
+                        <StackPanel Classes="presets-panel">
+                            <Button Command="{Binding ApplyCqpPreset}" CommandParameter="20:22:24">小视频</Button>
+                            <Button Command="{Binding ApplyCqpPreset}" CommandParameter="16:18:20">一般</Button>
+                            <Button Command="{Binding ApplyCqpPreset}" CommandParameter="12:14:16">BD/蓝光</Button>
+                            <Button Command="{Binding ApplyCqpPreset}" CommandParameter="10:11:12">无损</Button>
+                        </StackPanel>
+                    </Grid>
+
+                    <Grid Classes="section">
                         <TextBlock Classes="title">说明</TextBlock>
                     </Grid>
 

@@ -39,7 +39,7 @@ namespace Ruminoid.Toolbox.Plugins.HwEnc.ConfigSections.ViewModels
 
         #region Commands
 
-        //public void ApplyCbrPreset(int value) => CbrValue = value;
+        public void ApplyCqpPreset(string value) => CqpValue = value;
 
         #endregion
     }
