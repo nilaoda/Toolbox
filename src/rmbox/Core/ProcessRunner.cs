@@ -135,7 +135,7 @@ namespace Ruminoid.Toolbox.Core
                     RedirectStandardOutput = true,
                     UseShellExecute = false,
                     Arguments = (RuntimeInformation.IsOSPlatform(OSPlatform.Windows) ? "/c" : "-c") + ' ' +
-                                (targetPath.EscapePathStringForArg() + ' ' + args).EscapePathStringForArg(),
+                                (targetPath.EscapePathStringForArg() + ' ' + args).EscapePathStringForArg(!RuntimeInformation.IsOSPlatform(OSPlatform.Windows)),
                     FileName = ProcessExtension.GetPathExecutable(),
                     WindowStyle = ProcessWindowStyle.Hidden
                 },

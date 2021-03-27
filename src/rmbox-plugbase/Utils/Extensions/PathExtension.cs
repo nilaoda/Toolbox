@@ -47,8 +47,9 @@ namespace Ruminoid.Toolbox.Utils.Extensions
                 .ToArray();
 
         public static string EscapePathStringForArg(
-            this string path) =>
-            $"\"{path}\"";
+            this string path,
+            bool useSingleQuote = false) =>
+            useSingleQuote ? $"\"{path}\"" : $"'{path}'";
 
         public static string EscapeForCode(
             this string str) =>
