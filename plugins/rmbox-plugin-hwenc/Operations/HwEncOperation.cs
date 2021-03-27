@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using Newtonsoft.Json.Linq;
 using Ruminoid.Toolbox.Core;
 using Ruminoid.Toolbox.Utils.Extensions;
@@ -15,43 +16,39 @@ namespace Ruminoid.Toolbox.Plugins.HwEnc.Operations
     {
         public List<(string Target, string Args, string Formatter)> Generate(Dictionary<string, JToken> sectionData)
         {
+            #region 输入/输出
+
             JToken ioSection =
                 sectionData[ConfigSectionBase.IOConfigSectionId];
-            JToken hwEncQualitySection =
-                sectionData["Ruminoid.Toolbox.Plugins.HwEnc.ConfigSections.HwEncQualityConfigSection"];
-            JToken hwEncCodecSection =
-                sectionData["Ruminoid.Toolbox.Plugins.HwEnc.ConfigSections.HwEncCodecConfigSection"];
-            JToken hwEncCoreSection =
-                sectionData["Ruminoid.Toolbox.Plugins.HwEnc.ConfigSections.HwEncCoreConfigSection"];
-            JToken audioSection =
-                sectionData["Ruminoid.Toolbox.Plugins.Audio.ConfigSections.AudioConfigSection"];
-            JToken customArgsSection =
-                sectionData["Ruminoid.Toolbox.Plugins.Common.ConfigSections.CustomArgsConfigSection"];
 
-            string hwEncCore = hwEncCoreSection["core"]?.ToObject<string>();
+            #endregion
 
-            string customArgs = customArgsSection["args"]?.ToObject<string>();
-            bool useCustomArgs = !string.IsNullOrWhiteSpace(customArgs);
-
-            string defaultArgs = "";
-
-            string audioMode = audioSection["mode"]?.ToObject<string>();
-            string audioArgs = audioMode switch
-            {
-                "process" => "--audio-codec --audio-bitrate " + audioSection["bitrate"]?.ToObject<int>(),
-                "none" => "",
-                _ => "--audio-copy"
-            };
+            #region 输入文件
 
             string inputPathIntl = PathExtension.GetFullPathOrEmpty(ioSection["input"]?.ToObject<string>() ?? string.Empty);
             string inputPath = inputPathIntl.EscapePathStringForArg();
+
+            #endregion
+
+            #region 输入字幕
+
             string subtitlePathIntl = PathExtension.GetFullPathOrEmpty(ioSection["subtitle"]?.ToObject<string>() ?? string.Empty);
             string subtitlePath = subtitlePathIntl.EscapePathStringForArg();
-            string outputPath = PathExtension.GetFullPathOrEmpty(ioSection["output"]?.ToObject<string>() ?? string.Empty).EscapePathStringForArg();
+
+            #endregion
+
+            #region 字幕相关
+
+            bool isIncludingSubtitle = !string.IsNullOrWhiteSpace(subtitlePathIntl);
+
+            #endregion
+
+            #region VapourSynth 相关
+
             string lwiPath = (inputPathIntl + ".lwi").EscapePathStringForArg();
 
             bool isVpy = inputPathIntl.EndsWith(".vpy");
-            bool isVsfm = !string.IsNullOrEmpty(subtitlePathIntl);
+            bool isVsfm = isIncludingSubtitle;
 
             bool useVpy = isVpy || isVsfm;
 
@@ -60,7 +57,85 @@ namespace Ruminoid.Toolbox.Plugins.HwEnc.Operations
                     "不支持在 VapourSynth 输入上使用 VSFilterMod。请在 VapourSynth 中完成字幕处理。",
                     typeof(HwEncOperation));
 
+            #endregion
+
+            #region 显卡相关
+
+            JToken hwEncQualitySection =
+                sectionData["Ruminoid.Toolbox.Plugins.HwEnc.ConfigSections.HwEncQualityConfigSection"];
+            JToken hwEncCodecSection =
+                sectionData["Ruminoid.Toolbox.Plugins.HwEnc.ConfigSections.HwEncCodecConfigSection"];
+            JToken hwEncCoreSection =
+                sectionData["Ruminoid.Toolbox.Plugins.HwEnc.ConfigSections.HwEncCoreConfigSection"];
+
+            string hwEncCore = hwEncCoreSection["core"]?.ToObject<string>();
+
+            string vtempPath = Path.ChangeExtension(inputPathIntl, "vtemp.mp4").EscapePathStringForArg();
+
+            #endregion
+
+            #region 音频
+
+            JToken audioSection =
+                sectionData["Ruminoid.Toolbox.Plugins.Audio.ConfigSections.AudioConfigSection"];
+
+            #endregion
+
+            #region 音频相关
+
+            string atempPath = Path.ChangeExtension(inputPathIntl, "atemp.aac").EscapePathStringForArg();
+
+            string audioMode = audioSection["mode"]?.ToObject<string>();
+
+            //bool hasAudio = audioMode != "none";
+            //int audioBitrate = audioSection["bitrate"].ToObject<int>();
+
+            string audioArgs = audioMode switch
+            {
+                "process" => "--audio-codec --audio-bitrate " + audioSection["bitrate"]?.ToObject<int>(),
+                "none" => "",
+                _ => "--audio-copy"
+            };
+
+            #endregion
+
+            #region 输出相关
+
+            string outputPath = PathExtension.GetFullPathOrEmpty(ioSection["output"]?.ToObject<string>() ?? string.Empty).EscapePathStringForArg();
+
+            #endregion
+
+            #region 自定义参数
+
+            JToken customArgsSection =
+                sectionData["Ruminoid.Toolbox.Plugins.Common.ConfigSections.CustomArgsConfigSection"];
+
+            string customArgs = customArgsSection["args"]?.ToObject<string>();
+            bool useCustomArgs = !string.IsNullOrWhiteSpace(customArgs);
+
+            string defaultArgs = "";
+
+            #endregion
+
+            #region 准备命令
+
             List<(string Target, string Args, string Formatter)> result = new();
+
+            #endregion
+
+            // 开始处理
+
+            #region 处理音频
+
+            if (isVsfm)
+                result.Add(new(
+                    "ffmpeg",
+                    $"-i {inputPath} -vn -sn -c:a copy -y -map 0:a:0 {atempPath}",
+                    "null"));
+
+            #endregion
+
+            #region 处理 VSFM
 
             if (isVsfm)
             {
@@ -74,6 +149,10 @@ namespace Ruminoid.Toolbox.Plugins.HwEnc.Operations
                 inputPath = vpyPath;
             }
 
+            #endregion
+
+            #region 处理视频
+
             string encodeMode = hwEncQualitySection["encode_mode"]?.ToObject<string>() switch
             {
                 "cqp" => $"--cqp {hwEncQualitySection["cqp_value"]?.ToObject<string>()}",
@@ -84,20 +163,24 @@ namespace Ruminoid.Toolbox.Plugins.HwEnc.Operations
 
             result.Add(
                 (hwEncCore,
-                    $"{(useVpy ? "--vpy" : "--avhw")} -i {inputPath} -o {outputPath} {audioArgs} --codec {hwEncCodecSection["codec"]?.ToObject<string>()} {encodeMode} {(useCustomArgs ? customArgs : defaultArgs)}",
+                    $"{(useVpy ? "--vpy" : "--avhw")} -i {inputPath} -o {outputPath} {(isVsfm ? "--audio-source " + atempPath : "")} {audioArgs} --codec {hwEncCodecSection["codec"]?.ToObject<string>()} {encodeMode} {(useCustomArgs ? customArgs : defaultArgs)}",
                     hwEncCore));
 
-            if (useVpy)
-            {
-                result.Add(
-                    ("pwsh",
-                        "-Command If (Test-Path " + lwiPath + " ) { Remove-Item " + lwiPath + " }",
-                        "null"));
-                result.Add(
-                    ("pwsh",
-                        $"-Command Remove-Item {inputPath}",
-                        "null"));
-            }
+            #endregion
+
+            #region 清理临时文件
+
+            result.AddRange(new[]
+                {
+                    vtempPath, atempPath, lwiPath
+                }
+                .Select(CommandExtension.GenerateTryDeleteCommand)
+                .ToList());
+
+            if (isVsfm)
+                result.Add(CommandExtension.GenerateTryDeleteCommand(inputPath));
+
+            #endregion
 
             return result;
         }
