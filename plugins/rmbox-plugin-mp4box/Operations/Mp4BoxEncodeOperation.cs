@@ -221,11 +221,11 @@ namespace Ruminoid.Toolbox.Plugins.Mp4Box.Operations
                 {
                     vtempPath, atempPath, vtempStatsPath, vtempStatsMbtreePath, lwiPath
                 }
-                .Select(GenerateTryDeleteCommand)
+                .Select(CommandExtension.GenerateTryDeleteCommand)
                 .ToList());
 
             if (isVsfm)
-                result.Add(GenerateTryDeleteCommand(inputPath));
+                result.Add(CommandExtension.GenerateTryDeleteCommand(inputPath));
 
             #endregion
 
@@ -241,12 +241,6 @@ namespace Ruminoid.Toolbox.Plugins.Mp4Box.Operations
                 useVpy ? "VSPipe" : x264Core,
                 (useVpy ? $"--y4m {inputPath} - | {PathExtension.GetTargetPath(x264Core)} --demuxer y4m - " : "") + args + (useVpy ? "" : $" {inputPath}"),
                 x264Core);
-
-        public static (string Target, string Args, string Formatter) GenerateTryDeleteCommand(
-            string path) =>
-            new("pwsh",
-                "-Command If (Test-Path " + path + " ) { Remove-Item " + path + " }",
-                "null");
 
         public Dictionary<string, JToken> RequiredConfigSections => new()
         {
