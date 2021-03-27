@@ -6,10 +6,10 @@ using Ruminoid.Toolbox.Utils.Extensions;
 namespace Ruminoid.Toolbox.Plugins.FFmpeg.Operations
 {
     [Operation(
-        "Ruminoid.Toolbox.Plugins.FFmpeg.Operations.FFmpegCopyOperation",
-        "格式转换（不压制）",
-        "使用 FFmpeg 进行视频格式的转换（封装）。")]
-    public class FFmpegCopyOperation : IOperation
+        "Ruminoid.Toolbox.Plugins.FFmpeg.Operations.FFmpegMuxSubtitleOperation",
+        "内封字幕",
+        "使用 FFmpeg 封装字幕到视频。注意这不是压制。")]
+    public class FFmpegMuxSubtitleOperation : IOperation
     {
         public List<(string Target, string Args, string Formatter)> Generate(Dictionary<string, JToken> sectionData)
         {
@@ -17,24 +17,23 @@ namespace Ruminoid.Toolbox.Plugins.FFmpeg.Operations
                 sectionData[ConfigSectionBase.IOConfigSectionId];
 
             string inputPath = PathExtension.GetFullPathOrEmpty(ioSection["input"]?.ToObject<string>() ?? string.Empty).EscapePathStringForArg();
-            string subtitlePathIntl = PathExtension.GetFullPathOrEmpty(ioSection["subtitle"]?.ToObject<string>() ?? string.Empty);
-            string subtitlePath = subtitlePathIntl.EscapePathStringForArg();
+            string subtitlePath = PathExtension.GetFullPathOrEmpty(ioSection["subtitle"]?.ToObject<string>() ?? string.Empty).EscapePathStringForArg();
             string outputPath = PathExtension.GetFullPathOrEmpty(ioSection["output"]?.ToObject<string>() ?? string.Empty).EscapePathStringForArg();
 
-            return new List<(string, string, string)>
-            {
-                new(
-                    "ffmpeg",
-                    $"-i {inputPath} {(string.IsNullOrEmpty(subtitlePathIntl) ? "" : $"-i {subtitlePath}")} -y -c:v copy -c:a copy -c:s mov_text {outputPath}",
-                    "ffmpeg")
-            };
+            List<(string Target, string Args, string Formatter)> result = new();
+
+            result.Add((
+                "ffmpeg",
+                $"-i {inputPath} -i {subtitlePath} -y -c:v copy -c:a copy -c:s mov_text {outputPath}",
+                "ffmpeg"));
+
+            return result;
         }
 
         public Dictionary<string, JToken> RequiredConfigSections => new()
         {
             {
-                ConfigSectionBase.IOConfigSectionId,
-                JObject.FromObject(new
+                ConfigSectionBase.IOConfigSectionId, JObject.FromObject(new
                 {
                     support_subtitle = true
                 })

@@ -210,7 +210,7 @@ namespace Ruminoid.Toolbox.Plugins.Mp4Box.Operations
             if (hasAudio)
                 result.Add(new(
                     "ffmpeg",
-                    $"-i {vtempPath} -i {atempPath} -vcodec copy -acodec copy {outputPath}",
+                    $"-i {vtempPath} -i {atempPath} -vcodec copy -acodec copy -y {outputPath}",
                     "ffmpeg"));
 
             #endregion

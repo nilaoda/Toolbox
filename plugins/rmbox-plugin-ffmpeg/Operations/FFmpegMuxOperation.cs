@@ -27,7 +27,7 @@ namespace Ruminoid.Toolbox.Plugins.FFmpeg.Operations
 
             result.Add((
                 "ffmpeg",
-                $"-i {videoPath} -i {audioPath} {(string.IsNullOrEmpty(subtitlePathIntl) ? "" : $"-i {subtitlePath}")} -c:v copy -c:a copy -c:s mov_text {outputPath}",
+                $"-i {videoPath} -i {audioPath} {(string.IsNullOrEmpty(subtitlePathIntl) ? "" : $"-i {subtitlePath}")} -y -c:v copy -c:a copy -c:s mov_text {outputPath}",
                 "ffmpeg"));
 
             return result;
