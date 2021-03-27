@@ -59,6 +59,17 @@ namespace Ruminoid.Toolbox.Plugins.Mp4Box.Operations
 
             #endregion
 
+            #region x264 分离器
+
+            JToken x264DemuxerSection =
+                sectionData["Ruminoid.Toolbox.Plugins.X264.ConfigSections.X264DemuxerConfigSection"];
+
+            string demuxer = x264DemuxerSection["demuxer"]?.ToObject<string>();
+
+            string demuxerArgs = string.IsNullOrWhiteSpace(demuxer) || demuxer == "auto" ? "" : "--demuxer " + demuxer;
+
+            #endregion
+
             #region x264 质量
 
             JToken x264QualitySection =
@@ -178,7 +189,7 @@ namespace Ruminoid.Toolbox.Plugins.Mp4Box.Operations
                 case "crf":
                     result.Add(
                         GenerateVideoProcessingCommand(
-                            $"--crf {x264QualitySection["crf_value"]?.ToObject<double>():N1} {x264Args} -o {(hasAudio ? vtempPath : outputPath)}",
+                            $"--crf {x264QualitySection["crf_value"]?.ToObject<double>():N1} {demuxerArgs} {x264Args} -o {(hasAudio ? vtempPath : outputPath)}",
                             x264Core,
                             inputPath,
                             useVpy));
@@ -187,12 +198,12 @@ namespace Ruminoid.Toolbox.Plugins.Mp4Box.Operations
                     result.AddRange(new (string, string, string)[]
                     {
                         GenerateVideoProcessingCommand(
-                            $"--pass 1 --bitrate {x264QualitySection["2pass_value"]?.ToObject<int>()} --stats {vtempStatsPath} {x264Args} -o NUL",
+                            $"--pass 1 --bitrate {x264QualitySection["2pass_value"]?.ToObject<int>()} {demuxerArgs} --stats {vtempStatsPath} {x264Args} -o NUL",
                             x264Core,
                             inputPath,
                             useVpy),
                         GenerateVideoProcessingCommand(
-                            $"--pass 2 --bitrate {x264QualitySection["2pass_value"]?.ToObject<int>()} --stats {vtempStatsPath} {x264Args} -o {(hasAudio ? vtempPath : outputPath)}",
+                            $"--pass 2 --bitrate {x264QualitySection["2pass_value"]?.ToObject<int>()} {demuxerArgs} --stats {vtempStatsPath} {x264Args} -o {(hasAudio ? vtempPath : outputPath)}",
                             x264Core,
                             inputPath,
                             useVpy)
@@ -252,6 +263,7 @@ namespace Ruminoid.Toolbox.Plugins.Mp4Box.Operations
                 })
             },
             {"Ruminoid.Toolbox.Plugins.X264.ConfigSections.X264CoreConfigSection", new JObject()},
+            {"Ruminoid.Toolbox.Plugins.X264.ConfigSections.X264DemuxerConfigSection", new JObject()},
             {"Ruminoid.Toolbox.Plugins.X264.ConfigSections.X264EncodeQualityConfigSection", new JObject()},
             {"Ruminoid.Toolbox.Plugins.Audio.ConfigSections.AudioConfigSection", new JObject()},
             {"Ruminoid.Toolbox.Plugins.Common.ConfigSections.CustomArgsConfigSection", new JObject()}
