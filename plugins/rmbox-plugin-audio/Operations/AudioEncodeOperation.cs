@@ -23,11 +23,23 @@ namespace Ruminoid.Toolbox.Plugins.Audio.Operations
 
             int audioBitrate = audioSection["bitrate"].ToObject<int>();
 
+            #region 自定义参数
+
+            JToken customArgsSection =
+                sectionData["Ruminoid.Toolbox.Plugins.Common.ConfigSections.CustomArgsConfigSection"];
+
+            string customArgs = customArgsSection["args"]?.ToObject<string>();
+            bool useCustomArgs = !string.IsNullOrWhiteSpace(customArgs);
+
+            string defaultArgs = "";
+
+            #endregion
+
             return new List<(string, string, string)>
             {
                 new(
                     "qaac64",
-                    $" -q 2 --ignorelength -c {audioBitrate} {inputPath} -o {outputPath}",
+                    $" -q 2 --ignorelength -c {audioBitrate} {(useCustomArgs ? customArgs : defaultArgs)} {inputPath} -o {outputPath}",
                     "null")
             };
         }
@@ -35,7 +47,8 @@ namespace Ruminoid.Toolbox.Plugins.Audio.Operations
         public Dictionary<string, JToken> RequiredConfigSections => new()
         {
             {ConfigSectionBase.IOConfigSectionId, new JObject()},
-            {"Ruminoid.Toolbox.Plugins.Audio.ConfigSections.AudioQualityConfigSection", new JObject()}
+            {"Ruminoid.Toolbox.Plugins.Audio.ConfigSections.AudioQualityConfigSection", new JObject()},
+            {"Ruminoid.Toolbox.Plugins.Common.ConfigSections.CustomArgsConfigSection", new JObject()}
         };
     }
 }

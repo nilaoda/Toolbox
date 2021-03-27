@@ -19,18 +19,31 @@ namespace Ruminoid.Toolbox.Plugins.FFmpeg.Operations
             string inputPath = PathExtension.GetFullPathOrEmpty(ioSection["input"]?.ToObject<string>() ?? string.Empty).EscapePathStringForArg();
             string outputPath = PathExtension.GetFullPathOrEmpty(ioSection["output"]?.ToObject<string>() ?? string.Empty).EscapePathStringForArg();
 
+            #region 自定义参数
+
+            JToken customArgsSection =
+                sectionData["Ruminoid.Toolbox.Plugins.Common.ConfigSections.CustomArgsConfigSection"];
+
+            string customArgs = customArgsSection["args"]?.ToObject<string>();
+            bool useCustomArgs = !string.IsNullOrWhiteSpace(customArgs);
+
+            string defaultArgs = "-vn -sn -c:a copy -map 0:a:0";
+
+            #endregion
+
             return new List<(string, string, string)>
             {
                 new(
                     "ffmpeg",
-                    $"-i {inputPath} -vn -sn -c:a copy -y -map 0:a:0 {outputPath}",
+                    $"-i {inputPath} -y {(useCustomArgs ? customArgs : defaultArgs)} {outputPath}",
                     "ffmpeg")
             };
         }
 
         public Dictionary<string, JToken> RequiredConfigSections => new()
         {
-            {ConfigSectionBase.IOConfigSectionId, new JObject()}
+            {ConfigSectionBase.IOConfigSectionId, new JObject()},
+            {"Ruminoid.Toolbox.Plugins.Common.ConfigSections.CustomArgsConfigSection", new JObject()}
         };
     }
 }

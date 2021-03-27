@@ -20,11 +20,23 @@ namespace Ruminoid.Toolbox.Plugins.FFmpeg.Operations
             string subtitlePath = PathExtension.GetFullPathOrEmpty(ioSection["subtitle"]?.ToObject<string>() ?? string.Empty).EscapePathStringForArg();
             string outputPath = PathExtension.GetFullPathOrEmpty(ioSection["output"]?.ToObject<string>() ?? string.Empty).EscapePathStringForArg();
 
+            #region 自定义参数
+
+            JToken customArgsSection =
+                sectionData["Ruminoid.Toolbox.Plugins.Common.ConfigSections.CustomArgsConfigSection"];
+
+            string customArgs = customArgsSection["args"]?.ToObject<string>();
+            bool useCustomArgs = !string.IsNullOrWhiteSpace(customArgs);
+
+            string defaultArgs = "-c:v copy -c:a copy -c:s mov_text";
+
+            #endregion
+
             List<(string Target, string Args, string Formatter)> result = new();
 
             result.Add((
                 "ffmpeg",
-                $"-i {inputPath} -i {subtitlePath} -y -c:v copy -c:a copy -c:s mov_text {outputPath}",
+                $"-i {inputPath} -i {subtitlePath} -y {(useCustomArgs ? customArgs : defaultArgs)} {outputPath}",
                 "ffmpeg"));
 
             return result;
@@ -37,7 +49,8 @@ namespace Ruminoid.Toolbox.Plugins.FFmpeg.Operations
                 {
                     support_subtitle = true
                 })
-            }
+            },
+            {"Ruminoid.Toolbox.Plugins.Common.ConfigSections.CustomArgsConfigSection", new JObject()}
         };
     }
 }

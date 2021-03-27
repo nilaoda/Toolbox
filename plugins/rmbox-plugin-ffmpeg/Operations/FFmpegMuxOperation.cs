@@ -23,11 +23,23 @@ namespace Ruminoid.Toolbox.Plugins.FFmpeg.Operations
             string subtitlePathIntl = PathExtension.GetFullPathOrEmpty(muxSection["subtitle"]?.ToObject<string>() ?? string.Empty);
             string subtitlePath = subtitlePathIntl.EscapePathStringForArg();
 
+            #region 自定义参数
+
+            JToken customArgsSection =
+                sectionData["Ruminoid.Toolbox.Plugins.Common.ConfigSections.CustomArgsConfigSection"];
+
+            string customArgs = customArgsSection["args"]?.ToObject<string>();
+            bool useCustomArgs = !string.IsNullOrWhiteSpace(customArgs);
+
+            string defaultArgs = "-c:v copy -c:a copy -c:s mov_text";
+
+            #endregion
+
             List<(string Target, string Args, string Formatter)> result = new();
 
             result.Add((
                 "ffmpeg",
-                $"-i {videoPath} -i {audioPath} {(string.IsNullOrEmpty(subtitlePathIntl) ? "" : $"-i {subtitlePath}")} -y -c:v copy -c:a copy -c:s mov_text {outputPath}",
+                $"-i {videoPath} -i {audioPath} {(string.IsNullOrEmpty(subtitlePathIntl) ? "" : $"-i {subtitlePath}")} -y {(useCustomArgs ? customArgs : defaultArgs)} {outputPath}",
                 "ffmpeg"));
 
             return result;
@@ -35,7 +47,8 @@ namespace Ruminoid.Toolbox.Plugins.FFmpeg.Operations
 
         public Dictionary<string, JToken> RequiredConfigSections => new()
         {
-            {"Ruminoid.Toolbox.Plugins.Common.ConfigSections.MuxConfigSection", new JObject()}
+            {"Ruminoid.Toolbox.Plugins.Common.ConfigSections.MuxConfigSection", new JObject()},
+            {"Ruminoid.Toolbox.Plugins.Common.ConfigSections.CustomArgsConfigSection", new JObject()}
         };
     }
 }
