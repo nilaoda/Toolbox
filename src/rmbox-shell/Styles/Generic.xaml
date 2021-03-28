@@ -1,7 +1,7 @@
 ﻿<!-- Generic Styles -->
 <Styles xmlns="https://github.com/avaloniaui" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
     <Style Selector="Window">
-        <Setter Property="FontFamily" Value="Microsoft YaHei UI,Simsun,苹方-简,宋体-简"/>
+        <Setter Property="FontFamily" Value="Microsoft YaHei UI,Simsun,苹方-简,宋体-简,Segoe UI Emoji,Apple Color Emoji"/>
     </Style>
 
     <Style Selector="ListBox">
