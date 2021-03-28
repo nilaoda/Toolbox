@@ -19,8 +19,7 @@
             <ListBox
                 Grid.Row="1"
                 Items="{Binding OperationsList}"
-                SelectedItem="{Binding SelectedOperation}"
-                Background="{x:Null}">
+                SelectedItem="{Binding SelectedOperation}">
                 <ListBox.ItemsPanel>
                     <ItemsPanelTemplate>
                         <WrapPanel/>

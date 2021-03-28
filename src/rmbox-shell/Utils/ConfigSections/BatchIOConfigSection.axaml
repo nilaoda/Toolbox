@@ -43,6 +43,7 @@
                     <ListBox
                         Grid.Row="4"
                         Name="InputListBox"
+                        Classes="with-background"
                         Items="{Binding InputList}"
                         SelectedItem="{Binding SelectedInput}"/>
 

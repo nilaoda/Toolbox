@@ -3,4 +3,13 @@
     <Style Selector="Window">
         <Setter Property="FontFamily" Value="Microsoft YaHei UI,Simsun,苹方-简,宋体-简"/>
     </Style>
+
+    <Style Selector="ListBox">
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="VirtualizationMode" Value="None"/>
+    </Style>
+
+    <Style Selector="ListBox.with-background">
+        <Setter Property="Background" Value="#FFF2F2F2"/>
+    </Style>
 </Styles>

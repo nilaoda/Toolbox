@@ -132,8 +132,7 @@
       <ListBox
           Grid.Row="2"
           Items="{Binding Items}"
-          SelectedItem="{Binding SelectedItem}"
-          Background="{x:Null}">
+          SelectedItem="{Binding SelectedItem}">
           <ListBox.Styles>
               <Style Selector="ListBoxItem">
                   <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
