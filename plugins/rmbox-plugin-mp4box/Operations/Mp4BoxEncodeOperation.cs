@@ -14,7 +14,7 @@ namespace Ruminoid.Toolbox.Plugins.Mp4Box.Operations
         "使用小丸压制法进行视频压制。")]
     public class Mp4BoxEncodeOperation : IOperation
     {
-        public List<(string Target, string Args, string Formatter)> Generate(Dictionary<string, JToken> sectionData)
+        public List<TaskCommand> Generate(Dictionary<string, JToken> sectionData)
         {
             #region 输入/输出
 
@@ -134,7 +134,7 @@ namespace Ruminoid.Toolbox.Plugins.Mp4Box.Operations
 
             #region 准备命令
 
-            List<(string Target, string Args, string Formatter)> result = new();
+            List<TaskCommand> result = new();
 
             #endregion
 
@@ -195,7 +195,7 @@ namespace Ruminoid.Toolbox.Plugins.Mp4Box.Operations
                             useVpy));
                     break;
                 case "2pass":
-                    result.AddRange(new (string, string, string)[]
+                    result.AddRange(new[]
                     {
                         GenerateVideoProcessingCommand(
                             $"--pass 1 --bitrate {x264QualitySection["2pass_value"]?.ToObject<int>()} {demuxerArgs} --stats {vtempStatsPath} {x264Args} -o NUL",
@@ -243,7 +243,7 @@ namespace Ruminoid.Toolbox.Plugins.Mp4Box.Operations
             return result;
         }
 
-        public static (string Target, string Args, string Formatter) GenerateVideoProcessingCommand(
+        public static TaskCommand GenerateVideoProcessingCommand(
             string args,
             string x264Core,
             string inputPath,

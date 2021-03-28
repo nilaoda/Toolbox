@@ -19,7 +19,7 @@ namespace Ruminoid.Toolbox.Core.Parser
             _logger = logger;
         }
 
-        public List<(string Target, string Args, string Formatter)> Parse(JToken project)
+        public List<TaskCommand> Parse(JToken project)
         {
             try
             {

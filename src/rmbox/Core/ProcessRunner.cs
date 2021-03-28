@@ -182,14 +182,14 @@ namespace Ruminoid.Toolbox.Core
         /// 执行进程。
         /// </summary>
         /// <param name="command">指令。</param>
-        public void Run((string Target, string Args, string Formatter) command) =>
+        public void Run(TaskCommand command) =>
             Run(command.Target, command.Args, command.Formatter);
 
         /// <summary>
         /// 执行进程。
         /// </summary>
         /// <param name="commands">指令列表。</param>
-        public void Run(List<(string Target, string Args, string Formatter)> commands)
+        public void Run(List<TaskCommand> commands)
         {
             _logger.LogInformation($"开始运行 {commands.Count} 条指令。");
 

@@ -29,7 +29,7 @@ namespace Ruminoid.Toolbox.Core.Parser
         /// <summary>
         /// 解析 JSON 项目文件。
         /// </summary>
-        public List<(string Target, string Args, string Formatter)> Parse()
+        public List<TaskCommand> Parse()
         {
             _logger.LogDebug("Parsing using projectPath from ProcessOptions.");
 
@@ -41,7 +41,7 @@ namespace Ruminoid.Toolbox.Core.Parser
         /// 解析 JSON 项目文件。
         /// </summary>
         /// <param name="path">JSON 项目文件的路径。</param>
-        private List<(string Target, string Args, string Formatter)> Parse(string path)
+        private List<TaskCommand> Parse(string path)
         {
             _logger.LogDebug("Parsing projectPath:");
             _logger.LogDebug(path);
@@ -68,7 +68,7 @@ namespace Ruminoid.Toolbox.Core.Parser
             return Parse(project);
         }
         
-        public List<(string Target, string Args, string Formatter)> Parse(JToken project)
+        public List<TaskCommand> Parse(JToken project)
         {
             try
             {

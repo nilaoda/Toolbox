@@ -8,7 +8,7 @@ namespace Ruminoid.Toolbox.Core.Parser
         /// <summary>
         /// 解析 JSON 项目文件。
         /// </summary>
-        /// <param name="path">JSON 项目文件。</param>
-        public List<(string Target, string Args, string Formatter)> Parse(JToken project);
+        /// <param name="project">JSON 项目文件。</param>
+        public List<TaskCommand> Parse(JToken project);
     }
 }

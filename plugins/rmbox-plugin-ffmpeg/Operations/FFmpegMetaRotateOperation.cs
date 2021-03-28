@@ -11,7 +11,7 @@ namespace Ruminoid.Toolbox.Plugins.FFmpeg.Operations
         "纠正由于压制导致错误显示的画面方向（180°）。")]
     public class FFmpegMetaRotateOperation : IOperation
     {
-        public List<(string Target, string Args, string Formatter)> Generate(Dictionary<string, JToken> sectionData)
+        public List<TaskCommand> Generate(Dictionary<string, JToken> sectionData)
         {
             JToken ioSection =
                 sectionData[ConfigSectionBase.IOConfigSectionId];
@@ -31,7 +31,7 @@ namespace Ruminoid.Toolbox.Plugins.FFmpeg.Operations
 
             #endregion
 
-            return new List<(string, string, string)>
+            return new List<TaskCommand>
             {
                 new(
                     "ffmpeg",

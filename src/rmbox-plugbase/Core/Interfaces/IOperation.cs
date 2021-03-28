@@ -6,7 +6,7 @@ namespace Ruminoid.Toolbox.Core
 {
     public interface IOperation
     {
-        public List<(string Target, string Args, string Formatter)> Generate(Dictionary<string, JToken> sectionData);
+        public List<TaskCommand> Generate(Dictionary<string, JToken> sectionData);
 
         public Dictionary<string, JToken> RequiredConfigSections { get; }
     }

@@ -11,7 +11,7 @@ namespace Ruminoid.Toolbox.Plugins.Audio.Operations
         "使用 QAAC 压制音频。")]
     public class AudioEncodeOperation : IOperation
     {
-        public List<(string Target, string Args, string Formatter)> Generate(Dictionary<string, JToken> sectionData)
+        public List<TaskCommand> Generate(Dictionary<string, JToken> sectionData)
         {
             JToken ioSection =
                 sectionData[ConfigSectionBase.IOConfigSectionId];
@@ -35,7 +35,7 @@ namespace Ruminoid.Toolbox.Plugins.Audio.Operations
 
             #endregion
 
-            return new List<(string, string, string)>
+            return new List<TaskCommand>
             {
                 new(
                     "qaac64",

@@ -23,7 +23,7 @@ namespace Ruminoid.Toolbox.Core.Parser
 
         #endregion
 
-        public List<(string Target, string Args, string Formatter)> Parse(JToken project)
+        public List<TaskCommand> Parse(JToken project)
         {
             string subtitleFormat = project["subtitle_format"]?.ToObject<string>();
             string outputFormat = project["output_format"]?.ToObject<string>();

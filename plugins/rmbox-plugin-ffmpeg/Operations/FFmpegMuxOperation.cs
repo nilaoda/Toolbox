@@ -11,7 +11,7 @@ namespace Ruminoid.Toolbox.Plugins.FFmpeg.Operations
         "使用 FFmpeg 混流将音视频封装到一个媒体文件。")]
     public class FFmpegMuxOperation : IOperation
     {
-        public List<(string Target, string Args, string Formatter)> Generate(Dictionary<string, JToken> sectionData)
+        public List<TaskCommand> Generate(Dictionary<string, JToken> sectionData)
         {
             JToken muxSection =
                 sectionData["Ruminoid.Toolbox.Plugins.Common.ConfigSections.MuxConfigSection"];
@@ -35,7 +35,7 @@ namespace Ruminoid.Toolbox.Plugins.FFmpeg.Operations
 
             #endregion
 
-            List<(string Target, string Args, string Formatter)> result = new();
+            List<TaskCommand> result = new();
 
             result.Add((
                 "ffmpeg",

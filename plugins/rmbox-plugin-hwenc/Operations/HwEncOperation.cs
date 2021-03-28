@@ -14,7 +14,7 @@ namespace Ruminoid.Toolbox.Plugins.HwEnc.Operations
         "使用显卡进行视频压制。")]
     public class HwEncOperation : IOperation
     {
-        public List<(string Target, string Args, string Formatter)> Generate(Dictionary<string, JToken> sectionData)
+        public List<TaskCommand> Generate(Dictionary<string, JToken> sectionData)
         {
             #region 输入/输出
 
@@ -119,7 +119,7 @@ namespace Ruminoid.Toolbox.Plugins.HwEnc.Operations
 
             #region 准备命令
 
-            List<(string Target, string Args, string Formatter)> result = new();
+            List<TaskCommand> result = new();
 
             #endregion
 

@@ -6,6 +6,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Ruminoid.Toolbox.Core;
 using Ruminoid.Toolbox.Utils;
+using Ruminoid.Toolbox.Utils.Extensions;
 
 namespace Ruminoid.Toolbox.Composition.Roslim
 {
@@ -15,7 +16,7 @@ namespace Ruminoid.Toolbox.Composition.Roslim
         "(Roslim Operation)")]
     public class RoslimOperation : IOperation
     {
-        public List<(string Target, string Args, string Formatter)> Generate(Dictionary<string, JToken> sectionData)
+        public List<TaskCommand> Generate(Dictionary<string, JToken> sectionData)
         {
             string sectionDataPath = StorageHelper.GetSectionFilePath("temp", $"secdat-{Guid.NewGuid()}.json");
 
@@ -23,9 +24,9 @@ namespace Ruminoid.Toolbox.Composition.Roslim
 
             try
             {
-                string raw = ExternalProcessRunner.Run("target", $"\"script\" \"{sectionDataPath}\"");
+                string raw = ProcessExtension.RunToolProcess("target", $"\"script\" \"{sectionDataPath}\"");
                 return JArray.Parse(raw)
-                    .Select(x =>
+                    .Select<JToken, TaskCommand>(x =>
                         (x[ /* MAGIC */ "tar" + "get"].ToObject<string>(), x["args"].ToObject<string>(),
                             x["formatter"].ToObject<string>()))
                     .ToList();

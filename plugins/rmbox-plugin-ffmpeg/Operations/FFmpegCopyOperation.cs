@@ -11,7 +11,7 @@ namespace Ruminoid.Toolbox.Plugins.FFmpeg.Operations
         "使用 FFmpeg 进行视频格式的转换（封装）。")]
     public class FFmpegCopyOperation : IOperation
     {
-        public List<(string Target, string Args, string Formatter)> Generate(Dictionary<string, JToken> sectionData)
+        public List<TaskCommand> Generate(Dictionary<string, JToken> sectionData)
         {
             JToken ioSection =
                 sectionData[ConfigSectionBase.IOConfigSectionId];
@@ -33,7 +33,7 @@ namespace Ruminoid.Toolbox.Plugins.FFmpeg.Operations
 
             #endregion
 
-            return new List<(string, string, string)>
+            return new List<TaskCommand>
             {
                 new(
                     "ffmpeg",

@@ -11,7 +11,7 @@ namespace Ruminoid.Toolbox.Plugins.FFmpeg.Operations
         "使用 FFmpeg 封装字幕到视频。注意这不是压制。")]
     public class FFmpegMuxSubtitleOperation : IOperation
     {
-        public List<(string Target, string Args, string Formatter)> Generate(Dictionary<string, JToken> sectionData)
+        public List<TaskCommand> Generate(Dictionary<string, JToken> sectionData)
         {
             JToken ioSection =
                 sectionData[ConfigSectionBase.IOConfigSectionId];
@@ -32,7 +32,7 @@ namespace Ruminoid.Toolbox.Plugins.FFmpeg.Operations
 
             #endregion
 
-            List<(string Target, string Args, string Formatter)> result = new();
+            List<TaskCommand> result = new();
 
             result.Add((
                 "ffmpeg",

@@ -19,7 +19,7 @@ namespace Ruminoid.Toolbox.Core.Parser
             _logger = logger;
         }
 
-        public List<(string Target, string Args, string Formatter)> Parse(JToken project)
+        public List<TaskCommand> Parse(JToken project)
         {
             try
             {
@@ -98,7 +98,7 @@ namespace Ruminoid.Toolbox.Core.Parser
                 _logger.LogInformation($"使用 {operation.OperationAttribute.Name} 进行操作。");
                 _logger.LogDebug($"Checking RequiredConfigSections for operation {operation.OperationAttribute.Name}");
 
-                List<(string Target, string Args, string Formatter)> commands;
+                List<TaskCommand> commands;
 
                 try
                 {
@@ -114,7 +114,7 @@ namespace Ruminoid.Toolbox.Core.Parser
                         // WARNING
                         // Method returned without cleaning up.
                         // Check if other resources needs dispose.
-                        return new List<(string Target, string Args, string Formatter)>();
+                        return new List<TaskCommand>();
                     }
                 }
                 catch (Exception e)
