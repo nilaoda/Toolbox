@@ -9,24 +9,32 @@
         Icon="resm:Ruminoid.Toolbox.Shell.Assets.rmbox.ico"
         Width="1000" Height="600"
         CanResize="False">
+    <Window.Styles>
+        <Style Selector="TextBlock.title">
+            <Setter Property="FontSize" Value="18"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+        </Style>
+
+        <Style Selector="ScrollViewer.section">
+            <Setter Property="HorizontalScrollBarVisibility" Value="Disabled"/>
+            <Setter Property="VerticalScrollBarVisibility" Value="Auto"/>
+            <Setter Property="Background" Value="Transparent"/>
+        </Style>
+
+        <Style Selector="ScrollViewer.section > StackPanel">
+            <Setter Property="Spacing" Value="12"/>
+            <Setter Property="Margin" Value="24"/>
+            <Setter Property="Background" Value="Transparent"/>
+        </Style>
+    </Window.Styles>
+
     <Grid
         RowDefinitions="*,Auto">
         <TabControl
             Grid.Row="0">
             <TabItem Header="快速上手">
-                <ScrollViewer
-                    HorizontalScrollBarVisibility="Disabled"
-                    VerticalScrollBarVisibility="Auto">
-                    <StackPanel
-                        Spacing="12"
-                        Margin="24">
-                        <StackPanel.Styles>
-                            <Style Selector="TextBlock.title">
-                                <Setter Property="FontSize" Value="18"/>
-                                <Setter Property="FontWeight" Value="Bold"/>
-                            </Style>
-                        </StackPanel.Styles>
-
+                <ScrollViewer Classes="section">
+                    <StackPanel>
                         <TextBlock>首先，确保你的Ruminoid Toolbox是最新的。</TextBlock>
                         <StackPanel
                             Orientation="Horizontal">
@@ -67,6 +75,32 @@
                 </ScrollViewer>
             </TabItem>
 
+            <TabItem Header="监管">
+                <ScrollViewer Classes="section">
+                    <StackPanel>
+                        <TextBlock Classes="title">许可</TextBlock>
+                        <TextBlock>Ruminoid Toolbox 使用 AGPL 协议授权。</TextBlock>
+                        <StackPanel
+                            Orientation="Horizontal">
+                            <TextBlock>项目：</TextBlock>
+                            <controls:Hyperlink
+                                Url="https://github.com/Ruminoid/Toolbox">github.com/Ruminoid/Toolbox</controls:Hyperlink>
+                        </StackPanel>
+                        <StackPanel
+                            Orientation="Horizontal">
+                            <TextBlock>许可：</TextBlock>
+                            <controls:Hyperlink
+                                Url="https://github.com/Ruminoid/Toolbox/blob/master/LICENSE">GNU AFFERO GENERAL PUBLIC LICENSE</controls:Hyperlink>
+                        </StackPanel>
+                        <TextBlock>使用本产品或其源代码时，你不能将其闭源，改变许可协议或进行商业销售。</TextBlock>
+                        <TextBlock>如果你付费得到了本软件，请立即寻找投诉渠道并与我联系。</TextBlock>
+                        <TextBlock Classes="title">版本</TextBlock>
+                        <TextBlock Text="{Binding VersionSummary, StringFormat=版本：{0}}"/>
+                        <TextBlock Text="{Binding VersionDetail, StringFormat=生成：{0}}"/>
+                    </StackPanel>
+                </ScrollViewer>
+            </TabItem>
+
             <TabItem Header="关于">
                 <StackPanel
                     HorizontalAlignment="Center"
@@ -88,8 +122,6 @@
                                FontWeight="Bold"
                                Classes="info"/>
                     <TextBlock Text="{Binding VersionSummary}"
-                               Classes="info"/>
-                    <TextBlock Text="{Binding VersionDetail}"
                                Classes="info"/>
                 </StackPanel>
             </TabItem>
