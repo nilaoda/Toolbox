@@ -135,5 +135,51 @@ jobs:
     - name: Push Artifacts
       uses: actions/upload-artifact@v2
       with:
+        name: rmbox-unpacked-${{ fromJson(matrix.target).rid }}-${{ github.sha }}
+        path: dist/
+
+    - name: Push Artifacts
+      uses: actions/upload-artifact@v2
+      with:
         name: rmbox-${{ fromJson(matrix.target).rid }}-${{ github.sha }}
         path: dist/rmbox.7z
+
+  build-mac:
+    name: Build Mac Pack
+
+    runs-on: macos-latest
+
+    needs: [build-rmbox]
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+      with:
+        submodules: recursive
+        fetch-depth: 0
+
+    - uses: actions/download-artifact@v2
+      with:
+        name: rmbox-unpacked-${{ fromJson(matrix.target).rid }}-${{ github.sha }}
+        path: dist/
+
+    - name: Setup Node.js
+      uses: actions/setup-node@v2
+      with:
+        node-version: '14'
+
+    - name: Build Mac Pack
+      run: ./build.cmd PackMac --configuration Release --runtime ${{ fromJson(matrix.target).rid }}
+
+    - name: Build Dmg Image
+      run: |
+        cd dist
+        npx create-dmg RuminoidToolbox.app
+        cd ..
+      shell: bash
+
+    - name: Push Artifacts
+      uses: actions/upload-artifact@v2
+      with:
+        name: rmbox-dmg-${{ github.sha }}
+        path: dist/*.dmg
