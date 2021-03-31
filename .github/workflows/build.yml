@@ -42,7 +42,7 @@ jobs:
       if: ${{ fromJson(matrix.target).goos == 'windows' }}
       run: |
         cd src/rmbenv
-        echo %PATH%
+        echo $PATH
         go generate -v
         cd ../..
         
