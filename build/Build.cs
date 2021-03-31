@@ -57,7 +57,8 @@ partial class Build : NukeBuild
 
     readonly string[] ExcludeSourceFolders =
     {
-        "rmbox-vpygen"
+        "rmbox-vpygen",
+        "rmbenv"
     };
 
     Target Clean => _ => _
