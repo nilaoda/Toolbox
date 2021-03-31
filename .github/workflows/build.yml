@@ -13,7 +13,7 @@ jobs:
         - '{"goos":"linux","rid":"linux-x64","os":"ubuntu-latest"}'
         - '{"goos":"darwin","rid":"osx-x64","os":"macos-latest"}'
 
-    runs-on: ubuntu-latest
+    runs-on: ${{ fromJson(matrix.target).os }}
 
     env:
       GOOS: ${{ fromJson(matrix.target).goos }}
@@ -42,7 +42,6 @@ jobs:
       if: ${{ fromJson(matrix.target).goos == 'windows' }}
       run: |
         cd src/rmbenv
-        echo $PATH
         go generate -v
         cd ../..
         
