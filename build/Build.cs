@@ -224,10 +224,17 @@ partial class Build : NukeBuild
             //        PackDirectory)
             //    .AssertZeroExitCode();
 
-            Logger.Info("Making link.");
-            TextTasks.WriteAllText(
-                PackDirectory / ("启动Toolbox" + (Platform == PlatformFamily.Windows ? ".bat" : ".sh")),
-                Platform == PlatformFamily.Windows ? "@echo off\nrmbox\\rmbox.exe %*\n" : "./rmbox/rmbox $*\n");
+            //Logger.Info("Making link.");
+            //TextTasks.WriteAllText(
+            //    PackDirectory / ("启动Toolbox" + (Platform == PlatformFamily.Windows ? ".bat" : ".sh")),
+            //    Platform == PlatformFamily.Windows ? "@echo off\nrmbox\\rmbox.exe %*\n" : "./rmbox/rmbox $*\n");
+
+            if (DirectoryExists(RootDirectory / "rmbenv-gen"))
+            {
+                Logger.Info("rmbenv-gen folder founded. Packing rmbenv.");
+                ForceCopyDirectoryRecursively(RootDirectory / "rmbenv-gen", PackDirectory);
+                Logger.Success("rmbenv packed.");
+            }
 
             if (Platform == PlatformFamily.Linux ||
                 Platform == PlatformFamily.OSX)

@@ -3,17 +3,65 @@ name: Build
 on: [push, pull_request]
 
 jobs:
-  publish:
-    name: Build Binary
-    
+  build-rmbenv:
+    name: Build rmbenv
+
     strategy:
       matrix:
         target:
-        - '{"rid":"win-x64","os":"windows-latest"}'
-        - '{"rid":"linux-x64","os":"ubuntu-latest"}'
-        - '{"rid":"osx-x64","os":"macos-latest"}'
+        - '{"goos":"windows","rid":"win-x64","os":"windows-latest"}'
+        - '{"goos":"linux","rid":"linux-x64","os":"ubuntu-latest"}'
+        - '{"goos":"darwin","rid":"osx-x64","os":"macos-latest"}'
 
-    runs-on: ${{ fromJson(matrix.target).os }}
+    runs-on: ubuntu-latest
+
+    env:
+      GOOS: ${{ fromJson(matrix.target).goos }}
+      GOARCH: amd64
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+      with:
+        submodules: recursive
+        fetch-depth: 0
+
+    - name: Setup Go
+      uses: actions/setup-go@v2
+      with:
+        go-version: 1.15
+        
+    - name: Generate Exe File Info
+      if: ${{ fromJson(matrix.target).goos == 'windows' }}
+      run: |
+        cd src/rmbenv
+        go gengrate -v
+        cd ../..
+      shell: bash
+        
+    - name: Build rmbenv
+      run: |
+        cd src/rmbenv
+        go build -v -trimpath -ldflags "-w -s"
+        cd ../..
+      shell: bash
+
+    - name: Copy rmbenv to Output Folder
+      run: |
+        mkdir rmbenv-gen
+        cp src/rmbenv/rmbenv rmbenv-gen/rmbenv || true
+        cp src/rmbenv/rmbenv.exe rmbenv-gen/rmbenv.exe || true
+      shell: bash
+
+    - uses: actions/upload-artifact@v2
+      with:
+        name: rmbenv-gen-${{ fromJson(matrix.target).rid }}-${{ github.sha }}
+        path: rmbenv-gen
+
+  build-vpygen:
+    name: Build vpygen
+
+    runs-on: ubuntu-latest
 
     steps:
     - name: Checkout
@@ -36,6 +84,42 @@ jobs:
         mkdir tools-gen
         mv src/rmbox-vpygen/dist/index.js tools-gen/rmbox-vpygen.js
       shell: bash
+
+    - uses: actions/upload-artifact@v2
+      with:
+        name: tools-gen
+        path: tools-gen
+
+  build-rmbox:
+    name: Build Binary
+    
+    strategy:
+      matrix:
+        target:
+        - '{"rid":"win-x64","os":"windows-latest"}'
+        - '{"rid":"linux-x64","os":"ubuntu-latest"}'
+        - '{"rid":"osx-x64","os":"macos-latest"}'
+
+    runs-on: ${{ fromJson(matrix.target).os }}
+
+    needs: [build-rmbenv, build-vpygen]
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+      with:
+        submodules: recursive
+        fetch-depth: 0
+
+    - uses: actions/download-artifact@v2
+      with:
+        name: rmbenv-gen-${{ fromJson(matrix.target).rid }}-${{ github.sha }}
+        path: rmbenv-gen
+
+    - uses: actions/download-artifact@v2
+      with:
+        name: tools-gen
+        path: tools-gen
 
     - name: Build and Pack
       run: ./build.cmd Full --configuration Release --runtime ${{ fromJson(matrix.target).rid }}
