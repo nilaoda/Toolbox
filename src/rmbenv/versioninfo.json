@@ -39,5 +39,5 @@
         }
     },
     "IconPath": "../../common/Assets/rmbox.ico",
-    "ManifestPath": "../../common/Assets/rmbenv.exe.manifest"
+    "ManifestPath": "../../common/meta/rmbenv.exe.manifest"
 }
