@@ -35,7 +35,7 @@ jobs:
       if: ${{ fromJson(matrix.target).goos == 'windows' }}
       run: |
         cd src/rmbenv
-        go gengrate -v
+        go generate -v
         cd ../..
       shell: bash
         
