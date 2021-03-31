@@ -160,7 +160,7 @@ jobs:
 
     - uses: actions/download-artifact@v2
       with:
-        name: rmbox-unpacked-${{ fromJson(matrix.target).rid }}-${{ github.sha }}
+        name: rmbox-unpacked-macos-latest-${{ github.sha }}
         path: dist/
 
     - name: Setup Node.js
