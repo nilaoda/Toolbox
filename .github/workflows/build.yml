@@ -42,8 +42,11 @@ jobs:
       if: ${{ fromJson(matrix.target).goos == 'windows' }}
       run: |
         cd src/rmbenv
+        go get github.com/josephspurrier/goversioninfo/cmd/goversioninfo
+        echo $PATH
         go generate -v
         cd ../..
+      shell: bash
         
     - name: Build rmbenv
       run: |
