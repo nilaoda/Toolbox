@@ -31,14 +31,20 @@ jobs:
       with:
         go-version: 1.15
         
+    - name: Go Mod Download
+      run: |
+        cd src/rmbenv
+        go mod download
+        cd ../..
+      shell: bash
+        
     - name: Generate Exe File Info
       if: ${{ fromJson(matrix.target).goos == 'windows' }}
       run: |
         cd src/rmbenv
-        go get github.com/josephspurrier/goversioninfo/cmd/goversioninfo
+        echo %PATH%
         go generate -v
         cd ../..
-      shell: bash
         
     - name: Build rmbenv
       run: |
