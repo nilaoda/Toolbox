@@ -342,3 +342,6 @@ healthchecksdb
 # Temp files
 temp/
 dist/
+
+# Visual Studio Code settings
+.vscode/
