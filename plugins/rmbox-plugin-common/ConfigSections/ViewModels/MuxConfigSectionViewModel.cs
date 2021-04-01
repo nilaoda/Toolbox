@@ -6,6 +6,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using ReactiveUI;
 using Ruminoid.Toolbox.Plugins.Common.ConfigSections.Views;
+using Ruminoid.Toolbox.Utils.Extensions;
 
 namespace Ruminoid.Toolbox.Plugins.Common.ConfigSections.ViewModels
 {
@@ -19,6 +20,8 @@ namespace Ruminoid.Toolbox.Plugins.Common.ConfigSections.ViewModels
             JToken sectionConfig)
         {
             _view = view;
+
+            _outputSuffix = sectionConfig["output_suffix"]?.ToObject<string>() ?? _outputSuffix;
         }
 
         #endregion
@@ -41,7 +44,13 @@ namespace Ruminoid.Toolbox.Plugins.Common.ConfigSections.ViewModels
         public string Video
         {
             get => _video;
-            set => this.RaiseAndSetIfChanged(ref _video, value);
+            set
+            {
+                this.RaiseAndSetIfChanged(ref _video, value);
+
+                if (UseCustomOutput) return;
+                this.RaiseAndSetIfChanged(ref _output, value.Suffix(_outputSuffix), nameof(Output));
+            }
         }
 
         [JsonProperty("audio")]
@@ -69,6 +78,26 @@ namespace Ruminoid.Toolbox.Plugins.Common.ConfigSections.ViewModels
         {
             get => _output;
             set => this.RaiseAndSetIfChanged(ref _output, value);
+        }
+
+        #endregion
+
+        #region AutoFill
+
+        private string _outputSuffix = "_output";
+
+        private bool _useCustomOutput;
+
+        public bool UseCustomOutput
+        {
+            get => _useCustomOutput;
+            set
+            {
+                this.RaiseAndSetIfChanged(ref _useCustomOutput, value);
+
+                if (!value)
+                    this.RaiseAndSetIfChanged(ref _output, Video.Suffix(_outputSuffix), nameof(Output));
+            }
         }
 
         #endregion
