@@ -64,4 +64,12 @@ partial class Build : NukeBuild
                     DistDirectory)
                 .AssertZeroExitCode();
         });
+
+    Target PackWindows => _ => _
+        .Executes(() =>
+        {
+            ProcessTasks.StartShell(
+                    $"makensis -DVersion={GitVersion.MajorMinorPatch} common/installer/nsis/installer.nsi")
+                .AssertZeroExitCode();
+        });
 }

@@ -183,3 +183,50 @@ jobs:
       with:
         name: rmbox-dmg-${{ github.sha }}
         path: dist/*.dmg
+
+
+  build-windows:
+    name: Build Windows Installer
+
+    runs-on: windows-latest
+
+    needs: [build-rmbox]
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+      with:
+        submodules: recursive
+        fetch-depth: 0
+
+    - uses: actions/download-artifact@v2
+      with:
+        name: rmbox-win-x64-${{ github.sha }}
+        path: dist/
+
+    - name: Install NSIS
+      run: |
+        Invoke-Expression (New-Object System.Net.WebClient).DownloadString('https://get.scoop.sh')
+        scoop bucket add extras
+        scoop install nsis
+      shell: pwsh
+      
+    - name: Download NSIS Plugins
+      uses: carlosperate/download-file-action@v1.0.3
+      with:
+        file-url: https://raw.githubusercontent.com/Afanyiyu/Delivr/master/rmbox/nsis-plugins.zip
+        file-name: nsis-plugins.zip
+        location: .tmp/nsis
+
+    - name: Extract NSIS Plugins
+      run: 7z x -o ".tmp/nsis" .tmp/nsis/nsis-plugins.zip
+      shell: bash
+
+    - name: Build Installer
+      run: ./build.cmd PackWindows --configuration Release --runtime ${{ fromJson(matrix.target).rid }}
+
+    - name: Push Artifacts
+      uses: actions/upload-artifact@v2
+      with:
+        name: rmbox-install-${{ github.sha }}
+        path: common/installer/nsis/rmbox-install.exe
