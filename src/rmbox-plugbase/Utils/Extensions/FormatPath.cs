@@ -21,5 +21,14 @@ namespace Ruminoid.Toolbox.Utils.Extensions
                 fileName = Path.GetFileName(path),
                 extension = Path.GetExtension(path)
             });
+
+        public static string Suffix(
+            this string path,
+            string suffix) =>
+            Path.GetDirectoryName(path) +
+            Path.DirectorySeparatorChar +
+            Path.GetFileNameWithoutExtension(path) +
+            suffix +
+            Path.GetExtension(path);
     }
 }
