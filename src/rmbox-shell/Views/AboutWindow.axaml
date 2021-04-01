@@ -121,7 +121,9 @@
                                FontSize="18"
                                FontWeight="Bold"
                                Classes="info"/>
-                    <TextBlock Text="{Binding VersionSummary}"
+                    <TextBlock Text="{Binding VersionSummary, StringFormat=版本 {0}}"
+                               Classes="info"/>
+                    <TextBlock Text="2021 Il Harper。保留所有权利。"
                                Classes="info"/>
                 </StackPanel>
             </TabItem>

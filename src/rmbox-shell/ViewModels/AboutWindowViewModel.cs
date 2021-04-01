@@ -14,7 +14,7 @@ namespace Ruminoid.Toolbox.Shell.ViewModels
 
         private readonly AboutWindow _window;
 
-        public string VersionSummary { get; } = $"版本 {Assembly.GetExecutingAssembly().GetName().Version}";
+        public string VersionSummary { get; } = Assembly.GetExecutingAssembly().GetName().Version?.ToString();
 
         public string VersionDetail { get; } = Assembly.GetExecutingAssembly()
             .GetCustomAttribute<AssemblyInformationalVersionAttribute>()
