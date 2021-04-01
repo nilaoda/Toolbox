@@ -24,12 +24,6 @@ Name "${PRODUCT_NAME}"
   ${EndIf}
 !macroend
 
-# avoid exit code 2
-!macro quitSuccess
-  SetErrorLevel 0
-  Quit
-!macroend
-
 !macro setLinkVars
   # old desktop shortcut (could exist or not since the user might has selected to delete it)
   ReadRegStr $oldShortcutName SHELL_CONTEXT "${INSTALL_REGISTRY_KEY}" ShortcutName
@@ -54,17 +48,4 @@ Name "${PRODUCT_NAME}"
   !else
     StrCpy $newStartMenuLink "$SMPROGRAMS\${SHORTCUT_NAME}.lnk"
   !endif
-!macroend
-
-!macro skipPageIfUpdated
-  !define UniqueID ${__LINE__}
-
-  Function skipPageIfUpdated_${UniqueID}
-    ${if} ${isUpdated}
-      Abort
-    ${endif}
-  FunctionEnd
-
-  !define MUI_PAGE_CUSTOMFUNCTION_PRE skipPageIfUpdated_${UniqueID}
-  !undef UniqueID
 !macroend

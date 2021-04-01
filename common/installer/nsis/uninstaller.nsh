@@ -10,23 +10,17 @@ FunctionEnd
 Section "Uninstall"
   !insertmacro setLinkVars
 
-  ${ifNot} ${isKeepShortcuts}
-    WinShell::UninstAppUserModelId "${APP_ID}"
+  WinShell::UninstAppUserModelId "${APP_ID}"
 
-    !ifndef DO_NOT_CREATE_DESKTOP_SHORTCUT
-      WinShell::UninstShortcut "$oldDesktopLink"
-      Delete "$oldDesktopLink"
-    !endif
+  WinShell::UninstShortcut "$oldDesktopLink"
+  Delete "$oldDesktopLink"
 
-    !ifndef DO_NOT_CREATE_START_MENU_SHORTCUT
-      WinShell::UninstShortcut "$oldStartMenuLink"
+  WinShell::UninstShortcut "$oldStartMenuLink"
 
-      Delete "$oldStartMenuLink"
-      ReadRegStr $R1 SHELL_CONTEXT "${INSTALL_REGISTRY_KEY}" MenuDirectory
-      ${ifNot} $R1 == ""
-        RMDir "$SMPROGRAMS\$R1"
-      ${endIf}
-    !endif
+  Delete "$oldStartMenuLink"
+  ReadRegStr $R1 SHELL_CONTEXT "${INSTALL_REGISTRY_KEY}" MenuDirectory
+  ${ifNot} $R1 == ""
+    RMDir "$SMPROGRAMS\$R1"
   ${endIf}
 
   # refresh the desktop
@@ -35,30 +29,6 @@ Section "Uninstall"
   # delete the installed files
   RMDir /r $INSTDIR
 
-  Var /GLOBAL isDeleteAppData
-  StrCpy $isDeleteAppData "0"
-
-  ClearErrors
-  ${GetParameters} $R0
-  ${GetOptions} $R0 "--delete-app-data" $R1
-  ${if} ${Errors}
-    !ifdef DELETE_APP_DATA_ON_UNINSTALL
-      ${ifNot} ${isUpdated}
-        StrCpy $isDeleteAppData "1"
-      ${endif}
-    !endif
-  ${else}
-    StrCpy $isDeleteAppData "1"
-  ${endIf}
-
-  ${if} $isDeleteAppData == "1"
-    SetShellVarContext current
-    RMDir /r "$APPDATA\${APP_FILENAME}"
-  ${endif}
-
   DeleteRegKey SHELL_CONTEXT "${UNINSTALL_REGISTRY_KEY}"
-  !ifdef UNINSTALL_REGISTRY_KEY_2
-    DeleteRegKey SHELL_CONTEXT "${UNINSTALL_REGISTRY_KEY_2}"
-  !endif
   DeleteRegKey SHELL_CONTEXT "${INSTALL_REGISTRY_KEY}"
 SectionEnd

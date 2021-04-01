@@ -1,5 +1,4 @@
 !include StrContains.nsh
-!insertmacro skipPageIfUpdated
 !insertmacro MUI_PAGE_DIRECTORY
 # pageDirectory leave doesn't work (it seems because $INSTDIR is set after custom leave function)
 # so, we use instfiles pre

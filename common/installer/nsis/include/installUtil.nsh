@@ -84,10 +84,7 @@ FunctionEnd
 Var /GLOBAL isTryToKeepShortcuts
 
 !macro setIsTryToKeepShortcuts
-  StrCpy $isTryToKeepShortcuts "true"
-  ${ifNot} ${isUpdated}
-    StrCpy $isTryToKeepShortcuts "false"
-  ${endIf}
+  StrCpy $isTryToKeepShortcuts "false"
 !macroend
 
 # https://nsis-dev.github.io/NSIS-Forums/html/t-172971.html
@@ -116,9 +113,6 @@ Function uninstallOldVersion
 
   !insertmacro readReg $uninstallString "$rootKey" "${UNINSTALL_REGISTRY_KEY}" UninstallString
   ${if} $uninstallString == ""
-    !ifdef UNINSTALL_REGISTRY_KEY_2
-      !insertmacro readReg $uninstallString "$rootKey" "${UNINSTALL_REGISTRY_KEY_2}" UninstallString
-    !endif
     ${if} $uninstallString == ""
       Goto Done
     ${endif}
@@ -154,12 +148,7 @@ Function uninstallOldVersion
     ${endIf}
   ${endIf}
 
-  ${if} ${isDeleteAppData}
-    StrCpy $0 "$0 --delete-app-data"
-  ${else}
-    # always pass --updated flag - to ensure that if DELETE_APP_DATA_ON_UNINSTALL is defined, user data will be not removed
-    StrCpy $0 "$0 --updated"
-  ${endif}
+  StrCpy $0 "$0 --updated"
 
   StrCpy $uninstallerFileNameTemp "$PLUGINSDIR\old-uninstaller.exe"
   !insertmacro copyFile "$uninstallerFileName" "$uninstallerFileNameTemp"
