@@ -21,6 +21,7 @@
 
         <Style Selector="Grid.file-grid">
             <Setter Property="Margin" Value="0,6"/>
+            <Setter Property="Background" Value="Transparent"/>
         </Style>
 
         <Style Selector="Button">
@@ -33,7 +34,9 @@
             指定输入的文件。输入的文件可以是操作所支持的任何文件格式。
         </TextBlock>
         <Grid Classes="file-grid"
-              ColumnDefinitions="*,Auto">
+              Name="InputFileGrid"
+              ColumnDefinitions="*,Auto"
+              DragDrop.AllowDrop="True">
             <TextBox
                 Grid.Column="0"
                 Text="{Binding Input}" />

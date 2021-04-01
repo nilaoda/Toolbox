@@ -1,3 +1,7 @@
+using System;
+using System.Linq;
+using Avalonia.Controls;
+using Avalonia.Input;
 using Avalonia.Markup.Xaml;
 using Newtonsoft.Json.Linq;
 using Ruminoid.Toolbox.Core;
@@ -12,9 +16,7 @@ namespace Ruminoid.Toolbox.Plugins.Common.ConfigSections.Views
     {
         public IOConfigSection()
         {
-            DataContext = new IOConfigSectionViewModel(this, null);
-
-            InitializeComponent();
+            throw new InvalidOperationException();
         }
 
         public IOConfigSection(
@@ -23,7 +25,21 @@ namespace Ruminoid.Toolbox.Plugins.Common.ConfigSections.Views
             DataContext = new IOConfigSectionViewModel(this, sectionConfig);
 
             InitializeComponent();
+
+            _inputFileGrid = this.FindControl<Grid>("InputFileGrid");
+
+            AddHandler(DragDrop.DropEvent, DropHandler);
         }
+
+        private void DropHandler(object sender, DragEventArgs e)
+        {
+            if (e.Data.Contains(DataFormats.Text))
+                (DataContext as IOConfigSectionViewModel).Input = e.Data.GetText();
+            else if (e.Data.Contains(DataFormats.FileNames))
+                (DataContext as IOConfigSectionViewModel).Input = (e.Data.GetFileNames() ?? Array.Empty<string>()).FirstOrDefault();
+        }
+
+        private readonly Grid _inputFileGrid;
 
         private void InitializeComponent()
         {
