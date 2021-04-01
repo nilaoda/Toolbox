@@ -9,8 +9,8 @@
                  x:Class="Ruminoid.Toolbox.Shell.Operations.Views.SingleOperationWindow"
                  Title="{Binding OperationModel.Name}"
                  Icon="resm:Ruminoid.Toolbox.Shell.Assets.rmbox.ico"
-                 Width="1050" Height="600"
-                 MinWidth="1050" MinHeight="600">
+                 Width="1230" Height="690"
+                 MinWidth="1230" MinHeight="690">
     <Grid RowDefinitions="*,Auto">
         <TabControl
             Grid.Row="0"
