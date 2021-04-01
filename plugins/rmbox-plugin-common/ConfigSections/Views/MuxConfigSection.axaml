@@ -81,8 +81,13 @@
         <TextBlock Classes="description">
             指定输出文件。输出文件可以是操作所支持的任何文件格式。
         </TextBlock>
+        <ToggleSwitch
+            Margin="0,6"
+            Content="自定义输出文件"
+            IsChecked="{Binding UseCustomOutput}"/>
         <Grid Classes="file-grid"
-              ColumnDefinitions="*,Auto">
+              ColumnDefinitions="*,Auto"
+              IsEnabled="{Binding UseCustomOutput}">
             <TextBox
                 Grid.Column="0"
                 Text="{Binding Output}" />

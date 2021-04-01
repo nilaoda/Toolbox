@@ -16,10 +16,28 @@ namespace Ruminoid.Toolbox.Utils.Extensions
             string formatter) =>
             formatter.FormatWith(new
             {
-                folder = Path.GetDirectoryName(path) + Path.DirectorySeparatorChar,
+                folder = Path.GetDirectoryName(path) +
+                         (Path.GetDirectoryName(path) is null
+                             ? ""
+                             : (Path.GetDirectoryName(path).EndsWith(Path.DirectorySeparatorChar)
+                                 ? ""
+                                 : Path.DirectorySeparatorChar)),
                 name = Path.GetFileNameWithoutExtension(path),
                 fileName = Path.GetFileName(path),
                 extension = Path.GetExtension(path)
             });
+
+        public static string Suffix(
+            this string path,
+            string suffix) =>
+            Path.GetDirectoryName(path) +
+            (Path.GetDirectoryName(path) is null
+                ? ""
+                : (Path.GetDirectoryName(path).EndsWith(Path.DirectorySeparatorChar)
+                    ? ""
+                    : Path.DirectorySeparatorChar)) +
+            Path.GetFileNameWithoutExtension(path) +
+            suffix +
+            Path.GetExtension(path);
     }
 }

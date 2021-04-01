@@ -1,4 +1,5 @@
-﻿using Avalonia;
+﻿using System;
+using Avalonia;
 using Avalonia.Threading;
 using Microsoft.Extensions.Logging.Abstractions;
 using ReactiveUI;
@@ -11,6 +12,7 @@ namespace Ruminoid.Toolbox.Shell
 {
     public class Program
     {
+        [STAThread]
         public static void Main(string[] args)
         {
             // Magic - github.com/AvaloniaUI/Avalonia/issues/1934

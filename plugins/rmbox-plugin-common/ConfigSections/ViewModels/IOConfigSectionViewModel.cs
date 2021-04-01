@@ -6,6 +6,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using ReactiveUI;
 using Ruminoid.Toolbox.Plugins.Common.ConfigSections.Views;
+using Ruminoid.Toolbox.Utils.Extensions;
 
 namespace Ruminoid.Toolbox.Plugins.Common.ConfigSections.ViewModels
 {
@@ -23,6 +24,8 @@ namespace Ruminoid.Toolbox.Plugins.Common.ConfigSections.ViewModels
             SupportSubtitle = sectionConfig["support_subtitle"]?.ToObject<bool>() ?? false;
             SupportVsfm = (sectionConfig["support_subtitle"]?.ToObject<bool>() ?? false) &&
                           (sectionConfig["support_vsfm"]?.ToObject<bool>() ?? false);
+
+            _outputSuffix = sectionConfig["output_suffix"]?.ToObject<string>() ?? _outputSuffix;
         }
 
         #endregion
@@ -49,7 +52,13 @@ namespace Ruminoid.Toolbox.Plugins.Common.ConfigSections.ViewModels
         public string Input
         {
             get => _input;
-            set => this.RaiseAndSetIfChanged(ref _input, value);
+            set
+            {
+                this.RaiseAndSetIfChanged(ref _input, value);
+
+                if (UseCustomOutput) return;
+                this.RaiseAndSetIfChanged(ref _output, value.Suffix(_outputSuffix), nameof(Output));
+            }
         }
 
         [JsonProperty("subtitle")]
@@ -81,8 +90,28 @@ namespace Ruminoid.Toolbox.Plugins.Common.ConfigSections.ViewModels
 
         #endregion
 
+        #region AutoFill
+
+        private string _outputSuffix = "_output";
+
+        private bool _useCustomOutput;
+
+        public bool UseCustomOutput
+        {
+            get => _useCustomOutput;
+            set
+            {
+                this.RaiseAndSetIfChanged(ref _useCustomOutput, value);
+
+                if (!value)
+                    this.RaiseAndSetIfChanged(ref _output, Input.Suffix(_outputSuffix), nameof(Output));
+            }
+        }
+
+        #endregion
+
         #region Operations
-        
+
         public async Task PickFile(string field)
         {
             string title = field switch
