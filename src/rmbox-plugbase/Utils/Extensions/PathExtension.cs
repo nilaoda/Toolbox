@@ -51,6 +51,10 @@ namespace Ruminoid.Toolbox.Utils.Extensions
             bool useSingleQuote = false) =>
             useSingleQuote ? $"'{path}'" : $"\"{path}\"";
 
+        public static string EscapeQuote(
+            this string str) =>
+            str.Replace("\"", "\\\"");
+
         public static string EscapeForCode(
             this string str) =>
             str.Aggregate(string.Empty, (s, c) => s + c.EscapeForCode());
