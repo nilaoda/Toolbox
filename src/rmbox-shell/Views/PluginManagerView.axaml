@@ -1,0 +1,55 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:viewModels="clr-namespace:Ruminoid.Toolbox.Shell.ViewModels"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="Ruminoid.Toolbox.Shell.Views.PluginManagerView">
+    <UserControl.DataContext>
+        <viewModels:PluginManagerViewModel/>
+    </UserControl.DataContext>
+
+    <Grid
+        ColumnDefinitions="*,*"
+        Margin="6">
+        <ListBox
+            Margin="6"
+            Items="{Binding PluginList}"
+            SelectedItem="{Binding SelectedPlugin}">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <Grid>
+                        <StackPanel
+                            Margin="3"
+                            Spacing="3">
+                            <TextBlock
+                                Text="{Binding Name}"
+                                FontSize="20"/>
+                            <TextBlock
+                                Text="{Binding Author, StringFormat=作者：{0}}"/>
+                        </StackPanel>
+                    </Grid>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+
+        <Grid
+            Grid.Column="1"
+            Margin="6"
+            DataContext="{Binding SelectedPlugin}">
+            <StackPanel
+                Margin="12"
+                Spacing="12">
+                <TextBlock
+                    Text="{Binding Name}"
+                    FontSize="22"
+                    FontWeight="Bold"/>
+                <TextBlock
+                    Text="{Binding Description}"
+                    TextWrapping="Wrap"/>
+                <TextBlock
+                    Text="{Binding Author, StringFormat=作者：{0}}"/>
+            </StackPanel>
+        </Grid>
+    </Grid>
+</UserControl>
