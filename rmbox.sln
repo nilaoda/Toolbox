@@ -29,9 +29,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "rmbox-plugin-mp4box", "plug
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "rmbox-plugin-x264", "plugins\rmbox-plugin-x264\rmbox-plugin-x264.csproj", "{C5C555A1-4491-41A2-BE21-37D8496F056F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "rmbox-plugin-hwenc", "plugins\rmbox-plugin-hwenc\rmbox-plugin-hwenc.csproj", "{D932935A-2AAE-49FB-B8CD-110AC40CECBC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "rmbox-plugin-hwenc", "plugins\rmbox-plugin-hwenc\rmbox-plugin-hwenc.csproj", "{D932935A-2AAE-49FB-B8CD-110AC40CECBC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "rmbox-plugin-audio", "plugins\rmbox-plugin-audio\rmbox-plugin-audio.csproj", "{F4A9B84E-CA9B-4242-BB37-4BAF796276E2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "rmbox-plugin-audio", "plugins\rmbox-plugin-audio\rmbox-plugin-audio.csproj", "{F4A9B84E-CA9B-4242-BB37-4BAF796276E2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
