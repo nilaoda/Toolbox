@@ -55,7 +55,9 @@
             指定字幕文件。可以留空。
         </TextBlock>
         <Grid Classes="file-grid"
+              Name="SubtitleGrid"
               ColumnDefinitions="*,Auto"
+              DragDrop.AllowDrop="True"
               IsVisible="{Binding SupportSubtitle}">
             <TextBox
                 Grid.Column="0"
