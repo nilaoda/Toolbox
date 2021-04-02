@@ -1,8 +1,10 @@
 ﻿using System.Collections.ObjectModel;
+using System.Linq;
 using System.Reactive.Linq;
 using Avalonia.Controls;
 using Avalonia.VisualTree;
 using DynamicData;
+using DynamicData.Binding;
 using Newtonsoft.Json;
 using ReactiveUI;
 using Ruminoid.Toolbox.Utils.Extensions;
@@ -23,6 +25,11 @@ namespace Ruminoid.Toolbox.Shell.Utils.ConfigSections
                 .WhenAnyValue(x => x.SelectedInput)
                 .Select(x => x is not null)
                 .ToProperty(this, x => x.IsInputListSelected);
+
+            _hasInvalidCharHelper = InputList
+                .ObserveCollectionChanges()
+                .Select(_ => InputList.Any(x => PathExtension.InvalidChars.Any(x.Contains)))
+                .ToProperty(this, x => x.HasInvalidChar);
         }
 
         /// <summary>
@@ -89,6 +96,14 @@ namespace Ruminoid.Toolbox.Shell.Utils.ConfigSections
         private readonly ObservableAsPropertyHelper<bool> _isInputListSelected;
 
         public bool IsInputListSelected => _isInputListSelected.Value;
+
+        #endregion
+
+        #region Display
+
+        private readonly ObservableAsPropertyHelper<bool> _hasInvalidCharHelper;
+
+        public bool HasInvalidChar => _hasInvalidCharHelper.Value;
 
         #endregion
 

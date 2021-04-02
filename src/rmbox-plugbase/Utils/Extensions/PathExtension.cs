@@ -9,6 +9,12 @@ namespace Ruminoid.Toolbox.Utils.Extensions
 {
     public static partial class PathExtension
     {
+        #region Consts
+
+        public static readonly char[] InvalidChars = { '<', '>', '(', ')', '@', '^', '|', ' ' };
+
+        #endregion
+
         public static string GetMidString(
             this string source,
             string before,

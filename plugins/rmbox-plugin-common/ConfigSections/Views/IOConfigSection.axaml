@@ -30,8 +30,16 @@
     </core:ConfigSectionBase.Styles>
     <StackPanel Margin="24">
         <TextBlock Classes="title">输入</TextBlock>
-        <TextBlock Classes="description">
+        <TextBlock
+            Classes="description"
+            IsVisible="{Binding !HasInvalidChar}">
             指定输入的文件。输入的文件可以是操作所支持的任何文件格式。
+        </TextBlock>
+        <TextBlock
+            Classes="description"
+            IsVisible="{Binding HasInvalidChar}"
+            Foreground="Red">
+            警告——包含特殊字符可能导致操作运行失败：&lt;&gt;()@^| （空格）
         </TextBlock>
         <Grid Classes="file-grid"
               Name="InputFileGrid"
