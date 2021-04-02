@@ -110,6 +110,8 @@ jobs:
 
     runs-on: ${{ fromJson(matrix.target).os }}
 
+    continue-on-error: true
+
     needs: [build-rmbenv, build-vpygen]
 
     steps:
