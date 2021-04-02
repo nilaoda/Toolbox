@@ -174,7 +174,7 @@ jobs:
     - name: Build Dmg Image
       run: |
         cd dist
-        npx create-dmg RuminoidToolbox.app
+        npx create-dmg RuminoidToolbox.app || true
         cd ..
       shell: bash
 
