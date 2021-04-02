@@ -169,7 +169,7 @@ jobs:
         node-version: '14'
 
     - name: Build Mac Pack
-      run: ./build.cmd PackMac --configuration Release --runtime ${{ fromJson(matrix.target).rid }}
+      run: ./build.cmd PackMac --configuration Release --runtime osx-x64
 
     - name: Build Dmg Image
       run: |
@@ -219,11 +219,11 @@ jobs:
         location: .tmp/nsis
 
     - name: Extract NSIS Plugins
-      run: 7z x -o ".tmp/nsis" .tmp/nsis/nsis-plugins.zip
-      shell: bash
+      run: 7z x -o".tmp/nsis" .tmp/nsis/nsis-plugins.zip
+      shell: pwsh
 
     - name: Build Installer
-      run: ./build.cmd PackWindows --configuration Release --runtime ${{ fromJson(matrix.target).rid }}
+      run: ./build.cmd PackWindows --configuration Release --runtime win-x64
 
     - name: Push Artifacts
       uses: actions/upload-artifact@v2
