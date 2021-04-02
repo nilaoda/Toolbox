@@ -11,8 +11,8 @@ partial class Build : NukeBuild
         {
             AbsolutePath MacDirectory = DistDirectory / "RuminoidToolbox.app";
             AbsolutePath MacContentsDirectory = MacDirectory / "Contents";
-            AbsolutePath MacMacOSDirectory = MacDirectory / "MacOS";
-            AbsolutePath MacResourcesDirectory = MacDirectory / "Resources";
+            AbsolutePath MacMacOSDirectory = MacContentsDirectory / "MacOS";
+            AbsolutePath MacResourcesDirectory = MacContentsDirectory / "Resources";
 
             new[]
             {
