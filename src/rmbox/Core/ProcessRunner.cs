@@ -121,6 +121,12 @@ namespace Ruminoid.Toolbox.Core
                 throw new ProcessRunnerException(err);
             }
 
+            string pFileName = ProcessExtension.GetPathExecutable();
+            string pArgumentsIntl = targetPath.EscapePathStringForArg() + ' ' + args;
+            string pArguments = (RuntimeInformation.IsOSPlatform(OSPlatform.Windows) ? "/c" : "-c") + ' ' +
+                                pArgumentsIntl.EscapePathStringForArg(
+                                    !RuntimeInformation.IsOSPlatform(OSPlatform.Windows));
+
             _currentProcess = new Process
             {
                 StartInfo = new ProcessStartInfo
@@ -134,9 +140,8 @@ namespace Ruminoid.Toolbox.Core
                     RedirectStandardInput = true,
                     RedirectStandardOutput = true,
                     UseShellExecute = false,
-                    Arguments = (RuntimeInformation.IsOSPlatform(OSPlatform.Windows) ? "/c" : "-c") + ' ' +
-                                (targetPath.EscapePathStringForArg() + ' ' + args).EscapePathStringForArg(!RuntimeInformation.IsOSPlatform(OSPlatform.Windows)),
-                    FileName = ProcessExtension.GetPathExecutable(),
+                    Arguments = pArguments,
+                    FileName = pFileName,
                     WindowStyle = ProcessWindowStyle.Hidden
                 },
                 EnableRaisingEvents = true
@@ -159,7 +164,8 @@ namespace Ruminoid.Toolbox.Core
                     },
                     error => _logger.LogError(error, "进程发生了错误。"));
 
-            _logger.LogInformation($"开始运行：{targetPath} {args}");
+            _logger.LogInformation($"开始解析：{targetPath} {args}");
+            _logger.LogInformation($"开始运行：{pFileName} {pArguments}");
 
             _currentProcess.Start();
             _currentProcess.BeginErrorReadLine();
