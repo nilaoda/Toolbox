@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using ReactiveUI;
 
 namespace Ruminoid.Toolbox.Plugins.Common.ConfigSections.ViewModels
@@ -6,6 +7,19 @@ namespace Ruminoid.Toolbox.Plugins.Common.ConfigSections.ViewModels
     [JsonObject(MemberSerialization.OptIn)]
     public class CustomArgsConfigSectionViewModel : ReactiveObject
     {
+        #region Constructor
+
+        public CustomArgsConfigSectionViewModel(
+            JToken sectionConfig)
+        {
+            _defaultArgs = sectionConfig["default_args"]?.ToObject<string>() ?? string.Empty;
+            _args = _defaultArgs;
+        }
+
+        #endregion
+
+        private readonly string _defaultArgs;
+
         #region Bindings
 
         private bool _useCustom;
@@ -18,36 +32,21 @@ namespace Ruminoid.Toolbox.Plugins.Common.ConfigSections.ViewModels
                 if (_useCustom == value)
                     return;
 
-                _args = value ? DisplayArgs : "";
+                Args = value ? _args : _defaultArgs;
 
                 _useCustom = value;
                 this.RaisePropertyChanged(nameof(UseCustom));
             }
         }
 
-        private string _displayArgs = "";
-
-        public string DisplayArgs
-        {
-            get => _displayArgs;
-            set
-            {
-                if (_displayArgs == value)
-                    return;
-
-                _displayArgs = value;
-                if (UseCustom) _args = value;
-
-                this.RaisePropertyChanged(nameof(DisplayArgs));
-            }
-        }
-
-        #endregion
-
-        #region Data
-
         [JsonProperty("args")]
-        private string _args = "";
+        private string _args;
+
+        public string Args
+        {
+            get => _args;
+            set => this.RaiseAndSetIfChanged(ref _args, value);
+        }
 
         #endregion
     }

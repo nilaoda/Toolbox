@@ -127,9 +127,6 @@ namespace Ruminoid.Toolbox.Plugins.Mp4Box.Operations
             string customArgs = customArgsSection["args"]?.ToObject<string>();
             bool useCustomArgs = !string.IsNullOrWhiteSpace(customArgs);
 
-            string defaultArgs =
-                @"--preset 8 -I 300 -r 4 -b 3 --me umh -i 1 --scenecut 60 -f 1:1 --qcomp 0.5 --psy-rd 0.3:0 --aq-mode 2 --aq-strength 0.8";
-
             #endregion
 
             #region 准备命令
@@ -178,7 +175,7 @@ namespace Ruminoid.Toolbox.Plugins.Mp4Box.Operations
 
             #region 处理 x264 参数
 
-            string x264Args = $"{(useCustomArgs ? customArgs : defaultArgs)} {(isIncludingSubtitle && !isVsfm ? "--vf subtitles --sub " + subtitlePath : "")}";
+            string x264Args = $"{(useCustomArgs ? customArgs : DefaultArgs)} {(isIncludingSubtitle && !isVsfm ? "--vf subtitles --sub " + subtitlePath : "")}";
 
             #endregion
 
@@ -253,6 +250,9 @@ namespace Ruminoid.Toolbox.Plugins.Mp4Box.Operations
                 (useVpy ? $"--y4m {inputPath} - | {PathExtension.GetTargetPath(x264Core)} --demuxer y4m - " : "") + args + (useVpy ? "" : $" {inputPath}"),
                 x264Core);
 
+        private const string DefaultArgs =
+            @"--preset 8 -I 300 -r 4 -b 3 --me umh -i 1 --scenecut 60 -f 1:1 --qcomp 0.5 --psy-rd 0.3:0 --aq-mode 2 --aq-strength 0.8";
+
         public Dictionary<string, JToken> RequiredConfigSections => new()
         {
             {
@@ -266,7 +266,12 @@ namespace Ruminoid.Toolbox.Plugins.Mp4Box.Operations
             {"Ruminoid.Toolbox.Plugins.X264.ConfigSections.X264DemuxerConfigSection", new JObject()},
             {"Ruminoid.Toolbox.Plugins.X264.ConfigSections.X264EncodeQualityConfigSection", new JObject()},
             {"Ruminoid.Toolbox.Plugins.Audio.ConfigSections.AudioConfigSection", new JObject()},
-            {"Ruminoid.Toolbox.Plugins.Common.ConfigSections.CustomArgsConfigSection", new JObject()}
+            {
+                "Ruminoid.Toolbox.Plugins.Common.ConfigSections.CustomArgsConfigSection", JObject.FromObject(new
+                {
+                    default_args = DefaultArgs
+                })
+            }
         };
     }
 }

@@ -31,24 +31,29 @@ namespace Ruminoid.Toolbox.Plugins.Audio.Operations
             string customArgs = customArgsSection["args"]?.ToObject<string>();
             bool useCustomArgs = !string.IsNullOrWhiteSpace(customArgs);
 
-            string defaultArgs = "";
-
             #endregion
 
             return new List<TaskCommand>
             {
                 new(
                     "qaac64",
-                    $" -q 2 --ignorelength -c {audioBitrate} {(useCustomArgs ? customArgs : defaultArgs)} {inputPath} -o {outputPath}",
+                    $" -q 2 --ignorelength -c {audioBitrate} {(useCustomArgs ? customArgs : DefaultArgs)} {inputPath} -o {outputPath}",
                     "null")
             };
         }
+
+        private const string DefaultArgs = "";
 
         public Dictionary<string, JToken> RequiredConfigSections => new()
         {
             {ConfigSectionBase.IOConfigSectionId, new JObject()},
             {"Ruminoid.Toolbox.Plugins.Audio.ConfigSections.AudioQualityConfigSection", new JObject()},
-            {"Ruminoid.Toolbox.Plugins.Common.ConfigSections.CustomArgsConfigSection", new JObject()}
+            {
+                "Ruminoid.Toolbox.Plugins.Common.ConfigSections.CustomArgsConfigSection", JObject.FromObject(new
+                {
+                    default_args = DefaultArgs
+                })
+            }
         };
     }
 }
