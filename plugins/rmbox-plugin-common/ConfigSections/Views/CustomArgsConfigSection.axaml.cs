@@ -1,3 +1,4 @@
+using System;
 using Avalonia.Markup.Xaml;
 using Newtonsoft.Json.Linq;
 using Ruminoid.Toolbox.Core;
@@ -12,12 +13,14 @@ namespace Ruminoid.Toolbox.Plugins.Common.ConfigSections.Views
     {
         public CustomArgsConfigSection()
         {
-            InitializeComponent();
+            throw new InvalidOperationException();
         }
 
         public CustomArgsConfigSection(
             JToken sectionConfig)
         {
+            DataContext = new CustomArgsConfigSectionViewModel(sectionConfig);
+
             InitializeComponent();
         }
 

@@ -113,8 +113,6 @@ namespace Ruminoid.Toolbox.Plugins.HwEnc.Operations
             string customArgs = customArgsSection["args"]?.ToObject<string>();
             bool useCustomArgs = !string.IsNullOrWhiteSpace(customArgs);
 
-            string defaultArgs = "";
-
             #endregion
 
             #region 准备命令
@@ -163,7 +161,7 @@ namespace Ruminoid.Toolbox.Plugins.HwEnc.Operations
 
             result.Add(
                 (hwEncCore,
-                    $"{(useVpy ? "--vpy" : "--avhw")} -i {inputPath} -o {outputPath} {(isVsfm ? "--audio-source " + atempPath : "")} {audioArgs} --codec {hwEncCodecSection["codec"]?.ToObject<string>()} {encodeMode} {(useCustomArgs ? customArgs : defaultArgs)}",
+                    $"{(useVpy ? "--vpy" : "--avhw")} -i {inputPath} -o {outputPath} {(isVsfm ? "--audio-source " + atempPath : "")} {audioArgs} --codec {hwEncCodecSection["codec"]?.ToObject<string>()} {encodeMode} {(useCustomArgs ? customArgs : DefaultArgs)}",
                     hwEncCore));
 
             #endregion
@@ -185,6 +183,8 @@ namespace Ruminoid.Toolbox.Plugins.HwEnc.Operations
             return result;
         }
 
+        private const string DefaultArgs = "";
+
         public Dictionary<string, JToken> RequiredConfigSections => new()
         {
             {
@@ -198,7 +198,12 @@ namespace Ruminoid.Toolbox.Plugins.HwEnc.Operations
             {"Ruminoid.Toolbox.Plugins.HwEnc.ConfigSections.HwEncCodecConfigSection", new JObject()},
             {"Ruminoid.Toolbox.Plugins.HwEnc.ConfigSections.HwEncQualityConfigSection", new JObject()},
             {"Ruminoid.Toolbox.Plugins.Audio.ConfigSections.AudioConfigSection", new JObject()},
-            {"Ruminoid.Toolbox.Plugins.Common.ConfigSections.CustomArgsConfigSection", new JObject()}
+            {
+                "Ruminoid.Toolbox.Plugins.Common.ConfigSections.CustomArgsConfigSection", JObject.FromObject(new
+                {
+                    default_args = DefaultArgs
+                })
+            }
         };
     }
 }

@@ -31,24 +31,29 @@ namespace Ruminoid.Toolbox.Plugins.FFmpeg.Operations
             string customArgs = customArgsSection["args"]?.ToObject<string>();
             bool useCustomArgs = !string.IsNullOrWhiteSpace(customArgs);
 
-            string defaultArgs = "-c:v copy -c:a copy -c:s mov_text";
-
             #endregion
 
             List<TaskCommand> result = new();
 
             result.Add((
                 "ffmpeg",
-                $"-i {videoPath} -i {audioPath} {(string.IsNullOrEmpty(subtitlePathIntl) ? "" : $"-i {subtitlePath}")} -y {(useCustomArgs ? customArgs : defaultArgs)} {outputPath}",
+                $"-i {videoPath} -i {audioPath} {(string.IsNullOrEmpty(subtitlePathIntl) ? "" : $"-i {subtitlePath}")} -y {(useCustomArgs ? customArgs : DefaultArgs)} {outputPath}",
                 "ffmpeg"));
 
             return result;
         }
 
+        private const string DefaultArgs = "-c:v copy -c:a copy -c:s mov_text";
+
         public Dictionary<string, JToken> RequiredConfigSections => new()
         {
             {"Ruminoid.Toolbox.Plugins.Common.ConfigSections.MuxConfigSection", new JObject()},
-            {"Ruminoid.Toolbox.Plugins.Common.ConfigSections.CustomArgsConfigSection", new JObject()}
+            {
+                "Ruminoid.Toolbox.Plugins.Common.ConfigSections.CustomArgsConfigSection", JObject.FromObject(new
+                {
+                    default_args = DefaultArgs
+                })
+            }
         };
     }
 }

@@ -228,6 +228,8 @@ namespace Ruminoid.Toolbox.Composition
 
                     OperationCollection.Add(new(operationAttribute, pluginMeta, exportedType));
 
+                    MetaCollection.Add((pluginMeta, pluginAssembly));
+
                     _logger.LogDebug($"Operation {operationAttribute.Name} loaded.");
                     _logger.LogDebug($"Plugin {pluginName} loaded.");
 
