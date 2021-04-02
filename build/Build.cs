@@ -269,7 +269,8 @@ partial class Build : NukeBuild
         });
 
     Target Full => _ => _
-        .DependsOn(PackTools, Test);
+        .DependsOn(PackTools, Test)
+        .Executes(() => Logger.Success("Full pack success."));
 
     AbsolutePath NavigateToProjectOutput(
         AbsolutePath absolutePath,

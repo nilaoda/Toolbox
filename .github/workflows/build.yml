@@ -130,7 +130,7 @@ jobs:
         path: tools-gen
 
     - name: Build and Pack
-      run: ./build.cmd Full --configuration Release --runtime ${{ fromJson(matrix.target).rid }} --verbosity Verbose
+      run: ./build.cmd Full --configuration Release --runtime ${{ fromJson(matrix.target).rid }}
 
     - name: Push Artifacts
       uses: actions/upload-artifact@v2
