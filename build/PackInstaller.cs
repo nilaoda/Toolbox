@@ -4,7 +4,7 @@ using Nuke.Common.Tooling;
 using Nuke.Common.Utilities.Collections;
 using static Nuke.Common.IO.FileSystemTasks;
 
-partial class Build : NukeBuild
+partial class Build
 {
     Target PackMac => _ => _
         .Executes(() =>
@@ -20,7 +20,7 @@ partial class Build : NukeBuild
                 MacContentsDirectory,
                 MacMacOSDirectory,
                 MacResourcesDirectory
-            }.ForEach(x => EnsureCleanDirectory(x));
+            }.ForEach(EnsureCleanDirectory);
 
             Logger.Info("Copying contents.");
             ForceCopyDirectoryRecursively(
