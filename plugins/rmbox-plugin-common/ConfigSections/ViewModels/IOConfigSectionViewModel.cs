@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using System.Reactive.Linq;
 using System.Threading.Tasks;
 using Avalonia.Controls;
 using Avalonia.VisualTree;
@@ -26,6 +27,17 @@ namespace Ruminoid.Toolbox.Plugins.Common.ConfigSections.ViewModels
                           (sectionConfig["support_vsfm"]?.ToObject<bool>() ?? false);
 
             _outputSuffix = sectionConfig["output_suffix"]?.ToObject<string>() ?? _outputSuffix;
+
+            _hasInvalidCharHelper =
+                // ReSharper disable once InvokeAsExtensionMethod
+                Observable.Merge(
+                        this
+                            .WhenAnyValue(x => x.Input)
+                            .Select(x => PathExtension.InvalidChars.Any(x.Contains)),
+                        this
+                            .WhenAnyValue(x => x.Subtitle)
+                            .Select(x => PathExtension.InvalidChars.Any(x.Contains)))
+                    .ToProperty(this, x => x.HasInvalidChar);
         }
 
         #endregion
@@ -107,6 +119,14 @@ namespace Ruminoid.Toolbox.Plugins.Common.ConfigSections.ViewModels
                     this.RaiseAndSetIfChanged(ref _output, Input.Suffix(_outputSuffix), nameof(Output));
             }
         }
+
+        #endregion
+
+        #region Display
+
+        private readonly ObservableAsPropertyHelper<bool> _hasInvalidCharHelper;
+
+        public bool HasInvalidChar => _hasInvalidCharHelper.Value;
 
         #endregion
 

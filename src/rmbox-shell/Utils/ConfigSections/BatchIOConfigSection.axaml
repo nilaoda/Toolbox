@@ -33,25 +33,37 @@
             <Grid
                 Classes="section">
                 <Grid
-                    RowDefinitions="Auto,12,Auto,12,*,12,Auto">
-                    <TextBlock
-                        Grid.Row="0"
-                        Text="输入"
-                        Classes="title"/>
-                    <TextBlock
-                        Grid.Row="2"
-                        Text="{Binding InputList.Count, StringFormat={}{0}项目}"
-                        Classes="description"/>
+                    RowDefinitions="Auto,12,*,12,Auto">
+                    <StackPanel
+                        Spacing="6">
+                        <TextBlock
+                            Text="输入"
+                            Classes="title"/>
+                        <TextBlock
+                            Classes="description"
+                            IsVisible="{Binding !HasInvalidChar}">
+                            指定输入的文件。输入的文件可以是操作所支持的任何文件格式。
+                        </TextBlock>
+                        <TextBlock
+                            Classes="description"
+                            IsVisible="{Binding HasInvalidChar}"
+                            Foreground="Red">
+                            警告——包含特殊字符可能导致操作运行失败：&lt;&gt;()@^| （空格）
+                        </TextBlock>
+                        <TextBlock
+                            Text="{Binding InputList.Count, StringFormat={}{0}项目}"
+                            Classes="description"/>
+                    </StackPanel>
 
                     <ListBox
-                        Grid.Row="4"
+                        Grid.Row="2"
                         Name="InputListBox"
                         Classes="with-background"
                         Items="{Binding InputList}"
                         SelectedItem="{Binding SelectedInput}"/>
 
                     <StackPanel
-                        Grid.Row="6"
+                        Grid.Row="4"
                         Orientation="Horizontal"
                         Spacing="6">
                         <Button

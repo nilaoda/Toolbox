@@ -9,6 +9,12 @@ namespace Ruminoid.Toolbox.Utils.Extensions
 {
     public static partial class PathExtension
     {
+        #region Consts
+
+        public static readonly char[] InvalidChars = { '<', '>', '(', ')', '@', '^', '|', ' ' };
+
+        #endregion
+
         public static string GetMidString(
             this string source,
             string before,
@@ -50,6 +56,10 @@ namespace Ruminoid.Toolbox.Utils.Extensions
             this string path,
             bool useSingleQuote = false) =>
             useSingleQuote ? $"'{path}'" : $"\"{path}\"";
+
+        public static string EscapeQuote(
+            this string str) =>
+            str.Replace("\"", "\\\"");
 
         public static string EscapeForCode(
             this string str) =>

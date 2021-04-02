@@ -27,11 +27,13 @@ namespace Ruminoid.Toolbox.Plugins.Common.ConfigSections.Views
             InitializeComponent();
 
             _inputFileGrid = this.FindControl<Grid>("InputFileGrid");
+            _subtitleGrid = this.FindControl<Grid>("SubtitleGrid");
 
-            AddHandler(DragDrop.DropEvent, DropHandler);
+            _inputFileGrid.AddHandler(DragDrop.DropEvent, InputDropHandler);
+            _subtitleGrid.AddHandler(DragDrop.DropEvent, SubtitleDropHandler);
         }
 
-        private void DropHandler(object sender, DragEventArgs e)
+        private void InputDropHandler(object sender, DragEventArgs e)
         {
             if (e.Data.Contains(DataFormats.Text))
                 (DataContext as IOConfigSectionViewModel).Input = e.Data.GetText();
@@ -39,7 +41,16 @@ namespace Ruminoid.Toolbox.Plugins.Common.ConfigSections.Views
                 (DataContext as IOConfigSectionViewModel).Input = (e.Data.GetFileNames() ?? Array.Empty<string>()).FirstOrDefault();
         }
 
+        private void SubtitleDropHandler(object sender, DragEventArgs e)
+        {
+            if (e.Data.Contains(DataFormats.Text))
+                (DataContext as IOConfigSectionViewModel).Subtitle = e.Data.GetText();
+            else if (e.Data.Contains(DataFormats.FileNames))
+                (DataContext as IOConfigSectionViewModel).Subtitle = (e.Data.GetFileNames() ?? Array.Empty<string>()).FirstOrDefault();
+        }
+
         private readonly Grid _inputFileGrid;
+        private readonly Grid _subtitleGrid;
 
         private void InitializeComponent()
         {
