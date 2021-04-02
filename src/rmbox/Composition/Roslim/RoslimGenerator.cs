@@ -158,7 +158,7 @@ namespace Ruminoid.Toolbox.Composition.Roslim
                 using StreamReader resultReader = new(resultStream);
 
                 processor.Run(
-                    typeof(RoslimGenerator).Assembly.GetManifestResourceStream("rmbox.Composition.Roslim.RoslimOperation.cs"),
+                    typeof(RoslimGenerator).Assembly.GetManifestResourceStream("Ruminoid.Toolbox.Composition.Roslim.RoslimOperation.cs"),
                     resultStream);
 
                 resultStream.Position = 0; // Rewind
