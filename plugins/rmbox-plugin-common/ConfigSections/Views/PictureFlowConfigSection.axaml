@@ -71,8 +71,7 @@
                 <Button
                     Grid.Column="1"
                     Content="浏览"
-                    Command="{Binding PickFile}"
-                    CommandParameter="Input"/>
+                    Command="{Binding PickFile}"/>
             </Grid>
 
             <Grid
