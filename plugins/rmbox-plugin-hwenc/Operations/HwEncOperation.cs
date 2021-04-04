@@ -188,10 +188,13 @@ namespace Ruminoid.Toolbox.Plugins.HwEnc.Operations
         public Dictionary<string, JToken> RequiredConfigSections => new()
         {
             {
-                ConfigSectionBase.IOConfigSectionId, JToken.FromObject(new
+                ConfigSectionBase.IOConfigSectionId,
+                JToken.FromObject(new
                 {
                     support_subtitle = true,
-                    support_vsfm = true
+                    support_vsfm = true,
+                    output_suffix = "_encoded",
+                    output_extension = ".mp4"
                 })
             },
             {"Ruminoid.Toolbox.Plugins.HwEnc.ConfigSections.HwEncCoreConfigSection", new JObject()},
@@ -199,7 +202,8 @@ namespace Ruminoid.Toolbox.Plugins.HwEnc.Operations
             {"Ruminoid.Toolbox.Plugins.HwEnc.ConfigSections.HwEncQualityConfigSection", new JObject()},
             {"Ruminoid.Toolbox.Plugins.Audio.ConfigSections.AudioConfigSection", new JObject()},
             {
-                "Ruminoid.Toolbox.Plugins.Common.ConfigSections.CustomArgsConfigSection", JObject.FromObject(new
+                "Ruminoid.Toolbox.Plugins.Common.ConfigSections.CustomArgsConfigSection",
+                JObject.FromObject(new
                 {
                     default_args = DefaultArgs
                 })

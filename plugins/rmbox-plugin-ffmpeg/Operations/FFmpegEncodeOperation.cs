@@ -42,9 +42,17 @@ namespace Ruminoid.Toolbox.Plugins.FFmpeg.Operations
 
         public Dictionary<string, JToken> RequiredConfigSections => new()
         {
-            {ConfigSectionBase.IOConfigSectionId, new JObject()},
             {
-                "Ruminoid.Toolbox.Plugins.Common.ConfigSections.CustomArgsConfigSection", JObject.FromObject(new
+                ConfigSectionBase.IOConfigSectionId,
+                JToken.FromObject(new
+                {
+                    output_suffix = "_encoded",
+                    output_extension = ".mp4"
+                })
+            },
+            {
+                "Ruminoid.Toolbox.Plugins.Common.ConfigSections.CustomArgsConfigSection",
+                JObject.FromObject(new
                 {
                     default_args = DefaultArgs
                 })

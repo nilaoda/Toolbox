@@ -52,7 +52,8 @@ namespace Ruminoid.Toolbox.Plugins.FFmpeg.Operations
                 })
             },
             {
-                "Ruminoid.Toolbox.Plugins.Common.ConfigSections.CustomArgsConfigSection", JObject.FromObject(new
+                "Ruminoid.Toolbox.Plugins.Common.ConfigSections.CustomArgsConfigSection",
+                JObject.FromObject(new
                 {
                     default_args = DefaultArgs
                 })

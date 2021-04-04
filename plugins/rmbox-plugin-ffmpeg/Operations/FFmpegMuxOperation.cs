@@ -47,9 +47,16 @@ namespace Ruminoid.Toolbox.Plugins.FFmpeg.Operations
 
         public Dictionary<string, JToken> RequiredConfigSections => new()
         {
-            {"Ruminoid.Toolbox.Plugins.Common.ConfigSections.MuxConfigSection", new JObject()},
             {
-                "Ruminoid.Toolbox.Plugins.Common.ConfigSections.CustomArgsConfigSection", JObject.FromObject(new
+                "Ruminoid.Toolbox.Plugins.Common.ConfigSections.MuxConfigSection",
+                JObject.FromObject(new
+                {
+                    output_suffix = "_muxed"
+                })
+            },
+            {
+                "Ruminoid.Toolbox.Plugins.Common.ConfigSections.CustomArgsConfigSection",
+                JObject.FromObject(new
                 {
                     default_args = DefaultArgs
                 })

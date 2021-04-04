@@ -256,10 +256,13 @@ namespace Ruminoid.Toolbox.Plugins.Mp4Box.Operations
         public Dictionary<string, JToken> RequiredConfigSections => new()
         {
             {
-                ConfigSectionBase.IOConfigSectionId, JToken.FromObject(new
+                ConfigSectionBase.IOConfigSectionId,
+                JToken.FromObject(new
                 {
                     support_subtitle = true,
-                    support_vsfm = true
+                    support_vsfm = true,
+                    output_suffix = "_encoded",
+                    output_extension = ".mp4"
                 })
             },
             {"Ruminoid.Toolbox.Plugins.X264.ConfigSections.X264CoreConfigSection", new JObject()},
@@ -267,7 +270,8 @@ namespace Ruminoid.Toolbox.Plugins.Mp4Box.Operations
             {"Ruminoid.Toolbox.Plugins.X264.ConfigSections.X264EncodeQualityConfigSection", new JObject()},
             {"Ruminoid.Toolbox.Plugins.Audio.ConfigSections.AudioConfigSection", new JObject()},
             {
-                "Ruminoid.Toolbox.Plugins.Common.ConfigSections.CustomArgsConfigSection", JObject.FromObject(new
+                "Ruminoid.Toolbox.Plugins.Common.ConfigSections.CustomArgsConfigSection",
+                JObject.FromObject(new
                 {
                     default_args = DefaultArgs
                 })

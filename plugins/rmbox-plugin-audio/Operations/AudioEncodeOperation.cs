@@ -46,10 +46,18 @@ namespace Ruminoid.Toolbox.Plugins.Audio.Operations
 
         public Dictionary<string, JToken> RequiredConfigSections => new()
         {
-            {ConfigSectionBase.IOConfigSectionId, new JObject()},
+            {
+                ConfigSectionBase.IOConfigSectionId,
+                JToken.FromObject(new
+                {
+                    output_suffix = "_encoded",
+                    output_extension = ".mp3"
+                })
+            },
             {"Ruminoid.Toolbox.Plugins.Audio.ConfigSections.AudioQualityConfigSection", new JObject()},
             {
-                "Ruminoid.Toolbox.Plugins.Common.ConfigSections.CustomArgsConfigSection", JObject.FromObject(new
+                "Ruminoid.Toolbox.Plugins.Common.ConfigSections.CustomArgsConfigSection",
+                JObject.FromObject(new
                 {
                     default_args = DefaultArgs
                 })
