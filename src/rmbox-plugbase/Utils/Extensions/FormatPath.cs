@@ -29,7 +29,8 @@ namespace Ruminoid.Toolbox.Utils.Extensions
 
         public static string Suffix(
             this string path,
-            string suffix) =>
+            string suffix,
+            string extension = null) =>
             Path.GetDirectoryName(path) +
             (Path.GetDirectoryName(path) is null
                 ? ""
@@ -38,6 +39,6 @@ namespace Ruminoid.Toolbox.Utils.Extensions
                     : Path.DirectorySeparatorChar)) +
             Path.GetFileNameWithoutExtension(path) +
             suffix +
-            Path.GetExtension(path);
+            (string.IsNullOrWhiteSpace(extension) ? Path.GetExtension(path) : extension);
     }
 }

@@ -27,6 +27,7 @@ namespace Ruminoid.Toolbox.Plugins.Common.ConfigSections.ViewModels
                           (sectionConfig["support_vsfm"]?.ToObject<bool>() ?? false);
 
             _outputSuffix = sectionConfig["output_suffix"]?.ToObject<string>() ?? _outputSuffix;
+            _outputExtension = sectionConfig["output_extension"]?.ToObject<string>() ?? _outputExtension;
 
             _hasInvalidCharHelper =
                 // ReSharper disable once InvokeAsExtensionMethod
@@ -69,7 +70,7 @@ namespace Ruminoid.Toolbox.Plugins.Common.ConfigSections.ViewModels
                 this.RaiseAndSetIfChanged(ref _input, value);
 
                 if (UseCustomOutput) return;
-                this.RaiseAndSetIfChanged(ref _output, value.Suffix(_outputSuffix), nameof(Output));
+                this.RaiseAndSetIfChanged(ref _output, value.Suffix(_outputSuffix, _outputExtension), nameof(Output));
             }
         }
 
@@ -105,6 +106,7 @@ namespace Ruminoid.Toolbox.Plugins.Common.ConfigSections.ViewModels
         #region AutoFill
 
         private string _outputSuffix = "_output";
+        private string _outputExtension;
 
         private bool _useCustomOutput;
 
@@ -116,7 +118,8 @@ namespace Ruminoid.Toolbox.Plugins.Common.ConfigSections.ViewModels
                 this.RaiseAndSetIfChanged(ref _useCustomOutput, value);
 
                 if (!value)
-                    this.RaiseAndSetIfChanged(ref _output, Input.Suffix(_outputSuffix), nameof(Output));
+                    this.RaiseAndSetIfChanged(ref _output, Input.Suffix(_outputSuffix, _outputExtension),
+                        nameof(Output));
             }
         }
 
