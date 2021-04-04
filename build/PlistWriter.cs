@@ -21,7 +21,7 @@ public class Plist
 
     public string CFBundleExecutable { get; init; }
 
-    public string CFBundleIconFileName { get; init; }
+    public string CFBundleIconFile { get; init; }
 
     public string CFBundleShortVersionString { get; init; }
 
@@ -61,7 +61,7 @@ public class Plist
         WriteProperty(xmlWriter, "CFBundlePackageType", "APPL");
         //WriteProperty(xmlWriter, nameof(CFBundleSignature), CFBundleSignature);
         WriteProperty(xmlWriter, nameof(CFBundleExecutable), CFBundleExecutable);
-        WriteProperty(xmlWriter, nameof(CFBundleIconFileName), CFBundleIconFileName);
+        WriteProperty(xmlWriter, nameof(CFBundleIconFile), CFBundleIconFile);
         WriteProperty(xmlWriter, nameof(CFBundleShortVersionString), CFBundleShortVersionString);
         WriteProperty(xmlWriter, nameof(LSApplicationCategoryType), LSApplicationCategoryType);
         WriteProperty(xmlWriter, "NSPrincipalClass", "NSApplication");

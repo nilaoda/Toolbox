@@ -42,7 +42,7 @@ partial class Build
                 LSApplicationCategoryType = "public.app-category.developer-tools",
                 CFBundleVersion = GitVersion.MajorMinorPatch,
                 CFBundleExecutable = "rmbenv",
-                CFBundleIconFileName = "rmbox.icns",
+                CFBundleIconFile = "rmbox.icns",
                 CFBundleShortVersionString = GitVersion.MajorMinorPatch
             }.Write(MacContentsDirectory);
 
