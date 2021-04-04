@@ -27,7 +27,7 @@ namespace Ruminoid.Toolbox.Plugins.Common.ConfigSections.Views
             InitializeComponent();
 
             _inputFileGrid = this.FindControl<Grid>("InputFileGrid");
-            _subtitleGrid = this.FindControl<Grid>("SubtitleGrid");
+            _subtitleGrid = this.FindControl<Grid>("SubtitleFileGrid");
 
             _inputFileGrid.AddHandler(DragDrop.DropEvent, InputDropHandler);
             _subtitleGrid.AddHandler(DragDrop.DropEvent, SubtitleDropHandler);

@@ -32,7 +32,9 @@
             指定视频文件。
         </TextBlock>
         <Grid Classes="file-grid"
-              ColumnDefinitions="*,Auto">
+              ColumnDefinitions="*,Auto"
+              Name="VideoFileGrid"
+              DragDrop.AllowDrop="True">
             <TextBox
                 Grid.Column="0"
                 Text="{Binding Video}" />
@@ -47,7 +49,9 @@
             指定音频文件。
         </TextBlock>
         <Grid Classes="file-grid"
-              ColumnDefinitions="*,Auto">
+              ColumnDefinitions="*,Auto"
+              Name="AudioFileGrid"
+              DragDrop.AllowDrop="True">
             <TextBox
                 Grid.Column="0"
                 Text="{Binding Audio}" />
@@ -67,7 +71,9 @@
         </TextBlock>
         <Grid Classes="file-grid"
               ColumnDefinitions="*,Auto"
-              IsVisible="{Binding SupportSubtitle}">
+              IsVisible="{Binding SupportSubtitle}"
+              Name="SubtitleFileGrid"
+              DragDrop.AllowDrop="True">
             <TextBox
                 Grid.Column="0"
                 Text="{Binding Subtitle}" />
