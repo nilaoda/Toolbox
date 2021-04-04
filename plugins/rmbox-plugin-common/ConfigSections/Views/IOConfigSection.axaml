@@ -3,10 +3,8 @@
                         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
                         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
                         xmlns:core="clr-namespace:Ruminoid.Toolbox.Core;assembly=rmbox-plugbase"
-                        xmlns:viewModels="clr-namespace:Ruminoid.Toolbox.Plugins.Common.ConfigSections.ViewModels"
                         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
                         x:Class="Ruminoid.Toolbox.Plugins.Common.ConfigSections.Views.IOConfigSection">
-
     <core:ConfigSectionBase.Styles>
         <Style Selector="TextBlock.title">
             <Setter Property="Margin" Value="0,12"/>
