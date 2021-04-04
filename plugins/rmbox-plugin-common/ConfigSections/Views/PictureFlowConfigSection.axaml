@@ -1,0 +1,160 @@
+<core:ConfigSectionBase xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:core="clr-namespace:Ruminoid.Toolbox.Core;assembly=rmbox-plugbase"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="Ruminoid.Toolbox.Plugins.Common.ConfigSections.Views.PictureFlowConfigSection">
+    <core:ConfigSectionBase.Styles>
+        <Style Selector="TextBlock.title">
+            <Setter Property="Margin" Value="0,12"/>
+            <Setter Property="FontSize" Value="18"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+        </Style>
+
+        <Style Selector="TextBlock.description">
+            <Setter Property="TextWrapping" Value="Wrap"/>
+        </Style>
+
+        <Style Selector="Grid.file-grid">
+            <Setter Property="Margin" Value="0,6"/>
+            <Setter Property="Background" Value="Transparent"/>
+        </Style>
+
+        <Style Selector="Button">
+            <Setter Property="Margin" Value="6,0"/>
+        </Style>
+
+        <Style Selector="Grid.section">
+            <Setter Property="Margin" Value="0,6"/>
+        </Style>
+
+        <Style Selector="TextBox.value-box">
+            <Setter Property="Width" Value="200"/>
+            <Setter Property="HorizontalAlignment" Value="Left"/>
+            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+        </Style>
+
+        <Style Selector="NumericUpDown">
+            <Setter Property="Width" Value="200"/>
+            <Setter Property="HorizontalAlignment" Value="Left"/>
+            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+        </Style>
+    </core:ConfigSectionBase.Styles>
+
+    <ScrollViewer
+        HorizontalScrollBarVisibility="Disabled"
+        VerticalScrollBarVisibility="Auto"
+        Background="Transparent">
+        <StackPanel
+            Margin="24"
+            Background="Transparent">
+            <TextBlock Classes="title">图片</TextBlock>
+            <TextBlock
+                Classes="description"
+                IsVisible="{Binding !HasInvalidChar}">
+                指定图片文件。图片文件可以是操作所支持的任何图片格式。创建黑屏视频时此项会被忽略。
+            </TextBlock>
+            <TextBlock
+                Classes="description"
+                IsVisible="{Binding HasInvalidChar}"
+                Foreground="Red">
+                警告——包含特殊字符可能导致操作运行失败：&lt;&gt;()@^| （空格）
+            </TextBlock>
+            <Grid Classes="file-grid"
+                  Name="PictureFileGrid"
+                  ColumnDefinitions="*,Auto"
+                  DragDrop.AllowDrop="True">
+                <TextBox
+                    Grid.Column="0"
+                    Text="{Binding Picture}" />
+                <Button
+                    Grid.Column="1"
+                    Content="浏览"
+                    Command="{Binding PickFile}"
+                    CommandParameter="Input"/>
+            </Grid>
+
+            <Grid
+                ColumnDefinitions="*,*">
+                <Grid.Styles>
+                    <Style Selector="StackPanel.section">
+                        <Setter Property="Margin" Value="6"/>
+                    </Style>
+                </Grid.Styles>
+
+                <StackPanel
+                    Grid.Column="0"
+                    Classes="section">
+                    <Grid Classes="section">
+                        <TextBlock Classes="title">帧率</TextBlock>
+                    </Grid>
+
+                    <Grid Classes="section">
+                        <NumericUpDown
+                            Value="{Binding FrameRate}"
+                            Increment="5"/>
+                    </Grid>
+
+                    <Grid Classes="section">
+                        <TextBlock Classes="description">
+                            在所需软件能正常解码视频的情况下，帧率可以适当降低。
+                        </TextBlock>
+                    </Grid>
+
+                    <Grid Classes="section">
+                        <TextBlock Classes="title">CRF</TextBlock>
+                    </Grid>
+
+                    <Grid Classes="section">
+                        <NumericUpDown
+                            Value="{Binding CrfValue}"
+                            Increment="0.5"/>
+                    </Grid>
+
+                    <Grid Classes="section">
+                        <TextBlock Classes="description">
+                            在画质没有明显下降的情况下，CRF值可以升高。视频的体积会更小。
+                        </TextBlock>
+                    </Grid>
+                </StackPanel>
+
+                <StackPanel
+                    Grid.Column="1"
+                    Classes="section">
+                    <Grid Classes="section">
+                        <TextBlock Classes="title">画面大小</TextBlock>
+                    </Grid>
+
+                    <Grid Classes="section">
+                        <TextBox
+                            Classes="value-box"
+                            Text="{Binding Size}"/>
+                    </Grid>
+
+                    <Grid Classes="section">
+                        <TextBlock Classes="description">
+                            指定画面大小。带有图片输入的操作会忽略此项，你需要自己缩放图片。
+                        </TextBlock>
+                    </Grid>
+
+                    <Grid Classes="section">
+                        <TextBlock Classes="title">时长（秒）</TextBlock>
+                    </Grid>
+
+                    <Grid Classes="section">
+                        <NumericUpDown
+                            Value="{Binding Duration}"
+                            Increment="1"/>
+                    </Grid>
+
+                    <Grid Classes="section">
+                        <TextBlock Classes="description">
+                            指定视频时长。带有音频或其他轨道输入的操作会忽略此项。
+                        </TextBlock>
+                    </Grid>
+                </StackPanel>
+            </Grid>
+        </StackPanel>
+    </ScrollViewer>
+</core:ConfigSectionBase>
