@@ -110,7 +110,15 @@ namespace Ruminoid.Toolbox.Shell.ViewModels
 
         private void NewRunnerOutput(string line)
         {
-            RunnerOutput += line.Trim() + '\n';
+            RunnerOutput += line.Trim() + Environment.NewLine;
+
+            while (RunnerOutput.Length > 10000)
+            {
+                var l = RunnerOutput.IndexOf(Environment.NewLine, StringComparison.Ordinal);
+                if (l >= 0)
+                    RunnerOutput = RunnerOutput[(l + Environment.NewLine.Length)..];
+            }
+
             CaretIndex = RunnerOutput.Length;
         }
 
