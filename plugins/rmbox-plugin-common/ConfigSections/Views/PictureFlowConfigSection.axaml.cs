@@ -31,7 +31,7 @@ namespace Ruminoid.Toolbox.Plugins.Common.ConfigSections.Views
             _pictureFileGrid.AddHandler(DragDrop.DropEvent, PictureDropHandler);
         }
 
-        private void PictureDropHandler(object? sender, DragEventArgs e)
+        private void PictureDropHandler(object sender, DragEventArgs e)
         {
             if (e.Data.Contains(DataFormats.Text))
                 (DataContext as PictureFlowConfigSectionViewModel).Picture = e.Data.GetText();
