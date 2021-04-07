@@ -55,9 +55,9 @@
                             Classes="title">遇到问题……</TextBlock>
                         <StackPanel
                             Orientation="Horizontal">
-                            <TextBlock>仔细阅读 FAQ：</TextBlock>
+                            <TextBlock>仔细阅读除错指南：</TextBlock>
                             <controls:Hyperlink
-                                Url="https://vbox.moe/Ruminoid/Guide/ToolboxReference/Faq.html">Toolbox FAQ</controls:Hyperlink>
+                                Url="https://vbox.moe/Ruminoid/Guide/ToolboxReference/Debug.html">Toolbox 除错指南</controls:Hyperlink>
                         </StackPanel>
                         <TextBlock>如果上述方法未能解决你的问题，你可以加入群聊反馈。</TextBlock>
                         <StackPanel
