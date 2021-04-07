@@ -49,30 +49,33 @@
         <StackPanel
             Margin="24"
             Background="Transparent">
-            <TextBlock Classes="title">图片</TextBlock>
-            <TextBlock
-                Classes="description"
-                IsVisible="{Binding !HasInvalidChar}">
-                指定图片文件。图片文件可以是操作所支持的任何图片格式。创建黑屏视频时此项会被忽略。
-            </TextBlock>
-            <TextBlock
-                Classes="description"
-                IsVisible="{Binding HasInvalidChar}"
-                Foreground="Red">
-                警告——包含特殊字符可能导致操作运行失败：&lt;&gt;()@^| （空格）
-            </TextBlock>
-            <Grid Classes="file-grid"
-                  Name="PictureFileGrid"
-                  ColumnDefinitions="*,Auto"
-                  DragDrop.AllowDrop="True">
-                <TextBox
-                    Grid.Column="0"
-                    Text="{Binding Picture}" />
-                <Button
-                    Grid.Column="1"
-                    Content="浏览"
-                    Command="{Binding PickFile}"/>
-            </Grid>
+            <StackPanel
+                IsVisible="{Binding SupportPicture}">
+                <TextBlock Classes="title">图片</TextBlock>
+                <TextBlock
+                    Classes="description"
+                    IsVisible="{Binding !HasInvalidChar}">
+                    指定图片文件。图片文件可以是操作所支持的任何图片格式。创建黑屏视频时此项会被忽略。
+                </TextBlock>
+                <TextBlock
+                    Classes="description"
+                    IsVisible="{Binding HasInvalidChar}"
+                    Foreground="Red">
+                    警告——包含特殊字符可能导致操作运行失败：&lt;&gt;()@^| （空格）
+                </TextBlock>
+                <Grid Classes="file-grid"
+                      Name="PictureFileGrid"
+                      ColumnDefinitions="*,Auto"
+                      DragDrop.AllowDrop="True">
+                    <TextBox
+                        Grid.Column="0"
+                        Text="{Binding Picture}" />
+                    <Button
+                        Grid.Column="1"
+                        Content="浏览"
+                        Command="{Binding PickFile}"/>
+                </Grid>
+            </StackPanel>
 
             <Grid
                 ColumnDefinitions="*,*">

@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Avalonia.Controls;
 using Avalonia.VisualTree;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using ReactiveUI;
 using Ruminoid.Toolbox.Plugins.Common.ConfigSections.Views;
 using Ruminoid.Toolbox.Utils.Extensions;
@@ -16,9 +17,12 @@ namespace Ruminoid.Toolbox.Plugins.Common.ConfigSections.ViewModels
         #region Constructor
 
         public PictureFlowConfigSectionViewModel(
-            PictureFlowConfigSection view)
+            PictureFlowConfigSection view,
+            JToken sectionConfig)
         {
             _view = view;
+
+            SupportPicture = sectionConfig["support_picture"]?.ToObject<bool>() ?? false;
 
             _hasInvalidCharHelper = this
                 .WhenAnyValue(x => x.Picture)
@@ -31,6 +35,12 @@ namespace Ruminoid.Toolbox.Plugins.Common.ConfigSections.ViewModels
         #region View
 
         private readonly PictureFlowConfigSection _view;
+
+        #endregion
+
+        #region Config
+
+        public bool SupportPicture { get; }
 
         #endregion
 

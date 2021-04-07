@@ -22,7 +22,7 @@ namespace Ruminoid.Toolbox.Plugins.Common.ConfigSections.Views
         public PictureFlowConfigSection(
             JToken sectionConfig)
         {
-            DataContext = new PictureFlowConfigSectionViewModel(this);
+            DataContext = new PictureFlowConfigSectionViewModel(this, sectionConfig);
 
             InitializeComponent();
 

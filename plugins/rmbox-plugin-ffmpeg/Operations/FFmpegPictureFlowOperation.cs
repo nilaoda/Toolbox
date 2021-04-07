@@ -69,7 +69,13 @@ namespace Ruminoid.Toolbox.Plugins.FFmpeg.Operations
                     output_extension = ".mp4"
                 })
             },
-            {"Ruminoid.Toolbox.Plugins.Common.ConfigSections.PictureFlowConfigSection", new JObject()},
+            {
+                "Ruminoid.Toolbox.Plugins.Common.ConfigSections.PictureFlowConfigSection",
+                JObject.FromObject(new
+                {
+                    support_picture = true
+                })
+            },
             {
                 "Ruminoid.Toolbox.Plugins.Common.ConfigSections.CustomArgsConfigSection",
                 JObject.FromObject(new
