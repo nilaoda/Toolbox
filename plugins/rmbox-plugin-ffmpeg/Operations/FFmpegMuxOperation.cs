@@ -23,6 +23,15 @@ namespace Ruminoid.Toolbox.Plugins.FFmpeg.Operations
             string subtitlePathIntl = PathExtension.GetFullPathOrEmpty(muxSection["subtitle"]?.ToObject<string>() ?? string.Empty);
             string subtitlePath = subtitlePathIntl.EscapePathStringForArg();
 
+            #region 混流选项
+
+            JToken muxOptionsSection =
+                sectionData["Ruminoid.Toolbox.Plugins.Common.ConfigSections.MuxOptionsConfigSection"];
+
+            bool useShortest = muxOptionsSection["use_shortest"].ToObject<bool>();
+
+            #endregion
+
             #region 自定义参数
 
             JToken customArgsSection =
@@ -37,7 +46,7 @@ namespace Ruminoid.Toolbox.Plugins.FFmpeg.Operations
 
             result.Add((
                 "ffmpeg",
-                $"-i {videoPath} -i {audioPath} {(string.IsNullOrEmpty(subtitlePathIntl) ? "" : $"-i {subtitlePath}")} -y {(useCustomArgs ? customArgs : DefaultArgs)} {outputPath}",
+                $"-i {videoPath} -i {audioPath} {(string.IsNullOrEmpty(subtitlePathIntl) ? "" : $"-i {subtitlePath}")} -y {(useCustomArgs ? customArgs : DefaultArgs)} {(useShortest ? "-shortest" : "")} {outputPath}",
                 "ffmpeg"));
 
             return result;
@@ -54,6 +63,7 @@ namespace Ruminoid.Toolbox.Plugins.FFmpeg.Operations
                     output_suffix = "_muxed"
                 })
             },
+            {"Ruminoid.Toolbox.Plugins.Common.ConfigSections.MuxOptionsConfigSection", new JObject()},
             {
                 "Ruminoid.Toolbox.Plugins.Common.ConfigSections.CustomArgsConfigSection",
                 JObject.FromObject(new
