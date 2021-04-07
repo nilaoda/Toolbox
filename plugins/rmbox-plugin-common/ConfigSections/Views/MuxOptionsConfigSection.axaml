@@ -1,0 +1,70 @@
+<core:ConfigSectionBase xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:core="clr-namespace:Ruminoid.Toolbox.Core;assembly=rmbox-plugbase"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="Ruminoid.Toolbox.Plugins.Common.ConfigSections.Views.MuxOptionsConfigSection">
+    <core:ConfigSectionBase.Styles>
+        <Style Selector="TextBlock.title">
+            <Setter Property="Margin" Value="0,12"/>
+            <Setter Property="FontSize" Value="18"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+        </Style>
+
+        <Style Selector="TextBlock.description">
+            <Setter Property="TextWrapping" Value="Wrap"/>
+        </Style>
+
+        <Style Selector="Grid.file-grid">
+            <Setter Property="Margin" Value="0,6"/>
+            <Setter Property="Background" Value="Transparent"/>
+        </Style>
+
+        <Style Selector="Button">
+            <Setter Property="Margin" Value="6,0"/>
+        </Style>
+
+        <Style Selector="Grid.section">
+            <Setter Property="Margin" Value="0,6"/>
+        </Style>
+
+        <Style Selector="TextBox.value-box">
+            <Setter Property="Width" Value="200"/>
+            <Setter Property="HorizontalAlignment" Value="Left"/>
+            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+        </Style>
+
+        <Style Selector="NumericUpDown">
+            <Setter Property="Width" Value="200"/>
+            <Setter Property="HorizontalAlignment" Value="Left"/>
+            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+        </Style>
+    </core:ConfigSectionBase.Styles>
+
+    <ScrollViewer
+        HorizontalScrollBarVisibility="Disabled"
+        VerticalScrollBarVisibility="Auto"
+        Background="Transparent">
+        <StackPanel
+            Margin="24"
+            Background="Transparent">
+            <Grid Classes="section">
+                <TextBlock Classes="title">混流模式</TextBlock>
+            </Grid>
+
+            <Grid Classes="section">
+                <ToggleSwitch
+                    IsChecked="{Binding UseShortest}"
+                    OnContent="使用最短长度"
+                    OffContent="使用最长长度"/>
+            </Grid>
+
+            <Grid Classes="section">
+                <TextBlock Classes="description">
+                    如果使用最短长度，操作会自动在最短的流输入结束之后截断输出。&#x000A;例：有一个较长的风景视频和一首歌作为音频，使用最短长度可以在歌曲结束之后自动结束视频。&#x000A;&#x000A;如果使用最长长度，操作会等待所有流输入结束。&#x000A;例：有一个较长的录屏视频和较短的音频解说，使用最长长度可以在解说音频结束之后继续输出视频。
+                </TextBlock>
+            </Grid>
+        </StackPanel>
+    </ScrollViewer>
+</core:ConfigSectionBase>
