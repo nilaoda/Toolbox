@@ -9,7 +9,7 @@
 
     <ItemGroup>
         <None Include="..\..\common\Assets\**">
-            <Link>Assets\%(RecursiveDir)%(Filename)%(Extension)</Link>
+            <Link>assets\%(RecursiveDir)%(Filename)%(Extension)</Link>
             <CopyToOutputDirectory>Always</CopyToOutputDirectory>
         </None>
     </ItemGroup>
