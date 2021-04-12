@@ -29,5 +29,6 @@
   <ItemGroup>
     <ProjectReference Include="..\rmbox-plugbase\rmbox-plugbase.csproj" />
     <ProjectReference Include="..\rmbox\rmbox.csproj" />
+    <ProjectReference Include="..\..\lib\rmnd-metro\src\rmnd-metro.csproj" />
   </ItemGroup>
 </Project>
