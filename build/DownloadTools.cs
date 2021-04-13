@@ -66,6 +66,19 @@ partial class Build
             $"https://artifacts.videolan.org/x264/release-win64/x264-{X264Version}.exe",
             ToolsDirectory / "x264.exe");
 
+        Logger.Info("Downloading x265.");
+        new[]
+        {
+            8,
+            10,
+            12
+        }.ForEach(x =>
+        {
+            HttpTasks.HttpDownloadFile(
+                $"https://builds.x265.eu/x265-64bit-{x}bit-latest.exe",
+                ToolsDirectory / $"x265-64bit-{x}bit-latest.exe");
+        });
+
         Logger.Info($"Downloading PowerShell v{PowerShellVersion}.");
         HttpTasks.HttpDownloadFile(
             $"https://github.com/PowerShell/PowerShell/releases/download/v{PowerShellVersion}/PowerShell-{PowerShellVersion}-win-x64.zip",
