@@ -105,7 +105,7 @@ namespace Ruminoid.Toolbox.Plugins.Mp4Box.Operations
 
             #region 音频相关
 
-            string atempPath = Path.ChangeExtension(inputPathIntl, "atemp.aac").EscapePathStringForArg();
+            string atempPath = Path.ChangeExtension(inputPathIntl, "atemp.mp4").EscapePathStringForArg();
 
             string audioMode = audioSection["mode"]?.ToObject<string>();
             bool hasAudio = audioMode != "none";
