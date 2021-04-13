@@ -10,8 +10,8 @@ namespace Ruminoid.Toolbox.Plugins.Mp4Box.Operations
 {
     [Operation(
         "Ruminoid.Toolbox.Plugins.Mp4Box.Operations.Mp4BoxEncodeOperation",
-        "小丸（CPU）压制",
-        "使用小丸压制法进行视频压制。")]
+        "CPU 压制",
+        "使用 CPU 进行 H.264（AVC）视频压制。")]
     public class Mp4BoxEncodeOperation : IOperation
     {
         public List<TaskCommand> Generate(Dictionary<string, JToken> sectionData)
