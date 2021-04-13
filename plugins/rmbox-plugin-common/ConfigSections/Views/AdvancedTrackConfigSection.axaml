@@ -1,0 +1,92 @@
+<core:ConfigSectionBase xmlns="https://github.com/avaloniaui"
+                   xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                   xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                   xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                   xmlns:core="clr-namespace:Ruminoid.Toolbox.Core;assembly=rmbox-plugbase"
+                   xmlns:converters="clr-namespace:Ruminoid.Toolbox.Utils.Converters;assembly=rmbox-plugbase"
+                   mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+                   x:Class="Ruminoid.Toolbox.Plugins.Common.ConfigSections.Views.AdvancedTrackConfigSection">
+    <core:ConfigSectionBase.Styles>
+        <Style Selector="TextBlock.title">
+            <Setter Property="Margin" Value="0,12"/>
+            <Setter Property="FontSize" Value="18"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+        </Style>
+
+        <Style Selector="TextBlock.description">
+            <Setter Property="TextWrapping" Value="Wrap"/>
+        </Style>
+
+        <Style Selector="Grid.file-grid">
+            <Setter Property="Margin" Value="0,6"/>
+            <Setter Property="Background" Value="Transparent"/>
+        </Style>
+
+        <Style Selector="Button">
+            <Setter Property="Margin" Value="6,0"/>
+        </Style>
+
+        <Style Selector="Grid.section">
+            <Setter Property="Margin" Value="0,6"/>
+        </Style>
+
+        <Style Selector="TextBox.value-box">
+            <Setter Property="Width" Value="200"/>
+            <Setter Property="HorizontalAlignment" Value="Left"/>
+            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+        </Style>
+
+        <Style Selector="NumericUpDown">
+            <Setter Property="Width" Value="200"/>
+            <Setter Property="HorizontalAlignment" Value="Left"/>
+            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+        </Style>
+    </core:ConfigSectionBase.Styles>
+
+    <ScrollViewer
+        HorizontalScrollBarVisibility="Disabled"
+        VerticalScrollBarVisibility="Auto"
+        Background="Transparent">
+        <StackPanel
+            Margin="24"
+            Background="Transparent">
+            <Grid Classes="section">
+                <TextBlock Classes="title">高级（流）</TextBlock>
+            </Grid>
+
+            <Grid Classes="section">
+                <TextBlock Classes="description">
+                    这里指定了对于媒体流的部分高级选项。除非你完全理解内容，否则不要更改这些选项。
+                </TextBlock>
+            </Grid>
+
+            <Grid Classes="section">
+                <TextBlock Classes="title">流处理模式</TextBlock>
+            </Grid>
+
+            <Grid Classes="section">
+                <StackPanel
+                    Spacing="6">
+                    <RadioButton
+                        GroupName="ProcessMode"
+                        IsChecked="{Binding ProcessMode, Converter={x:Static converters:ConverterExtension.StringBoolConverter}, ConverterParameter=auto}"
+                        Content="自动（推荐）"/>
+                    <RadioButton
+                        GroupName="ProcessMode"
+                        IsChecked="{Binding ProcessMode, Converter={x:Static converters:ConverterExtension.StringBoolConverter}, ConverterParameter=force_encode}"
+                        Content="强制重编码"/>
+                    <RadioButton
+                        GroupName="ProcessMode"
+                        IsChecked="{Binding ProcessMode, Converter={x:Static converters:ConverterExtension.StringBoolConverter}, ConverterParameter=force_copy}"
+                        Content="强制复制"/>
+                </StackPanel>
+            </Grid>
+
+            <Grid Classes="section">
+                <TextBlock Classes="description">
+                    流处理模式决定了默认情况下程序对媒体流的处理方式。&#x000A;默认（自动）情况下，Rmbox 会根据媒体流的实际情况进行处理。&#x000A;若指定强制重编码模式，则 Rmbox 会对所有输入流进行重编码。&#x000A;若指定强制复制模式，则 Rmbox 会直接复制所有无需编码的流。&#x000A;&#x000A;注意：此选项对主要操作没有影响。并且不会改变操作的主要工作模式。当操作指定了对特定流的处理方式时，操作优先。
+                </TextBlock>
+            </Grid>
+        </StackPanel>
+    </ScrollViewer>
+</core:ConfigSectionBase>
