@@ -33,12 +33,12 @@ namespace Ruminoid.Toolbox.Plugins.FFmpeg.Operations
             {
                 new(
                     "ffmpeg",
-                    $"-y -i {inputPath} {(useCustomArgs ? customArgs : DefaultArgs)} {outputPath}",
+                    $"-y -i {inputPath} -c:a copy {(useCustomArgs ? customArgs : DefaultArgs)} {outputPath}",
                     "ffmpeg")
             };
         }
 
-        private const string DefaultArgs = "-vf drawbox=color=black:t=fill -c:a copy";
+        private const string DefaultArgs = "-vf drawbox=color=black:t=fill";
 
         public Dictionary<string, JToken> RequiredConfigSections => new()
         {
