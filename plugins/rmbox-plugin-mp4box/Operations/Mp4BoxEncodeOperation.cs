@@ -125,7 +125,7 @@ namespace Ruminoid.Toolbox.Plugins.Mp4Box.Operations
                 sectionData["Ruminoid.Toolbox.Plugins.Common.ConfigSections.CustomArgsConfigSection"];
 
             string customArgs = customArgsSection["args"]?.ToObject<string>();
-            bool useCustomArgs = !string.IsNullOrWhiteSpace(customArgs);
+            bool useCustomArgs = customArgsSection["use_custom_args"]?.ToObject<bool>() ?? false;
 
             #endregion
 

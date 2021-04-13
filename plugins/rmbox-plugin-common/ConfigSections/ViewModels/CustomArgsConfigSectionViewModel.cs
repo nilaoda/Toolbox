@@ -22,6 +22,7 @@ namespace Ruminoid.Toolbox.Plugins.Common.ConfigSections.ViewModels
 
         #region Bindings
 
+        [JsonProperty("use_custom_args")]
         private bool _useCustom;
 
         public bool UseCustom
