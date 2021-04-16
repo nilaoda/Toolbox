@@ -18,7 +18,7 @@ namespace Ruminoid.Toolbox.Plugins.X264.ConfigSections.ViewModels
                     StorageHelper.GetSectionFolderPath("tools"),
                     "*")
                 .Select(Path.GetFileName)
-                .Where(x => x.StartsWith("x26"))
+                .Where(x => x.StartsWith("x264"))
                 .Where(x => !RuntimeInformation.IsOSPlatform(OSPlatform.Windows) || x.EndsWith(".exe"))
                 .Select(x => x.EndsWith(".exe") ? x[..^4] : x)
                 .ToList();
