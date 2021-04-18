@@ -108,6 +108,8 @@ namespace Ruminoid.Toolbox.Core
         /// <param name="formatter">格式器目标。</param>
         public void Run(string target, string args, string formatter)
         {
+            Dictionary<string, object> sessionStorage = new();
+
             _logger.LogDebug($"Resolving target: {target}");
 
             string workingDirectory = StorageHelper.GetSectionFolderPath("tools");
@@ -160,7 +162,7 @@ namespace Ruminoid.Toolbox.Core
 
                         if (((ProcessOptions) _commandLineHelper.Options).LogProcessOut)
                             _logger.LogInformation($"[{formatter}]{e.Data}");
-                        _formattingHelper.ReceiveData.OnNext((formatter, e.Data));
+                        _formattingHelper.ReceiveData.OnNext((formatter, e.Data, sessionStorage));
                     },
                     error => _logger.LogError(error, "进程发生了错误。"));
 

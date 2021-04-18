@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using System.Collections.Generic;
+using System.Text;
 using Ruminoid.Toolbox.Formatting;
 using Ruminoid.Toolbox.Utils.Extensions;
 
@@ -9,7 +10,10 @@ namespace Ruminoid.Toolbox.Plugins.X264.Formatters
     [Formatter("x26*")]
     public class X26xFormatter : IFormatter
     {
-        public FormattedEvent Format(string target, string data)
+        public FormattedEvent Format(
+            string target,
+            string data,
+            Dictionary<string, object> sessionStorage)
         {
             bool parseProgress = double.TryParse(data.GetMidString("[", "%] "), out double progress);
             string frames = data.GetMidString("%] ", " frames, ");
