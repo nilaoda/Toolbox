@@ -55,37 +55,45 @@ namespace Ruminoid.Toolbox.Shell.Operations.ViewModels
 
         private void InitializeTabs()
         {
+#if !DEBUG
+
             try
             {
-                _operation = Activator.CreateInstance(OperationModel.Type) as IOperation;
 
-                if (_operation is null)
-                    throw new ArgumentException("Cannot Construct Operation.");
+#endif
 
-                foreach (KeyValuePair<string, JToken> sectionData in _operation.RequiredConfigSections)
-                {
-                    (ConfigSectionAttribute ConfigSectionAttribute, Type ConfigSectionType) sectionMeta = _pluginHelper.ConfigSectionCollection
-                        .Where(x => x.ConfigSectionAttribute.Id == sectionData.Key)
-                        .ToArray()
-                        .FirstOrDefault();
+            _operation = Activator.CreateInstance(OperationModel.Type) as IOperation;
 
-                    if (sectionMeta == default)
-                        throw new ArgumentException("Cannot Find ConfigSection.");
+            if (_operation is null)
+                throw new ArgumentException("Cannot Construct Operation.");
 
-                    ConfigSectionBase section = Activator.CreateInstance(sectionMeta.ConfigSectionType, sectionData.Value) as ConfigSectionBase;
+            foreach (KeyValuePair<string, JToken> sectionData in _operation.RequiredConfigSections)
+            {
+                (ConfigSectionAttribute ConfigSectionAttribute, Type ConfigSectionType) sectionMeta = _pluginHelper.ConfigSectionCollection
+                    .Where(x => x.ConfigSectionAttribute.Id == sectionData.Key)
+                    .ToArray()
+                    .FirstOrDefault();
 
-                    if (section is null)
-                        throw new ArgumentException("Cannot Construct ConfigSection.");
+                if (sectionMeta == default)
+                    throw new ArgumentException("Cannot Find ConfigSection.");
 
-                    _configSections.Add((sectionMeta.ConfigSectionAttribute, section));
+                ConfigSectionBase section = Activator.CreateInstance(sectionMeta.ConfigSectionType, sectionData.Value) as ConfigSectionBase;
 
-                    Items.Add(
-                        new TabItem
-                        {
-                            Header = sectionMeta.ConfigSectionAttribute.Name,
-                            Content = section
-                        });
-                }
+                if (section is null)
+                    throw new ArgumentException("Cannot Construct ConfigSection.");
+
+                _configSections.Add((sectionMeta.ConfigSectionAttribute, section));
+
+                Items.Add(
+                    new TabItem
+                    {
+                        Header = sectionMeta.ConfigSectionAttribute.Name,
+                        Content = section
+                    });
+            }
+
+#if !DEBUG
+
             }
             catch (Exception)
             {
@@ -98,6 +106,9 @@ namespace Ruminoid.Toolbox.Shell.Operations.ViewModels
                         RxApp.MainThreadScheduler)
                     .Subscribe(_ => { });
             }
+
+#endif
+
         }
 
         #endregion
