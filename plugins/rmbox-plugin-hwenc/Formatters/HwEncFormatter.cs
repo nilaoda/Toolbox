@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using System.Collections.Generic;
+using System.Text;
 using Ruminoid.Toolbox.Formatting;
 using Ruminoid.Toolbox.Utils.Extensions;
 
@@ -7,7 +8,10 @@ namespace Ruminoid.Toolbox.Plugins.HwEnc.Formatters
     [Formatter("nvencc*|qsvencc*|vceencc*")]
     public class HwEncFormatter : IFormatter
     {
-        public FormattedEvent Format(string target, string data)
+        public FormattedEvent Format(
+            string target,
+            string data,
+            Dictionary<string, object> sessionStorage)
         {
             bool parseProgress = double.TryParse(data.GetMidString("[", "%] "), out double progress);
             string frames = data.GetMidString("%] ", " frames: ");

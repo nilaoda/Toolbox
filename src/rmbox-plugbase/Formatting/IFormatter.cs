@@ -1,10 +1,11 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace Ruminoid.Toolbox.Formatting
 {
     public interface IFormatter
     {
-        public FormattedEvent Format(string target, string data);
+        public FormattedEvent Format(string target, string data, Dictionary<string, object> sessionStorage);
     }
 
     [AttributeUsage(AttributeTargets.Class, Inherited = false)]

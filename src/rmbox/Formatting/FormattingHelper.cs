@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Composition;
 using System.Reactive.Linq;
 using System.Reactive.Subjects;
@@ -27,17 +28,19 @@ namespace Ruminoid.Toolbox.Formatting
         
         #region Subjects
 
-        public readonly Subject<(string Formatter, string Data)> ReceiveData = new();
+        public readonly Subject<(string FormatTarget, string Data, Dictionary<string, object> SessionStorage)>
+            ReceiveData = new();
 
         public readonly IObservable<FormattedEvent> FormatData;
 
         #endregion
 
-        private FormattedEvent Format((string FormatTarget, string Data) arg)
+        private FormattedEvent Format(
+            (string FormatTarget, string Data, Dictionary<string, object> SessionStorage) arg)
         {
-            var (formatTarget, data) = arg;
+            var (formatTarget, data, sessionStorage) = arg;
             var (_, formatter) = _pluginHelper.GetFormatter(formatTarget);
-            return formatter.Format(formatTarget, data);
+            return formatter.Format(formatTarget, data, sessionStorage);
         }
         
         private readonly CommandLineHelper _commandLineHelper;

@@ -1,4 +1,5 @@
-﻿using System.Text.RegularExpressions;
+﻿using System.Collections.Generic;
+using System.Text.RegularExpressions;
 using Ruminoid.Toolbox.Formatting;
 
 namespace Ruminoid.Toolbox.Plugins.FFmpeg.Formatters
@@ -6,7 +7,10 @@ namespace Ruminoid.Toolbox.Plugins.FFmpeg.Formatters
     [Formatter("ffmpeg*")]
     public class FFmpegFormatter : IFormatter
     {
-        public FormattedEvent Format(string target, string data)
+        public FormattedEvent Format(
+            string target,
+            string data,
+            Dictionary<string, object> sessionStorage)
         {
             Regex progressRegex = new Regex(@"time=(.*) bitrate=");
             Match match = progressRegex.Match(data);

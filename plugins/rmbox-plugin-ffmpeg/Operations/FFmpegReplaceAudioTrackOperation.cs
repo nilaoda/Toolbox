@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
 using Newtonsoft.Json.Linq;
 using Ruminoid.Toolbox.Core;
 using Ruminoid.Toolbox.Utils.Extensions;
@@ -17,8 +19,28 @@ namespace Ruminoid.Toolbox.Plugins.FFmpeg.Operations
                 sectionData["Ruminoid.Toolbox.Plugins.Common.ConfigSections.MuxConfigSection"];
 
             string videoPath = PathExtension.GetFullPathOrEmpty(muxSection["video"]?.ToObject<string>() ?? string.Empty).EscapePathStringForArg();
-            string audioPath = PathExtension.GetFullPathOrEmpty(muxSection["audio"]?.ToObject<string>() ?? string.Empty).EscapePathStringForArg();
+            string audioPathIntl = PathExtension.GetFullPathOrEmpty(muxSection["audio"]?.ToObject<string>() ?? string.Empty);
+            string audioPath = audioPathIntl.EscapePathStringForArg();
             string outputPath = PathExtension.GetFullPathOrEmpty(muxSection["output"]?.ToObject<string>() ?? string.Empty).EscapePathStringForArg();
+
+            #region 流处理模式
+
+            JToken advancedTrackSection =
+                sectionData["Ruminoid.Toolbox.Plugins.Common.ConfigSections.AdvancedTrackConfigSection"];
+
+            string processMode = advancedTrackSection["process_mode"]?.ToObject<string>() ?? string.Empty;
+
+            string audioProcessMode = audioPathIntl switch
+            {
+                { } e when Path.GetExtension(e) == ".aac" => "copy",
+                _ => processMode switch
+                {
+                    "force_copy" => "copy",
+                    _ => "aac"
+                }
+            };
+
+            #endregion
 
             #region 自定义参数
 
@@ -26,7 +48,7 @@ namespace Ruminoid.Toolbox.Plugins.FFmpeg.Operations
                 sectionData["Ruminoid.Toolbox.Plugins.Common.ConfigSections.CustomArgsConfigSection"];
 
             string customArgs = customArgsSection["args"]?.ToObject<string>();
-            bool useCustomArgs = !string.IsNullOrWhiteSpace(customArgs);
+            bool useCustomArgs = customArgsSection["use_custom_args"]?.ToObject<bool>() ?? false;
 
             #endregion
 
@@ -34,12 +56,12 @@ namespace Ruminoid.Toolbox.Plugins.FFmpeg.Operations
             {
                 new(
                     "ffmpeg",
-                    $"-y -i {videoPath} -i {audioPath} {(useCustomArgs ? customArgs : DefaultArgs)} {outputPath}",
+                    $"-y -i {videoPath} -i {audioPath} -map 0:v -map 1:a -c:v copy -c:a {audioProcessMode} {(useCustomArgs ? customArgs : DefaultArgs)} {outputPath}",
                     "ffmpeg")
             };
         }
 
-        private const string DefaultArgs = "-map 0:v -map 1:a -c:v copy";
+        private const string DefaultArgs = "";
 
         public Dictionary<string, JToken> RequiredConfigSections => new()
         {
@@ -50,6 +72,7 @@ namespace Ruminoid.Toolbox.Plugins.FFmpeg.Operations
                     output_suffix = "_replaced"
                 })
             },
+            {"Ruminoid.Toolbox.Plugins.Common.ConfigSections.AdvancedTrackConfigSection", new JObject()},
             {
                 "Ruminoid.Toolbox.Plugins.Common.ConfigSections.CustomArgsConfigSection",
                 JObject.FromObject(new

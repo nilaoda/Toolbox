@@ -83,16 +83,18 @@ namespace Ruminoid.Toolbox.Plugins.HwEnc.Operations
 
             #region 音频相关
 
-            string atempPath = Path.ChangeExtension(inputPathIntl, "atemp.aac").EscapePathStringForArg();
+            string atempPath = Path.ChangeExtension(inputPathIntl, "atemp.mp4").EscapePathStringForArg();
 
             string audioMode = audioSection["mode"]?.ToObject<string>();
 
-            //bool hasAudio = audioMode != "none";
-            //int audioBitrate = audioSection["bitrate"].ToObject<int>();
+            bool hasAudio = audioMode != "none";
+            bool isVpyWithAudio = useVpy && hasAudio;
+
+            int audioBitrate = audioSection["bitrate"].ToObject<int>();
 
             string audioArgs = audioMode switch
             {
-                "process" => "--audio-codec --audio-bitrate " + audioSection["bitrate"]?.ToObject<int>(),
+                "process" => "--audio-codec --audio-bitrate " + audioBitrate,
                 "none" => "",
                 _ => "--audio-copy"
             };
@@ -111,7 +113,7 @@ namespace Ruminoid.Toolbox.Plugins.HwEnc.Operations
                 sectionData["Ruminoid.Toolbox.Plugins.Common.ConfigSections.CustomArgsConfigSection"];
 
             string customArgs = customArgsSection["args"]?.ToObject<string>();
-            bool useCustomArgs = !string.IsNullOrWhiteSpace(customArgs);
+            bool useCustomArgs = customArgsSection["use_custom_args"]?.ToObject<bool>() ?? false;
 
             #endregion
 
@@ -125,7 +127,7 @@ namespace Ruminoid.Toolbox.Plugins.HwEnc.Operations
 
             #region 处理音频
 
-            if (isVsfm)
+            if (isVpyWithAudio)
                 result.Add(new(
                     "ffmpeg",
                     $"-i {inputPath} -vn -sn -c:a copy -y -map 0:a:0 {atempPath}",
@@ -161,7 +163,7 @@ namespace Ruminoid.Toolbox.Plugins.HwEnc.Operations
 
             result.Add(
                 (hwEncCore,
-                    $"{(useVpy ? "--vpy" : "--avhw")} -i {inputPath} -o {outputPath} {(isVsfm ? "--audio-source " + atempPath : "")} {audioArgs} --codec {hwEncCodecSection["codec"]?.ToObject<string>()} {encodeMode} {(useCustomArgs ? customArgs : DefaultArgs)}",
+                    $"{(useVpy ? "--vpy" : "--avhw")} -i {inputPath} -o {outputPath} {(isVpyWithAudio ? "--audio-source " + atempPath : "")} {audioArgs} --codec {hwEncCodecSection["codec"]?.ToObject<string>()} {encodeMode} {(useCustomArgs ? customArgs : DefaultArgs)}",
                     hwEncCore));
 
             #endregion

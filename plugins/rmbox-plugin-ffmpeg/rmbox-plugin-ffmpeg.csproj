@@ -12,4 +12,7 @@
     </ProjectReference>
   </ItemGroup>
 
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\Markdowns\*.md" />
+  </ItemGroup>
 </Project>

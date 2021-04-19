@@ -6,13 +6,13 @@ using Newtonsoft.Json.Linq;
 using Ruminoid.Toolbox.Core;
 using Ruminoid.Toolbox.Utils.Extensions;
 
-namespace Ruminoid.Toolbox.Plugins.Mp4Box.Operations
+namespace Ruminoid.Toolbox.Plugins.X264.Operations
 {
     [Operation(
-        "Ruminoid.Toolbox.Plugins.Mp4Box.Operations.Mp4BoxEncodeOperation",
-        "小丸（CPU）压制",
-        "使用小丸压制法进行视频压制。")]
-    public class Mp4BoxEncodeOperation : IOperation
+        "Ruminoid.Toolbox.Plugins.X264.Operations.X264EncodeOperation",
+        "CPU 压制",
+        "使用 CPU 进行 H.264（AVC）视频压制。")]
+    public class X264EncodeOperation : IOperation
     {
         public List<TaskCommand> Generate(Dictionary<string, JToken> sectionData)
         {
@@ -22,7 +22,7 @@ namespace Ruminoid.Toolbox.Plugins.Mp4Box.Operations
                 sectionData[ConfigSectionBase.IOConfigSectionId];
 
             #endregion
-            
+
             #region 输入文件
 
             string inputPathIntl = PathExtension.GetFullPathOrEmpty(ioSection["input"]?.ToObject<string>() ?? string.Empty);
@@ -55,7 +55,7 @@ namespace Ruminoid.Toolbox.Plugins.Mp4Box.Operations
             if (isVpy && isVsfm)
                 throw new OperationException(
                     "不支持在 VapourSynth 输入上使用 VSFilterMod。请在 VapourSynth 中完成字幕处理。",
-                    typeof(Mp4BoxEncodeOperation));
+                    typeof(X264EncodeOperation));
 
             #endregion
 
@@ -105,7 +105,7 @@ namespace Ruminoid.Toolbox.Plugins.Mp4Box.Operations
 
             #region 音频相关
 
-            string atempPath = Path.ChangeExtension(inputPathIntl, "atemp.aac").EscapePathStringForArg();
+            string atempPath = Path.ChangeExtension(inputPathIntl, "atemp.mp4").EscapePathStringForArg();
 
             string audioMode = audioSection["mode"]?.ToObject<string>();
             bool hasAudio = audioMode != "none";
@@ -125,7 +125,7 @@ namespace Ruminoid.Toolbox.Plugins.Mp4Box.Operations
                 sectionData["Ruminoid.Toolbox.Plugins.Common.ConfigSections.CustomArgsConfigSection"];
 
             string customArgs = customArgsSection["args"]?.ToObject<string>();
-            bool useCustomArgs = !string.IsNullOrWhiteSpace(customArgs);
+            bool useCustomArgs = customArgsSection["use_custom_args"]?.ToObject<bool>() ?? false;
 
             #endregion
 

@@ -33,7 +33,7 @@ using static Nuke.Common.Tools.DotNet.DotNetTasks;
 //        InvokedTargets = new[] { nameof(Full) })]
 partial class Build : NukeBuild
 {
-    public static int Main () => Execute<Build>(x => x.Pack);
+    public static int Main () => Execute<Build>(x => x.Dev);
 
     [Parameter("Configuration to build - Default is 'Debug' (local) or 'Release' (server)")]
     readonly Configuration Configuration = IsLocalBuild ? Configuration.Debug : Configuration.Release;
@@ -140,8 +140,45 @@ partial class Build : NukeBuild
             // ReSharper restore ReturnValueOfPureMethodIsNotUsed
         });
 
-    Target Pack => _ => _
+    Target DevPluginsPublish => _ => _
         .DependsOn(Compile)
+        .Executes(() =>
+        {
+            // ReSharper disable ReturnValueOfPureMethodIsNotUsed
+
+            new[]
+                {
+                    PluginsDirectory
+                }
+                .SelectMany(x =>
+                    Directory.EnumerateDirectories(x))
+                .SelectMany(x =>
+                    GlobFiles(x, "*.csproj"))
+                .Where(x => !x.EndsWith("test.csproj"))
+                .ForEach(x =>
+                    DotNetPublish(s =>
+                    {
+                        s = s
+                            .SetProject(x)
+                            .SetConfiguration(Configuration)
+                            .SetAssemblyVersion(GitVersion.AssemblySemVer)
+                            .SetFileVersion(GitVersion.AssemblySemFileVer)
+                            .SetInformationalVersion(GitVersion.InformationalVersion)
+                            .SetAuthors("Il Harper")
+                            .SetCopyright("2021 Il Harper")
+                            .SetTitle("Ruminoid Toolbox")
+                            .SetDescription("Visual Processing Toolbox.")
+                            .SetRepositoryType("git")
+                            .SetRepositoryUrl("https://github.com/Ruminoid/Toolbox.git");
+
+                        return s;
+                    }));
+
+            // ReSharper restore ReturnValueOfPureMethodIsNotUsed
+        });
+
+    Target Dev => _ => _
+        .DependsOn(DevPluginsPublish)
         .Executes(() =>
         {
             Logger.Info("Cleaning output directory.");
@@ -159,7 +196,9 @@ partial class Build : NukeBuild
             Directory.EnumerateDirectories(PluginsDirectory).ToArray()
                 .ForEach(x =>
                     ForceCopyDirectoryRecursively(
-                        NavigateToProjectOutput((AbsolutePath) x),
+                        NavigateToProjectOutput(
+                            (AbsolutePath)x,
+                            ProjectOutputMode.Publish),
                         OutputDirectory / "plugins"));
 
             AbsolutePath localToolsTempDirectory = RootDirectory / "temp" / "tools";
@@ -173,7 +212,7 @@ partial class Build : NukeBuild
             }
         });
 
-    Target PackPublish => _ => _
+    Target PackBinary => _ => _
         .DependsOn(Publish)
         .Executes(() =>
         {
@@ -203,7 +242,7 @@ partial class Build : NukeBuild
         });
 
     Target PackTools => _ => _
-        .DependsOn(PackPublish)
+        .DependsOn(PackBinary)
         .Executes(() =>
         {
             EnsureCleanDirectory(ToolsDirectory);
@@ -269,8 +308,7 @@ partial class Build : NukeBuild
         });
 
     Target Full => _ => _
-        .DependsOn(PackTools, Test)
-        .Executes(() => Logger.Success("Full pack success."));
+        .DependsOn(PackTools, Test);
 
     AbsolutePath NavigateToProjectOutput(
         AbsolutePath absolutePath,

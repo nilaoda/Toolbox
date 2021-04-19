@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.IO;
 using Newtonsoft.Json.Linq;
 using Ruminoid.Toolbox.Core;
 using Ruminoid.Toolbox.Utils.Extensions;
@@ -18,7 +19,8 @@ namespace Ruminoid.Toolbox.Plugins.FFmpeg.Operations
             JToken ioSection =
                 sectionData[ConfigSectionBase.IOConfigSectionId];
 
-            string inputPath = PathExtension.GetFullPathOrEmpty(ioSection["input"]?.ToObject<string>() ?? string.Empty).EscapePathStringForArg();
+            string inputPathIntl = PathExtension.GetFullPathOrEmpty(ioSection["input"]?.ToObject<string>() ?? string.Empty);
+            string inputPath = inputPathIntl.EscapePathStringForArg();
             string outputPath = PathExtension.GetFullPathOrEmpty(ioSection["output"]?.ToObject<string>() ?? string.Empty).EscapePathStringForArg();
 
             #endregion
@@ -38,13 +40,32 @@ namespace Ruminoid.Toolbox.Plugins.FFmpeg.Operations
 
             #endregion
 
+            #region 流处理模式
+
+            JToken advancedTrackSection =
+                sectionData["Ruminoid.Toolbox.Plugins.Common.ConfigSections.AdvancedTrackConfigSection"];
+
+            string processMode = advancedTrackSection["process_mode"]?.ToObject<string>() ?? string.Empty;
+
+            string audioProcessMode = inputPathIntl switch
+            {
+                { } e when Path.GetExtension(e) == ".aac" => "copy",
+                _ => processMode switch
+                {
+                    "force_copy" => "copy",
+                    _ => "aac"
+                }
+            };
+
+            #endregion
+
             #region 自定义参数
 
             JToken customArgsSection =
                 sectionData["Ruminoid.Toolbox.Plugins.Common.ConfigSections.CustomArgsConfigSection"];
 
             string customArgs = customArgsSection["args"]?.ToObject<string>();
-            bool useCustomArgs = !string.IsNullOrWhiteSpace(customArgs);
+            bool useCustomArgs = customArgsSection["use_custom_args"]?.ToObject<bool>() ?? false;
 
             #endregion
 
@@ -52,7 +73,7 @@ namespace Ruminoid.Toolbox.Plugins.FFmpeg.Operations
             {
                 new(
                     "ffmpeg",
-                    $"-y -f lavfi -i color=size={size}:rate={frameRate}:color=black -i {inputPath} -c:v libx264 -c:a copy -crf {crfValue} -shortest {(useCustomArgs ? customArgs : DefaultArgs)} {outputPath}",
+                    $"-y -f lavfi -i color=size={size}:rate={frameRate}:color=black -i {inputPath} -c:v libx264 -c:a {audioProcessMode} -crf {crfValue} -shortest {(useCustomArgs ? customArgs : DefaultArgs)} {outputPath}",
                     "ffmpeg")
             };
         }
@@ -70,6 +91,7 @@ namespace Ruminoid.Toolbox.Plugins.FFmpeg.Operations
                 })
             },
             {"Ruminoid.Toolbox.Plugins.Common.ConfigSections.PictureFlowConfigSection", new JObject()},
+            {"Ruminoid.Toolbox.Plugins.Common.ConfigSections.AdvancedTrackConfigSection", new JObject()},
             {
                 "Ruminoid.Toolbox.Plugins.Common.ConfigSections.CustomArgsConfigSection",
                 JObject.FromObject(new

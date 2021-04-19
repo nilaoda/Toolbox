@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using System.Collections.Generic;
+using System.Text;
 using Ruminoid.Toolbox.Formatting;
 using Ruminoid.Toolbox.Utils.Extensions;
 
@@ -6,10 +7,13 @@ using Ruminoid.Toolbox.Utils.Extensions;
 
 namespace Ruminoid.Toolbox.Plugins.X264.Formatters
 {
-    [Formatter("x264*")]
-    public class X264Formatter : IFormatter
+    [Formatter("x26*")]
+    public class X26xFormatter : IFormatter
     {
-        public FormattedEvent Format(string target, string data)
+        public FormattedEvent Format(
+            string target,
+            string data,
+            Dictionary<string, object> sessionStorage)
         {
             bool parseProgress = double.TryParse(data.GetMidString("[", "%] "), out double progress);
             string frames = data.GetMidString("%] ", " frames, ");
@@ -28,7 +32,7 @@ namespace Ruminoid.Toolbox.Plugins.X264.Formatters
                 summaryBuilder.Append("% - ");
             }
 
-            summaryBuilder.Append("正在使用 X264 压制 - ");
+            summaryBuilder.Append($"正在使用 {target} 压制 - ");
             summaryBuilder.Append(speed);
             summaryBuilder.Append(" kb/s");
 
