@@ -17,6 +17,8 @@ namespace Ruminoid.Toolbox.Core
 
         public const string BatchIOConfigSectionId = "Ruminoid.Toolbox.Shell.Utils.ConfigSections.BatchIOConfigSection";
 
+        public const string IntroConfigSectionId = "Ruminoid.Toolbox.Plugins.Common.ConfigSections.IntroConfigSection";
+
         // ReSharper restore InconsistentNaming
 
         #endregion
