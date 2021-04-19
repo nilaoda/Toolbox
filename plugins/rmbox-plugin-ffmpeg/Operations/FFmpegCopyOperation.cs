@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.IO;
 using Newtonsoft.Json.Linq;
 using Ruminoid.Toolbox.Core;
 using Ruminoid.Toolbox.Utils.Extensions;
@@ -44,6 +45,17 @@ namespace Ruminoid.Toolbox.Plugins.FFmpeg.Operations
 
         public Dictionary<string, JToken> RequiredConfigSections => new()
         {
+            {
+                ConfigSectionBase.IntroConfigSectionId,
+                JObject.FromObject(new
+                {
+                    intro_text =
+                        typeof(FFmpegCopyOperation).Assembly
+                            .GetManifestResourceStream(
+                                "Ruminoid.Toolbox.Plugins.FFmpeg.Resources.Markdowns.FFmpegCopyOperation.md")
+                            .ReadStreamToEnd()
+                })
+            },
             {
                 ConfigSectionBase.IOConfigSectionId,
                 JObject.FromObject(new
