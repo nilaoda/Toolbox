@@ -5,13 +5,13 @@ using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
 using ReactiveUI;
-using Ruminoid.Toolbox.Shell.Utils.Dialogs;
-using Ruminoid.Toolbox.Shell.Utils.Windows;
+using Ruminoid.Common2.Metro.MetroControls;
+using Ruminoid.Common2.Metro.MetroControls.Dialogs;
 using Ruminoid.Toolbox.Shell.ViewModels;
 
 namespace Ruminoid.Toolbox.Shell.Views
 {
-    public class MainWindow : RmboxWindowBase
+    public class MainWindow : MetroWindow
     {
         public MainWindow()
         {

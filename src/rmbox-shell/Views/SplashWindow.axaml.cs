@@ -1,11 +1,11 @@
 using Avalonia;
-using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
+using Ruminoid.Common2.Metro.MetroControls;
 using Ruminoid.Toolbox.Shell.ViewModels;
 
 namespace Ruminoid.Toolbox.Shell.Views
 {
-    public class SplashWindow : Window
+    public class SplashWindow : MetroWindow
     {
         public SplashWindow()
         {

@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Reactive.Linq;
 using Avalonia.Controls;
 using DynamicData;
 using Newtonsoft.Json.Linq;
@@ -12,7 +11,6 @@ using Ruminoid.Toolbox.Core;
 using Ruminoid.Toolbox.Shell.Models;
 using Ruminoid.Toolbox.Shell.Operations.Views;
 using Ruminoid.Toolbox.Shell.Services;
-using Ruminoid.Toolbox.Shell.Utils.Dialogs;
 using Ruminoid.Toolbox.Shell.ViewModels.Project;
 using Splat;
 

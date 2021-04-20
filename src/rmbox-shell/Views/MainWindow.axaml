@@ -1,16 +1,16 @@
-<windows:RmboxWindowBase xmlns="https://github.com/avaloniaui"
-                 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                 xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-                 xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-                 xmlns:views="clr-namespace:Ruminoid.Toolbox.Shell.Views"
-                 xmlns:controls="clr-namespace:Ruminoid.Toolbox.Shell.Controls"
-                 xmlns:windows="clr-namespace:Ruminoid.Toolbox.Shell.Utils.Windows"
-                 mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
-                 x:Class="Ruminoid.Toolbox.Shell.Views.MainWindow"
-                 Title="Toolbox"
-                 Icon="resm:Ruminoid.Toolbox.Shell.Assets.rmbox.ico"
-                 Width="1050" Height="600"
-                 MinWidth="1050" MinHeight="600">
+<metroControls:MetroWindow xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:views="clr-namespace:Ruminoid.Toolbox.Shell.Views"
+             xmlns:controls="clr-namespace:Ruminoid.Toolbox.Shell.Controls"
+             xmlns:metroControls="clr-namespace:Ruminoid.Common2.Metro.MetroControls;assembly=rmnd-metro"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="Ruminoid.Toolbox.Shell.Views.MainWindow"
+             Title="Toolbox"
+             Icon="resm:Ruminoid.Toolbox.Shell.Assets.rmbox.ico"
+             Width="1050" Height="600"
+             MinWidth="1050" MinHeight="600">
     <TabControl
             SelectedIndex="{Binding CurrentTabIndex}">
         <TabItem
@@ -159,4 +159,4 @@
             <views:QueueView/>
         </TabItem>
     </TabControl>
-</windows:RmboxWindowBase>
+</metroControls:MetroWindow>

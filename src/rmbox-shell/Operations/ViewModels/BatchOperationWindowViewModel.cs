@@ -7,13 +7,13 @@ using Avalonia.Controls;
 using DynamicData;
 using Newtonsoft.Json.Linq;
 using ReactiveUI;
+using Ruminoid.Common2.Metro.MetroControls.Dialogs;
 using Ruminoid.Toolbox.Composition;
 using Ruminoid.Toolbox.Core;
 using Ruminoid.Toolbox.Shell.Models;
 using Ruminoid.Toolbox.Shell.Operations.Views;
 using Ruminoid.Toolbox.Shell.Services;
 using Ruminoid.Toolbox.Shell.Utils.ConfigSections;
-using Ruminoid.Toolbox.Shell.Utils.Dialogs;
 using Ruminoid.Toolbox.Shell.ViewModels.Project;
 using Splat;
 
