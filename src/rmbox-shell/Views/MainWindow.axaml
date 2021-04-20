@@ -70,7 +70,7 @@
                             ColumnDefinitions="Auto,Auto">
                             <controls:DrawingIcon
                                 Grid.Column="0"
-                                Icon="{DynamicResource VSCodeLight.add}"/>
+                                Icon="{DynamicResource VSCodeDark.add}"/>
                             <Grid
                                 Grid.Column="1"
                                 RowDefinitions="Auto,Auto">
@@ -92,7 +92,7 @@
                             ColumnDefinitions="Auto,Auto">
                             <controls:DrawingIcon
                                 Grid.Column="0"
-                                Icon="{DynamicResource VSCodeLight.list-ordered}"/>
+                                Icon="{DynamicResource VSCodeDark.list-ordered}"/>
                             <Grid
                                 Grid.Column="1"
                                 RowDefinitions="Auto,Auto">
@@ -114,7 +114,7 @@
                             ColumnDefinitions="Auto,*">
                             <controls:DrawingIcon
                                 Grid.Column="0"
-                                Icon="{DynamicResource VSCodeLight.help}"/>
+                                Icon="{DynamicResource VSCodeDark.help}"/>
                             <Grid
                                 Grid.Column="1"
                                 RowDefinitions="Auto,Auto">
@@ -136,7 +136,7 @@
                             ColumnDefinitions="Auto,*">
                             <controls:DrawingIcon
                                 Grid.Column="0"
-                                Icon="{DynamicResource VSCodeLight.close}"/>
+                                Icon="{DynamicResource VSCodeDark.close}"/>
                             <Grid
                                 Grid.Column="1"
                                 RowDefinitions="Auto,Auto">

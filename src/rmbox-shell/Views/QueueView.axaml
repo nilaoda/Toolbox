@@ -33,15 +33,6 @@
                 Grid.Column="0"
                 VerticalAlignment="Center"
                 ColumnDefinitions="Auto,Auto">
-                <Grid.Styles>
-                    <Style Selector="ToggleButton[IsChecked=True] controls|DrawingIcon">
-                        <Setter Property="Icon" Value="{DynamicResource VSCodeDark.server}" />
-                    </Style>
-                    <Style Selector="ToggleButton[IsChecked=False] controls|DrawingIcon">
-                        <Setter Property="Icon" Value="{DynamicResource VSCodeLight.server}" />
-                    </Style>
-                </Grid.Styles>
-
                 <ToggleButton
                     Grid.Column="0"
                     Margin="6"
@@ -54,7 +45,8 @@
                         VerticalAlignment="Center">
                         <controls:DrawingIcon
                             Width="32"
-                            Height="32" />
+                            Height="32"
+                            Icon="{DynamicResource VSCodeDark.server}" />
                         <TextBlock
                             Text="队列" />
                     </StackPanel>
@@ -70,15 +62,15 @@
                         </Style>
                     </StackPanel.Styles>
                     <controls:DrawingIconButton
-                        Icon="{DynamicResource VSCodeLight.debug-stop}"
+                        Icon="{DynamicResource VSCodeDark.debug-stop}"
                         Command="{Binding DoKill}"
                         Content="强制停止" />
                     <controls:DrawingIconButton
-                        Icon="{DynamicResource VSCodeLight.debug-step-over}"
+                        Icon="{DynamicResource VSCodeDark.debug-step-over}"
                         Command="{Binding DoSkip}"
                         Content="跳过" />
                     <controls:DrawingIconButton
-                        Icon="{DynamicResource VSCodeLight.close}"
+                        Icon="{DynamicResource VSCodeDark.close}"
                         Command="{Binding DoClear}"
                         Content="清空" />
                 </StackPanel>
@@ -223,7 +215,7 @@
                         VerticalAlignment="Center"
                         Command="{Binding DoClearRunnerOutput}">
                         <controls:DrawingIcon
-                            Icon="{DynamicResource VSCodeLight.close}" />
+                            Icon="{DynamicResource VSCodeDark.close}" />
                     </Button>
                 </Grid>
 

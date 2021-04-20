@@ -71,7 +71,7 @@
                     IsEnabled="{Binding IsOperationSelected}"
                     Content="确定"/>
                 <controls:DrawingIconButton
-                    Icon="{DynamicResource VSCodeLight.close}"
+                    Icon="{DynamicResource VSCodeDark.close}"
                     Command="{Binding DoCancel}"
                     Content="取消"/>
             </StackPanel>

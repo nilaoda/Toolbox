@@ -137,7 +137,7 @@
 
         <controls:DrawingIconButton
             Grid.Row="1"
-            Icon="{DynamicResource VSCodeLight.check}"
+            Icon="{DynamicResource VSCodeDark.check}"
             HorizontalAlignment="Center"
             Content="确定"
             Margin="24"
