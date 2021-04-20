@@ -9,6 +9,5 @@
         <StyleInclude Source="/Controls/Styles/DrawingIconButton.xaml"/>
         <StyleInclude Source="/Controls/Styles/DrawingIconMenuItem.xaml"/>
         <StyleInclude Source="/Controls/Styles/Hyperlink.xaml"/>
-        <StyleInclude Source="/Styles/Generic.xaml"/>
     </Application.Styles>
 </Application>
