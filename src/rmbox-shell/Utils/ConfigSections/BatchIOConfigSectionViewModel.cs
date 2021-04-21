@@ -131,7 +131,7 @@ namespace Ruminoid.Toolbox.Shell.Utils.ConfigSections
 
             string result = await dialog.ShowAsync((Window) _view.GetVisualRoot());
 
-            InputList.AddRange(PathExtension.GetAllFiles(result));
+            if (!string.IsNullOrWhiteSpace(result)) InputList.AddRange(PathExtension.GetAllFiles(result));
         }
 
         public void DoRemoveFile()

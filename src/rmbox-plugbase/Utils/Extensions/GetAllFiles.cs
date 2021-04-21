@@ -9,6 +9,8 @@ namespace Ruminoid.Toolbox.Utils.Extensions
             string directory)
         {
             List<string> result = new();
+            if (string.IsNullOrEmpty(directory)) return result;
+
             GetAllFilesIntl(directory, result);
             return result;
         }
