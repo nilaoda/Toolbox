@@ -41,10 +41,4 @@
         <ProjectReference Include="..\rmbox-plugbase\rmbox-plugbase.csproj" />
     </ItemGroup>
 
-    <ItemGroup>
-      <None Update="rmbox.VisualElementsManifest.xml">
-        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      </None>
-    </ItemGroup>
-
 </Project>
