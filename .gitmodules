@@ -1,3 +1,6 @@
 [submodule "lib/rmnd-metro"]
 	path = lib/rmnd-metro
 	url = https://github.com/Ruminoid/rmnd-metro.git
+[submodule "lib/rmnd-common2"]
+	path = lib/rmnd-common2
+	url = https://github.com/Ruminoid/Common2.git
