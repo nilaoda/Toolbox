@@ -1,26 +1,27 @@
-<UserControl xmlns="https://github.com/avaloniaui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             xmlns:controls="clr-namespace:Ruminoid.Toolbox.Shell.Controls"
-             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
-             x:Class="Ruminoid.Toolbox.Shell.Views.QueueView">
+<UserControl
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:metroControls="clr-namespace:Ruminoid.Common2.Metro.MetroControls;assembly=rmnd-metro"
+    mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+    x:Class="Ruminoid.Toolbox.Shell.Views.QueueView">
     <UserControl.Styles>
         <Style Selector="ProgressBar">
             <Setter Property="Height" Value="32" />
         </Style>
 
         <Style Selector="GridSplitter">
-            <Setter Property="Opacity" Value="0.5"/>
+            <Setter Property="Opacity" Value="0.5" />
             <Setter Property="Transitions">
                 <Transitions>
-                    <DoubleTransition Property="Opacity" Duration="0:0:0.2"/>
+                    <DoubleTransition Property="Opacity" Duration="0:0:0.2" />
                 </Transitions>
             </Setter>
         </Style>
 
         <Style Selector="GridSplitter:pointerover">
-            <Setter Property="Opacity" Value="1"/>
+            <Setter Property="Opacity" Value="1" />
         </Style>
     </UserControl.Styles>
 
@@ -43,7 +44,7 @@
                         Spacing="6"
                         HorizontalAlignment="Center"
                         VerticalAlignment="Center">
-                        <controls:DrawingIcon
+                        <metroControls:DrawingIcon
                             Width="32"
                             Height="32"
                             Icon="{DynamicResource VSCodeDark.server}" />
@@ -57,19 +58,19 @@
                     Spacing="12"
                     Margin="12">
                     <StackPanel.Styles>
-                        <Style Selector="controls|DrawingIconButton">
+                        <Style Selector="metroControls|DrawingIconButton">
                             <Setter Property="HorizontalAlignment" Value="Stretch" />
                         </Style>
                     </StackPanel.Styles>
-                    <controls:DrawingIconButton
+                    <metroControls:DrawingIconButton
                         Icon="{DynamicResource VSCodeDark.debug-stop}"
                         Command="{Binding DoKill}"
                         Content="强制停止" />
-                    <controls:DrawingIconButton
+                    <metroControls:DrawingIconButton
                         Icon="{DynamicResource VSCodeDark.debug-step-over}"
                         Command="{Binding DoSkip}"
                         Content="跳过" />
-                    <controls:DrawingIconButton
+                    <metroControls:DrawingIconButton
                         Icon="{DynamicResource VSCodeDark.close}"
                         Command="{Binding DoClear}"
                         Content="清空" />
@@ -154,8 +155,8 @@
                 <ListBox.ItemTemplate>
                     <DataTemplate>
                         <StackPanel
-                              Spacing="3"
-                              Margin="0,3" >
+                            Spacing="3"
+                            Margin="0,3">
                             <Grid
                                 ColumnDefinitions="Auto,*">
                                 <TextBlock
@@ -214,7 +215,7 @@
                         Grid.Column="4"
                         VerticalAlignment="Center"
                         Command="{Binding DoClearRunnerOutput}">
-                        <controls:DrawingIcon
+                        <metroControls:DrawingIcon
                             Icon="{DynamicResource VSCodeDark.close}" />
                     </Button>
                 </Grid>

@@ -1,18 +1,18 @@
-<metroControls:MetroWindow xmlns="https://github.com/avaloniaui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             xmlns:views="clr-namespace:Ruminoid.Toolbox.Shell.Views"
-             xmlns:controls="clr-namespace:Ruminoid.Toolbox.Shell.Controls"
-             xmlns:metroControls="clr-namespace:Ruminoid.Common2.Metro.MetroControls;assembly=rmnd-metro"
-             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
-             x:Class="Ruminoid.Toolbox.Shell.Views.MainWindow"
-             Title="Toolbox"
-             Icon="resm:Ruminoid.Toolbox.Shell.Assets.rmbox.ico"
-             Width="1050" Height="600"
-             MinWidth="1050" MinHeight="600">
+<metroControls:MetroWindow
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:views="clr-namespace:Ruminoid.Toolbox.Shell.Views"
+    xmlns:metroControls="clr-namespace:Ruminoid.Common2.Metro.MetroControls;assembly=rmnd-metro"
+    mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+    x:Class="Ruminoid.Toolbox.Shell.Views.MainWindow"
+    Title="Toolbox"
+    Icon="resm:Ruminoid.Toolbox.Shell.Assets.rmbox.ico"
+    Width="1050" Height="600"
+    MinWidth="1050" MinHeight="600">
     <TabControl
-            SelectedIndex="{Binding CurrentTabIndex}">
+        SelectedIndex="{Binding CurrentTabIndex}">
         <TabItem
             Header="开始">
             <StackPanel
@@ -22,45 +22,45 @@
                 <Image
                     Source="resm:Ruminoid.Toolbox.Shell.Assets.rmbox.png"
                     Width="150" Height="150"
-                    HorizontalAlignment="Center"/>
+                    HorizontalAlignment="Center" />
 
                 <TextBlock
                     HorizontalAlignment="Center"
                     TextWrapping="NoWrap"
-                    Text="{Binding VersionSummary}"/>
+                    Text="{Binding VersionSummary}" />
 
                 <Grid
                     Height="1"
-                    Background="#FF909090"/>
+                    Background="#FF909090" />
 
                 <StackPanel
                     Spacing="3">
                     <StackPanel.Styles>
                         <Style Selector="Button">
-                            <Setter Property="Background" Value="Transparent"/>
-                            <Setter Property="HorizontalAlignment" Value="Stretch"/>
-                            <Setter Property="VerticalAlignment" Value="Stretch"/>
-                            <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
-                            <Setter Property="VerticalContentAlignment" Value="Stretch"/>
-                            <Setter Property="MinWidth" Value="450"/>
+                            <Setter Property="Background" Value="Transparent" />
+                            <Setter Property="HorizontalAlignment" Value="Stretch" />
+                            <Setter Property="VerticalAlignment" Value="Stretch" />
+                            <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                            <Setter Property="VerticalContentAlignment" Value="Stretch" />
+                            <Setter Property="MinWidth" Value="450" />
                         </Style>
 
-                        <Style Selector="controls|DrawingIcon">
-                            <Setter Property="VerticalAlignment" Value="Center"/>
-                            <Setter Property="Margin" Value="12,0"/>
-                            <Setter Property="Width" Value="32"/>
-                            <Setter Property="Height" Value="32"/>
+                        <Style Selector="metroControls|DrawingIcon">
+                            <Setter Property="VerticalAlignment" Value="Center" />
+                            <Setter Property="Margin" Value="12,0" />
+                            <Setter Property="Width" Value="32" />
+                            <Setter Property="Height" Value="32" />
                         </Style>
 
                         <Style Selector="TextBlock.action-title">
-                            <Setter Property="FontSize" Value="22"/>
-                            <Setter Property="TextWrapping" Value="NoWrap"/>
-                            <Setter Property="Margin" Value="0,2"/>
+                            <Setter Property="FontSize" Value="22" />
+                            <Setter Property="TextWrapping" Value="NoWrap" />
+                            <Setter Property="Margin" Value="0,2" />
                         </Style>
 
                         <Style Selector="TextBlock.action-description">
-                            <Setter Property="TextWrapping" Value="Wrap"/>
-                            <Setter Property="Margin" Value="0,2"/>
+                            <Setter Property="TextWrapping" Value="Wrap" />
+                            <Setter Property="Margin" Value="0,2" />
                         </Style>
                     </StackPanel.Styles>
 
@@ -68,20 +68,20 @@
                         Command="{Binding DoCreateNewOperation}">
                         <Grid
                             ColumnDefinitions="Auto,Auto">
-                            <controls:DrawingIcon
+                            <metroControls:DrawingIcon
                                 Grid.Column="0"
-                                Icon="{DynamicResource VSCodeDark.add}"/>
+                                Icon="{DynamicResource VSCodeDark.add}" />
                             <Grid
                                 Grid.Column="1"
                                 RowDefinitions="Auto,Auto">
                                 <TextBlock
                                     Grid.Row="0"
                                     Classes="action-title"
-                                    Text="创建操作"/>
+                                    Text="创建操作" />
                                 <TextBlock
                                     Grid.Row="1"
                                     Classes="action-description"
-                                    Text="创建操作以开始处理媒体。"/>
+                                    Text="创建操作以开始处理媒体。" />
                             </Grid>
                         </Grid>
                     </Button>
@@ -90,20 +90,20 @@
                         Command="{Binding DoCreateNewBatch}">
                         <Grid
                             ColumnDefinitions="Auto,Auto">
-                            <controls:DrawingIcon
+                            <metroControls:DrawingIcon
                                 Grid.Column="0"
-                                Icon="{DynamicResource VSCodeDark.list-ordered}"/>
+                                Icon="{DynamicResource VSCodeDark.list-ordered}" />
                             <Grid
                                 Grid.Column="1"
                                 RowDefinitions="Auto,Auto">
                                 <TextBlock
                                     Grid.Row="0"
                                     Classes="action-title"
-                                    Text="创建批量操作"/>
+                                    Text="创建批量操作" />
                                 <TextBlock
                                     Grid.Row="1"
                                     Classes="action-description"
-                                    Text="开始批量处理媒体。"/>
+                                    Text="开始批量处理媒体。" />
                             </Grid>
                         </Grid>
                     </Button>
@@ -112,20 +112,20 @@
                         Command="{Binding DoShowAboutWindow}">
                         <Grid
                             ColumnDefinitions="Auto,*">
-                            <controls:DrawingIcon
+                            <metroControls:DrawingIcon
                                 Grid.Column="0"
-                                Icon="{DynamicResource VSCodeDark.help}"/>
+                                Icon="{DynamicResource VSCodeDark.help}" />
                             <Grid
                                 Grid.Column="1"
                                 RowDefinitions="Auto,Auto">
                                 <TextBlock
                                     Grid.Row="0"
                                     Classes="action-title"
-                                    Text="查看帮助"/>
+                                    Text="查看帮助" />
                                 <TextBlock
                                     Grid.Row="1"
                                     Classes="action-description"
-                                    Text="查看帮助以快速上手。"/>
+                                    Text="查看帮助以快速上手。" />
                             </Grid>
                         </Grid>
                     </Button>
@@ -134,20 +134,20 @@
                         Command="{Binding DoClose}">
                         <Grid
                             ColumnDefinitions="Auto,*">
-                            <controls:DrawingIcon
+                            <metroControls:DrawingIcon
                                 Grid.Column="0"
-                                Icon="{DynamicResource VSCodeDark.close}"/>
+                                Icon="{DynamicResource VSCodeDark.close}" />
                             <Grid
                                 Grid.Column="1"
                                 RowDefinitions="Auto,Auto">
                                 <TextBlock
                                     Grid.Row="0"
                                     Classes="action-title"
-                                    Text="退出"/>
+                                    Text="退出" />
                                 <TextBlock
                                     Grid.Row="1"
                                     Classes="action-description"
-                                    Text="退出Ruminoid Toolbox。"/>
+                                    Text="退出Ruminoid Toolbox。" />
                             </Grid>
                         </Grid>
                     </Button>
@@ -156,7 +156,7 @@
         </TabItem>
         <TabItem
             Header="任务">
-            <views:QueueView/>
+            <views:QueueView />
         </TabItem>
     </TabControl>
 </metroControls:MetroWindow>

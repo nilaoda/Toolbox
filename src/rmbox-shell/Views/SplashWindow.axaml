@@ -1,36 +1,37 @@
-<metroControls:MetroWindow xmlns="https://github.com/avaloniaui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             xmlns:viewModels="clr-namespace:Ruminoid.Toolbox.Shell.ViewModels"
-             xmlns:metroControls="clr-namespace:Ruminoid.Common2.Metro.MetroControls;assembly=rmnd-metro"
-             mc:Ignorable="d" d:DesignWidth="500" d:DesignHeight="650"
-             x:Class="Ruminoid.Toolbox.Shell.Views.SplashWindow"
-             Title="Toolbox"
-             Icon="resm:Ruminoid.Toolbox.Shell.Assets.rmbox.ico"
-             ExtendClientAreaChromeHints="NoChrome"
-             ExtendClientAreaTitleBarHeightHint="-1"
-             ExtendClientAreaToDecorationsHint="True"
-             Width="500" Height="650"
-             CanResize="False"
-             WindowStartupLocation="CenterScreen"
-             ShowActivated="True"
-             ShowInTaskbar="True"
-             Background="#220020">
+<metroControls:MetroWindow
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:viewModels="clr-namespace:Ruminoid.Toolbox.Shell.ViewModels"
+    xmlns:metroControls="clr-namespace:Ruminoid.Common2.Metro.MetroControls;assembly=rmnd-metro"
+    mc:Ignorable="d" d:DesignWidth="500" d:DesignHeight="650"
+    x:Class="Ruminoid.Toolbox.Shell.Views.SplashWindow"
+    Title="Toolbox"
+    Icon="resm:Ruminoid.Toolbox.Shell.Assets.rmbox.ico"
+    ExtendClientAreaChromeHints="NoChrome"
+    ExtendClientAreaTitleBarHeightHint="-1"
+    ExtendClientAreaToDecorationsHint="True"
+    Width="500" Height="650"
+    CanResize="False"
+    WindowStartupLocation="CenterScreen"
+    ShowActivated="True"
+    ShowInTaskbar="True"
+    Background="#220020">
     <Window.DataContext>
-        <viewModels:SplashWindowViewModel/>
+        <viewModels:SplashWindowViewModel />
     </Window.DataContext>
 
     <Grid
         RowDefinitions="*,Auto,Auto">
         <Grid.Styles>
             <Style Selector="TextBlock">
-                <Setter Property="Foreground" Value="#FF61F6"/>
+                <Setter Property="Foreground" Value="#FF61F6" />
             </Style>
 
             <Style Selector="TextBlock.header">
-                <Setter Property="FontWeight" Value="Light"/>
-                <Setter Property="FontSize" Value="28"/>
+                <Setter Property="FontWeight" Value="Light" />
+                <Setter Property="FontSize" Value="28" />
             </Style>
         </Grid.Styles>
 
@@ -38,7 +39,7 @@
             Grid.Row="0"
             Source="resm:Ruminoid.Toolbox.Shell.Assets.rmbox.png"
             Width="200"
-            Height="200"/>
+            Height="200" />
         <Grid
             Grid.Row="1">
             <StackPanel
@@ -46,11 +47,11 @@
                 Spacing="14">
                 <TextBlock
                     Text="Ruminoid Toolbox"
-                    Classes="header"/>
+                    Classes="header" />
                 <TextBlock
-                    Text="{Binding VersionSummary}"/>
+                    Text="{Binding VersionSummary}" />
                 <TextBlock
-                    Text="{Binding InitializeStatus}"/>
+                    Text="{Binding InitializeStatus}" />
             </StackPanel>
         </Grid>
 
@@ -62,12 +63,12 @@
                 <Grid
                     Height="1"
                     Background="#FFFF61F6"
-                    Opacity="0.2"/>
+                    Opacity="0.2" />
                 <TextBlock
                     Text="这是一个免费软件。如果你付费得到了本软件，请立即寻找投诉渠道并与我联系。"
                     Opacity="0.6"
                     Margin="6,0"
-                    TextWrapping="Wrap"/>
+                    TextWrapping="Wrap" />
             </StackPanel>
         </Grid>
     </Grid>
