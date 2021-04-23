@@ -3,6 +3,7 @@
              xmlns:metro="clr-namespace:Ruminoid.Common2.Metro;assembly=rmnd-metro"
              x:Class="Ruminoid.Toolbox.Shell.App">
     <Application.Styles>
-        <metro:RuminoidMetro/>
+        <metro:RuminoidMetro />
+        <StyleInclude Source="/Styles/Accent.xaml" />
     </Application.Styles>
 </Application>

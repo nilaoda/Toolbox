@@ -1,0 +1,16 @@
+<Style
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Style.Resources>
+        <Color x:Key="SystemColorHighlightColor">#FFFF61F6</Color>
+        <Color x:Key="SystemColorHotlightColor">#FFE64BE6</Color>
+
+        <Color x:Key="SystemAccentColor">#FFE64BE6</Color>
+        <Color x:Key="SystemAccentColorDark1">#FFD731D2</Color>
+        <Color x:Key="SystemAccentColorDark2">#FF82026E</Color>
+        <Color x:Key="SystemAccentColorDark3">#FF470137</Color>
+        <Color x:Key="SystemAccentColorLight1">#FFFF61F6</Color>
+        <Color x:Key="SystemAccentColorLight2">#FFFF96FF</Color>
+        <Color x:Key="SystemAccentColorLight3">#FFFFB4FF</Color>
+    </Style.Resources>
+</Style>
