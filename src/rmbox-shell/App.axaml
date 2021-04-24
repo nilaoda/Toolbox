@@ -1,7 +1,19 @@
 <Application xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:metro="clr-namespace:Ruminoid.Common2.Metro;assembly=rmnd-metro"
-             x:Class="Ruminoid.Toolbox.Shell.App">
+             xmlns:viewModels="clr-namespace:Ruminoid.Toolbox.Shell.ViewModels"
+             x:Class="Ruminoid.Toolbox.Shell.App"
+             Name="Toolbox">
+    <Application.DataContext>
+        <viewModels:AppViewModel />
+    </Application.DataContext>
+
+    <NativeMenu.Menu>
+        <NativeMenu>
+            <NativeMenuItem Header="帮助" Command="{Binding DoShowAboutWindow}" />
+        </NativeMenu>
+    </NativeMenu.Menu>
+
     <Application.Styles>
         <metro:RuminoidMetro />
         <StyleInclude Source="/Styles/Accent.xaml" />
