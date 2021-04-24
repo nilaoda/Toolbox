@@ -66,7 +66,8 @@
                     </StackPanel.Styles>
 
                     <Button
-                        Command="{Binding DoCreateNewOperation}">
+                        Command="{Binding DoCreateNewOperation}"
+                        Classes="block accent">
                         <Grid
                             ColumnDefinitions="Auto,Auto">
                             <metroControls:DrawingIcon
@@ -88,7 +89,8 @@
                     </Button>
 
                     <Button
-                        Command="{Binding DoCreateNewBatch}">
+                        Command="{Binding DoCreateNewBatch}"
+                        Classes="block">
                         <Grid
                             ColumnDefinitions="Auto,Auto">
                             <metroControls:DrawingIcon
@@ -110,7 +112,8 @@
                     </Button>
 
                     <Button
-                        Command="{Binding DoShowAboutWindow}">
+                        Command="{Binding DoShowAboutWindow}"
+                        Classes="block">
                         <Grid
                             ColumnDefinitions="Auto,*">
                             <metroControls:DrawingIcon
@@ -132,7 +135,8 @@
                     </Button>
 
                     <Button
-                        Command="{Binding DoClose}">
+                        Command="{Binding DoClose}"
+                        Classes="block">
                         <Grid
                             ColumnDefinitions="Auto,*">
                             <metroControls:DrawingIcon
