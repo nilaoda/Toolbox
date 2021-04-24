@@ -68,8 +68,7 @@
                         Spacing="6">
                         <Button
                             Command="{Binding DoAddFile}"
-                            Content="添加文件"
-                            Classes="accent"/>
+                            Content="添加文件"/>
                         <Button
                             Command="{Binding DoAddFolder}"
                             Content="添加文件夹"/>

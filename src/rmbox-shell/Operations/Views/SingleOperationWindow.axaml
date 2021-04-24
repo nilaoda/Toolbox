@@ -26,15 +26,13 @@
                     Icon="{DynamicResource VSCodeDark.check}"
                     Command="{x:Static helpers:CommandHelper.OpenContextMenuCommand}"
                     CommandParameter="{Binding RelativeSource={RelativeSource Self}}"
-                    Content="添加到队列"
-                    Classes="accent">
+                    Content="添加到队列">
                     <metroControls:DrawingIconButton.ContextMenu>
                         <ContextMenu>
                             <metroControls:DrawingIconMenuItem
                                 Icon="{DynamicResource VSCodeDark.check}"
                                 Command="{Binding DoAddToQueue}"
-                                Header="添加到队列"
-                                Classes="accent" />
+                                Header="添加到队列" />
                             <metroControls:DrawingIconMenuItem
                                 Icon="{DynamicResource VSCodeDark.arrow-right}"
                                 Command="{Binding DoAddToQueueAndContinue}"
