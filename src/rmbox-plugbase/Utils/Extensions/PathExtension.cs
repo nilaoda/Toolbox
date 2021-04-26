@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
 
@@ -39,6 +40,6 @@ namespace Ruminoid.Toolbox.Utils.Extensions
 
         public static string GetFullPathOrEmpty(
             string path) =>
-            string.IsNullOrWhiteSpace(path) ? string.Empty : Path.GetFullPath(path);
+            string.IsNullOrWhiteSpace(path) ? string.Empty : Path.GetFullPath(path, Environment.CurrentDirectory);
     }
 }
