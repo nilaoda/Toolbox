@@ -22,13 +22,11 @@ namespace Ruminoid.Toolbox.Shell.ViewModels
             Initialize =
                 Observable.Create<object>(async observer =>
                 {
-                    await Task.Delay(TimeSpan.FromSeconds(1));
+                    await Task.Delay(TimeSpan.FromSeconds(0.2));
 
                     // Initialize MainWindow
                     if (Application.Current.ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
-                    {
                         desktop.MainWindow = new MainWindow();
-                    }
 
                     // Load Services
                     InitializeStatus = "初始化插件...";
