@@ -32,7 +32,6 @@
         <PackageReference Include="Microsoft.Extensions.Hosting" Version="5.0.0" />
         <PackageReference Include="Microsoft.TemplateEngine.Core" Version="5.0.202" />
         <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
-        <PackageReference Include="System.Composition" Version="5.0.1" />
         <PackageReference Include="System.Reactive.Linq" Version="5.0.0" />
         <PackageReference Include="Websocket.Client" Version="4.3.30" />
     </ItemGroup>
