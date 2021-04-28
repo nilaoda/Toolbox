@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Composition;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -21,8 +20,7 @@ using Ruminoid.Toolbox.Utils.Extensions;
 
 namespace Ruminoid.Toolbox.Composition.Roslim
 {
-    [Export]
-    public class RoslimGenerator
+    public class RoslimGenerator : IRoslimGenerator
     {
         #region Constructor
 
