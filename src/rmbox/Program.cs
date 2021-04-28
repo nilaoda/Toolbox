@@ -48,7 +48,7 @@ namespace Ruminoid.Toolbox
 
         private static IHostBuilder CreateHostBuilder(string[] args) =>
             Host.CreateDefaultBuilder(args)
-                .ConfigureServices((context, services) =>
+                .ConfigureServices((_, services) =>
                 {
                     // Register Services
 
