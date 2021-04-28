@@ -90,9 +90,9 @@ namespace Ruminoid.Toolbox.Composition.Roslim
                 // Parse Target
                 string target = Path.GetExtension(path) switch
                 {
-                    { } e when e == ".py" => "python",
-                    { } e when e == ".js" || e == ".mjs" => "node",
-                    { } e when e == ".lua" => "lua53",
+                    ".py" => "python",
+                    ".js" or ".mjs" => "node",
+                    ".lua" => "lua53",
                     _ => throw new RoslimException("不支持的插件格式。")
                 };
 
