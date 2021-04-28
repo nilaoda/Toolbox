@@ -2,12 +2,19 @@ using System;
 using Avalonia;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Markup.Xaml;
-using Ruminoid.Toolbox.Shell.Views;
+using JetBrains.Annotations;
+using ReactiveUI;
+using Ruminoid.Toolbox.Shell.Windows;
 
 namespace Ruminoid.Toolbox.Shell
 {
     public class App : Application
     {
+        public App()
+        {
+            DataContext = new AppViewModel();
+        }
+
         public override void Initialize()
         {
             AvaloniaXamlLoader.Load(this);
@@ -17,7 +24,7 @@ namespace Ruminoid.Toolbox.Shell
         {
             if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
             {
-                SplashWindow splash = new SplashWindow();
+                SplashWindow splash = new();
                 splash.Show();
 
                 splash.ViewModel.Initialize
@@ -32,6 +39,19 @@ namespace Ruminoid.Toolbox.Shell
             }
 
             base.OnFrameworkInitializationCompleted();
+        }
+    }
+
+    public class AppViewModel : ReactiveObject
+    {
+        [UsedImplicitly]
+        public void DoShowAboutWindow()
+        {
+            if (Application.Current.ApplicationLifetime is IClassicDesktopStyleApplicationLifetime
+            {
+                MainWindow: MainWindow mainWindow
+            })
+                new AboutWindow().ShowDialog(mainWindow);
         }
     }
 }
