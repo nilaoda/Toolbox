@@ -1,11 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Reactive.Linq;
 using Avalonia.Controls;
 using DynamicData;
-using Newtonsoft.Json.Linq;
+using JetBrains.Annotations;
 using ReactiveUI;
 using Ruminoid.Common2.Metro.MetroControls.Dialogs;
 using Ruminoid.Toolbox.Composition.Services;
@@ -21,6 +19,13 @@ namespace Ruminoid.Toolbox.Shell.Operations.ViewModels
 {
     public class BatchOperationWindowViewModel : ReactiveObject
     {
+        private readonly Collection<(ConfigSectionAttribute ConfigSectionAttribute, ConfigSectionBase ConfigSection)>
+            _configSections = new();
+
+        private readonly BatchOperationWindow _window;
+
+        private IOperation _operation;
+
         public BatchOperationWindowViewModel(
             OperationModel operationModel,
             BatchOperationWindow window)
@@ -34,69 +39,65 @@ namespace Ruminoid.Toolbox.Shell.Operations.ViewModels
             InitializeTabs();
         }
 
-        private readonly BatchOperationWindow _window;
-
         private OperationModel OperationModel { get; }
 
+        [UsedImplicitly]
         private Collection<TabItem> Items { get; } = new();
-
-        #region Services
-
-        private readonly IPluginService _pluginService;
-        private readonly QueueService _queueService;
-
-        #endregion
-
-        private IOperation _operation;
-
-        private readonly Collection<(ConfigSectionAttribute ConfigSectionAttribute, ConfigSectionBase ConfigSection)>
-            _configSections = new();
 
         #region Tabs
 
         private void InitializeTabs()
         {
+#if !DEBUG
+
             try
             {
-                ConfigSectionAttribute batchAttribute =
-                    Attribute.GetCustomAttribute(typeof(BatchIOConfigSection), typeof(ConfigSectionAttribute)) as
-                        ConfigSectionAttribute;
-                BatchIOConfigSection batchConfig = new BatchIOConfigSection();
 
-                _configSections.Add((batchAttribute, batchConfig));
+#endif
+
+            ConfigSectionAttribute batchAttribute =
+                Attribute.GetCustomAttribute(typeof(BatchIOConfigSection), typeof(ConfigSectionAttribute)) as
+                    ConfigSectionAttribute;
+            BatchIOConfigSection batchConfig = new BatchIOConfigSection();
+
+            _configSections.Add((batchAttribute, batchConfig));
+
+            Items.Add(
+                new()
+                {
+                    Header = batchAttribute?.Name,
+                    Content = batchConfig
+                });
+
+            _operation = Activator.CreateInstance(OperationModel.Type) as IOperation;
+
+            if (_operation is null)
+                throw new ArgumentException("Cannot Construct Operation.");
+
+            foreach (var (key, _) in _operation.RequiredConfigSections)
+            {
+                // Exclude
+                if (key == ConfigSectionBase.IOConfigSectionId)
+                    continue;
+
+                (ConfigSectionAttribute attribute, ConfigSectionBase section) =
+                    _pluginService.CreateConfigSection(key);
+
+                if (section is null)
+                    throw new ArgumentException("Cannot Construct ConfigSection.");
+
+                _configSections.Add((attribute, section));
 
                 Items.Add(
-                    new()
+                    new TabItem
                     {
-                        Header = batchAttribute?.Name,
-                        Content = batchConfig
+                        Header = attribute.Name,
+                        Content = section
                     });
+            }
 
-                _operation = Activator.CreateInstance(OperationModel.Type) as IOperation;
+#if !DEBUG
 
-                if (_operation is null)
-                    throw new ArgumentException("Cannot Construct Operation.");
-
-                foreach (KeyValuePair<string, JToken> sectionData in _operation.RequiredConfigSections)
-                {
-                    // Exclude
-                    if (sectionData.Key == ConfigSectionBase.IOConfigSectionId)
-                        continue;
-
-                    (ConfigSectionAttribute attribute, ConfigSectionBase section) = _pluginService.CreateConfigSection(sectionData.Key);
-
-                    if (section is null)
-                        throw new ArgumentException("Cannot Construct ConfigSection.");
-
-                    _configSections.Add((attribute, section));
-
-                    Items.Add(
-                        new TabItem
-                        {
-                            Header = attribute.Name,
-                            Content = section
-                        });
-                }
             }
             catch (Exception)
             {
@@ -109,28 +110,36 @@ namespace Ruminoid.Toolbox.Shell.Operations.ViewModels
                         RxApp.MainThreadScheduler)
                     .Subscribe(_ => { });
             }
+
+#endif
         }
+
+        #endregion
+
+        #region Services
+
+        private readonly IPluginService _pluginService;
+        private readonly QueueService _queueService;
 
         #endregion
 
         #region Commands
 
-        // ReSharper disable MemberCanBePrivate.Global
-
+        [UsedImplicitly]
         public void DoAddToQueue()
         {
             DoAddToQueueAndContinue();
             _window.ForceClose();
         }
 
+        [UsedImplicitly]
         public void DoAddToQueueAndContinue() => _queueService.AddOrUpdate(GenerateProjectModel());
 
+        [UsedImplicitly]
         public void DoExport()
         {
             throw new NotImplementedException();
         }
-
-        // ReSharper restore MemberCanBePrivate.Global
 
         #endregion
 

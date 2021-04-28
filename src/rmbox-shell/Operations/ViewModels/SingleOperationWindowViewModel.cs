@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using Avalonia.Controls;
 using DynamicData;
+using JetBrains.Annotations;
 using Newtonsoft.Json.Linq;
 using ReactiveUI;
 using Ruminoid.Toolbox.Composition.Services;
@@ -35,6 +36,7 @@ namespace Ruminoid.Toolbox.Shell.Operations.ViewModels
 
         private OperationModel OperationModel { get; }
 
+        [UsedImplicitly]
         private Collection<TabItem> Items { get; } = new();
 
         #region Services
@@ -104,22 +106,22 @@ namespace Ruminoid.Toolbox.Shell.Operations.ViewModels
         #endregion
 
         #region Commands
-        
-        // ReSharper disable MemberCanBePrivate.Global
 
+        [UsedImplicitly]
         public void DoAddToQueue()
         {
             DoAddToQueueAndContinue();
             _window.ForceClose();
         }
+
+        [UsedImplicitly]
         public void DoAddToQueueAndContinue() => _queueService.AddOrUpdate(GenerateProjectModel());
 
+        [UsedImplicitly]
         public void DoExport()
         {
             throw new NotImplementedException();
         }
-
-        // ReSharper restore MemberCanBePrivate.Global
 
         #endregion
 
