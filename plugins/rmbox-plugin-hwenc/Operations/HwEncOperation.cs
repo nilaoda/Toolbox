@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using Newtonsoft.Json.Linq;
+using Ruminoid.Common2.Utils.UserTypes;
 using Ruminoid.Toolbox.Core;
 using Ruminoid.Toolbox.Utils.Extensions;
 
@@ -11,7 +12,9 @@ namespace Ruminoid.Toolbox.Plugins.HwEnc.Operations
     [Operation(
         "Ruminoid.Toolbox.Plugins.HwEnc.Operations.HwEncOperation",
         "显卡压制",
-        "使用显卡进行视频压制。")]
+        "使用显卡进行视频压制。",
+        RateValue.FourStars,
+        "视频压制")]
     public class HwEncOperation : IOperation
     {
         public List<TaskCommand> Generate(Dictionary<string, JToken> sectionData)

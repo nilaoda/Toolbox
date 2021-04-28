@@ -13,7 +13,9 @@ namespace Ruminoid.Toolbox.Composition.Roslim
     [Operation(
         "Ruminoid.Toolbox.Composition.Roslim.RoslimDefaultOperation",
         "(Roslim)",
-        "(Roslim Operation)")]
+        "(Roslim Operation)",
+        ROSLIM_OPERATION_RATE,
+        "(Roslim Operation Category)")]
     public class RoslimOperation : IOperation
     {
         public List<TaskCommand> Generate(Dictionary<string, JToken> sectionData)

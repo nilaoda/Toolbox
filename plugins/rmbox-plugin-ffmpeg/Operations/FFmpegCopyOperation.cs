@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
-using System.IO;
 using Newtonsoft.Json.Linq;
+using Ruminoid.Common2.Utils.UserTypes;
 using Ruminoid.Toolbox.Core;
 using Ruminoid.Toolbox.Utils.Extensions;
 
@@ -9,7 +9,9 @@ namespace Ruminoid.Toolbox.Plugins.FFmpeg.Operations
     [Operation(
         "Ruminoid.Toolbox.Plugins.FFmpeg.Operations.FFmpegCopyOperation",
         "格式转换（不压制）",
-        "使用 FFmpeg 进行视频格式的转换（封装）。")]
+        "使用 FFmpeg 进行视频格式的转换（封装）。",
+        RateValue.ThreeStars,
+        "封装转换")]
     public class FFmpegCopyOperation : IOperation
     {
         public List<TaskCommand> Generate(Dictionary<string, JToken> sectionData)

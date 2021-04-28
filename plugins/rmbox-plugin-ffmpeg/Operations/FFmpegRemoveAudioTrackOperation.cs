@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Newtonsoft.Json.Linq;
+using Ruminoid.Common2.Utils.UserTypes;
 using Ruminoid.Toolbox.Core;
 using Ruminoid.Toolbox.Utils.Extensions;
 
@@ -8,7 +9,9 @@ namespace Ruminoid.Toolbox.Plugins.FFmpeg.Operations
     [Operation(
         "Ruminoid.Toolbox.Plugins.FFmpeg.Operations.FFmpegRemoveAudioTrackOperation",
         "移除音频轨",
-        "移除视频中的音频轨。视频画面和字幕会保留。")]
+        "移除视频中的音频轨。视频画面和字幕会保留。",
+        RateValue.ThreeStars,
+        "视频处理")]
     public class FFmpegRemoveAudioTrackOperation : IOperation
     {
         public List<TaskCommand> Generate(Dictionary<string, JToken> sectionData)

@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Newtonsoft.Json.Linq;
+using Ruminoid.Common2.Utils.UserTypes;
 using Ruminoid.Toolbox.Core;
 using Ruminoid.Toolbox.Utils.Extensions;
 
@@ -8,7 +9,9 @@ namespace Ruminoid.Toolbox.Plugins.FFmpeg.Operations
     [Operation(
         "Ruminoid.Toolbox.Plugins.FFmpeg.Operations.FFmpegMetaRotateOperation",
         "画面方向纠正",
-        "纠正由于压制导致错误显示的画面方向（180°）。")]
+        "纠正由于压制导致错误显示的画面方向（180°）。",
+        RateValue.ThreeStars,
+        "视频处理")]
     public class FFmpegMetaRotateOperation : IOperation
     {
         public List<TaskCommand> Generate(Dictionary<string, JToken> sectionData)

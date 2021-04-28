@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Newtonsoft.Json.Linq;
+using Ruminoid.Common2.Utils.UserTypes;
 using Ruminoid.Toolbox.Core;
 using Ruminoid.Toolbox.Utils.Extensions;
 
@@ -8,7 +9,9 @@ namespace Ruminoid.Toolbox.Plugins.FFmpeg.Operations
     [Operation(
         "Ruminoid.Toolbox.Plugins.FFmpeg.Operations.FFmpegMuxSubtitleOperation",
         "内封字幕",
-        "使用 FFmpeg 封装字幕到视频。注意这不是压制。")]
+        "使用 FFmpeg 封装字幕到视频。注意这不是压制。",
+        RateValue.ThreeStars,
+        "封装转换")]
     public class FFmpegMuxSubtitleOperation : IOperation
     {
         public List<TaskCommand> Generate(Dictionary<string, JToken> sectionData)

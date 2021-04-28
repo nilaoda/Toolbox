@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using Newtonsoft.Json.Linq;
+using Ruminoid.Common2.Utils.UserTypes;
 using Ruminoid.Toolbox.Core;
 using Ruminoid.Toolbox.Utils.Extensions;
 
@@ -10,7 +11,9 @@ namespace Ruminoid.Toolbox.Plugins.FFmpeg.Operations
     [Operation(
         "Ruminoid.Toolbox.Plugins.FFmpeg.Operations.FFmpegReplaceAudioTrackOperation",
         "替换音频",
-        "保留视频，但将音频替换成另外输入的文件。")]
+        "保留视频，但将音频替换成另外输入的文件。",
+        RateValue.ThreeStars,
+        "视频处理")]
     public class FFmpegReplaceAudioTrackOperation : IOperation
     {
         public List<TaskCommand> Generate(Dictionary<string, JToken> sectionData)

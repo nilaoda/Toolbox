@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Newtonsoft.Json.Linq;
+using Ruminoid.Common2.Utils.UserTypes;
 using Ruminoid.Toolbox.Core;
 using Ruminoid.Toolbox.Utils.Extensions;
 
@@ -8,7 +9,9 @@ namespace Ruminoid.Toolbox.Plugins.FFmpeg.Operations
     [Operation(
         "Ruminoid.Toolbox.Plugins.FFmpeg.Operations.FFmpegAddAudioTrackOperation",
         "添加音轨",
-        "为MKV视频添加另外一条音轨。")]
+        "为MKV视频添加另外一条音轨。",
+        RateValue.ThreeStars,
+        "封装转换")]
     public class FFmpegAddAudioTrackOperation : IOperation
     {
         public List<TaskCommand> Generate(Dictionary<string, JToken> sectionData)

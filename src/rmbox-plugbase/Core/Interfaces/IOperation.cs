@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using JetBrains.Annotations;
 using Newtonsoft.Json.Linq;
+using Ruminoid.Common2.Utils.UserTypes;
 
 namespace Ruminoid.Toolbox.Core
 {
@@ -14,11 +16,18 @@ namespace Ruminoid.Toolbox.Core
     [AttributeUsage(AttributeTargets.Class, Inherited = false)]
     public sealed class OperationAttribute : Attribute
     {
-        public OperationAttribute(string id, string name, string description)
+        public OperationAttribute(
+            string id,
+            string name,
+            string description,
+            [ValueRange(0, 5)] RateValue rate,
+            string category)
         {
             Id = id;
             Name = name;
             Description = description;
+            Rate = rate;
+            Category = category;
         }
 
         public readonly string Id;
@@ -26,5 +35,9 @@ namespace Ruminoid.Toolbox.Core
         public readonly string Name;
 
         public readonly string Description;
+
+        public readonly Rate Rate;
+
+        public readonly string Category;
     }
 }

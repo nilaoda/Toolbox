@@ -123,7 +123,11 @@ namespace Ruminoid.Toolbox.Composition.Roslim
                     new Replacement(TokenConfig.FromValue("(Roslim)"), meta["name"]!.ToObject<string>().EscapeForCode(),
                         "name", true),
                     new Replacement(TokenConfig.FromValue("(Roslim Operation)"),
-                        meta["description"]!.ToObject<string>().EscapeForCode(), "description", true)
+                        meta["description"]!.ToObject<string>().EscapeForCode(), "description", true),
+                    new Replacement(TokenConfig.FromValue("ROSLIM_OPERATION_RATE"),
+                        meta["rate"]!.ToObject<int>().ToString(), "rate", true),
+                    new Replacement(TokenConfig.FromValue("(Roslim Operation Category)"),
+                        meta["category"]!.ToObject<string>(), "category", true)
                 };
 
                 // Add Config Sections

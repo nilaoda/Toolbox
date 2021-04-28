@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Newtonsoft.Json.Linq;
+using Ruminoid.Common2.Utils.UserTypes;
 using Ruminoid.Toolbox.Core;
 using Ruminoid.Toolbox.Utils.Extensions;
 
@@ -8,7 +9,9 @@ namespace Ruminoid.Toolbox.Plugins.Audio.Operations
     [Operation(
         "Ruminoid.Toolbox.Plugins.Audio.Operations.AudioEncodeOperation",
         "音频压制",
-        "使用 QAAC 压制音频。")]
+        "使用 QAAC 压制音频。",
+        RateValue.ThreeStars,
+        "音频压制")]
     public class AudioEncodeOperation : IOperation
     {
         public List<TaskCommand> Generate(Dictionary<string, JToken> sectionData)

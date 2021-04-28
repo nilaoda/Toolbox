@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Newtonsoft.Json.Linq;
+using Ruminoid.Common2.Utils.UserTypes;
 using Ruminoid.Toolbox.Core;
 using Ruminoid.Toolbox.Utils.Extensions;
 
@@ -8,7 +9,9 @@ namespace Ruminoid.Toolbox.Plugins.FFmpeg.Operations
     [Operation(
         "Ruminoid.Toolbox.Plugins.FFmpeg.Operations.FFmpegEncodeOperation",
         "FFmpeg 压制",
-        "使用 FFmpeg 进行视频压制（重编码）。")]
+        "使用 FFmpeg 进行媒体压制（重编码）。",
+        RateValue.ThreeStars,
+        "通用")]
     public class FFmpegEncodeOperation : IOperation
     {
         public List<TaskCommand> Generate(Dictionary<string, JToken> sectionData)

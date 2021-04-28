@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 using Newtonsoft.Json.Linq;
+using Ruminoid.Common2.Utils.UserTypes;
 using Ruminoid.Toolbox.Core;
 using Ruminoid.Toolbox.Utils.Extensions;
 
@@ -9,7 +10,9 @@ namespace Ruminoid.Toolbox.Plugins.FFmpeg.Operations
     [Operation(
         "Ruminoid.Toolbox.Plugins.FFmpeg.Operations.FFmpegAddBlankVideoTrackOperation",
         "音频转视频（黑屏一图流）",
-        "为音频创建黑屏视频。")]
+        "为音频创建黑屏视频。",
+        RateValue.ThreeStars,
+        "视频创建")]
     public class FFmpegAddBlankVideoTrackOperation : IOperation
     {
         public List<TaskCommand> Generate(Dictionary<string, JToken> sectionData)

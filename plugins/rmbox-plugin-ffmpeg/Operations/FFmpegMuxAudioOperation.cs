@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Newtonsoft.Json.Linq;
+using Ruminoid.Common2.Utils.UserTypes;
 using Ruminoid.Toolbox.Core;
 using Ruminoid.Toolbox.Utils.Extensions;
 
@@ -8,7 +9,9 @@ namespace Ruminoid.Toolbox.Plugins.FFmpeg.Operations
     [Operation(
         "Ruminoid.Toolbox.Plugins.FFmpeg.Operations.FFmpegMuxAudioOperation",
         "混流音频",
-        "在视频中混合一段另外的音频（如背景音乐）。")]
+        "在视频中混合一段另外的音频（如背景音乐）。",
+        RateValue.ThreeStars,
+        "视频处理")]
     public class FFmpegMuxAudioOperation : IOperation
     {
         public List<TaskCommand> Generate(Dictionary<string, JToken> sectionData)
