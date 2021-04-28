@@ -25,13 +25,13 @@ namespace Ruminoid.Toolbox.Shell
             BuildAvaloniaApp()
                 .StartWithClassicDesktopLifetime(args);
         }
-        
-        public static AppBuilder BuildAvaloniaApp()
+
+        private static AppBuilder BuildAvaloniaApp()
             => AppBuilder.Configure<App>()
                 .UsePlatformDetect()
                 .LogToTrace();
 
-        public static void InitializeSplat()
+        private static void InitializeSplat()
         {
             IMutableDependencyResolver resolver = Locator.CurrentMutable;
 
