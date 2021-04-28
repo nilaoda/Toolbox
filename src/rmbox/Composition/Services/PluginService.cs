@@ -37,10 +37,10 @@ namespace Ruminoid.Toolbox.Composition.Services
         private Dictionary<string, (OperationAttribute OperationAttribute, IMeta OperationMeta, IOperation
             Operation)> OperationCache { get; } = new();
 
-        public Collection<(ConfigSectionAttribute ConfigSectionAttribute, Type ConfigSectionType)>
+        private Collection<(ConfigSectionAttribute ConfigSectionAttribute, Type ConfigSectionType)>
             ConfigSectionCollection { get; } = new();
 
-        public Collection<(FormatterAttribute FormatterAttribute, Type FormatterType)> FormatterCollection
+        private Collection<(FormatterAttribute FormatterAttribute, Type FormatterType)> FormatterCollection
         {
             get;
         } = new();
