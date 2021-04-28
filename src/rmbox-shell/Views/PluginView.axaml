@@ -1,0 +1,108 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:metroControls="clr-namespace:Ruminoid.Common2.Metro.MetroControls;assembly=rmnd-metro"
+             xmlns:helpers="clr-namespace:Ruminoid.Toolbox.Shell.Helpers"
+             xmlns:models="clr-namespace:Ruminoid.Toolbox.Shell.Models"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="Ruminoid.Toolbox.Shell.Views.PluginView">
+    <Grid
+        Margin="24"
+        RowDefinitions="Auto,*">
+        <TextBlock
+            Grid.Row="0"
+            Margin="0,18"
+            Text="{Binding OperationsCount, StringFormat={}已经安装了{0}个操作。}"
+            FontSize="20"
+            FontWeight="Light" />
+
+        <Grid
+            Grid.Row="1"
+            ColumnDefinitions="*,400">
+            <TreeView
+                Grid.Column="0"
+                Items="{Binding OperationsList}"
+                SelectedItem="{Binding SelectedOperation}">
+                <TreeView.DataTemplates>
+                    <TreeDataTemplate
+                        DataType="models:OperationModel"
+                        ItemsSource="{Binding Children}">
+                        <TextBlock Text="{Binding Name}" />
+                    </TreeDataTemplate>
+                </TreeView.DataTemplates>
+            </TreeView>
+
+            <Grid
+                Grid.Column="1"
+                Background="#10FFFFFF">
+                <Grid
+                    Margin="20"
+                    RowDefinitions="*,Auto">
+                    <Grid
+                        Grid.Row="0"
+                        RowDefinitions="150,Auto,Auto">
+                        <Grid.Styles>
+                            <Style Selector="TextBlock">
+                                <Setter Property="TextWrapping" Value="Wrap" />
+                            </Style>
+                            <Style Selector="StackPanel">
+                                <Setter Property="Spacing" Value="12" />
+                            </Style>
+                        </Grid.Styles>
+
+                        <StackPanel
+                            Grid.Row="0">
+                            <TextBlock
+                                Text="{Binding SelectedOperation.Name}"
+                                FontWeight="Light"
+                                FontSize="32" />
+                            <TextBlock
+                                Text="{Binding SelectedOperation.Description}"
+                                FontSize="18" />
+                        </StackPanel>
+
+                        <Grid
+                            Grid.Row="1"
+                            Height="1"
+                            Background="#80FFFFFF"
+                            Margin="6,18" />
+
+                        <StackPanel
+                            Grid.Row="2">
+                            <TextBlock
+                                Text="{Binding SelectedOperation.Category, StringFormat={}分类：{0}}"
+                                FontSize="16" />
+                            <TextBlock
+                                Text="{Binding SelectedOperation.Author, StringFormat={}作者：{0}}"
+                                FontSize="16" />
+                        </StackPanel>
+                    </Grid>
+
+                    <Grid
+                        Grid.Row="1">
+                        <metroControls:DrawingIconButton
+                            Icon="{DynamicResource VSCodeDark.add}"
+                            Command="{x:Static helpers:CommandHelper.OpenContextMenuCommand}"
+                            CommandParameter="{Binding RelativeSource={RelativeSource Self}}"
+                            IsEnabled="{Binding IsOperationSelected}"
+                            HorizontalAlignment="Stretch"
+                            Padding="16,10,16,12"
+                            Content="创建操作">
+                            <metroControls:DrawingIconButton.ContextMenu>
+                                <ContextMenu>
+                                    <metroControls:DrawingIconMenuItem
+                                        Icon="{DynamicResource VSCodeDark.add}"
+                                        Header="创建简单操作" />
+                                    <metroControls:DrawingIconMenuItem
+                                        Icon="{DynamicResource VSCodeDark.list-ordered}"
+                                        Header="创建批量操作" />
+                                </ContextMenu>
+                            </metroControls:DrawingIconButton.ContextMenu>
+                        </metroControls:DrawingIconButton>
+                    </Grid>
+                </Grid>
+            </Grid>
+        </Grid>
+    </Grid>
+</UserControl>

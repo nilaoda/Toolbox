@@ -1,17 +1,27 @@
 ﻿using System;
+using System.Collections.Generic;
+using JetBrains.Annotations;
+using Ruminoid.Common2.Utils.UserTypes;
 
 namespace Ruminoid.Toolbox.Shell.Models
 {
+    [UsedImplicitly]
     public record OperationModel
     {
-        public string Id { get; set; }
-        
-        public string Name { get; set; }
+        public string Id { get; init; }
 
-        public string Description { get; set; }
+        public string Name { get; init; }
 
-        public string Author { get; set; }
+        public string Description { get; init; }
 
-        public Type Type { get; set; }
+        public Rate Rate { get; init; }
+
+        public string Category { get; init; }
+
+        public string Author { get; init; }
+
+        public Type Type { get; init; }
+
+        public List<OperationModel> Children { get; init; }
     }
 }

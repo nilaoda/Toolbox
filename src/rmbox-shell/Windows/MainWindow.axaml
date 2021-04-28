@@ -18,5 +18,10 @@
             IsClosable="False">
             <views:StartView />
         </metroControls:ClosableTabItem>
+        <metroControls:ClosableTabItem
+            Header="操作"
+            IsClosable="False">
+            <views:PluginView />
+        </metroControls:ClosableTabItem>
     </metroControls:ClosableTabControl>
 </metroControls:MetroWindow>
