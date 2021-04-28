@@ -56,6 +56,7 @@ namespace Ruminoid.Toolbox.Composition.Roslim
                 locations
                     .Where(x => !string.IsNullOrWhiteSpace(x))
                     .Select(x =>MetadataReference.CreateFromFile(x))
+                    .Select(x => x as MetadataReference)
                     .ToArray();
 
             #endregion
