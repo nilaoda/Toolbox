@@ -1,0 +1,163 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:metroControls="clr-namespace:Ruminoid.Common2.Metro.MetroControls;assembly=rmnd-metro"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="Ruminoid.Toolbox.Shell.Views.StartView">
+    <Grid
+        RowDefinitions="Auto,36,*"
+        Margin="48,30">
+        <Grid
+            Grid.Row="0"
+            ColumnDefinitions="Auto,*">
+            <Image
+                Grid.Column="0"
+                Source="resm:Ruminoid.Toolbox.Shell.Assets.rmbox.png"
+                Width="80" Height="80" />
+            <TextBlock
+                Grid.Column="1"
+                VerticalAlignment="Center"
+                Margin="24,0"
+                Foreground="#FF61F6"
+                FontSize="36"
+                FontWeight="Light"
+                Text="Ruminoid Toolbox" />
+        </Grid>
+
+        <Grid
+            Grid.Row="2"
+            ColumnDefinitions="400,50,*">
+            <Grid
+                Grid.Column="0"
+                RowDefinitions="Auto,24,*">
+                <TextBlock
+                    FontWeight="Bold"
+                    FontSize="18"
+                    Text="现在开始" />
+
+                <StackPanel
+                    Grid.Row="2"
+                    Spacing="14">
+                    <StackPanel.Styles>
+                        <Style Selector="Button">
+                            <Setter Property="Background" Value="Transparent" />
+                            <Setter Property="BorderBrush" Value="Transparent" />
+                            <Setter Property="HorizontalAlignment" Value="Stretch" />
+                            <Setter Property="VerticalAlignment" Value="Stretch" />
+                            <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                            <Setter Property="VerticalContentAlignment" Value="Stretch" />
+                            <Setter Property="Padding" Value="8" />
+                        </Style>
+
+                        <Style Selector="metroControls|DrawingIcon">
+                            <Setter Property="VerticalAlignment" Value="Top" />
+                            <Setter Property="Margin" Value="10,8,14,0" />
+                            <Setter Property="Width" Value="20" />
+                            <Setter Property="Height" Value="20" />
+                        </Style>
+
+                        <Style Selector="TextBlock.action-title">
+                            <Setter Property="FontSize" Value="22" />
+                            <Setter Property="TextWrapping" Value="NoWrap" />
+                            <Setter Property="Margin" Value="0,2" />
+                        </Style>
+
+                        <Style Selector="TextBlock.action-description">
+                            <Setter Property="TextWrapping" Value="Wrap" />
+                            <Setter Property="Margin" Value="0,2" />
+                            <Setter Property="Opacity" Value="0.7" />
+                        </Style>
+                    </StackPanel.Styles>
+
+                    <Button
+                        Command="{Binding DoCreateNewOperation}"
+                        Classes="block accent">
+                        <Grid
+                            ColumnDefinitions="Auto,Auto">
+                            <metroControls:DrawingIcon
+                                Grid.Column="0"
+                                Icon="{DynamicResource VSCodeDark.add}" />
+                            <Grid
+                                Grid.Column="1"
+                                RowDefinitions="Auto,Auto">
+                                <TextBlock
+                                    Grid.Row="0"
+                                    Classes="action-title"
+                                    Text="创建操作" />
+                                <TextBlock
+                                    Grid.Row="1"
+                                    Classes="action-description"
+                                    Text="创建操作以开始处理媒体。" />
+                            </Grid>
+                        </Grid>
+                    </Button>
+
+                    <Button
+                        Command="{Binding DoShowAboutWindow}"
+                        Classes="block">
+                        <Grid
+                            ColumnDefinitions="Auto,*">
+                            <metroControls:DrawingIcon
+                                Grid.Column="0"
+                                Icon="{DynamicResource VSCodeDark.help}" />
+                            <Grid
+                                Grid.Column="1"
+                                RowDefinitions="Auto,Auto">
+                                <TextBlock
+                                    Grid.Row="0"
+                                    Classes="action-title"
+                                    Text="查看帮助" />
+                                <TextBlock
+                                    Grid.Row="1"
+                                    Classes="action-description"
+                                    Text="查看帮助以快速上手。" />
+                            </Grid>
+                        </Grid>
+                    </Button>
+
+                    <Button
+                        Command="{Binding DoClose}"
+                        Classes="block">
+                        <Grid
+                            ColumnDefinitions="Auto,*">
+                            <metroControls:DrawingIcon
+                                Grid.Column="0"
+                                Icon="{DynamicResource VSCodeDark.close}" />
+                            <Grid
+                                Grid.Column="1"
+                                RowDefinitions="Auto,Auto">
+                                <TextBlock
+                                    Grid.Row="0"
+                                    Classes="action-title"
+                                    Text="退出" />
+                                <TextBlock
+                                    Grid.Row="1"
+                                    Classes="action-description"
+                                    Text="退出Ruminoid Toolbox。" />
+                            </Grid>
+                        </Grid>
+                    </Button>
+                </StackPanel>
+            </Grid>
+
+            <Grid
+                Grid.Column="2"
+                RowDefinitions="Auto,24,*">
+                <TextBlock
+                    FontWeight="Bold"
+                    FontSize="18"
+                    Text="最近使用的项目" />
+
+                <Grid
+                    Grid.Row="2">
+                    <TextBlock
+                        TextWrapping="Wrap"
+                        Text="最近还没有使用项目。"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center" />
+                </Grid>
+            </Grid>
+        </Grid>
+    </Grid>
+</UserControl>
