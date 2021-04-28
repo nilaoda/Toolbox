@@ -1,13 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Composition;
 using System.Linq;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json.Linq;
 
 namespace Ruminoid.Toolbox.Core.Parser
 {
-    [Export]
     public class QueueProjectParser : IParser
     {
         public QueueProjectParser(

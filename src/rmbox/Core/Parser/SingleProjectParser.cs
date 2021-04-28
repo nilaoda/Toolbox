@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Composition;
 using System.Linq;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json.Linq;
@@ -8,7 +7,6 @@ using Ruminoid.Toolbox.Composition.Services;
 
 namespace Ruminoid.Toolbox.Core.Parser
 {
-    [Export]
     public class SingleProjectParser : IParser
     {
         public SingleProjectParser(

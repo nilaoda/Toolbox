@@ -12,6 +12,7 @@ using Microsoft.Extensions.Logging.Console;
 using Ruminoid.Toolbox.Composition.Roslim;
 using Ruminoid.Toolbox.Composition.Services;
 using Ruminoid.Toolbox.Core;
+using Ruminoid.Toolbox.Core.Parser;
 using Ruminoid.Toolbox.Helpers.CommandLine;
 using Ruminoid.Toolbox.Utils;
 
@@ -54,6 +55,13 @@ namespace Ruminoid.Toolbox
                     // Composition
                     services.AddSingleton(typeof(IRoslimGenerator), typeof(RoslimGenerator));
                     services.AddSingleton(typeof(IPluginService), typeof(PluginService));
+
+                    // Parsers
+                    services.AddSingleton(typeof(SingleProjectParser));
+                    services.AddSingleton(typeof(QueueProjectParser));
+                    services.AddSingleton(typeof(BatchProjectParser));
+
+                    services.AddSingleton(typeof(ProjectParser));
                 })
                 .ConfigureLogging(builder => builder
 #if DEBUG

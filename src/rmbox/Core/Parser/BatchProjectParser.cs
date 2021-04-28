@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Composition;
 using System.Linq;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json.Linq;
@@ -8,7 +7,6 @@ using Ruminoid.Toolbox.Utils.Extensions;
 
 namespace Ruminoid.Toolbox.Core.Parser
 {
-    [Export]
     public class BatchProjectParser : IParser
     {
         #region Constructor

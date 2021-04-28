@@ -1,14 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Composition;
 using System.IO;
+using JetBrains.Annotations;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json.Linq;
 using Ruminoid.Toolbox.Helpers.CommandLine;
 
 namespace Ruminoid.Toolbox.Core.Parser
 {
-    [Export]
     public class ProjectParser : IParser
     {
         public ProjectParser(
@@ -98,6 +97,7 @@ namespace Ruminoid.Toolbox.Core.Parser
 
         #region Parse Utils
 
+        [PublicAPI]
         public const int ValidProjectVersion = 1;
 
         [Obsolete]
