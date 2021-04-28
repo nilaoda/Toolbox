@@ -26,14 +26,14 @@ namespace Ruminoid.Toolbox.Core.Parser
 
                 if (sections is null)
                 {
-                    ArgumentNullException e = new ArgumentNullException(nameof(sections));
+                    ArgumentNullException e = new(nameof(sections));
                     _logger.LogCritical(e, "Sections is null.");
                     throw e;
                 }
 
                 _logger.LogDebug($"Collected {sections.Count()} section(s).");
 
-                Dictionary<string, JToken> sectionData = new Dictionary<string, JToken>();
+                Dictionary<string, JToken> sectionData = new();
 
                 try
                 {
