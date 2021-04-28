@@ -62,6 +62,9 @@ namespace Ruminoid.Toolbox
                     services.AddSingleton(typeof(BatchProjectParser));
 
                     services.AddSingleton(typeof(ProjectParser));
+
+                    // Processor (Entry Point)
+                    services.AddSingleton(typeof(Processor));
                 })
                 .ConfigureLogging(builder => builder
 #if DEBUG
