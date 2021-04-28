@@ -1,0 +1,22 @@
+<metroControls:MetroWindow xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:metroControls="clr-namespace:Ruminoid.Common2.Metro.MetroControls;assembly=rmnd-metro"
+             xmlns:views="clr-namespace:Ruminoid.Toolbox.Shell.Views"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="Ruminoid.Toolbox.Shell.Windows.MainWindow"
+             Title="Toolbox"
+             Icon="resm:Ruminoid.Toolbox.Shell.Assets.rmbox.ico"
+             Width="1366" Height="768"
+             MinWidth="1366" MinHeight="768"
+             WindowStartupLocation="CenterScreen">
+    <metroControls:ClosableTabControl
+        SelectedIndex="{Binding CurrentTabIndex}">
+        <metroControls:ClosableTabItem
+            Header="开始"
+            IsClosable="False">
+            <views:StartView />
+        </metroControls:ClosableTabItem>
+    </metroControls:ClosableTabControl>
+</metroControls:MetroWindow>

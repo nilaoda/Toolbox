@@ -4,12 +4,14 @@ using System.Reactive.Linq;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
+using JetBrains.Annotations;
 using ReactiveUI;
 using Ruminoid.Common2.Metro.MetroControls;
 using Ruminoid.Common2.Metro.MetroControls.Dialogs;
-using Ruminoid.Toolbox.Shell.ViewModels;
+using Ruminoid.Toolbox.Shell.Services;
+using Splat;
 
-namespace Ruminoid.Toolbox.Shell.Views
+namespace Ruminoid.Toolbox.Shell.Windows
 {
     public class MainWindow : MetroWindow
     {
@@ -47,5 +49,41 @@ namespace Ruminoid.Toolbox.Shell.Views
         {
             AvaloniaXamlLoader.Load(this);
         }
+    }
+
+    public class MainWindowViewModel : ReactiveObject
+    {
+        public MainWindowViewModel(
+            MainWindow window)
+        {
+            _window = window;
+
+            Locator.Current
+                .GetService<QueueService>()
+                .Connect()
+                .Subscribe(_ => CurrentTabIndex = (int) CommonTabIndex.QueueView);
+        }
+
+        private readonly MainWindow _window;
+
+        #region Tab
+
+        private int _currentTabIndex;
+
+        [UsedImplicitly]
+        public int CurrentTabIndex
+        {
+            get => _currentTabIndex;
+            set => this.RaiseAndSetIfChanged(ref _currentTabIndex, value);
+        }
+
+        #endregion
+    }
+
+    public enum CommonTabIndex
+    {
+        StartView = 0,
+        PluginsView,
+        QueueView
     }
 }
