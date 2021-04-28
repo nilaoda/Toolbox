@@ -67,6 +67,12 @@ namespace Ruminoid.Toolbox
                     // Formatting
                     services.AddSingleton(typeof(FormattingHelper));
 
+                    // Core
+                    services.AddSingleton(typeof(ProcessRunner));
+
+                    // Helpers
+                    services.AddSingleton(typeof(CommandLineHelper));
+
                     // Processor (Entry Point)
                     services.AddSingleton(typeof(Processor));
                 })

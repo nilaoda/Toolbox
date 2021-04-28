@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Composition;
 using System.Diagnostics;
 using System.IO;
 using System.Net.WebSockets;
@@ -20,7 +19,6 @@ using Websocket.Client;
 
 namespace Ruminoid.Toolbox.Core
 {
-    [Export]
     public class ProcessRunner : IDisposable
     {
         public ProcessRunner(

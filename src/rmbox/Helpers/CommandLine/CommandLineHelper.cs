@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Composition;
 using System.Linq;
 using System.Reflection;
 using CommandLine;
@@ -9,7 +8,6 @@ using Microsoft.Extensions.Logging;
 
 namespace Ruminoid.Toolbox.Helpers.CommandLine
 {
-    [Export]
     public sealed class CommandLineHelper
     {
         public CommandLineHelper(
