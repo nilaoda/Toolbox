@@ -1,18 +1,40 @@
-﻿using System;
+using System;
 using System.Reactive.Disposables;
 using System.Reactive.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
 using Avalonia;
 using Avalonia.Controls.ApplicationLifetimes;
+using Avalonia.Markup.Xaml;
+using JetBrains.Annotations;
 using ReactiveUI;
-using Ruminoid.Toolbox.Composition;
+using Ruminoid.Common2.Metro.MetroControls;
+using Ruminoid.Toolbox.Composition.Services;
 using Ruminoid.Toolbox.Shell.Services;
-using Ruminoid.Toolbox.Shell.Views;
 using Splat;
 
-namespace Ruminoid.Toolbox.Shell.ViewModels
+namespace Ruminoid.Toolbox.Shell.Windows
 {
+    [UsedImplicitly]
+    public class SplashWindow : MetroWindow
+    {
+        public SplashWindow()
+        {
+            InitializeComponent();
+#if DEBUG
+            this.AttachDevTools();
+#endif
+        }
+
+        private void InitializeComponent()
+        {
+            AvaloniaXamlLoader.Load(this);
+        }
+
+        public SplashWindowViewModel ViewModel => DataContext as SplashWindowViewModel;
+    }
+
+    [UsedImplicitly]
     public class SplashWindowViewModel : ReactiveObject
     {
         #region Constructor
@@ -30,7 +52,7 @@ namespace Ruminoid.Toolbox.Shell.ViewModels
 
                     // Load Services
                     InitializeStatus = "初始化插件...";
-                    _ = Locator.Current.GetService<PluginHelper>();
+                    _ = Locator.Current.GetService<IPluginService>();
                     InitializeStatus = "初始化任务队列...";
                     _ = Locator.Current.GetService<QueueService>();
 
@@ -44,10 +66,12 @@ namespace Ruminoid.Toolbox.Shell.ViewModels
 
         #region Initialize
 
+        [UsedImplicitly]
         public readonly IObservable<object> Initialize;
 
         private string _initializeStatus = "初始化 GUI...";
 
+        [UsedImplicitly]
         public string InitializeStatus
         {
             get => _initializeStatus;
@@ -58,6 +82,7 @@ namespace Ruminoid.Toolbox.Shell.ViewModels
 
         #region Version
 
+        [UsedImplicitly]
         public string VersionSummary { get; } = $"版本 {Assembly.GetExecutingAssembly().GetName().Version}";
 
         #endregion

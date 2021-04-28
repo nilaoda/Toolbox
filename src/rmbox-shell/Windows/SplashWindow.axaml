@@ -1,25 +1,24 @@
-<metroControls:MetroWindow
-    xmlns="https://github.com/avaloniaui"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:viewModels="clr-namespace:Ruminoid.Toolbox.Shell.ViewModels"
-    xmlns:metroControls="clr-namespace:Ruminoid.Common2.Metro.MetroControls;assembly=rmnd-metro"
-    mc:Ignorable="d" d:DesignWidth="500" d:DesignHeight="650"
-    x:Class="Ruminoid.Toolbox.Shell.Views.SplashWindow"
-    Title="Toolbox"
-    Icon="resm:Ruminoid.Toolbox.Shell.Assets.rmbox.ico"
-    ExtendClientAreaChromeHints="NoChrome"
-    ExtendClientAreaTitleBarHeightHint="-1"
-    ExtendClientAreaToDecorationsHint="True"
-    Width="500" Height="650"
-    CanResize="False"
-    WindowStartupLocation="CenterScreen"
-    ShowActivated="True"
-    ShowInTaskbar="True"
-    Background="#220020">
+<metroControls:MetroWindow xmlns="https://github.com/avaloniaui"
+                           xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                           xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                           xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                           xmlns:metroControls="clr-namespace:Ruminoid.Common2.Metro.MetroControls;assembly=rmnd-metro"
+                           xmlns:windows="clr-namespace:Ruminoid.Toolbox.Shell.Windows"
+                           mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+                           x:Class="Ruminoid.Toolbox.Shell.Windows.SplashWindow"
+                           Title="Toolbox"
+                           Icon="resm:Ruminoid.Toolbox.Shell.Assets.rmbox.ico"
+                           ExtendClientAreaChromeHints="NoChrome"
+                           ExtendClientAreaTitleBarHeightHint="-1"
+                           ExtendClientAreaToDecorationsHint="True"
+                           Width="500" Height="650"
+                           CanResize="False"
+                           WindowStartupLocation="CenterScreen"
+                           ShowActivated="True"
+                           ShowInTaskbar="True"
+                           Background="#220020">
     <Window.DataContext>
-        <viewModels:SplashWindowViewModel />
+        <windows:SplashWindowViewModel />
     </Window.DataContext>
 
     <Grid
