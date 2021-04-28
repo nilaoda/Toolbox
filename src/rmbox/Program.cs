@@ -1,11 +1,10 @@
 ﻿using System;
-using System.Composition;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Text;
+using JetBrains.Annotations;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
@@ -16,9 +15,10 @@ using Ruminoid.Toolbox.Utils;
 
 namespace Ruminoid.Toolbox
 {
+    [UsedImplicitly]
     public class Program
     {
-        static void Main(string[] args)
+        private static void Main(string[] args)
         {
             if (args.Length == 0)
                 Process.Start(Path.Combine(AppDomain.CurrentDomain.BaseDirectory,
@@ -26,8 +26,8 @@ namespace Ruminoid.Toolbox
             else
                 BuildConsoleApp(args);
         }
-        
-        public static void BuildConsoleApp(string[] args)
+
+        private static void BuildConsoleApp(string[] args)
         {
             Console.OutputEncoding = Encoding.UTF8;
 
@@ -43,19 +43,11 @@ namespace Ruminoid.Toolbox
             _ = host.Services.GetService<Processor>();
         }
 
-        public static IHostBuilder CreateHostBuilder(string[] args) =>
+        private static IHostBuilder CreateHostBuilder(string[] args) =>
             Host.CreateDefaultBuilder(args)
                 .ConfigureServices((context, services) =>
                 {
                     // Register Services
-                    foreach (Type type in AppDomain.CurrentDomain.GetAssemblies()
-                        .Concat(Assembly.GetExecutingAssembly().GetReferencedAssemblies()
-                            .Select(Assembly.Load))
-                        .SelectMany(x =>
-                            x.GetTypes()
-                                .Where(type =>
-                                    Attribute.GetCustomAttribute(type, typeof(ExportAttribute)) is not null)))
-                        services.AddSingleton(type);
                 })
                 .ConfigureLogging(builder => builder
 #if DEBUG
