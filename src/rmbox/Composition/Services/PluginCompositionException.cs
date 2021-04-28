@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Ruminoid.Toolbox.Composition
+namespace Ruminoid.Toolbox.Composition.Services
 {
     [Serializable]
     public class PluginCompositionException : Exception
