@@ -3,8 +3,8 @@ using Avalonia;
 using Avalonia.Threading;
 using Microsoft.Extensions.Logging.Abstractions;
 using ReactiveUI;
-using Ruminoid.Toolbox.Composition;
 using Ruminoid.Toolbox.Composition.Roslim;
+using Ruminoid.Toolbox.Composition.Services;
 using Ruminoid.Toolbox.Shell.Services;
 using Splat;
 
@@ -34,12 +34,12 @@ namespace Ruminoid.Toolbox.Shell
         public static void InitializeSplat()
         {
             IMutableDependencyResolver resolver = Locator.CurrentMutable;
-            
+
             resolver.RegisterLazySingleton(
-                () => new PluginHelper(
+                () => new PluginService(
                     new RoslimGenerator(NullLogger<RoslimGenerator>.Instance),
-                    NullLogger<PluginHelper>.Instance),
-                typeof(PluginHelper));
+                    NullLogger<PluginService>.Instance),
+                typeof(IPluginService));
 
             resolver.RegisterLazySingleton(
                 () => new QueueService(),

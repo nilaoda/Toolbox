@@ -10,6 +10,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Console;
 using Ruminoid.Toolbox.Composition.Roslim;
+using Ruminoid.Toolbox.Composition.Services;
 using Ruminoid.Toolbox.Core;
 using Ruminoid.Toolbox.Helpers.CommandLine;
 using Ruminoid.Toolbox.Utils;
@@ -49,7 +50,10 @@ namespace Ruminoid.Toolbox
                 .ConfigureServices((context, services) =>
                 {
                     // Register Services
+
+                    // Composition
                     services.AddSingleton(typeof(IRoslimGenerator), typeof(RoslimGenerator));
+                    services.AddSingleton(typeof(IPluginService), typeof(PluginService));
                 })
                 .ConfigureLogging(builder => builder
 #if DEBUG

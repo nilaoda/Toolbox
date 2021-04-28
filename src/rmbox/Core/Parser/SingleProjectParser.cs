@@ -4,7 +4,7 @@ using System.Composition;
 using System.Linq;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json.Linq;
-using Ruminoid.Toolbox.Composition;
+using Ruminoid.Toolbox.Composition.Services;
 
 namespace Ruminoid.Toolbox.Core.Parser
 {
@@ -12,10 +12,10 @@ namespace Ruminoid.Toolbox.Core.Parser
     public class SingleProjectParser : IParser
     {
         public SingleProjectParser(
-            PluginHelper pluginHelper,
+            IPluginService pluginService,
             ILogger<SingleProjectParser> logger)
         {
-            _pluginHelper = pluginHelper;
+            _pluginService = pluginService;
             _logger = logger;
         }
 
@@ -83,7 +83,7 @@ namespace Ruminoid.Toolbox.Core.Parser
 
                 try
                 {
-                    operation = _pluginHelper.GetOperation(operationId);
+                    operation = _pluginService.GetOperation(operationId);
 
                     if (operation == default)
                         throw new ArgumentNullException(nameof(operation));
@@ -136,7 +136,7 @@ namespace Ruminoid.Toolbox.Core.Parser
             }
         }
         
-        private readonly PluginHelper _pluginHelper;
+        private readonly IPluginService _pluginService;
         private readonly ILogger<SingleProjectParser> _logger;
     }
 }

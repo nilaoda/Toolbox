@@ -1,36 +1,27 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Composition;
 using System.IO;
-using System.IO.Enumeration;
 using System.Linq;
 using System.Reflection;
+using JetBrains.Annotations;
 using Microsoft.Extensions.Logging;
 using Ruminoid.Toolbox.Composition.Roslim;
 using Ruminoid.Toolbox.Core;
 using Ruminoid.Toolbox.Formatting;
 using Ruminoid.Toolbox.Utils;
 
-namespace Ruminoid.Toolbox.Composition
+namespace Ruminoid.Toolbox.Composition.Services
 {
-    [Export]
-    public class PluginHelper
+    public partial class PluginService
     {
-        public PluginHelper(
-            RoslimGenerator roslimGenerator,
-            ILogger<PluginHelper> logger)
-        {
-            _roslimGenerator = roslimGenerator;
-            _logger = logger;
+        #region Initialize
 
-            Initialize();
-        }
-
-        #region Core
-
+        [PublicAPI]
         public readonly string[] IgnoreFormats = { ".json", ".pdb" };
 
+        /// <summary>
+        /// 收集并加载插件。
+        /// </summary>
         private void Initialize()
         {
             _logger.LogDebug("Starting collecting plugins.");
@@ -66,7 +57,7 @@ namespace Ruminoid.Toolbox.Composition
             }
 
             _logger.LogDebug("Loading plugins.");
-            
+
             _logger.LogDebug("Loading DLL plugins.");
             LoadDllPlugins(dllFiles);
 
@@ -77,16 +68,14 @@ namespace Ruminoid.Toolbox.Composition
                 $"加载了 {MetaCollection.Count + scriptCount} 个插件共 {OperationCollection.Count + ConfigSectionCollection.Count + FormatterCollection.Count} 个组件。");
         }
 
-        private static Assembly LoadPlugin(string path)
-        {
-            PluginLoadContext loadContext = new PluginLoadContext(path);
-            return loadContext.LoadFromAssemblyName(new AssemblyName(Path.GetFileNameWithoutExtension(path)));
-        }
-
         #endregion
 
         #region Plugin Loader
 
+        /// <summary>
+        /// 加载 DLL 插件。
+        /// </summary>
+        /// <param name="dllFiles">DLL 插件列表。</param>
         private void LoadDllPlugins(string[] dllFiles)
         {
             foreach (string file in dllFiles)
@@ -141,7 +130,7 @@ namespace Ruminoid.Toolbox.Composition
                     {
                         OperationAttribute operationAttribute =
                             Attribute.GetCustomAttribute(operationType, typeof(OperationAttribute))
-                            as OperationAttribute;
+                                as OperationAttribute;
 
                         OperationCollection.Add((operationAttribute, pluginMeta, operationType));
 
@@ -162,7 +151,7 @@ namespace Ruminoid.Toolbox.Composition
                     {
                         var configSectionAttribute =
                             Attribute.GetCustomAttribute(configSectionType, typeof(ConfigSectionAttribute))
-                            as ConfigSectionAttribute;
+                                as ConfigSectionAttribute;
 
                         ConfigSectionCollection.Add((configSectionAttribute, configSectionType));
 
@@ -183,7 +172,7 @@ namespace Ruminoid.Toolbox.Composition
                     {
                         FormatterAttribute formatterAttribute =
                             Attribute.GetCustomAttribute(formatterType, typeof(FormatterAttribute))
-                            as FormatterAttribute;
+                                as FormatterAttribute;
 
                         FormatterCollection.Add((formatterAttribute, formatterType));
 
@@ -199,6 +188,17 @@ namespace Ruminoid.Toolbox.Composition
             }
         }
 
+        private static Assembly LoadPlugin(string path)
+        {
+            PluginLoadContext loadContext = new PluginLoadContext(path);
+            return loadContext.LoadFromAssemblyName(new AssemblyName(Path.GetFileNameWithoutExtension(path)));
+        }
+
+        /// <summary>
+        /// 加载 Roslim 插件。
+        /// </summary>
+        /// <param name="scriptFiles">Roslim 插件列表。</param>
+        /// <returns>加载的插件数目。</returns>
         private int LoadScriptPlugins(string[] scriptFiles)
         {
             int count = 0;
@@ -245,90 +245,5 @@ namespace Ruminoid.Toolbox.Composition
         }
 
         #endregion
-
-        #region Utils
-
-        public Collection<(IMeta Meta, Assembly Assembly)> MetaCollection { get; } = new();
-
-        public Collection<(OperationAttribute OperationAttribute, IMeta OperationMeta, Type OperationType)> OperationCollection { get; } = new();
-
-        private Dictionary<string, (OperationAttribute OperationAttribute, IMeta OperationMeta, IOperation Operation)> OperationCache { get; } = new();
-
-        public Collection<(ConfigSectionAttribute ConfigSectionAttribute, Type ConfigSectionType)> ConfigSectionCollection { get; } = new();
-
-        public Collection<(FormatterAttribute FormatterAttribute, Type FormatterType)> FormatterCollection { get; } = new();
-
-        private Dictionary<string, (FormatterAttribute FormatterAttribute, IFormatter Formatter)> FormatterCache { get; } = new();
-
-        public (OperationAttribute OperationAttribute, IMeta OperationMeta, IOperation Operation) GetOperation(string id)
-        {
-            bool success = OperationCache.TryGetValue(id, out (OperationAttribute OperationAttribute, IMeta OperationMeta, IOperation Operation) cached);
-            if (success) return cached;
-
-            (OperationAttribute OperationAttribute, IMeta OperationMeta, Type OperationType) tuple =
-                OperationCollection.FirstOrDefault(x => x.OperationAttribute.Id == id);
-
-            // ReSharper disable once InvertIf
-            if (tuple == default)
-            {
-                string err = $"找不到 ID 为 {id} 的操作。可能需要安装相关的插件以解决此问题。";
-                _logger.LogError(err);
-                throw new PluginCompositionException(err);
-            }
-
-            (OperationAttribute OperationAttribute, IMeta OperationMeta, IOperation Operation) created =
-                new(tuple.OperationAttribute, tuple.OperationMeta, Activator.CreateInstance(tuple.OperationType) as IOperation);
-
-            OperationCache.TryAdd(tuple.OperationAttribute.Id, created);
-
-            return created;
-        }
-
-        public (ConfigSectionAttribute ConfigSectionAttribute, ConfigSectionBase ConfigSection) CreateConfigSection(string id)
-        {
-            (ConfigSectionAttribute ConfigSectionAttribute, Type ConfigSectionType) tuple = ConfigSectionCollection.FirstOrDefault(x => x.ConfigSectionAttribute.Id == id);
-
-            // ReSharper disable once InvertIf
-            if (tuple == default)
-            {
-                string err = $"找不到 ID 为 {id} 的配置项。可能需要安装相关的插件以解决此问题。";
-                _logger.LogError(err);
-                throw new PluginCompositionException(err);
-            }
-
-            return (tuple.ConfigSectionAttribute, Activator.CreateInstance(tuple.ConfigSectionType) as ConfigSectionBase);
-        }
-
-        public (FormatterAttribute FormatterAttribute, IFormatter Formatter) GetFormatter(string target)
-        {
-            bool success = FormatterCache.TryGetValue(target, out (FormatterAttribute, IFormatter) cached);
-            if (success) return cached;
-
-            (FormatterAttribute FormatterAttribute, Type FormatterType) tuple =
-                FormatterCollection
-                    .FirstOrDefault(x => x.FormatterAttribute.Targets.Split('|')
-                        .Any(y => FileSystemName.MatchesSimpleExpression(y, target)));
-
-            // ReSharper disable once InvertIf
-            if (tuple == default)
-            {
-                string err = $"找不到目标为 {target} 的格式器。可能需要安装相关的插件以解决此问题。";
-                _logger.LogError(err);
-                throw new PluginCompositionException(err);
-            }
-
-            (FormatterAttribute FormatterAttribute, IFormatter Formatter) created =
-                new(tuple.FormatterAttribute, Activator.CreateInstance(tuple.FormatterType) as IFormatter);
-
-            foreach (string s in tuple.FormatterAttribute.Targets.Split('|'))
-                FormatterCache.TryAdd(s, created);
-
-            return created;
-        }
-
-        #endregion
-
-        private readonly RoslimGenerator _roslimGenerator;
-        private readonly ILogger<PluginHelper> _logger;
     }
 }

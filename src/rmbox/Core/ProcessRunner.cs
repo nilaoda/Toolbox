@@ -12,7 +12,6 @@ using System.Runtime.InteropServices;
 using System.Text;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
-using Ruminoid.Toolbox.Composition;
 using Ruminoid.Toolbox.Formatting;
 using Ruminoid.Toolbox.Helpers.CommandLine;
 using Ruminoid.Toolbox.Utils;
@@ -26,12 +25,10 @@ namespace Ruminoid.Toolbox.Core
     {
         public ProcessRunner(
             CommandLineHelper commandLineHelper,
-            PluginHelper pluginHelper,
             FormattingHelper formattingHelper,
             ILogger<ProcessRunner> logger)
         {
             _commandLineHelper = commandLineHelper;
-            _pluginHelper = pluginHelper;
             _formattingHelper = formattingHelper;
             _logger = logger;
 
@@ -254,7 +251,6 @@ namespace Ruminoid.Toolbox.Core
         #endregion
 
         private readonly CommandLineHelper _commandLineHelper;
-        private readonly PluginHelper _pluginHelper;
         private readonly FormattingHelper _formattingHelper;
         private readonly ILogger<ProcessRunner> _logger;
 

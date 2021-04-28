@@ -2,7 +2,7 @@
 using System.Linq;
 using System.Reactive.Linq;
 using ReactiveUI;
-using Ruminoid.Toolbox.Composition;
+using Ruminoid.Toolbox.Composition.Services;
 using Ruminoid.Toolbox.Shell.Models;
 using Ruminoid.Toolbox.Shell.Views;
 using Splat;
@@ -16,9 +16,9 @@ namespace Ruminoid.Toolbox.Shell.ViewModels
         {
             _window = window;
 
-            PluginHelper pluginHelper = Locator.Current.GetService<PluginHelper>();
+            IPluginService pluginService = Locator.Current.GetService<IPluginService>();
             OperationsList = new List<OperationModel>(
-                pluginHelper.OperationCollection
+                pluginService.OperationCollection
                     .Select(x =>
                         new OperationModel
                         {

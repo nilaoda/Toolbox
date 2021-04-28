@@ -6,7 +6,7 @@ using Avalonia.Controls;
 using DynamicData;
 using Newtonsoft.Json.Linq;
 using ReactiveUI;
-using Ruminoid.Toolbox.Composition;
+using Ruminoid.Toolbox.Composition.Services;
 using Ruminoid.Toolbox.Core;
 using Ruminoid.Toolbox.Shell.Models;
 using Ruminoid.Toolbox.Shell.Operations.Views;
@@ -25,7 +25,7 @@ namespace Ruminoid.Toolbox.Shell.Operations.ViewModels
             OperationModel = operationModel;
             _window = window;
 
-            _pluginHelper = Locator.Current.GetService<PluginHelper>();
+            _pluginService = Locator.Current.GetService<IPluginService>();
             _queueService = Locator.Current.GetService<QueueService>();
 
             InitializeTabs();
@@ -39,7 +39,7 @@ namespace Ruminoid.Toolbox.Shell.Operations.ViewModels
 
         #region Services
 
-        private readonly PluginHelper _pluginHelper;
+        private readonly IPluginService _pluginService;
         private readonly QueueService _queueService;
 
         #endregion
@@ -67,25 +67,17 @@ namespace Ruminoid.Toolbox.Shell.Operations.ViewModels
 
             foreach (KeyValuePair<string, JToken> sectionData in _operation.RequiredConfigSections)
             {
-                (ConfigSectionAttribute ConfigSectionAttribute, Type ConfigSectionType) sectionMeta = _pluginHelper.ConfigSectionCollection
-                    .Where(x => x.ConfigSectionAttribute.Id == sectionData.Key)
-                    .ToArray()
-                    .FirstOrDefault();
-
-                if (sectionMeta == default)
-                    throw new ArgumentException("Cannot Find ConfigSection.");
-
-                ConfigSectionBase section = Activator.CreateInstance(sectionMeta.ConfigSectionType, sectionData.Value) as ConfigSectionBase;
+                (ConfigSectionAttribute attribute, ConfigSectionBase section) = _pluginService.CreateConfigSection(sectionData.Key);
 
                 if (section is null)
                     throw new ArgumentException("Cannot Construct ConfigSection.");
 
-                _configSections.Add((sectionMeta.ConfigSectionAttribute, section));
+                _configSections.Add((attribute, section));
 
                 Items.Add(
                     new TabItem
                     {
-                        Header = sectionMeta.ConfigSectionAttribute.Name,
+                        Header = attribute.Name,
                         Content = section
                     });
             }

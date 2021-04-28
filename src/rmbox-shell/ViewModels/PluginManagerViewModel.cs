@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using ReactiveUI;
-using Ruminoid.Toolbox.Composition;
+using Ruminoid.Toolbox.Composition.Services;
 using Ruminoid.Toolbox.Core;
 using Splat;
 
@@ -13,8 +13,8 @@ namespace Ruminoid.Toolbox.Shell.ViewModels
 
         public PluginManagerViewModel()
         {
-            PluginHelper pluginHelper = Locator.Current.GetService<PluginHelper>();
-            PluginList = pluginHelper.MetaCollection
+            IPluginService pluginService = Locator.Current.GetService<IPluginService>();
+            PluginList = pluginService.MetaCollection
                 .Select(x => x.Meta)
                 .ToList();
         }

@@ -2,7 +2,7 @@
 using System.Reflection;
 using System.Runtime.Loader;
 
-namespace Ruminoid.Toolbox.Composition
+namespace Ruminoid.Toolbox.Composition.Services
 {
     public class PluginLoadContext : AssemblyLoadContext
     {

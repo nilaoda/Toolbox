@@ -4,7 +4,7 @@ using System.Composition;
 using System.Reactive.Linq;
 using System.Reactive.Subjects;
 using Microsoft.Extensions.Logging;
-using Ruminoid.Toolbox.Composition;
+using Ruminoid.Toolbox.Composition.Services;
 using Ruminoid.Toolbox.Helpers.CommandLine;
 
 namespace Ruminoid.Toolbox.Formatting
@@ -14,11 +14,11 @@ namespace Ruminoid.Toolbox.Formatting
     {
         public FormattingHelper(
             CommandLineHelper commandLineHelper,
-            PluginHelper pluginHelper,
+            IPluginService pluginService,
             ILogger<FormattingHelper> logger)
         {
             _commandLineHelper = commandLineHelper;
-            _pluginHelper = pluginHelper;
+            _pluginService = pluginService;
             _logger = logger;
 
             FormatData = ReceiveData
@@ -39,12 +39,12 @@ namespace Ruminoid.Toolbox.Formatting
             (string FormatTarget, string Data, Dictionary<string, object> SessionStorage) arg)
         {
             var (formatTarget, data, sessionStorage) = arg;
-            var (_, formatter) = _pluginHelper.GetFormatter(formatTarget);
+            var (_, formatter) = _pluginService.GetFormatter(formatTarget);
             return formatter.Format(formatTarget, data, sessionStorage);
         }
         
         private readonly CommandLineHelper _commandLineHelper;
-        private readonly PluginHelper _pluginHelper;
+        private readonly IPluginService _pluginService;
         private readonly ILogger<FormattingHelper> _logger;
     }
 }
