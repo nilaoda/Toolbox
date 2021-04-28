@@ -13,6 +13,7 @@ using Ruminoid.Toolbox.Composition.Roslim;
 using Ruminoid.Toolbox.Composition.Services;
 using Ruminoid.Toolbox.Core;
 using Ruminoid.Toolbox.Core.Parser;
+using Ruminoid.Toolbox.Formatting;
 using Ruminoid.Toolbox.Helpers.CommandLine;
 using Ruminoid.Toolbox.Utils;
 
@@ -62,6 +63,9 @@ namespace Ruminoid.Toolbox
                     services.AddSingleton(typeof(BatchProjectParser));
 
                     services.AddSingleton(typeof(ProjectParser));
+
+                    // Formatting
+                    services.AddSingleton(typeof(FormattingHelper));
 
                     // Processor (Entry Point)
                     services.AddSingleton(typeof(Processor));
