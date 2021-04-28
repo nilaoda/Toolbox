@@ -2,6 +2,7 @@
 using Avalonia.Controls.ApplicationLifetimes;
 using ReactiveUI;
 using Ruminoid.Toolbox.Shell.Views;
+using Ruminoid.Toolbox.Shell.Windows;
 
 namespace Ruminoid.Toolbox.Shell.ViewModels
 {
@@ -13,7 +14,7 @@ namespace Ruminoid.Toolbox.Shell.ViewModels
             {
                 MainWindow: MainWindow mainWindow
             })
-                AboutWindow.ShowAbout(mainWindow);
+                new AboutWindow().ShowDialog(mainWindow);
         }
     }
 }
