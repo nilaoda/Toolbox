@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using JetBrains.Annotations;
 using Newtonsoft.Json.Linq;
 using Ruminoid.Common2.Utils.UserTypes;
 
@@ -20,7 +19,7 @@ namespace Ruminoid.Toolbox.Core
             string id,
             string name,
             string description,
-            [ValueRange(0, 5)] RateValue rate,
+            RateValue rate,
             string category)
         {
             Id = id;
