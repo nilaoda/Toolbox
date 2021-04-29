@@ -6,6 +6,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\lib\rmnd-common2\src\rmnd-common2.csproj">
+        <Private>false</Private>
+        <ExcludeAssets>runtime</ExcludeAssets>
+    </ProjectReference>
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\..\src\rmbox-plugbase\rmbox-plugbase.csproj">
         <Private>false</Private>
         <ExcludeAssets>runtime</ExcludeAssets>
