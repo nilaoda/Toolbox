@@ -13,6 +13,10 @@ namespace Ruminoid.Toolbox.Core
             ProcessRunner processRunner,
             ILogger<Processor> logger)
         {
+            AppDomain.CurrentDomain.UnhandledException += (s, e) =>
+                logger.LogCritical("发生了灾难性故障。请联系开发者反馈错误。\n" +
+                                   ((e.ExceptionObject as Exception)?.Message ?? string.Empty));
+
             try
             {
                 switch (commandLineHelper.Options)

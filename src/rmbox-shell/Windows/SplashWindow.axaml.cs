@@ -9,6 +9,7 @@ using Avalonia.Markup.Xaml;
 using JetBrains.Annotations;
 using ReactiveUI;
 using Ruminoid.Common2.Metro.MetroControls;
+using Ruminoid.Common2.Metro.MetroControls.Dialogs;
 using Ruminoid.Toolbox.Composition.Services;
 using Ruminoid.Toolbox.Shell.Services;
 using Splat;
@@ -55,7 +56,16 @@ namespace Ruminoid.Toolbox.Shell.Windows
                     // Initialize MainWindow
                     InitializeStatus = "初始化 GUI...";
                     if (Application.Current.ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
+                    {
                         desktop.MainWindow = new MainWindow();
+
+                        AppDomain.CurrentDomain.UnhandledException += (s, e) =>
+                            MessageBox.ShowAndGetResult(
+                                "灾难性故障",
+                                "发生了灾难性故障。请联系开发者反馈错误。\n" + ((e.ExceptionObject as Exception)?.Message ?? string.Empty),
+                                desktop.MainWindow,
+                                false);
+                    }
 
                     observer.OnCompleted();
 
