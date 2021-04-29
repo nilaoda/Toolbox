@@ -46,15 +46,16 @@ namespace Ruminoid.Toolbox.Shell.Windows
                 {
                     await Task.Delay(TimeSpan.FromSeconds(0.2));
 
-                    // Initialize MainWindow
-                    if (Application.Current.ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
-                        desktop.MainWindow = new MainWindow();
-
-                    // Load Services
                     InitializeStatus = "初始化插件...";
                     _ = Locator.Current.GetService<IPluginService>();
+
                     InitializeStatus = "初始化任务队列...";
                     _ = Locator.Current.GetService<QueueService>();
+
+                    // Initialize MainWindow
+                    InitializeStatus = "初始化 GUI...";
+                    if (Application.Current.ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
+                        desktop.MainWindow = new MainWindow();
 
                     observer.OnCompleted();
 
@@ -69,7 +70,7 @@ namespace Ruminoid.Toolbox.Shell.Windows
         [UsedImplicitly]
         public readonly IObservable<object> Initialize;
 
-        private string _initializeStatus = "初始化 GUI...";
+        private string _initializeStatus = "启动初始化...";
 
         [UsedImplicitly]
         public string InitializeStatus
