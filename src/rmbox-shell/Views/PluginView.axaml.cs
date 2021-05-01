@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reactive.Linq;
 using Avalonia.Controls;
+using Avalonia.LogicalTree;
 using Avalonia.Markup.Xaml;
+using Avalonia.VisualTree;
 using JetBrains.Annotations;
 using ReactiveUI;
-using Ruminoid.Common2.Utils.UserTypes;
+using Ruminoid.Common2.Utils.Text;
 using Ruminoid.Toolbox.Composition.Services;
 using Ruminoid.Toolbox.Shell.Models;
 using Splat;
@@ -57,22 +59,58 @@ namespace Ruminoid.Toolbox.Shell.Views
                 })
                 .ToList();
 
-            // Initialize IsOperationSelected
+            _displayOperationsList = this
+                .WhenAnyValue(x => x.OperationSearchText)
+                .Select(x => OperationsList
+                    .Select(y =>
+                        new OperationModel
+                        {
+                            Name = y.Name,
+                            Children = SearchUtils.Search(
+                                y.Children,
+                                z => z.Name,
+                                x)
+                        })
+                    .Where(y => y.Children is not null && y.Children.Any())
+                    .ToList())
+                .ToProperty(this, x => x.DisplayOperationsList);
+
             _isOperationSelected = this
                 .WhenAnyValue(x => x.SelectedOperation)
                 .Select(x => x?.Type != null)
                 .ToProperty(this, x => x.IsOperationSelected);
+
+            this
+                .ObservableForProperty(x => x.DisplayOperationsList)
+                .Subscribe(_ =>
+                {
+                    foreach (IControl child in PluginTreeView.Presenter.Panel.Children)
+                        if (child is TreeViewItem item)
+                            item.IsExpanded = true;
+                });
         }
 
+        #region View
+
         private readonly PluginView _view;
+
+        private TreeView _pluginTreeView;
+
+        private TreeView PluginTreeView => _pluginTreeView ??= _view.Get<TreeView>("PluginTreeView");
+
+        #endregion
 
         #region Data
 
         [UsedImplicitly]
         public int OperationsCount { get; }
 
+        private readonly List<OperationModel> OperationsList;
+
+        private readonly ObservableAsPropertyHelper<List<OperationModel>> _displayOperationsList;
+
         [UsedImplicitly]
-        public List<OperationModel> OperationsList { get; }
+        public List<OperationModel> DisplayOperationsList => _displayOperationsList.Value;
 
         private OperationModel _selectedOperation;
 
@@ -87,6 +125,15 @@ namespace Ruminoid.Toolbox.Shell.Views
 
         [UsedImplicitly]
         public bool IsOperationSelected => _isOperationSelected.Value;
+
+        private string _operationSearchText = "";
+
+        [UsedImplicitly]
+        public string OperationSearchText
+        {
+            get => _operationSearchText;
+            set => this.RaiseAndSetIfChanged(ref _operationSearchText, value);
+        }
 
         #endregion
     }
