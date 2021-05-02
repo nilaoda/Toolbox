@@ -3,9 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reactive.Linq;
 using Avalonia.Controls;
-using Avalonia.LogicalTree;
 using Avalonia.Markup.Xaml;
-using Avalonia.VisualTree;
 using JetBrains.Annotations;
 using ReactiveUI;
 using Ruminoid.Common2.Utils.Text;
@@ -82,12 +80,7 @@ namespace Ruminoid.Toolbox.Shell.Views
 
             this
                 .ObservableForProperty(x => x.DisplayOperationsList)
-                .Subscribe(_ =>
-                {
-                    foreach (IControl child in PluginTreeView.Presenter.Panel.Children)
-                        if (child is TreeViewItem item)
-                            item.IsExpanded = true;
-                });
+                .Subscribe(_ => ExpendTree());
         }
 
         #region View
@@ -105,6 +98,7 @@ namespace Ruminoid.Toolbox.Shell.Views
         [UsedImplicitly]
         public int OperationsCount { get; }
 
+        // ReSharper disable once PrivateFieldCanBeConvertedToLocalVariable InconsistentNaming
         private readonly List<OperationModel> OperationsList;
 
         private readonly ObservableAsPropertyHelper<List<OperationModel>> _displayOperationsList;
@@ -133,6 +127,18 @@ namespace Ruminoid.Toolbox.Shell.Views
         {
             get => _operationSearchText;
             set => this.RaiseAndSetIfChanged(ref _operationSearchText, value);
+        }
+
+        #endregion
+
+        #region Commands
+
+        [UsedImplicitly]
+        public void ExpendTree(bool expend = true)
+        {
+            foreach (IControl child in PluginTreeView.Presenter.Panel.Children)
+                if (child is TreeViewItem item)
+                    item.IsExpanded = expend;
         }
 
         #endregion
