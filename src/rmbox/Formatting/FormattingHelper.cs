@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Reactive.Linq;
 using System.Reactive.Subjects;
+using ReactiveUI;
 using Ruminoid.Toolbox.Composition.Services;
 
 namespace Ruminoid.Toolbox.Formatting
@@ -15,7 +16,7 @@ namespace Ruminoid.Toolbox.Formatting
 
             FormatData = ReceiveData
                 .Select(Format)
-                .Where(x => x is not null);
+                .WhereNotNull();
         }
         
         #region Subjects
