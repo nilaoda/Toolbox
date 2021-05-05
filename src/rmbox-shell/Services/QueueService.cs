@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reactive.Linq;
 using System.Reactive.Subjects;
 using DynamicData;
 using DynamicData.Kernel;
@@ -68,6 +69,14 @@ namespace Ruminoid.Toolbox.Shell.Services
             }
         }
 
+        private ProjectStatus _currentProjectStatus = ProjectStatus.Queued;
+
+        public ProjectStatus CurrentProjectStatus
+        {
+            get => _currentProjectStatus;
+            set => this.RaiseAndSetIfChanged(ref _currentProjectStatus, value);
+        }
+
         #endregion
 
         #region Dispatcher
@@ -86,6 +95,8 @@ namespace Ruminoid.Toolbox.Shell.Services
 
         private void TriggerProjectUpdate(ProjectStatus status)
         {
+            CurrentProjectStatus = status;
+
             if (status != ProjectStatus.Completed) return;
 
             PushProject(true);
