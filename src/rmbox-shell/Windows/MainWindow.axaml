@@ -23,5 +23,10 @@
             IsClosable="False">
             <views:PluginView />
         </metroControls:ClosableTabItem>
+        <metroControls:ClosableTabItem
+            Header="队列"
+            IsClosable="False">
+            <views:QueueView />
+        </metroControls:ClosableTabItem>
     </metroControls:ClosableTabControl>
 </metroControls:MetroWindow>
