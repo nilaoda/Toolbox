@@ -2,54 +2,61 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             xmlns:viewModels="clr-namespace:Ruminoid.Toolbox.Shell.ViewModels"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="Ruminoid.Toolbox.Shell.Views.PluginManagerView">
-    <UserControl.DataContext>
-        <viewModels:PluginManagerViewModel/>
-    </UserControl.DataContext>
-
     <Grid
-        ColumnDefinitions="*,*"
-        Margin="6">
+        Margin="24"
+        ColumnDefinitions="*,400">
         <ListBox
-            Margin="6"
+            Grid.Column="0"
             Items="{Binding PluginList}"
             SelectedItem="{Binding SelectedPlugin}">
             <ListBox.ItemTemplate>
                 <DataTemplate>
-                    <Grid>
-                        <StackPanel
-                            Margin="3"
-                            Spacing="3">
-                            <TextBlock
-                                Text="{Binding Name}"
-                                FontSize="20"/>
-                            <TextBlock
-                                Text="{Binding Author, StringFormat=作者：{0}}"/>
-                        </StackPanel>
-                    </Grid>
+                    <TextBlock Text="{Binding Name}" />
                 </DataTemplate>
             </ListBox.ItemTemplate>
         </ListBox>
 
         <Grid
             Grid.Column="1"
-            Margin="6"
-            DataContext="{Binding SelectedPlugin}">
-            <StackPanel
-                Margin="12"
-                Spacing="12">
-                <TextBlock
-                    Text="{Binding Name}"
-                    FontSize="22"
-                    FontWeight="Bold"/>
-                <TextBlock
-                    Text="{Binding Description}"
-                    TextWrapping="Wrap"/>
-                <TextBlock
-                    Text="{Binding Author, StringFormat=作者：{0}}"/>
-            </StackPanel>
+            Background="#10FFFFFF">
+            <Grid
+                Grid.Row="0"
+                RowDefinitions="150,Auto,Auto">
+                <Grid.Styles>
+                    <Style Selector="TextBlock">
+                        <Setter Property="TextWrapping" Value="Wrap" />
+                    </Style>
+                    <Style Selector="StackPanel">
+                        <Setter Property="Spacing" Value="12" />
+                    </Style>
+                </Grid.Styles>
+
+                <StackPanel
+                    Grid.Row="0">
+                    <TextBlock
+                        Text="{Binding SelectedPlugin.Name}"
+                        FontWeight="Light"
+                        FontSize="32" />
+                    <TextBlock
+                        Text="{Binding SelectedPlugin.Description}"
+                        FontSize="18" />
+                </StackPanel>
+
+                <Grid
+                    Grid.Row="1"
+                    Height="1"
+                    Background="#80FFFFFF"
+                    Margin="6,18" />
+
+                <StackPanel
+                    Grid.Row="2">
+                    <TextBlock
+                        Text="{Binding Author, StringFormat=作者：{0}}"
+                        FontSize="16" />
+                </StackPanel>
+            </Grid>
         </Grid>
     </Grid>
 </UserControl>
