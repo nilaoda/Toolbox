@@ -84,6 +84,7 @@ namespace Ruminoid.Toolbox.Shell.Windows
     {
         StartView = 0,
         PluginsView,
-        QueueView
+        QueueView,
+        AboutView
     }
 }

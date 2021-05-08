@@ -43,7 +43,9 @@ namespace Ruminoid.Toolbox.Shell.Views
             (Window.DataContext as MainWindowViewModel).CurrentTabIndex = (int) CommonTabIndex.PluginsView;
 
         [UsedImplicitly]
-        public void DoShowAboutWindow() => new AboutWindow().ShowDialog(Window);
+        public void DoShowAboutWindow() =>
+            // ReSharper disable once PossibleNullReferenceException
+            (Window.DataContext as MainWindowViewModel).CurrentTabIndex = (int)CommonTabIndex.AboutView;
 
         [UsedImplicitly]
         public void DoClose() => Window.Close();
