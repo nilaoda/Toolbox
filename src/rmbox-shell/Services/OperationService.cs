@@ -34,7 +34,8 @@ namespace Ruminoid.Toolbox.Shell.Services
             ClosableTabItem tabItem = new()
             {
                 Header = tabName,
-                Content = operationView
+                Content = operationView,
+                IsClosable = true
             };
 
             tabItem.TabClosing += OnTabItemClosing;
