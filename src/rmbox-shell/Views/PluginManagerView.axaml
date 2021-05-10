@@ -22,6 +22,7 @@
             Grid.Column="1"
             Background="#10FFFFFF">
             <Grid
+                Margin="20"
                 Grid.Row="0"
                 RowDefinitions="150,Auto,Auto">
                 <Grid.Styles>
@@ -53,7 +54,7 @@
                 <StackPanel
                     Grid.Row="2">
                     <TextBlock
-                        Text="{Binding Author, StringFormat=作者：{0}}"
+                        Text="{Binding SelectedPlugin.Author, StringFormat=作者：{0}}"
                         FontSize="16" />
                 </StackPanel>
             </Grid>
