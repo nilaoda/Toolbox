@@ -31,6 +31,7 @@ namespace Ruminoid.Toolbox.Shell.ViewModels.Project
 
                 var source = jObject["input"]?.ToString();
                 if (string.IsNullOrWhiteSpace(source)) source = jObject["subtitle"]?.ToString();
+                if (string.IsNullOrWhiteSpace(source)) source = "（无外部来源）";
                 if (!string.IsNullOrWhiteSpace(source)) Source = source;
             }
         }

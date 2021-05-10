@@ -31,6 +31,8 @@ namespace Ruminoid.Toolbox.Shell.ViewModels.Project
 
             BatchConfig =
                 new(ioTuple.ConfigSection as BatchIOConfigSectionViewModel);
+
+            Source = $"批量 - 共 {BatchConfig.InputList.Count} 个任务";
         }
 
         #endregion
