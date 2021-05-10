@@ -148,6 +148,7 @@ namespace Ruminoid.Toolbox.Shell.Views
                     item.IsExpanded = expend;
         }
 
+        [UsedImplicitly]
         public void DoCreateNewOperation()
         {
             if (SelectedOperation is null) return;
@@ -156,12 +157,13 @@ namespace Ruminoid.Toolbox.Shell.Views
                 new SingleOperationView(SelectedOperation));
         }
 
+        [UsedImplicitly]
         public void DoCreateNewBatch()
         {
             if (SelectedOperation is null) return;
             if (!OperationViewModelBase.CheckCompatibilityAndReport(SelectedOperation, _view.GetVisualRoot() as Window)) return;
             _operationService.AddOperation(
-                $"��ʁF{SelectedOperation.Name}",
+                $"批量：{SelectedOperation.Name}",
                 new BatchOperationView(SelectedOperation));
         }
 
