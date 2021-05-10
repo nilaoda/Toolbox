@@ -4,7 +4,7 @@ using System.IO;
 using JetBrains.Annotations;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json.Linq;
-using Ruminoid.Toolbox.Helpers.CommandLine;
+using Ruminoid.Toolbox.Services.CommandLine;
 
 namespace Ruminoid.Toolbox.Core.Parser
 {
@@ -14,14 +14,14 @@ namespace Ruminoid.Toolbox.Core.Parser
             SingleProjectParser singleProjectParser,
             QueueProjectParser queueProjectParser,
             BatchProjectParser batchProjectParser,
-            CommandLineHelper commandLineHelper,
+            CommandLineService commandLineService,
             ILogger<ProjectParser> logger)
         {
             _singleProjectParser = singleProjectParser;
             _queueProjectParser = queueProjectParser;
             _batchProjectParser = batchProjectParser;
 
-            _commandLineHelper = commandLineHelper;
+            _commandLineService = commandLineService;
             _logger = logger;
         }
 
@@ -33,7 +33,7 @@ namespace Ruminoid.Toolbox.Core.Parser
             _logger.LogDebug("Parsing using projectPath from ProcessOptions.");
 
             // ReSharper disable once PossibleNullReferenceException
-            return Parse((_commandLineHelper.Options as ProcessOptions).ProjectPath);
+            return Parse((_commandLineService.Options as ProcessOptions).ProjectPath);
         }
 
         /// <summary>
@@ -74,7 +74,7 @@ namespace Ruminoid.Toolbox.Core.Parser
                 _logger.LogDebug("Validating project.");
 
                 // ReSharper disable once PossibleNullReferenceException
-                if (!(_commandLineHelper.Options as ProcessOptions).SkipVersionCheck)
+                if (!(_commandLineService.Options as ProcessOptions).SkipVersionCheck)
                     AssertValidVersion(project);
 
                 string projectType = project["type"].ToObject<string>();
@@ -131,7 +131,7 @@ namespace Ruminoid.Toolbox.Core.Parser
 
         #endregion
 
-        private readonly CommandLineHelper _commandLineHelper;
+        private readonly CommandLineService _commandLineService;
         private readonly ILogger<ProjectParser> _logger;
     }
 }

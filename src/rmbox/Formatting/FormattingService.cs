@@ -7,9 +7,9 @@ using Ruminoid.Toolbox.Composition.Services;
 
 namespace Ruminoid.Toolbox.Formatting
 {
-    public class FormattingHelper
+    public class FormattingService
     {
-        public FormattingHelper(
+        public FormattingService(
             IPluginService pluginService)
         {
             _pluginService = pluginService;

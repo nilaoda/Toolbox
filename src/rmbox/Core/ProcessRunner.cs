@@ -12,7 +12,7 @@ using System.Text;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using Ruminoid.Toolbox.Formatting;
-using Ruminoid.Toolbox.Helpers.CommandLine;
+using Ruminoid.Toolbox.Services.CommandLine;
 using Ruminoid.Toolbox.Utils;
 using Ruminoid.Toolbox.Utils.Extensions;
 using Websocket.Client;
@@ -22,12 +22,12 @@ namespace Ruminoid.Toolbox.Core
     public class ProcessRunner : IDisposable
     {
         public ProcessRunner(
-            CommandLineHelper commandLineHelper,
-            FormattingHelper formattingHelper,
+            CommandLineService commandLineService,
+            FormattingService formattingService,
             ILogger<ProcessRunner> logger)
         {
-            _commandLineHelper = commandLineHelper;
-            _formattingHelper = formattingHelper;
+            _commandLineService = commandLineService;
+            _formattingService = formattingService;
             _logger = logger;
 
             Observable
@@ -40,7 +40,7 @@ namespace Ruminoid.Toolbox.Core
                 .ObserveOn(TaskPoolScheduler.Default)
                 .Subscribe(OnCancelKeyPress);
 
-            int dynamicLinkPort = ((ProcessOptions) _commandLineHelper.Options).DynamicLinkPort;
+            int dynamicLinkPort = ((ProcessOptions) _commandLineService.Options).DynamicLinkPort;
 
             if (dynamicLinkPort != 0)
             {
@@ -72,7 +72,7 @@ namespace Ruminoid.Toolbox.Core
                     .Subscribe(PipeSend);
             }
             
-            _unsubscribe = _formattingHelper.FormatData.Subscribe(
+            _unsubscribe = _formattingService.FormatData.Subscribe(
                 OnNext,
                 OnError);
         }
@@ -155,9 +155,9 @@ namespace Ruminoid.Toolbox.Core
                         var (_, e) = next;
                         if (string.IsNullOrEmpty(e.Data)) return;
 
-                        if (((ProcessOptions) _commandLineHelper.Options).LogProcessOut)
+                        if (((ProcessOptions) _commandLineService.Options).LogProcessOut)
                             _logger.LogInformation($"[{formatter}]{e.Data}");
-                        _formattingHelper.ReceiveData.OnNext((formatter, e.Data, sessionStorage));
+                        _formattingService.ReceiveData.OnNext((formatter, e.Data, sessionStorage));
                     },
                     error => _logger.LogError(error, "进程发生了错误。"));
 
@@ -241,15 +241,15 @@ namespace Ruminoid.Toolbox.Core
 
         private void OnNext(FormattedEvent formatted)
         {
-            if (!((ProcessOptions)_commandLineHelper.Options).HideFormattedOutput)
+            if (!((ProcessOptions)_commandLineService.Options).HideFormattedOutput)
                 _logger.LogInformation(formatted.ToString());
             _pipeSubject.OnNext(JsonConvert.SerializeObject(formatted));
         }
 
         #endregion
 
-        private readonly CommandLineHelper _commandLineHelper;
-        private readonly FormattingHelper _formattingHelper;
+        private readonly CommandLineService _commandLineService;
+        private readonly FormattingService _formattingService;
         private readonly ILogger<ProcessRunner> _logger;
 
         public void Dispose()

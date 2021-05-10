@@ -6,12 +6,12 @@ using CommandLine;
 using CommandLine.Text;
 using Microsoft.Extensions.Logging;
 
-namespace Ruminoid.Toolbox.Helpers.CommandLine
+namespace Ruminoid.Toolbox.Services.CommandLine
 {
-    public sealed class CommandLineHelper
+    public sealed class CommandLineService
     {
-        public CommandLineHelper(
-            ILogger<CommandLineHelper> logger)
+        public CommandLineService(
+            ILogger<CommandLineService> logger)
         {
             _logger = logger;
 
@@ -74,6 +74,6 @@ namespace Ruminoid.Toolbox.Helpers.CommandLine
 
         #endregion
 
-        private readonly ILogger<CommandLineHelper> _logger;
+        private readonly ILogger<CommandLineService> _logger;
     }
 }

@@ -14,7 +14,7 @@ using Ruminoid.Toolbox.Composition.Services;
 using Ruminoid.Toolbox.Core;
 using Ruminoid.Toolbox.Core.Parser;
 using Ruminoid.Toolbox.Formatting;
-using Ruminoid.Toolbox.Helpers.CommandLine;
+using Ruminoid.Toolbox.Services.CommandLine;
 using Ruminoid.Toolbox.Utils;
 
 namespace Ruminoid.Toolbox
@@ -36,7 +36,7 @@ namespace Ruminoid.Toolbox
             Console.OutputEncoding = Encoding.UTF8;
 
 #if DEBUG
-            if (args.Contains(CommandLineHelper.DebugAttachString))
+            if (args.Contains(CommandLineService.DebugAttachString))
             {
                 Console.WriteLine("Attach debugger and press ENTER to continue...");
                 Console.ReadLine();
@@ -65,13 +65,13 @@ namespace Ruminoid.Toolbox
                     services.AddSingleton(typeof(ProjectParser));
 
                     // Formatting
-                    services.AddSingleton(typeof(FormattingHelper));
+                    services.AddSingleton(typeof(FormattingService));
 
                     // Core
                     services.AddSingleton(typeof(ProcessRunner));
 
                     // Helpers
-                    services.AddSingleton(typeof(CommandLineHelper));
+                    services.AddSingleton(typeof(CommandLineService));
 
                     // Processor (Entry Point)
                     services.AddSingleton(typeof(Processor));

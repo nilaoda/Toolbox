@@ -1,14 +1,14 @@
 ﻿using System;
 using Microsoft.Extensions.Logging;
 using Ruminoid.Toolbox.Core.Parser;
-using Ruminoid.Toolbox.Helpers.CommandLine;
+using Ruminoid.Toolbox.Services.CommandLine;
 
 namespace Ruminoid.Toolbox.Core
 {
     public sealed class Processor
     {
         public Processor(
-            CommandLineHelper commandLineHelper,
+            CommandLineService commandLineService,
             ProjectParser projectParser,
             ProcessRunner processRunner,
             ILogger<Processor> logger)
@@ -19,7 +19,7 @@ namespace Ruminoid.Toolbox.Core
 
             try
             {
-                switch (commandLineHelper.Options)
+                switch (commandLineService.Options)
                 {
                     case ProcessOptions:
                         processRunner.Run(projectParser.Parse());
