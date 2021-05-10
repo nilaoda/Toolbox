@@ -1,8 +1,14 @@
-﻿using System;
+﻿// ReSharper disable RedundantUsingDirective
+
+using System;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Reactive.Linq;
 using Avalonia.Controls;
+using Avalonia.VisualTree;
 using Newtonsoft.Json.Linq;
+using ReactiveUI;
+using Ruminoid.Common2.Metro.MetroControls.Dialogs;
 using Ruminoid.Toolbox.Core;
 using Ruminoid.Toolbox.Shell.Models;
 using Ruminoid.Toolbox.Shell.Utils.ConfigSections;
@@ -71,7 +77,7 @@ namespace Ruminoid.Toolbox.Shell.ViewModels.Operations
                         () => MessageBox.ShowAndGetResult(
                             "警告",
                             "插件加载出现错误，请检查是否安装了所需的插件。操作可能出现不正常的行为。",
-                            _window,
+                            view.GetVisualRoot() as Window,
                             false),
                         RxApp.MainThreadScheduler)
                     .Subscribe(_ => { });
