@@ -76,7 +76,7 @@ namespace Ruminoid.Toolbox.Composition.Services
         }
 
         public (ConfigSectionAttribute ConfigSectionAttribute, ConfigSectionBase ConfigSection)
-            CreateConfigSection(string id)
+            CreateConfigSection(string id, params object[] args)
         {
             (ConfigSectionAttribute ConfigSectionAttribute, Type ConfigSectionType) tuple =
                 ConfigSectionCollection.FirstOrDefault(x => x.ConfigSectionAttribute.Id == id);
@@ -90,7 +90,7 @@ namespace Ruminoid.Toolbox.Composition.Services
             }
 
             return (tuple.ConfigSectionAttribute,
-                Activator.CreateInstance(tuple.ConfigSectionType) as ConfigSectionBase);
+                Activator.CreateInstance(tuple.ConfigSectionType, args) as ConfigSectionBase);
         }
 
         public (FormatterAttribute FormatterAttribute, IFormatter Formatter) GetFormatter(string target)

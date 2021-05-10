@@ -40,9 +40,10 @@ namespace Ruminoid.Toolbox.Composition.Services
         /// 创建配置项。
         /// </summary>
         /// <param name="id">配置项 ID。</param>
+        /// <param name="args">配置项初始化数据。</param>
         /// <returns>配置项的元信息和配置项实例。</returns>
         public (ConfigSectionAttribute ConfigSectionAttribute, ConfigSectionBase ConfigSection)
-            CreateConfigSection(string id);
+            CreateConfigSection(string id, params object[] args);
 
         /// <summary>
         /// 获取格式器。
