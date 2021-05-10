@@ -94,7 +94,7 @@ namespace Ruminoid.Toolbox.Shell.Views
                     QueueStatus.Free => "队列未启动，列表中的任务不会被运行。若要启动队列，请轻敲下方的「启动」按钮启动队列。",
                     QueueStatus.Running => "队列正在运行中。任务运行完成后将立即运行下一个任务。",
                     QueueStatus.RunningWithoutQueue => "任务正在运行中，但队列暂停。任务运行完成后将等待指令。",
-                    QueueStatus.Error => "运行遇到错误，因此等待指令。\n尝试按照下面的步骤排查问题：\n1. 监视右侧的「日志」口以确定问题详细信息。\n2. 若问题已经解决，请轻敲下方的「跳过」按钮恢复队列。",
+                    QueueStatus.Error => "运行遇到错误，因此等待指令。\n尝试按照下面的步骤排查问题：\n1. 检视右侧的「日志」视口以确定问题详细信息。\n2. 若问题已经解决，请轻敲下方的「跳过」按钮恢复队列。",
                     _ => throw new ArgumentOutOfRangeException(nameof(x), x, null)
                 })
                 .ToProperty(this, x => x.StatusDetail);
