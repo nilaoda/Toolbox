@@ -54,7 +54,7 @@ namespace Ruminoid.Toolbox.Plugins.Audio.Operations
                 JToken.FromObject(new
                 {
                     output_suffix = "_encoded",
-                    output_extension = ".mp3"
+                    output_extension = ".aac"
                 })
             },
             {"Ruminoid.Toolbox.Plugins.Audio.ConfigSections.AudioQualityConfigSection", new JObject()},
