@@ -141,7 +141,7 @@
                 </StackPanel>
             </Grid>
 
-            <Grid
+            <!--<Grid
                 Grid.Column="2"
                 RowDefinitions="Auto,24,*">
                 <TextBlock
@@ -175,7 +175,7 @@
                         HorizontalAlignment="Center"
                         VerticalAlignment="Center" />
                 </Grid>
-            </Grid>
+            </Grid>-->
         </Grid>
     </Grid>
 </UserControl>
