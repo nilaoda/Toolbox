@@ -34,7 +34,7 @@ namespace Ruminoid.Toolbox.Shell.Views
                 return;
             }
 
-            CurrentStatus = _queueService.Items.Any() switch
+            CurrentStatus = (_queueService.CurrentProject is not null) switch
             {
                 true => _queueService.QueueRunning switch {
                     true => QueueStatus.Running,
