@@ -41,6 +41,8 @@ namespace Ruminoid.Toolbox.Shell.Services
 
             OperationList.Add((tabItem, operationView));
             Items.Add(tabItem);
+
+            MainWindow.ViewModel.CurrentTabIndex = Items.Count - 1;
         }
 
         private void OnTabItemClosing(object sender, RoutedEventArgs _) =>
