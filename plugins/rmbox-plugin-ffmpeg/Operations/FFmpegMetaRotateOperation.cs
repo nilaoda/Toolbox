@@ -36,12 +36,12 @@ namespace Ruminoid.Toolbox.Plugins.FFmpeg.Operations
             {
                 new(
                     "ffmpeg",
-                    $"-i {inputPath} -y -c copy -metadata:s:v:0 rotate=180 {(useCustomArgs ? customArgs : DefaultArgs)} {outputPath}",
+                    $"-i {inputPath} -y -c copy -metadata:s:v:0 {(useCustomArgs ? customArgs : DefaultArgs)} {outputPath}",
                     "ffmpeg")
             };
         }
 
-        private const string DefaultArgs = "";
+        private const string DefaultArgs = "rotate=180";
 
         public Dictionary<string, JToken> RequiredConfigSections => new()
         {
