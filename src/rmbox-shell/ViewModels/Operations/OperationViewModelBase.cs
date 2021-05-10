@@ -57,7 +57,7 @@ namespace Ruminoid.Toolbox.Shell.ViewModels.Operations
         public void DoAddToQueue()
         {
             DoAddToQueueAndContinue();
-            // TODO: Close Myself
+            Locator.Current.GetService<OperationService>().CloseOperation(_view);
         }
 
         [UsedImplicitly]

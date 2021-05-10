@@ -39,13 +39,11 @@ namespace Ruminoid.Toolbox.Shell.Views
 
         [UsedImplicitly]
         public void DoCreateNewOperation() =>
-            // ReSharper disable once PossibleNullReferenceException
-            (Window.DataContext as MainWindowViewModel).CurrentTabIndex = (int) CommonTabIndex.PluginsView;
+            Window.ViewModel.CurrentTabIndex = (int) CommonTabIndex.PluginsView;
 
         [UsedImplicitly]
         public void DoShowAboutWindow() =>
-            // ReSharper disable once PossibleNullReferenceException
-            (Window.DataContext as MainWindowViewModel).CurrentTabIndex = (int)CommonTabIndex.AboutView;
+            Window.ViewModel.CurrentTabIndex = (int)CommonTabIndex.AboutView;
 
         [UsedImplicitly]
         public void DoClose() => Window.Close();

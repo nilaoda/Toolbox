@@ -1,4 +1,5 @@
 using System;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Reactive.Linq;
 using Avalonia;
@@ -9,6 +10,7 @@ using ReactiveUI;
 using Ruminoid.Common2.Metro.MetroControls;
 using Ruminoid.Common2.Metro.MetroControls.Dialogs;
 using Ruminoid.Toolbox.Shell.Services;
+using Ruminoid.Toolbox.Shell.Views;
 using Splat;
 
 namespace Ruminoid.Toolbox.Shell.Windows
@@ -49,6 +51,8 @@ namespace Ruminoid.Toolbox.Shell.Windows
         {
             AvaloniaXamlLoader.Load(this);
         }
+
+        public MainWindowViewModel ViewModel => DataContext as MainWindowViewModel;
     }
 
     public class MainWindowViewModel : ReactiveObject
@@ -67,6 +71,35 @@ namespace Ruminoid.Toolbox.Shell.Windows
         private readonly MainWindow _window;
 
         #region Tab
+
+        public ObservableCollection<ClosableTabItem> Items { get; } =
+            new()
+            {
+                new()
+                {
+                    Header = "开始",
+                    IsClosable = false,
+                    Content = new StartView()
+                },
+                new()
+                {
+                    Header = "操作",
+                    IsClosable = false,
+                    Content = new PluginView()
+                },
+                new()
+                {
+                    Header = "队列",
+                    IsClosable = false,
+                    Content = new QueueView()
+                },
+                new()
+                {
+                    Header = "关于",
+                    IsClosable = false,
+                    Content = new AboutView()
+                }
+            };
 
         private int _currentTabIndex;
 

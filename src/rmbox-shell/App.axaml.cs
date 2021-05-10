@@ -51,7 +51,7 @@ namespace Ruminoid.Toolbox.Shell
             {
                 MainWindow: MainWindow mainWindow
             })
-                new AboutWindow().ShowDialog(mainWindow);
+                mainWindow.ViewModel.CurrentTabIndex = (int) CommonTabIndex.AboutView;
         }
     }
 }

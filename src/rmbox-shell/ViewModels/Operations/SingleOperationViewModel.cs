@@ -28,7 +28,8 @@ namespace Ruminoid.Toolbox.Shell.ViewModels.Operations
 
             foreach (KeyValuePair<string, JToken> sectionData in Operation.RequiredConfigSections)
             {
-                (ConfigSectionAttribute attribute, ConfigSectionBase section) = PluginService.CreateConfigSection(sectionData.Key);
+                (ConfigSectionAttribute attribute, ConfigSectionBase section) =
+                    PluginService.CreateConfigSection(sectionData.Key, sectionData.Value);
 
                 if (section is null)
                     throw new ArgumentException("Cannot Construct ConfigSection.");

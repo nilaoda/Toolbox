@@ -44,6 +44,10 @@ namespace Ruminoid.Toolbox.Shell
             resolver.RegisterLazySingleton(
                 () => new QueueService(),
                 typeof(QueueService));
+
+            resolver.RegisterLazySingleton(
+                () => new OperationService(),
+                typeof(OperationService));
         }
     }
 }

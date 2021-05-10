@@ -2,6 +2,7 @@
 using System.Collections.ObjectModel;
 using System.Linq;
 using Avalonia.Controls;
+using Newtonsoft.Json.Linq;
 using Ruminoid.Toolbox.Core;
 using Ruminoid.Toolbox.Shell.Models;
 using Ruminoid.Toolbox.Shell.Utils.ConfigSections;
@@ -39,14 +40,14 @@ namespace Ruminoid.Toolbox.Shell.ViewModels.Operations
             if (Operation is null)
                 throw new ArgumentException("Cannot Construct Operation.");
 
-            foreach (var (key, _) in Operation.RequiredConfigSections)
+            foreach ((string key, JToken value) in Operation.RequiredConfigSections)
             {
                 // Exclude
                 if (key == ConfigSectionBase.IOConfigSectionId)
                     continue;
 
                 (ConfigSectionAttribute attribute, ConfigSectionBase section) =
-                    PluginService.CreateConfigSection(key);
+                    PluginService.CreateConfigSection(key, value);
 
                 if (section is null)
                     throw new ArgumentException("Cannot Construct ConfigSection.");

@@ -4,11 +4,15 @@ using System.Linq;
 using System.Reactive.Linq;
 using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
+using Avalonia.VisualTree;
 using JetBrains.Annotations;
 using ReactiveUI;
 using Ruminoid.Common2.Utils.Text;
 using Ruminoid.Toolbox.Composition.Services;
 using Ruminoid.Toolbox.Shell.Models;
+using Ruminoid.Toolbox.Shell.Services;
+using Ruminoid.Toolbox.Shell.ViewModels.Operations;
+using Ruminoid.Toolbox.Shell.Views.Operations;
 using Splat;
 
 namespace Ruminoid.Toolbox.Shell.Views
@@ -36,6 +40,7 @@ namespace Ruminoid.Toolbox.Shell.Views
             _view = view;
 
             IPluginService pluginService = Locator.Current.GetService<IPluginService>();
+            _operationService = Locator.Current.GetService<OperationService>();
 
             OperationsCount = pluginService.OperationCollection.Count;
 
@@ -131,6 +136,8 @@ namespace Ruminoid.Toolbox.Shell.Views
 
         #endregion
 
+        private readonly OperationService _operationService;
+
         #region Commands
 
         [UsedImplicitly]
@@ -139,6 +146,23 @@ namespace Ruminoid.Toolbox.Shell.Views
             foreach (IControl child in PluginTreeView.Presenter.Panel.Children)
                 if (child is TreeViewItem item)
                     item.IsExpanded = expend;
+        }
+
+        public void DoCreateNewOperation()
+        {
+            if (SelectedOperation is null) return;
+            _operationService.AddOperation(
+                SelectedOperation.Name,
+                new SingleOperationView(SelectedOperation));
+        }
+
+        public void DoCreateNewBatch()
+        {
+            if (SelectedOperation is null) return;
+            if (!OperationViewModelBase.CheckCompatibilityAndReport(SelectedOperation, _view.GetVisualRoot() as Window)) return;
+            _operationService.AddOperation(
+                $"î·ó ÅF{SelectedOperation.Name}",
+                new BatchOperationView(SelectedOperation));
         }
 
         #endregion

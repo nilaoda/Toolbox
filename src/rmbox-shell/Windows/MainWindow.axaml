@@ -12,26 +12,7 @@
              MinWidth="1366" MinHeight="768"
              WindowStartupLocation="CenterScreen">
     <metroControls:ClosableTabControl
-        SelectedIndex="{Binding CurrentTabIndex}">
-        <metroControls:ClosableTabItem
-            Header="开始"
-            IsClosable="False">
-            <views:StartView />
-        </metroControls:ClosableTabItem>
-        <metroControls:ClosableTabItem
-            Header="操作"
-            IsClosable="False">
-            <views:PluginView />
-        </metroControls:ClosableTabItem>
-        <metroControls:ClosableTabItem
-            Header="队列"
-            IsClosable="False">
-            <views:QueueView />
-        </metroControls:ClosableTabItem>
-        <metroControls:ClosableTabItem
-            Header="关于"
-            IsClosable="False">
-            <views:AboutView />
-        </metroControls:ClosableTabItem>
-    </metroControls:ClosableTabControl>
+        Name="RootTabControl"
+        Items="{Binding Items}"
+        SelectedIndex="{Binding CurrentTabIndex}" />
 </metroControls:MetroWindow>

@@ -120,10 +120,12 @@
                                 <ContextMenu>
                                     <metroControls:DrawingIconMenuItem
                                         Icon="{DynamicResource VSCodeDark.add}"
-                                        Header="创建简单操作" />
+                                        Header="创建简单操作"
+                                        Command="{Binding DoCreateNewOperation}" />
                                     <metroControls:DrawingIconMenuItem
                                         Icon="{DynamicResource VSCodeDark.list-ordered}"
-                                        Header="创建批量操作" />
+                                        Header="创建批量操作"
+                                        Command="{Binding DoCreateNewBatch}" />
                                 </ContextMenu>
                             </metroControls:DrawingIconButton.ContextMenu>
                         </metroControls:DrawingIconButton>
