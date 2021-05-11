@@ -19,9 +19,9 @@ namespace Ruminoid.Toolbox.Utils.Extensions
                 folder = Path.GetDirectoryName(path) +
                          (Path.GetDirectoryName(path) is null
                              ? ""
-                             : (Path.GetDirectoryName(path).EndsWith(Path.DirectorySeparatorChar)
+                             : (Path.GetDirectoryName(path) ?? "").EndsWith(Path.DirectorySeparatorChar)
                                  ? ""
-                                 : Path.DirectorySeparatorChar)),
+                                 : Path.DirectorySeparatorChar),
                 name = Path.GetFileNameWithoutExtension(path),
                 fileName = Path.GetFileName(path),
                 extension = Path.GetExtension(path)
@@ -34,9 +34,9 @@ namespace Ruminoid.Toolbox.Utils.Extensions
             Path.GetDirectoryName(path) +
             (Path.GetDirectoryName(path) is null
                 ? ""
-                : (Path.GetDirectoryName(path).EndsWith(Path.DirectorySeparatorChar)
+                : (Path.GetDirectoryName(path) ?? "").EndsWith(Path.DirectorySeparatorChar)
                     ? ""
-                    : Path.DirectorySeparatorChar)) +
+                    : Path.DirectorySeparatorChar) +
             Path.GetFileNameWithoutExtension(path) +
             suffix +
             (string.IsNullOrWhiteSpace(extension) ? Path.GetExtension(path) : extension);
