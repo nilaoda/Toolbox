@@ -120,10 +120,6 @@
                         </Grid>
                     </Grid>
 
-                    <CheckBox
-                        Content="使用 VSFilterMod 压制。"
-                        IsChecked="{Binding UseVsfm}"/>
-
                     <TextBlock>
                         支持的插值：&#x000A;{folder}：文件夹&#x000A;{name}：输入名称&#x000A;{fileName}：含扩展名的文件名&#x000A;{extension}：含点的扩展名
                     </TextBlock>

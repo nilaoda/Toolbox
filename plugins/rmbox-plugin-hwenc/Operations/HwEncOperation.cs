@@ -51,11 +51,10 @@ namespace Ruminoid.Toolbox.Plugins.HwEnc.Operations
             string lwiPath = (inputPathIntl + ".lwi").EscapePathStringForArg();
 
             bool isVpy = inputPathIntl.EndsWith(".vpy");
-            bool isVsfm = isIncludingSubtitle;
 
-            bool useVpy = isVpy || isVsfm;
+            bool useVpy = isVpy || isIncludingSubtitle;
 
-            if (isVpy && isVsfm)
+            if (isVpy && isIncludingSubtitle)
                 throw new OperationException(
                     "不支持在 VapourSynth 输入上使用 VSFilterMod。请在 VapourSynth 中完成字幕处理。",
                     typeof(HwEncOperation));
@@ -138,9 +137,9 @@ namespace Ruminoid.Toolbox.Plugins.HwEnc.Operations
 
             #endregion
 
-            #region 处理 VSFM
+            #region 处理字幕
 
-            if (isVsfm)
+            if (isIncludingSubtitle)
             {
                 string vpyPath = Path.ChangeExtension(inputPathIntl, "vpy").EscapePathStringForArg();
 
@@ -180,7 +179,7 @@ namespace Ruminoid.Toolbox.Plugins.HwEnc.Operations
                 .Select(CommandExtension.GenerateTryDeleteCommand)
                 .ToList());
 
-            if (isVsfm)
+            if (isIncludingSubtitle)
                 result.Add(CommandExtension.GenerateTryDeleteCommand(inputPath));
 
             #endregion
@@ -197,7 +196,6 @@ namespace Ruminoid.Toolbox.Plugins.HwEnc.Operations
                 JToken.FromObject(new
                 {
                     support_subtitle = true,
-                    support_vsfm = true,
                     output_suffix = "_encoded",
                     output_extension = ".mp4"
                 })

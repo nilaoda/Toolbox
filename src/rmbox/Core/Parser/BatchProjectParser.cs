@@ -76,8 +76,7 @@ namespace Ruminoid.Toolbox.Core.Parser
                                 {
                                     input = x,
                                     subtitle = x.FormatPath(subtitleFormat ?? ""),
-                                    output = x.FormatPath(outputFormat),
-                                    use_vsfm = project["use_vsfm"].ToObject<bool>()
+                                    output = x.FormatPath(outputFormat)
                                 }
                             })
                         }

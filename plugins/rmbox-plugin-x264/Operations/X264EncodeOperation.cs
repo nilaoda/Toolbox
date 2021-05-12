@@ -51,11 +51,10 @@ namespace Ruminoid.Toolbox.Plugins.X264.Operations
             string lwiPath = (inputPathIntl + ".lwi").EscapePathStringForArg();
 
             bool isVpy = inputPathIntl.EndsWith(".vpy");
-            bool isVsfm = ioSection["use_vsfm"].ToObject<bool>();
 
-            bool useVpy = isVpy || isVsfm;
+            bool useVpy = isVpy || isIncludingSubtitle;
 
-            if (isVpy && isVsfm)
+            if (isVpy && isIncludingSubtitle)
                 throw new OperationException(
                     "不支持在 VapourSynth 输入上使用 VSFilterMod。请在 VapourSynth 中完成字幕处理。",
                     typeof(X264EncodeOperation));
@@ -160,9 +159,9 @@ namespace Ruminoid.Toolbox.Plugins.X264.Operations
 
             #endregion
 
-            #region 处理 VSFM
+            #region 处理字幕
 
-            if (isVsfm)
+            if (isIncludingSubtitle)
             {
                 string vpyPath = Path.ChangeExtension(inputPathIntl, "vpy").EscapePathStringForArg();
 
@@ -178,7 +177,7 @@ namespace Ruminoid.Toolbox.Plugins.X264.Operations
 
             #region 处理 x264 参数
 
-            string x264Args = $"{(useCustomArgs ? customArgs : DefaultArgs)} {(isIncludingSubtitle && !isVsfm ? "--vf subtitles --sub " + subtitlePath : "")}";
+            string x264Args = $"{(useCustomArgs ? customArgs : DefaultArgs)} {(isIncludingSubtitle && !isIncludingSubtitle ? "--vf subtitles --sub " + subtitlePath : "")}";
 
             #endregion
 
@@ -235,7 +234,7 @@ namespace Ruminoid.Toolbox.Plugins.X264.Operations
                 .Select(CommandExtension.GenerateTryDeleteCommand)
                 .ToList());
 
-            if (isVsfm)
+            if (isIncludingSubtitle)
                 result.Add(CommandExtension.GenerateTryDeleteCommand(inputPath));
 
             #endregion
@@ -263,7 +262,6 @@ namespace Ruminoid.Toolbox.Plugins.X264.Operations
                 JToken.FromObject(new
                 {
                     support_subtitle = true,
-                    support_vsfm = true,
                     output_suffix = "_encoded",
                     output_extension = ".mp4"
                 })

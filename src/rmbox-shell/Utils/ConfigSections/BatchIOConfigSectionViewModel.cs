@@ -42,7 +42,6 @@ namespace Ruminoid.Toolbox.Shell.Utils.ConfigSections
             InputList = new(origin.InputList);
             _subtitleFormat = origin.SubtitleFormat;
             _outputFormat = origin.OutputFormat;
-            _useVsfm = origin.UseVsfm;
         }
 
         #endregion
@@ -70,15 +69,6 @@ namespace Ruminoid.Toolbox.Shell.Utils.ConfigSections
         {
             get => _outputFormat;
             set => this.RaiseAndSetIfChanged(ref _outputFormat, value);
-        }
-
-        [JsonProperty("use_vsfm")]
-        private bool _useVsfm;
-
-        public bool UseVsfm
-        {
-            get => _useVsfm;
-            set => this.RaiseAndSetIfChanged(ref _useVsfm, value);
         }
 
         #endregion

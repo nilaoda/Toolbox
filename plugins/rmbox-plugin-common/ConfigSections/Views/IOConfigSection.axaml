@@ -74,11 +74,6 @@
                 Command="{Binding PickFile}"
                 CommandParameter="Subtitle"/>
         </Grid>
-        <CheckBox
-            Margin="0,6"
-            IsVisible="{Binding SupportVsfm}"
-            Content="使用 VSFilterMod 压制。"
-            IsChecked="{Binding UseVsfm}"/>
         <TextBlock Classes="title">输出</TextBlock>
         <TextBlock Classes="description">
             指定输出文件。输出文件可以是操作所支持的任何文件格式。
