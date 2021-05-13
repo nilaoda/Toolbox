@@ -16,6 +16,7 @@ using Microsoft.TemplateEngine.Core.Util;
 using Microsoft.TemplateEngine.Utils;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using Ruminoid.Common2.Utils.UserTypes;
 using Ruminoid.Toolbox.Utils.Extensions;
 
 namespace Ruminoid.Toolbox.Composition.Roslim
@@ -124,8 +125,8 @@ namespace Ruminoid.Toolbox.Composition.Roslim
                         "name", true),
                     new Replacement(TokenConfig.FromValue("(Roslim Operation)"),
                         meta["description"]!.ToObject<string>().EscapeForCode(), "description", true),
-                    new Replacement(TokenConfig.FromValue("ROSLIM_OPERATION_RATE"),
-                        meta["rate"]!.ToObject<int>().ToString(), "rate", true),
+                    new Replacement(TokenConfig.FromValue("RateValue.Unknown"),
+                        $"RateValue.{Enum.Parse<RateValue>(meta["rate"]!.ToString())}", "rate", true),
                     new Replacement(TokenConfig.FromValue("(Roslim Operation Category)"),
                         meta["category"]!.ToObject<string>(), "category", true)
                 };

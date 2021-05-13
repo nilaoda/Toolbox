@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using Ruminoid.Common2.Utils.UserTypes;
 using Ruminoid.Toolbox.Core;
 using Ruminoid.Toolbox.Utils;
 using Ruminoid.Toolbox.Utils.Extensions;
@@ -14,7 +15,7 @@ namespace Ruminoid.Toolbox.Composition.Roslim
         "Ruminoid.Toolbox.Composition.Roslim.RoslimDefaultOperation",
         "(Roslim)",
         "(Roslim Operation)",
-        ROSLIM_OPERATION_RATE,
+        RateValue.Unknown,
         "(Roslim Operation Category)")]
     public class RoslimOperation : IOperation
     {
