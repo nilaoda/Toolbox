@@ -45,6 +45,8 @@ namespace Ruminoid.Toolbox.Shell.Windows
             Initialize =
                 Observable.Create<object>(async observer =>
                 {
+                    await Task.Delay(TimeSpan.FromSeconds(0.1));
+
                     InitializeStatus = "初始化插件...";
                     _ = Locator.Current.GetService<IPluginService>();
 
