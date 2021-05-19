@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Reactive.Linq;
 using Avalonia.Controls;
@@ -7,6 +6,7 @@ using Avalonia.Markup.Xaml;
 using Avalonia.VisualTree;
 using JetBrains.Annotations;
 using ReactiveUI;
+using Ruminoid.Common2.Collections;
 using Ruminoid.Toolbox.Composition.Services;
 using Ruminoid.Toolbox.Shell.Models;
 using Ruminoid.Toolbox.Shell.Services;
@@ -44,62 +44,54 @@ namespace Ruminoid.Toolbox.Shell.Views
 
             OperationsCount = pluginService.OperationCollection.Count;
 
-            OperationsList = pluginService.OperationCollection
-                .GroupBy(x => x.OperationAttribute.Category)
-                .Select(x =>
-                {
-                    // Create OperationModel
-                    List<OperationModel> models = x.Select(y => new OperationModel
+            OperationsList = new(
+                pluginService.OperationCollection
+                    .GroupBy(x => x.OperationAttribute.Category)
+                    .Select(x =>
                     {
-                        Id = y.OperationAttribute.Id,
-                        Name = y.OperationAttribute.Name,
-                        Description = y.OperationAttribute.Description,
-                        Rate = y.OperationAttribute.Rate,
-                        Category = y.OperationAttribute.Category,
-                        Author = y.OperationMeta.Author,
-                        Type = y.OperationType
-                    }).ToList();
+                        // Create OperationModel
+                        ObservableCollectionEx<OperationModel> models = new(
+                            x.Select(y => new OperationModel
+                            {
+                                Id = y.OperationAttribute.Id,
+                                Name = y.OperationAttribute.Name,
+                                Description = y.OperationAttribute.Description,
+                                Rate = y.OperationAttribute.Rate,
+                                Category = y.OperationAttribute.Category,
+                                Author = y.OperationMeta.Author,
+                                Type = y.OperationType
+                            }));
 
-                    // Create SearchStorage
-                    SearchStorage<OperationModel> searchStorage = new()
-                    {
-                        Mode = CharParseMode.EnablePinyinSearch
-                    };
-                    searchStorage.Add(models, x => x.Name);
-
-                    return new OperationModel
-                    {
-                        Name = x.Key,
-                        Children = models,
-                        SearchStorage = searchStorage
-                    };
-                })
-                .ToList();
-
-            _displayOperationsList = this
-                .WhenAnyValue(x => x.OperationSearchText)
-                .Select(x => OperationsList
-                    .Select(y =>
-                        new OperationModel
+                        // Create SearchStorage
+                        SearchStorage<OperationModel> searchStorage = new()
                         {
-                            Name = y.Name,
-                            Children = y.SearchStorage
-                                .Search(x)
-                                .ToList(),
-                            SearchStorage = y.SearchStorage
-                        })
-                    //.Where(y => y.Children is not null && y.Children.Any())
-                    .ToList())
-                .ToProperty(this, x => x.DisplayOperationsList);
+                            Mode = CharParseMode.EnablePinyinSearch
+                        };
+                        searchStorage.Add(models, y => y.Name);
+
+                        return new OperationModel
+                        {
+                            Name = x.Key,
+                            Children = models,
+                            SearchStorage = searchStorage
+                        };
+                    }));
+
+            this
+                .ObservableForProperty(x => x.OperationSearchText)
+                .Throttle(TimeSpan.FromSeconds(1))
+                .Subscribe(x => OperationsList
+                    .ForEach(y => y.Children.Reset(
+                        y.SearchStorage.Search(x.Value))));
+
+            this
+                .ObservableForProperty(x => x.OperationSearchText)
+                .Subscribe(_ => ExpendTree());
 
             _isOperationSelected = this
                 .WhenAnyValue(x => x.SelectedOperation)
                 .Select(x => x?.Type != null)
                 .ToProperty(this, x => x.IsOperationSelected);
-
-            this
-                .ObservableForProperty(x => x.DisplayOperationsList)
-                .Subscribe(_ => ExpendTree());
         }
 
         #region View
@@ -117,13 +109,7 @@ namespace Ruminoid.Toolbox.Shell.Views
         [UsedImplicitly]
         public int OperationsCount { get; }
 
-        // ReSharper disable once PrivateFieldCanBeConvertedToLocalVariable InconsistentNaming
-        private readonly List<OperationModel> OperationsList;
-
-        private readonly ObservableAsPropertyHelper<List<OperationModel>> _displayOperationsList;
-
-        [UsedImplicitly]
-        public List<OperationModel> DisplayOperationsList => _displayOperationsList.Value;
+        public ObservableCollectionEx<OperationModel> OperationsList { get; }
 
         private OperationModel _selectedOperation;
 

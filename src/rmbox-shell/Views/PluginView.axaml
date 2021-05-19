@@ -49,7 +49,7 @@
             <TreeView
                 Name="PluginTreeView"
                 Grid.Column="0"
-                Items="{Binding DisplayOperationsList}"
+                Items="{Binding OperationsList}"
                 SelectedItem="{Binding SelectedOperation}">
                 <TreeView.DataTemplates>
                     <TreeDataTemplate
