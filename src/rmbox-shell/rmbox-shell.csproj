@@ -24,6 +24,7 @@
     <PackageReference Include="Fleck" Version="1.2.0" />
     <PackageReference Include="Microsoft.Extensions.Hosting" Version="5.0.0" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+    <PackageReference Include="SearchSharp" Version="1.0.1" />
     <PackageReference Include="System.Composition" Version="5.0.1" />
     <PackageReference Include="System.Reactive.Linq" Version="5.0.0" />
    </ItemGroup>
