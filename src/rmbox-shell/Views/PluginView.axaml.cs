@@ -7,12 +7,12 @@ using Avalonia.Markup.Xaml;
 using Avalonia.VisualTree;
 using JetBrains.Annotations;
 using ReactiveUI;
-using Ruminoid.Common2.Utils.Text;
 using Ruminoid.Toolbox.Composition.Services;
 using Ruminoid.Toolbox.Shell.Models;
 using Ruminoid.Toolbox.Shell.Services;
 using Ruminoid.Toolbox.Shell.ViewModels.Operations;
 using Ruminoid.Toolbox.Shell.Views.Operations;
+using SearchSharp;
 using Splat;
 
 namespace Ruminoid.Toolbox.Shell.Views
@@ -46,10 +46,10 @@ namespace Ruminoid.Toolbox.Shell.Views
 
             OperationsList = pluginService.OperationCollection
                 .GroupBy(x => x.OperationAttribute.Category)
-                .Select(x => new OperationModel
+                .Select(x =>
                 {
-                    Name = x.Key,
-                    Children = x.Select(y => new OperationModel
+                    // Create OperationModel
+                    List<OperationModel> models = x.Select(y => new OperationModel
                     {
                         Id = y.OperationAttribute.Id,
                         Name = y.OperationAttribute.Name,
@@ -58,7 +58,21 @@ namespace Ruminoid.Toolbox.Shell.Views
                         Category = y.OperationAttribute.Category,
                         Author = y.OperationMeta.Author,
                         Type = y.OperationType
-                    }).ToList()
+                    }).ToList();
+
+                    // Create SearchStorage
+                    SearchStorage<OperationModel> searchStorage = new()
+                    {
+                        Mode = CharParseMode.EnablePinyinSearch
+                    };
+                    searchStorage.Add(models, x => x.Name);
+
+                    return new OperationModel
+                    {
+                        Name = x.Key,
+                        Children = models,
+                        SearchStorage = searchStorage
+                    };
                 })
                 .ToList();
 
@@ -69,12 +83,12 @@ namespace Ruminoid.Toolbox.Shell.Views
                         new OperationModel
                         {
                             Name = y.Name,
-                            Children = SearchUtils.Search(
-                                y.Children,
-                                z => z.Name,
-                                x)
+                            Children = y.SearchStorage
+                                .Search(x)
+                                .ToList(),
+                            SearchStorage = y.SearchStorage
                         })
-                    .Where(y => y.Children is not null && y.Children.Any())
+                    //.Where(y => y.Children is not null && y.Children.Any())
                     .ToList())
                 .ToProperty(this, x => x.DisplayOperationsList);
 

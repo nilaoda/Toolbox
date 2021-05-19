@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using JetBrains.Annotations;
 using Ruminoid.Common2.Utils.UserTypes;
+using SearchSharp;
 
 namespace Ruminoid.Toolbox.Shell.Models
 {
@@ -23,5 +24,7 @@ namespace Ruminoid.Toolbox.Shell.Models
         public Type Type { get; init; }
 
         public List<OperationModel> Children { get; init; }
+
+        public SearchStorage<OperationModel> SearchStorage;
     }
 }
