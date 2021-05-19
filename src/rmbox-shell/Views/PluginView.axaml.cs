@@ -157,6 +157,9 @@ namespace Ruminoid.Toolbox.Shell.Views
         [UsedImplicitly]
         public void ExpendTree(bool expend = true)
         {
+            if (PluginTreeView.Presenter?.Panel?.Children is null)
+                return;
+
             foreach (IControl child in PluginTreeView.Presenter.Panel.Children)
                 if (child is TreeViewItem item)
                     item.IsExpanded = expend;
