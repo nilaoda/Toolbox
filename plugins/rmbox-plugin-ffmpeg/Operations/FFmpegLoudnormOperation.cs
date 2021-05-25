@@ -36,7 +36,7 @@ namespace Ruminoid.Toolbox.Plugins.FFmpeg.Operations
             {
                 new(
                     "ffmpeg",
-                    $"-i {inputPath} -y -af {(useCustomArgs ? customArgs : DefaultArgs)} {outputPath}",
+                    $"-i {inputPath} -y -c:v copy -af {(useCustomArgs ? customArgs : DefaultArgs)} {outputPath}",
                     "ffmpeg")
             };
         }
