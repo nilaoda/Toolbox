@@ -31,7 +31,7 @@
         <TextBlock
             Classes="description"
             IsVisible="{Binding !HasInvalidChar}">
-            指定输入的文件。输入的文件可以是操作所支持的任何文件格式。
+            指定输入文件。输入的文件可以是操作所支持的任何文件格式。
         </TextBlock>
         <TextBlock
             Classes="description"
