@@ -33,4 +33,7 @@
     <ProjectReference Include="..\rmbox\rmbox.csproj" />
     <ProjectReference Include="..\..\lib\rmnd-metro\src\rmnd-metro.csproj" />
   </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\Markdowns\*.md" />
+  </ItemGroup>
 </Project>

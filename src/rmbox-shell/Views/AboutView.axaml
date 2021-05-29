@@ -4,6 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:metroControls="clr-namespace:Ruminoid.Common2.Metro.MetroControls;assembly=rmnd-metro"
              xmlns:views="clr-namespace:Ruminoid.Toolbox.Shell.Views"
+             xmlns:avalonia="clr-namespace:Markdown.Avalonia;assembly=Markdown.Avalonia"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="Ruminoid.Toolbox.Shell.Views.AboutView">
     <UserControl.Styles>
@@ -116,6 +117,15 @@
                     <TextBlock Text="{Binding VersionDetail, StringFormat=生成：{0}}" />
                 </StackPanel>
             </ScrollViewer>
+        </TabItem>
+
+        <TabItem Header="发行说明">
+            <avalonia:MarkdownScrollViewer
+                Markdown="{Binding ReleaseNoteMarkdown}">
+                <avalonia:MarkdownScrollViewer.Styles>
+                    <StyleInclude Source="avares://rmnd-metro/Styles/MetroControls/MarkdownViewer.xaml" />
+                </avalonia:MarkdownScrollViewer.Styles>
+            </avalonia:MarkdownScrollViewer>
         </TabItem>
 
         <TabItem Header="关于">
