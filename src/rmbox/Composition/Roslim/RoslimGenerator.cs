@@ -191,7 +191,9 @@ namespace Ruminoid.Toolbox.Composition.Roslim
 
                 using MemoryStream assemblyStream = new MemoryStream();
 
-                if (!compilation.Emit(assemblyStream, options: emitOptions).Success)
+                EmitResult emitResult = compilation.Emit(assemblyStream, options: emitOptions);
+
+                if (!emitResult.Success)
                     throw new RoslimException("编译插件时出现问题。");
 
                 _logger.LogDebug("Successfully generated assembly for {assemblyName}.", assemblyName);
