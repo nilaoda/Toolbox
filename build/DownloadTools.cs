@@ -201,7 +201,7 @@ partial class Build
         
         Logger.Info("Downloading x264.");
         HttpTasks.HttpDownloadFile(
-            $"https://artifacts.videolan.org/x264/release-macos/x264-{X264Version}",
+            $"https://artifacts.videolan.org/x264/release-macos-x86_64/x264-{X264Version}",
             ToolsDirectory / "x264.exe");
 
         Logger.Info($"Downloading PowerShell v{PowerShellVersion}.");
