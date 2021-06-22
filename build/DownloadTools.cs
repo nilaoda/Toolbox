@@ -32,11 +32,11 @@ partial class Build
         Logger.Success("All tools downloaded.");
     }
 
-    const string X264Version = "r3043-59c0609";
+    const string X264Version = "r3065-ae03d92";
     const string PowerShellVersion = "7.1.3";
     const string NodejsVersion = "13.14.0"; // Last version supports Windows 7
     const string PythonVersion = "3.8.9"; // Last version supports Windows 7
-    const string LuaVersion = "5.3.5";
+    const string LuaVersion = "5.3.5"; // From Delivr
 
     void DownloadToolsWindows()
     {
