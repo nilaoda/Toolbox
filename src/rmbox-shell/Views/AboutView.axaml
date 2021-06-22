@@ -27,7 +27,8 @@
     </UserControl.Styles>
 
     <TabControl
-        TabStripPlacement="Left">
+        TabStripPlacement="Left"
+        Padding="0">
         <TabItem Header="快速上手">
             <ScrollViewer Classes="section">
                 <StackPanel>
@@ -121,7 +122,8 @@
 
         <TabItem Header="发行说明">
             <avalonia:MarkdownScrollViewer
-                Markdown="{Binding ReleaseNoteMarkdown}">
+                Markdown="{Binding ReleaseNoteMarkdown}"
+                Margin="24,24,0,0">
                 <avalonia:MarkdownScrollViewer.Styles>
                     <StyleInclude Source="avares://rmnd-metro/Styles/MetroControls/MarkdownViewer.xaml" />
                 </avalonia:MarkdownScrollViewer.Styles>
