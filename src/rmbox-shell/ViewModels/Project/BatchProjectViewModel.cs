@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.Linq;
+using Ruminoid.Common2.Utils.Extensions;
 using Ruminoid.Toolbox.Core;
 using Ruminoid.Toolbox.Shell.Models;
 using Ruminoid.Toolbox.Shell.Utils.ConfigSections;
@@ -16,7 +17,9 @@ namespace Ruminoid.Toolbox.Shell.ViewModels.Project
             Collection<(ConfigSectionAttribute ConfigSectionAttribute, object ConfigSection)> configSections)
         {
             OperationModel = operationModel;
-            ConfigSections = new(configSections); // Copy
+            ConfigSections = new(configSections
+                .Select(x => (x.ConfigSectionAttribute, x.ConfigSection.CloneUsingJson()))
+                .ToArray());
 
             // Extract BatchIO
 

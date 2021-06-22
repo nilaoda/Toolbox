@@ -1,6 +1,7 @@
 ﻿using System.Collections.ObjectModel;
 using System.Linq;
 using Newtonsoft.Json.Linq;
+using Ruminoid.Common2.Utils.Extensions;
 using Ruminoid.Toolbox.Core;
 using Ruminoid.Toolbox.Shell.Models;
 
@@ -15,7 +16,9 @@ namespace Ruminoid.Toolbox.Shell.ViewModels.Project
             Collection<(ConfigSectionAttribute ConfigSectionAttribute, object ConfigSection)> configSections)
         {
             OperationModel = operationModel;
-            ConfigSections = configSections;
+            ConfigSections = new(configSections
+                .Select(x => (x.ConfigSectionAttribute, x.ConfigSection.CloneUsingJson()))
+                .ToArray());
 
             (ConfigSectionAttribute ConfigSectionAttribute, object ConfigSection)
                 ioConfigSection =
