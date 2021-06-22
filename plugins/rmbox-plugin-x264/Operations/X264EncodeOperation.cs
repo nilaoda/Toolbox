@@ -258,6 +258,17 @@ namespace Ruminoid.Toolbox.Plugins.X264.Operations
         public Dictionary<string, JToken> RequiredConfigSections => new()
         {
             {
+                ConfigSectionBase.IntroConfigSectionId,
+                JObject.FromObject(new
+                {
+                    intro_text =
+                        typeof(X264EncodeOperation).Assembly
+                            .GetManifestResourceStream(
+                                "Ruminoid.Toolbox.Plugins.X264.Resources.Markdowns.X264EncodeOperation.md")
+                            .ReadStreamToEnd()
+                })
+            },
+            {
                 ConfigSectionBase.IOConfigSectionId,
                 JToken.FromObject(new
                 {
