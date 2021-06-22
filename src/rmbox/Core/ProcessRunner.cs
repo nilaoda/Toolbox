@@ -9,6 +9,7 @@ using System.Reactive.Linq;
 using System.Reactive.Subjects;
 using System.Runtime.InteropServices;
 using System.Text;
+using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using Ruminoid.Toolbox.Formatting;
@@ -158,8 +159,7 @@ namespace Ruminoid.Toolbox.Core
                         if (((ProcessOptions) _commandLineService.Options).LogProcessOut)
                             _logger.LogInformation($"[{formatter}]{e.Data}");
                         _formattingService.ReceiveData.OnNext((formatter, e.Data, sessionStorage));
-                    },
-                    error => _logger.LogError(error, "进程发生了错误。"));
+                    });
 
             _logger.LogInformation($"开始解析：{targetPath} {args}");
             _logger.LogInformation($"开始运行：{pFileName} {pArguments}");
@@ -169,14 +169,19 @@ namespace Ruminoid.Toolbox.Core
             _currentProcess.BeginOutputReadLine();
             _currentProcess.WaitForExit();
 
-            observable.Dispose();
-
             if (_currentProcess.ExitCode != 0)
             {
                 string err = $"{(formatter == "null" ? "命令运行" : formatter)} 出现错误，退出码为 {_currentProcess.ExitCode}。";
                 _logger.LogCritical(err);
+
+                _logger.LogWarning("等待清空输出缓冲……");
+                Task.Delay(TimeSpan.FromSeconds(3)).Wait();
+                observable.Dispose();
+
                 throw new ProcessRunnerException(err);
             }
+
+            observable.Dispose();
 
             _logger.LogInformation($"{(formatter == "null" ? "命令" : formatter)} 运行结束，程序正常退出。");
         }
@@ -229,7 +234,7 @@ namespace Ruminoid.Toolbox.Core
 
         private bool IsProcessRunning() =>
             _currentProcess is not null &&
-            _currentProcess.HasExited == false;
+            !_currentProcess.HasExited;
         
         #endregion
 
