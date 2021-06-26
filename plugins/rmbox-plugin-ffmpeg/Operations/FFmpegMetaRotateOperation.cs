@@ -9,7 +9,7 @@ namespace Ruminoid.Toolbox.Plugins.FFmpeg.Operations
     [Operation(
         "Ruminoid.Toolbox.Plugins.FFmpeg.Operations.FFmpegMetaRotateOperation",
         "画面方向纠正",
-        "纠正由于压制导致错误显示的画面方向（180°）。",
+        "纠正由于压制导致错误显示的画面方向。",
         RateValue.ThreeStars,
         "视频处理")]
     public class FFmpegMetaRotateOperation : IOperation
@@ -45,6 +45,17 @@ namespace Ruminoid.Toolbox.Plugins.FFmpeg.Operations
 
         public Dictionary<string, JToken> RequiredConfigSections => new()
         {
+            {
+                ConfigSectionBase.IntroConfigSectionId,
+                JObject.FromObject(new
+                {
+                    intro_text =
+                        typeof(FFmpegCopyOperation).Assembly
+                            .GetManifestResourceStream(
+                                "Ruminoid.Toolbox.Plugins.FFmpeg.Resources.Markdowns.FFmpegMetaRotateOperation.md")
+                            .ReadStreamToEnd()
+                })
+            },
             {
                 ConfigSectionBase.IOConfigSectionId,
                 JToken.FromObject(new
