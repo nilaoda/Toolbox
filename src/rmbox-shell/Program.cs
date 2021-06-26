@@ -29,6 +29,7 @@ namespace Ruminoid.Toolbox.Shell
         private static AppBuilder BuildAvaloniaApp()
             => AppBuilder.Configure<App>()
                 .UsePlatformDetect()
+                .UseSkia()
                 .LogToTrace();
 
         private static void InitializeSplat()
