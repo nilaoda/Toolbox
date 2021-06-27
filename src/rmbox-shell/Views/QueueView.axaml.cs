@@ -190,8 +190,13 @@ namespace Ruminoid.Toolbox.Shell.Views
             SaveFileDialog dialog = new()
             {
                 Title = "保存日志",
-                DefaultExtension = ".log",
-                InitialFileName = $"rmbox-log-{DateTime.Now:MM-dd-hh-mm-ss}.log"
+                DefaultExtension = "log",
+                InitialFileName = $"rmbox-log-{DateTime.Now:MM-dd-hh-mm-ss}.log",
+                Filters = new()
+                {
+                    new() {Name = "日志文件", Extensions = new() {"log"}},
+                    new() {Name = "文本文件", Extensions = new() {"txt"}}
+                }
             };
 
             string result = await dialog.ShowAsync((Window) _view.GetVisualRoot());
