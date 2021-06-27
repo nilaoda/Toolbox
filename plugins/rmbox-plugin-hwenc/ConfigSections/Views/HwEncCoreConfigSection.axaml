@@ -42,7 +42,8 @@
 
             <Grid Classes="section">
                 <TextBlock Classes="description">
-                    选择与你的显卡对应的显卡压制核心。下面是一份对应列表：&#x000A;NVIDIA：nvencc64&#x000A;Intel：qsvencc64&#x000A;AMD：vceencc64&#x000A;如果你有 MOD 版的显卡压制核心，你可以将其放在 Toolbox 安装位置的「tools」文件夹下，程序会在启动时自动扫描。
+                    选择与你的显卡对应的显卡压制核心。下面是一份对应列表：&#x000A;NVIDIA：nvencc64&#x000A;Intel：qsvencc64&#x000A;如果你使用 AMD 显卡，请使用 CPU 压制。&#x000A;如果你有 MOD 版的显卡压制核心，你可以将其放在 Toolbox 安装位置的「tools」文件夹下，程序会在启动时自动扫描。
+                    <!--AMD：vceencc64&#x000A;-->
                 </TextBlock>
             </Grid>
         </StackPanel>
