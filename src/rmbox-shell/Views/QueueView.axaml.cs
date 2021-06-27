@@ -144,6 +144,15 @@ namespace Ruminoid.Toolbox.Shell.Views
             set => this.RaiseAndSetIfChanged(ref _caretIndex, value);
         }
 
+        private bool _scrollLocked;
+
+        [UsedImplicitly]
+        public bool ScrollLocked
+        {
+            get => _scrollLocked;
+            set => this.RaiseAndSetIfChanged(ref _scrollLocked, value);
+        }
+
         private void NewRunnerOutput(string line)
         {
             RunnerOutput += line.Trim() + Environment.NewLine;
@@ -155,7 +164,7 @@ namespace Ruminoid.Toolbox.Shell.Views
                     RunnerOutput = RunnerOutput[(l + Environment.NewLine.Length)..];
             }
 
-            CaretIndex = RunnerOutput.Length;
+            if (!ScrollLocked) CaretIndex = RunnerOutput.Length;
         }
 
         #endregion

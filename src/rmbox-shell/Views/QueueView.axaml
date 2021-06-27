@@ -168,7 +168,7 @@
 
             <Grid
                 Grid.Row="2"
-                ColumnDefinitions="110,12,*">
+                ColumnDefinitions="Auto,12,*">
                 <StackPanel
                     Grid.Column="0"
                     Spacing="6"
@@ -178,14 +178,24 @@
                             <Setter Property="HorizontalAlignment" Value="Stretch" />
                         </Style>
                     </StackPanel.Styles>
-                    <metroControls:DrawingIconButton
-                        Icon="{DynamicResource VSCodeDark.go-to-file}"
+                    <Button
                         Command="{Binding DoSaveRunnerOutput}"
-                        Content="保存日志" />
-                    <metroControls:DrawingIconButton
-                        Icon="{DynamicResource VSCodeDark.close}"
+                        ToolTip.Tip="保存日志">
+                        <metroControls:DrawingIcon
+                            Icon="{DynamicResource VSCodeDark.go-to-file}" />
+                    </Button>
+                    <Button
                         Command="{Binding DoClearRunnerOutput}"
-                        Content="清空日志" />
+                        ToolTip.Tip="清空日志">
+                        <metroControls:DrawingIcon
+                            Icon="{DynamicResource VSCodeDark.close}" />
+                    </Button>
+                    <ToggleButton
+                        IsChecked="{Binding ScrollLocked}"
+                        ToolTip.Tip="滚动锁定">
+                        <metroControls:DrawingIcon
+                            Icon="{DynamicResource VSCodeDark.vertical-scroll}" />
+                    </ToggleButton>
                 </StackPanel>
 
                 <TextBox
