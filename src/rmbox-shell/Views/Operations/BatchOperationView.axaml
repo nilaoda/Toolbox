@@ -18,25 +18,25 @@
                 HorizontalAlignment="Right"
                 Spacing="12">
                 <metroControls:DrawingIconButton
-                    Icon="{DynamicResource VSCodeDark.check}"
+                    Icon="{DynamicResource MetroIcons.check}"
                     Command="{x:Static helpers:CommandHelper.OpenContextMenuCommand}"
                     CommandParameter="{Binding RelativeSource={RelativeSource Self}}"
                     Content="添加到队列">
                     <metroControls:DrawingIconButton.ContextMenu>
                         <ContextMenu>
                             <metroControls:DrawingIconMenuItem
-                                Icon="{DynamicResource VSCodeDark.check}"
+                                Icon="{DynamicResource MetroIcons.check}"
                                 Command="{Binding DoAddToQueue}"
                                 Header="添加到队列" />
                             <metroControls:DrawingIconMenuItem
-                                Icon="{DynamicResource VSCodeDark.arrow-right}"
+                                Icon="{DynamicResource MetroIcons.arrow-right}"
                                 Command="{Binding DoAddToQueueAndContinue}"
                                 Header="添加到队列并继续" />
                         </ContextMenu>
                     </metroControls:DrawingIconButton.ContextMenu>
                 </metroControls:DrawingIconButton>
                 <metroControls:DrawingIconButton
-                    Icon="{DynamicResource VSCodeDark.file-symlink-directory}"
+                    Icon="{DynamicResource MetroIcons.file-symlink-directory}"
                     Command="{Binding DoExport}"
                     IsEnabled="False"
                     Content="导出" />

@@ -78,25 +78,25 @@
                     <metroControls:DrawingIconButton
                         Grid.Row="0"
                         Grid.Column="0"
-                        Icon="{DynamicResource VSCodeDark.server}"
+                        Icon="{DynamicResource MetroIcons.server}"
                         Command="{Binding DoToggle}"
                         Content="启动/暂停" />
                     <metroControls:DrawingIconButton
                         Grid.Row="0"
                         Grid.Column="2"
-                        Icon="{DynamicResource VSCodeDark.debug-stop}"
+                        Icon="{DynamicResource MetroIcons.debug-stop}"
                         Command="{Binding DoKill}"
                         Content="强制停止" />
                     <metroControls:DrawingIconButton
                         Grid.Row="2"
                         Grid.Column="0"
-                        Icon="{DynamicResource VSCodeDark.debug-step-over}"
+                        Icon="{DynamicResource MetroIcons.debug-step-over}"
                         Command="{Binding DoSkip}"
                         Content="跳过" />
                     <metroControls:DrawingIconButton
                         Grid.Row="2"
                         Grid.Column="2"
-                        Icon="{DynamicResource VSCodeDark.close}"
+                        Icon="{DynamicResource MetroIcons.close}"
                         Command="{Binding DoClear}"
                         Content="清空" />
                 </Grid>
@@ -153,7 +153,7 @@
                                 Orientation="Horizontal"
                                 Spacing="3">
                                 <metroControls:DrawingIconButton
-                                    Icon="{DynamicResource VSCodeDark.close}"
+                                    Icon="{DynamicResource MetroIcons.close}"
                                     Command=""
                                     Content="移除" />
                             </StackPanel>-->
@@ -182,19 +182,19 @@
                         Command="{Binding DoSaveRunnerOutput}"
                         ToolTip.Tip="保存日志">
                         <metroControls:DrawingIcon
-                            Icon="{DynamicResource VSCodeDark.go-to-file}" />
+                            Icon="{DynamicResource MetroIcons.go-to-file}" />
                     </Button>
                     <Button
                         Command="{Binding DoClearRunnerOutput}"
                         ToolTip.Tip="清空日志">
                         <metroControls:DrawingIcon
-                            Icon="{DynamicResource VSCodeDark.close}" />
+                            Icon="{DynamicResource MetroIcons.close}" />
                     </Button>
                     <ToggleButton
                         IsChecked="{Binding ScrollLocked}"
                         ToolTip.Tip="滚动锁定">
                         <metroControls:DrawingIcon
-                            Icon="{DynamicResource VSCodeDark.vertical-scroll}" />
+                            Icon="{DynamicResource MetroIcons.vertical-scroll}" />
                     </ToggleButton>
                 </StackPanel>
 

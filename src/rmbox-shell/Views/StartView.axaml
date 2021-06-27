@@ -77,7 +77,7 @@
                             ColumnDefinitions="Auto,Auto">
                             <metroControls:DrawingIcon
                                 Grid.Column="0"
-                                Icon="{DynamicResource VSCodeDark.add}" />
+                                Icon="{DynamicResource MetroIcons.add}" />
                             <Grid
                                 Grid.Column="1"
                                 RowDefinitions="Auto,Auto">
@@ -100,7 +100,7 @@
                             ColumnDefinitions="Auto,*">
                             <metroControls:DrawingIcon
                                 Grid.Column="0"
-                                Icon="{DynamicResource VSCodeDark.help}" />
+                                Icon="{DynamicResource MetroIcons.help}" />
                             <Grid
                                 Grid.Column="1"
                                 RowDefinitions="Auto,Auto">
@@ -123,7 +123,7 @@
                             ColumnDefinitions="Auto,*">
                             <metroControls:DrawingIcon
                                 Grid.Column="0"
-                                Icon="{DynamicResource VSCodeDark.close}" />
+                                Icon="{DynamicResource MetroIcons.close}" />
                             <Grid
                                 Grid.Column="1"
                                 RowDefinitions="Auto,Auto">
