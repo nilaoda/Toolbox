@@ -19,7 +19,7 @@ namespace Ruminoid.Toolbox.Shell.ViewModels.Project
             OperationModel = operationModel;
             ConfigSections = new(configSections
                 .Select(x => (x.ConfigSectionAttribute, x.ConfigSection.CloneUsingJson()))
-                .ToArray());
+                .ToList()); // Read/Write
 
             // Extract BatchIO
 
