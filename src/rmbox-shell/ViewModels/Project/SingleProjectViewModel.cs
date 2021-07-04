@@ -16,9 +16,13 @@ namespace Ruminoid.Toolbox.Shell.ViewModels.Project
             Collection<(ConfigSectionAttribute ConfigSectionAttribute, object ConfigSection)> configSections)
         {
             OperationModel = operationModel;
+
+            // WARNING
+            // 1. All ConfigSections are cast to JObject when Select().
+            // 2. IEnumerable are converted to List (not IList) for read + write.
             ConfigSections = new(configSections
                 .Select(x => (x.ConfigSectionAttribute, x.ConfigSection.CloneUsingJson()))
-                .ToList()); // Read/Write
+                .ToList());
 
             (ConfigSectionAttribute ConfigSectionAttribute, object ConfigSection)
                 ioConfigSection =

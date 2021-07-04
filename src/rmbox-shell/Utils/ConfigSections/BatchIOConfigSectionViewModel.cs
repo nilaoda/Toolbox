@@ -32,18 +32,6 @@ namespace Ruminoid.Toolbox.Shell.Utils.ConfigSections
                 .ToProperty(this, x => x.HasInvalidChar);
         }
 
-        /// <summary>
-        /// 复制一个 BatchIOConfigSectionViewModel 的副本。
-        /// </summary>
-        /// <param name="origin">原实例。</param>
-        public BatchIOConfigSectionViewModel(
-            BatchIOConfigSectionViewModel origin)
-        {
-            InputList = new(origin.InputList);
-            _subtitleFormat = origin.SubtitleFormat;
-            _outputFormat = origin.OutputFormat;
-        }
-
         #endregion
 
         private readonly BatchIOConfigSection _view;

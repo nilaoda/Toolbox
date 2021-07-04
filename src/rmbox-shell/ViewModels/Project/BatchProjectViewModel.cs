@@ -1,10 +1,11 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using Newtonsoft.Json.Linq;
 using Ruminoid.Common2.Utils.Extensions;
 using Ruminoid.Toolbox.Core;
 using Ruminoid.Toolbox.Shell.Models;
-using Ruminoid.Toolbox.Shell.Utils.ConfigSections;
 
 namespace Ruminoid.Toolbox.Shell.ViewModels.Project
 {
@@ -17,9 +18,13 @@ namespace Ruminoid.Toolbox.Shell.ViewModels.Project
             Collection<(ConfigSectionAttribute ConfigSectionAttribute, object ConfigSection)> configSections)
         {
             OperationModel = operationModel;
+
+            // WARNING
+            // 1. All ConfigSections are cast to JObject when Select().
+            // 2. IEnumerable are converted to List (not IList) for read + write.
             ConfigSections = new(configSections
                 .Select(x => (x.ConfigSectionAttribute, x.ConfigSection.CloneUsingJson()))
-                .ToList()); // Read/Write
+                .ToList());
 
             // Extract BatchIO
 
@@ -30,12 +35,9 @@ namespace Ruminoid.Toolbox.Shell.ViewModels.Project
                 throw new InvalidOperationException(
                     "Cannot construct BatchProjectViewModel without BatchIOConfigSection.");
 
-            ConfigSections.Remove(ioTuple);
+            BatchConfig = (JObject) ioTuple.ConfigSection;
 
-            BatchConfig =
-                new(ioTuple.ConfigSection as BatchIOConfigSectionViewModel);
-
-            Source = $"批量 - 共 {BatchConfig.InputList.Count} 个任务";
+            Source = $"批量 - 共 {BatchConfig["inputs"]!.ToObject<List<string>>()!.Count} 个任务";
         }
 
         #endregion
@@ -46,7 +48,7 @@ namespace Ruminoid.Toolbox.Shell.ViewModels.Project
 
         public readonly Collection<(ConfigSectionAttribute ConfigSectionAttribute, object ConfigSection)> ConfigSections;
 
-        public readonly BatchIOConfigSectionViewModel BatchConfig;
+        public readonly JObject BatchConfig;
 
         #endregion
 

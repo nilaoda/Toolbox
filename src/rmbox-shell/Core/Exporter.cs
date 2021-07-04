@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using Newtonsoft.Json.Linq;
@@ -33,9 +34,9 @@ namespace Ruminoid.Toolbox.Shell.Core
                 {
                     version = 1,
                     type = "batch",
-                    inputs = batchProject.BatchConfig.InputList,
-                    subtitle_format = batchProject.BatchConfig.SubtitleFormat,
-                    output_format = batchProject.BatchConfig.OutputFormat,
+                    inputs = batchProject.BatchConfig["inputs"]!.ToObject<List<string>>(),
+                    subtitle_format = batchProject.BatchConfig["subtitle_format"]!.ToString(),
+                    output_format = batchProject.BatchConfig["output_format"]!.ToString(),
                     operation = batchProject.OperationModel.Id,
                     sections =
                         batchProject.ConfigSections
