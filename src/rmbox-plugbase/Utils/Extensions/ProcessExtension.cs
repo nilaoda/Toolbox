@@ -89,7 +89,7 @@ namespace Ruminoid.Toolbox.Utils.Extensions
         public static string GetPathExecutable(string pathExecutable) =>
             RunExternalProcess(
                     RuntimeInformation.IsOSPlatform(OSPlatform.Windows)
-                        ? "C:\\Windows\\System32\\where.exe"
+                        ? Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.System), "where.exe")
                         : "/usr/bin/which",
                     pathExecutable)
                 .GetLines()
