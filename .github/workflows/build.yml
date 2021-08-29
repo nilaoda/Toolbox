@@ -24,7 +24,7 @@ jobs:
         fetch-depth: 0
 
     - name: Build and Pack
-      run: dotnet publish src/${{ fromJson(matrix.target).proj }}/ --configuration Release --use-current-runtime --self-contained true /bl:binlog/${{ fromJson(matrix.target).proj }}-${{ fromJson(matrix.target).os }}.binlog
+      run: dotnet publish src/${{ fromJson(matrix.target).proj }}/ --configuration Release --runtime ${{ fromJson(matrix.target).rid }} --self-contained true /bl:binlog/${{ fromJson(matrix.target).proj }}-${{ fromJson(matrix.target).os }}.binlog
 
     - name: Push Artifacts
       uses: actions/upload-artifact@v2
