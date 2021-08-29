@@ -1,232 +1,33 @@
-name: Build
+name: Dotnet Test Build
 
-on: [push, pull_request]
+on: [push]
 
 jobs:
-  build-rmbenv:
-    name: Build rmbenv
-
-    strategy:
-      matrix:
-        target:
-        - '{"goos":"windows","rid":"win-x64","os":"windows-latest"}'
-        - '{"goos":"linux","rid":"linux-x64","os":"ubuntu-latest"}'
-        - '{"goos":"darwin","rid":"osx-x64","os":"macos-latest"}'
-
-    runs-on: ${{ fromJson(matrix.target).os }}
-
-    env:
-      GOOS: ${{ fromJson(matrix.target).goos }}
-      GOARCH: amd64
-
-    steps:
-    - name: Checkout
-      uses: actions/checkout@v2
-      with:
-        submodules: recursive
-        fetch-depth: 0
-
-    - name: Setup Go
-      uses: actions/setup-go@v2
-      with:
-        go-version: 1.15
-        
-    - name: Go Mod Download
-      run: |
-        cd src/rmbenv
-        go mod download
-        cd ../..
-      shell: bash
-        
-    - name: Generate Exe File Info
-      if: ${{ fromJson(matrix.target).goos == 'windows' }}
-      run: |
-        cd src/rmbenv
-        go get github.com/josephspurrier/goversioninfo/cmd/goversioninfo
-        go generate -v
-        cd ../..
-      shell: bash
-        
-    - name: Build rmbenv
-      run: |
-        cd src/rmbenv
-        go build -v -trimpath -ldflags "-w -s"
-        cd ../..
-      shell: bash
-
-    - name: Copy rmbenv to Output Folder
-      run: |
-        mkdir rmbenv-gen
-        cp src/rmbenv/rmbenv rmbenv-gen/rmbenv || true
-        cp src/rmbenv/rmbenv.exe rmbenv-gen/rmbenv.exe || true
-      shell: bash
-
-    - uses: actions/upload-artifact@v2
-      with:
-        name: rmbenv-gen-${{ fromJson(matrix.target).rid }}-${{ github.sha }}
-        path: rmbenv-gen
-
-  build-vpygen:
-    name: Build vpygen
-
-    runs-on: ubuntu-latest
-
-    steps:
-    - name: Checkout
-      uses: actions/checkout@v2
-      with:
-        submodules: recursive
-        fetch-depth: 0
-
-    - name: Setup Node.js
-      uses: actions/setup-node@v2
-      with:
-        node-version: '14'
-
-    - name: Build rmbox-vpygen
-      run: |
-        cd src/rmbox-vpygen
-        npm i
-        npm run build
-        cd ../..
-        mkdir tools-gen
-        mv src/rmbox-vpygen/dist/index.js tools-gen/rmbox-vpygen.js
-      shell: bash
-
-    - uses: actions/upload-artifact@v2
-      with:
-        name: tools-gen
-        path: tools-gen
-
   build-rmbox:
     name: Build Binary
-    
+
     strategy:
       matrix:
         target:
-        - '{"rid":"win-x64","os":"windows-latest"}'
-        - '{"rid":"linux-x64","os":"ubuntu-latest"}'
-        - '{"rid":"osx-x64","os":"macos-latest"}'
+        - '{"rid":"win-x64","os":"windows-latest","proj":"rmbox"}'
+        - '{"rid":"osx-x64","os":"macos-latest","proj":"rmbox"}'
+        - '{"rid":"win-x64","os":"windows-latest","proj":"rmbox-shell"}'
+        - '{"rid":"osx-x64","os":"macos-latest","proj":"rmbox-shell"}'
 
     runs-on: ${{ fromJson(matrix.target).os }}
 
-    needs: [build-rmbenv, build-vpygen]
-
     steps:
     - name: Checkout
       uses: actions/checkout@v2
       with:
         submodules: recursive
         fetch-depth: 0
-
-    - uses: actions/download-artifact@v2
-      with:
-        name: rmbenv-gen-${{ fromJson(matrix.target).rid }}-${{ github.sha }}
-        path: rmbenv-gen
-
-    - uses: actions/download-artifact@v2
-      with:
-        name: tools-gen
-        path: tools-gen
 
     - name: Build and Pack
-      run: ./build.cmd Full --configuration Release --runtime ${{ fromJson(matrix.target).rid }}
+      run: dotnet publish src/${{ fromJson(matrix.target).proj }}/ --configuration Release --runtime ${{ fromJson(matrix.target).rid }} /bl:binlog/${{ fromJson(matrix.target).proj }}-${{ fromJson(matrix.target).os }}.binlog
 
     - name: Push Artifacts
       uses: actions/upload-artifact@v2
       with:
-        name: rmbox-unpacked-${{ fromJson(matrix.target).rid }}-${{ github.sha }}
-        path: dist/
-
-    - name: Push Artifacts
-      uses: actions/upload-artifact@v2
-      with:
-        name: rmbox-${{ fromJson(matrix.target).rid }}-${{ github.sha }}
-        path: dist/rmbox.7z
-
-  build-mac:
-    name: Build Mac Pack
-
-    runs-on: macos-latest
-
-    needs: [build-rmbox]
-
-    steps:
-    - name: Checkout
-      uses: actions/checkout@v2
-      with:
-        submodules: recursive
-        fetch-depth: 0
-
-    - uses: actions/download-artifact@v2
-      with:
-        name: rmbox-unpacked-osx-x64-${{ github.sha }}
-        path: dist/
-
-    - name: Setup Node.js
-      uses: actions/setup-node@v2
-      with:
-        node-version: '14'
-
-    - name: Build Mac Pack
-      run: ./build.cmd PackMac --configuration Release --runtime osx-x64
-
-    - name: Build Dmg Image
-      run: |
-        cd dist
-        npx create-dmg RuminoidToolbox.app || true
-        cd ..
-      shell: bash
-
-    - name: Push Artifacts
-      uses: actions/upload-artifact@v2
-      with:
-        name: rmbox-dmg-${{ github.sha }}
-        path: dist/*.dmg
-
-
-  build-windows:
-    name: Build Windows Installer
-
-    runs-on: windows-latest
-
-    needs: [build-rmbox]
-
-    steps:
-    - name: Checkout
-      uses: actions/checkout@v2
-      with:
-        submodules: recursive
-        fetch-depth: 0
-
-    - uses: actions/download-artifact@v2
-      with:
-        name: rmbox-win-x64-${{ github.sha }}
-        path: dist/
-
-    - name: Install NSIS
-      run: |
-        Invoke-Expression (New-Object System.Net.WebClient).DownloadString('https://get.scoop.sh')
-        scoop bucket add extras
-        scoop install nsis
-      shell: pwsh
-      
-    - name: Download NSIS Plugins
-      uses: carlosperate/download-file-action@v1.0.3
-      with:
-        file-url: https://raw.githubusercontent.com/Afanyiyu/Delivr/master/rmbox/nsis-plugins.zip
-        file-name: nsis-plugins.zip
-        location: .tmp/nsis
-
-    - name: Extract NSIS Plugins
-      run: 7z x -o".tmp/nsis" .tmp/nsis/nsis-plugins.zip
-      shell: pwsh
-
-    - name: Build Installer
-      run: ./build.cmd PackWindows --configuration Release --runtime win-x64
-
-    - name: Push Artifacts
-      uses: actions/upload-artifact@v2
-      with:
-        name: rmbox-install-${{ github.sha }}
-        path: common/installer/nsis/rmbox-install.exe
+        name: ${{ fromJson(matrix.target).proj }}-${{ fromJson(matrix.target).os }}
+        path: binlog/${{ fromJson(matrix.target).proj }}-${{ fromJson(matrix.target).os }}.binlog
