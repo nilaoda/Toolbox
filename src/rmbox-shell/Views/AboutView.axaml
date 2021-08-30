@@ -116,6 +116,8 @@
                     <TextBlock Classes="title">版本</TextBlock>
                     <TextBlock Text="{Binding VersionSummary, StringFormat=版本：{0}}" />
                     <TextBlock Text="{Binding VersionDetail, StringFormat=生成：{0}}" />
+                    <TextBlock Classes="title">系统信息</TextBlock>
+                    <TextBlock Text="{Binding RuntimeInformation}" />
                 </StackPanel>
             </ScrollViewer>
         </TabItem>

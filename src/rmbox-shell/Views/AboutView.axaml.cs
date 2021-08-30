@@ -33,6 +33,10 @@ namespace Ruminoid.Toolbox.Shell.Views
             ?.InformationalVersion;
 
         [UsedImplicitly]
+        public string RuntimeInformation { get; } =
+            $"RuntimeIdentifier: {System.Runtime.InteropServices.RuntimeInformation.RuntimeIdentifier}\nFrameworkDescription: {System.Runtime.InteropServices.RuntimeInformation.FrameworkDescription}\nProcessArchitecture: {System.Runtime.InteropServices.RuntimeInformation.ProcessArchitecture}\nOSArchitecture: {System.Runtime.InteropServices.RuntimeInformation.OSArchitecture}\nOSDescription: {System.Runtime.InteropServices.RuntimeInformation.OSDescription}\n";
+
+        [UsedImplicitly]
         public string ReleaseNoteMarkdown { get; } =
             typeof(AboutView).Assembly
                 .GetManifestResourceStream(
