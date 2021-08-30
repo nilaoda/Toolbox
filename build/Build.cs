@@ -125,14 +125,14 @@ partial class Build : NukeBuild
                             .SetRepositoryType("git")
                             .SetRepositoryUrl("https://github.com/Ruminoid/Toolbox.git");
 
-                        if (PublishRelease &&
-                            (x.EndsWith("rmbox.csproj") ||
-                             x.EndsWith("rmbox-shell.csproj")))
-                            s = s
-                                .SetRuntime(Runtime);
-                                //.SetSelfContained(PublishRelease) // dotnet/sdk/issues/10902
-                                //.EnablePublishReadyToRun() // PublishReadyToRunShowWarnings
-                                //.EnablePublishTrimmed() // Plugin Load Error
+                        // if (PublishRelease &&
+                        //     (x.EndsWith("rmbox.csproj") ||
+                        //      x.EndsWith("rmbox-shell.csproj")))
+                        //     s = s
+                        //         .SetRuntime(Runtime);
+                        //         //.SetSelfContained(PublishRelease) // dotnet/sdk/issues/10902
+                        //         //.EnablePublishReadyToRun() // PublishReadyToRunShowWarnings
+                        //         //.EnablePublishTrimmed() // Plugin Load Error
 
                         return s;
                     }));
