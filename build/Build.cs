@@ -93,8 +93,27 @@ partial class Build : NukeBuild
                 .EnableNoRestore());
         });
 
+    Target PrepareBuildProj => _ => _
+        .DependsOn(Restore)
+        .Executes(() =>
+        {
+            new[]
+                {
+                    SourceDirectory / "rmbox/rmbox.csproj",
+                    SourceDirectory / "rmbox-shell/rmbox-shell.csproj"
+                }
+                .ForEach(x =>
+                    File.WriteAllText(
+                        x,
+                        File.ReadAllText(x)
+                            .Replace(
+                                "<!-- RMBOX_BUILD_PROPS -->",
+                                $"<RuntimeIdentifier>{Runtime}</RuntimeIdentifier><SelfContained>true</SelfContained>")));
+        });
+
     Target Publish => _ => _
-        .DependsOn(Compile)
+        //.DependsOn(Compile)
+        .DependsOn(PrepareBuildProj)
         .Executes(() =>
         {
             // ReSharper disable ReturnValueOfPureMethodIsNotUsed
