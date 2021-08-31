@@ -37,7 +37,7 @@
             Classes="description"
             IsVisible="{Binding HasInvalidChar}"
             Foreground="Red">
-            警告——包含特殊字符可能导致操作运行失败：&lt;&gt;()@^| （空格）
+            警告——路径过长或包含特殊字符可能导致操作运行失败：&lt;&gt;()@^| （空格）
         </TextBlock>
         <Grid Classes="file-grid"
               Name="InputFileGrid"

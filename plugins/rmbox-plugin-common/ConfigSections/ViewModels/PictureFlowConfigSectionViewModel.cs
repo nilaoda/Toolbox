@@ -26,7 +26,7 @@ namespace Ruminoid.Toolbox.Plugins.Common.ConfigSections.ViewModels
 
             _hasInvalidCharHelper = this
                 .WhenAnyValue(x => x.Picture)
-                .Select(x => PathExtension.InvalidChars.Any(x.Contains))
+                .Select(x => PathExtension.InvalidChars.Any(x.Contains) || x.Length > 90)
                 .ToProperty(this, x => x.HasInvalidChar);
         }
 

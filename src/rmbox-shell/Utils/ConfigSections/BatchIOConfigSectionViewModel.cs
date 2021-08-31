@@ -28,7 +28,7 @@ namespace Ruminoid.Toolbox.Shell.Utils.ConfigSections
 
             _hasInvalidCharHelper = InputList
                 .ObserveCollectionChanges()
-                .Select(_ => InputList.Any(x => PathExtension.InvalidChars.Any(x.Contains)))
+                .Select(_ => InputList.Any(x => PathExtension.InvalidChars.Any(x.Contains) || x.Length > 90))
                 .ToProperty(this, x => x.HasInvalidChar);
         }
 

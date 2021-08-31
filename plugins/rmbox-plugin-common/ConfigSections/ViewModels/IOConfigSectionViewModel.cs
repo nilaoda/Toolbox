@@ -32,10 +32,10 @@ namespace Ruminoid.Toolbox.Plugins.Common.ConfigSections.ViewModels
                 Observable.Merge(
                         this
                             .WhenAnyValue(x => x.Input)
-                            .Select(x => PathExtension.InvalidChars.Any(x.Contains)),
+                            .Select(x => PathExtension.InvalidChars.Any(x.Contains) || x.Length > 90),
                         this
                             .WhenAnyValue(x => x.Subtitle)
-                            .Select(x => PathExtension.InvalidChars.Any(x.Contains)))
+                            .Select(x => PathExtension.InvalidChars.Any(x.Contains) || x.Length > 90))
                     .ToProperty(this, x => x.HasInvalidChar);
         }
 
